@@ -1,2 +1,2 @@
 # moreticket
-Plugin moreticket for GLPI
+Plugin moreticket for GLPI 0.85
