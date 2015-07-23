@@ -78,12 +78,36 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</td>";
       echo "</tr>";
       
+      if ($this->usewaiting() == true) {
       
+         echo "<tr class='tab_bg_1'>
+               <td>".__("Report date is mandatory", "moreticket")."</td><td>";
+         Dropdown::showYesNo("date_report_mandatory", $this->fields["date_report_mandatory"]);
+         echo "</td>";
+         echo "</tr>";
+         
+         echo "<tr class='tab_bg_1'>
+               <td>".__("Waiting type is mandatory", "moreticket")."</td><td>";
+         Dropdown::showYesNo("waitingtype_mandatory", $this->fields["waitingtype_mandatory"]);
+         echo "</td>";
+         echo "</tr>";
+         
+      }
       echo "<tr class='tab_bg_1'>
             <td>".__("Use solution process", "moreticket")."</td><td>";
       Dropdown::showYesNo("use_solution", $this->fields["use_solution"]);
       echo "</td>";
       echo "</tr>";
+      
+      if ($this->useSolution() == true) {
+         
+         echo "<tr class='tab_bg_1'>
+               <td>".__("Solution type is mandatory", "moreticket")."</td><td>";
+         Dropdown::showYesNo("solutiontype_mandatory", $this->fields["solutiontype_mandatory"]);
+         echo "</td>";
+         echo "</tr>";
+         
+      }
       
       echo "<tr class='tab_bg_1'>
             <td>".__("Close ticket informations", "moreticket")."</td><td>";
@@ -130,8 +154,20 @@ class PluginMoreticketConfig extends CommonDBTM {
       return $this->fields['use_waiting'];
    }
    
+   function mandatoryReportDate() {
+      return $this->fields['date_report_mandatory'];
+   }
+   
+   function mandatoryWaitingType() {
+      return $this->fields['waitingtype_mandatory'];
+   }
+   
    function useSolution() {
       return $this->fields['use_solution'];
+   }
+   
+   function mandatorySolutionType() {
+      return $this->fields['solutiontype_mandatory'];
    }
    
    function solutionStatus() {

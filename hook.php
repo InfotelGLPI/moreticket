@@ -31,7 +31,7 @@ function plugin_moreticket_install() {
 
    if (!TableExists("glpi_plugin_moreticket_configs")) {
       // table sql creation
-      $DB->runFile(GLPI_ROOT."/plugins/moreticket/sql/empty-1.1.3.sql");
+      $DB->runFile(GLPI_ROOT."/plugins/moreticket/sql/empty-1.2.0.sql");
    }
    
    PluginMoreticketProfile::initProfile();
@@ -49,6 +49,10 @@ function plugin_moreticket_install() {
    
    if (!FieldExists("glpi_plugin_moreticket_closetickets", "documents_id")) {
       $DB->runFile(GLPI_ROOT."/plugins/moreticket/sql/update-1.1.3.sql");
+   }
+   
+   if (!FieldExists("glpi_plugin_moreticket_configs", "date_report_mandatory")) {
+      $DB->runFile(GLPI_ROOT."/plugins/moreticket/sql/update-1.2.0.sql");
    }
    
    return true;

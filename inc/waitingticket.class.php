@@ -102,10 +102,18 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
 
       $checkKo   = array();
       $dateError = false;
-
-      $mandatory_fields = array('plugin_moreticket_waitingtypes_id' => PluginMoreticketWaitingType::getTypeName(1),
-                                'reason'                            => __('Reason', 'moreticket'),
-                                'date_report'                       => __('Postponement date', 'moreticket'));
+      
+      $config = new PluginMoreticketConfig();
+      
+      $mandatory_fields = array('reason' => __('Reason', 'moreticket'));
+                                   
+      if ($config->mandatoryReportDate() == true) {
+         $mandatory_fields['date_report'] = __('Postponement date', 'moreticket');
+      } 
+      
+      if ($config->mandatoryWaitingType() == true) {
+         $mandatory_fields['plugin_moreticket_waitingtypes_id'] = PluginMoreticketWaitingType::getTypeName(1);
+      }
 
       $msg = array();
 
@@ -198,21 +206,30 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       }
 
       unset($_SESSION['glpi_plugin_moreticket_waiting']);
-
+      
+      $config = new PluginMoreticketConfig();
+      
       echo "<div class='spaced' id='moreticket_waiting_ticket'>";
       echo "</br>";
-      echo "<table class='moreticket_waiting_ticket' id='c_menu'>";
+      echo "<table class='moreticket_waiting_ticket' id='cl_menu'>";
       echo "<tr><td>";
       echo __('Reason', 'moreticket')."&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
       Html::autocompletionTextField($this, "reason");
       echo "</td></tr>";
       echo "<tr><td>";
-      echo PluginMoreticketWaitingType::getTypeName(1)."&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+      echo PluginMoreticketWaitingType::getTypeName(1);
+      if ($config->mandatoryWaitingType() == true) {
+         echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+      }
       $opt       = array('value'     => $this->fields['plugin_moreticket_waitingtypes_id']);
       Dropdown::show('PluginMoreticketWaitingType', $opt);
       echo "</td></tr>";
       echo "<tr><td>";
-      echo __('Postponement date', 'moreticket')."&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+      _e('Postponement date', 'moreticket');
+      
+      if ($config->mandatoryReportDate() == true) {
+         echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+      }
       if ($this->fields['date_report'] == 'NULL') {
          $this->fields['date_report'] = date("Y-m-d H:i:s");
       }
@@ -284,7 +301,11 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
             echo Dropdown::getDropdownName('glpi_plugin_moreticket_waitingtypes', $waitingTicket['plugin_moreticket_waitingtypes_id']);
             echo "</td>";
             echo "<td>";
-            echo Html::convDateTime($waitingTicket['date_report']);
+            if ($waitingTicket['date_report'] =="0000-00-00 00:00:00") {
+               echo _x('periodicity', 'None');
+            } else {
+               echo Html::convDateTime($waitingTicket['date_report']);
+            }
             echo "</td>";
             echo "<td>";
             echo Html::convDateTime($waitingTicket['date_end_suspension']);
@@ -306,7 +327,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
          $data_WaitingType = getAllDatasFromTable("glpi_plugin_moreticket_waitingtickets", '`tickets_id` = '.$tickets_id.
                ' AND `date_suspension` IN (SELECT max(`date_suspension`) 
                                                 FROM `glpi_plugin_moreticket_waitingtickets` WHERE `tickets_id` = '.$tickets_id.')
-                 AND UNIX_TIMESTAMP(`date_end_suspension`) = 0');
+                 AND (UNIX_TIMESTAMP(`date_end_suspension`) = 0 OR UNIX_TIMESTAMP(`date_end_suspension`) IS NULL)');
       } else {
          $data_WaitingType = getAllDatasFromTable("glpi_plugin_moreticket_waitingtickets", 'tickets_id = '.$tickets_id, false, '`date_suspension` DESC LIMIT '.intval($options['start']).",".intval($options['limit']));
       }
@@ -327,6 +348,9 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       if (isset($item->fields['id']) && isset($item->input['status']) && $item->input['status'] == CommonITILObject::WAITING) {
 
          if (self::checkMandatory($item->input)) {
+            if ($item->input['date_report'] == "0000-00-00 00:00:00") {
+               $item->input['date_report'] = 'NULL';
+            }
             // Then we add tickets informations
             if ($waiting_ticket->add(array('reason'                            => $item->input['reason'],
                                            'tickets_id'                        => $item->fields['id'],
@@ -390,6 +414,10 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       // Then we add tickets informations
       if (isset($item->fields['id']) && $item->input['status'] == CommonITILObject::WAITING) {
          if (self::checkMandatory($item->input)) {
+
+            if (empty($item->input['date_report'])) {
+               $item->input['date_report'] = 'NULL';
+            }
             // Then we add tickets informations
             if ($waiting_ticket->add(array('reason'                            => $item->input['reason'],
                                            'tickets_id'                        => $item->fields['id'],

@@ -106,9 +106,12 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
    // Check the mandatory values of forms
    static function checkMandatory($values) {
       $checkKo = array();
-
-      $mandatory_fields = array('solutiontypes_id' => _n('Solution type', 'Solution types', 1),
-                                'solution'         => __('Solution description', 'moreticket'));
+      
+      $mandatory_fields = array('solution'         => __('Solution description', 'moreticket'));
+                                   
+      if ($config->mandatorySolutionType() == true) {
+         $mandatory_fields['solutiontypes_id'] = _n('Solution type', 'Solution types', 1);
+      }
       
       $msg = array();
 
@@ -325,7 +328,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       
       echo "<div class='spaced' id='moreticket_close_ticket'>";
       echo "</br>";
-      echo "<table class='moreticket_close_ticket' id='c_menu'>";
+      echo "<table class='moreticket_close_ticket' id='cl_menu'>";
       echo "<tr><td>";
       echo _n('Solution template', 'Solution templates', 1)."&nbsp;:&nbsp;&nbsp;";
       $rand_template = mt_rand();
@@ -350,7 +353,11 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       echo "</td></tr>";
          
       echo "<tr><td>";
-      echo _n('Solution type', 'Solution types', 1)."&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+      echo _n('Solution type', 'Solution types', 1);
+      $config = new PluginMoreticketConfig();
+      if ($config->mandatorySolutionType() == true) {
+         echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+      }
       Dropdown::show('SolutionType',
                         array('value'  => $this->getField('solutiontypes_id'),
                               'rand'   => $rand_type,
