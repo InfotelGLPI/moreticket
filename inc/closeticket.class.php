@@ -198,7 +198,33 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       Html::closeForm();
       
       // List
-     self::showList($item);
+     self::showList($item, $canedit);
+   }
+      
+   function getSearchOptions() {
+
+      $tab = parent::getSearchOptions();
+
+      $tab[10]['table']         = $this->getTable();
+      $tab[10]['field']         = 'date';
+      $tab[10]['name']          = __('Date');
+      $tab[10]['datatype']      = 'datetime';
+      $tab[10]['massiveaction'] = true;
+
+      $tab[11]['table']         = $this->getTable();
+      $tab[11]['field']         = 'comment';
+      $tab[11]['name']          = __('Comments');
+      $tab[11]['datatype']      = 'text';
+      $tab[11]['massiveaction'] = true;
+      
+      $tab[12]['table']         = "glpi_users";
+      $tab[12]['field']         = 'name';
+      $tab[12]['name']          = __('Writer');
+      $tab[12]['datatype']      = 'dropdown';
+      $tab[12]['linkfield']     = 'requesters_id';
+      $tab[12]['massiveaction'] = false;
+
+      return $tab;
    }
    
    /**
@@ -211,7 +237,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
     *
     * @return Nothing (display)
     * */
-   static function showList($item) {
+   static function showList($item, $canedit) {
       global $CFG_GLPI;
 
       // validation des droits
@@ -224,6 +250,8 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       } else {
          $start = 0;
       }
+      
+      $rand = mt_rand();
 
       // Get close informations
       $data = self::getCloseTicketFromDB($item->getField('id'), array('start' => $start,
@@ -241,8 +269,20 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          echo "<div class='center'>";
          // Display the pager
          Html::printAjaxPager(__('Close ticket informations', 'moreticket'), $start, count($data));
+         
+         if ($canedit) {
+            Html::openMassiveActionsForm('mass'.__CLASS__.$rand);
+            $massiveactionparams = array('item' => __CLASS__, 'container' => 'mass'.__CLASS__.$rand);
+            Html::showMassiveActions($massiveactionparams);
+         }
+         
          echo "<table class='tab_cadre_fixe'>";
          echo "<tr>";
+         echo "<th width='10'>";
+         if ($canedit) {
+            echo Html::getCheckAllAsCheckbox('mass'.__CLASS__.$rand);
+         }
+         echo "</th>";
          echo "<th>".__('Date')."</th>";
          echo "<th>".__('Comments')."</th>";
          echo "<th>".__('Writer')."</th>";
@@ -251,6 +291,11 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
 
          foreach ($data as $closeTicket) {
             echo "<tr class='tab_bg_2'>";
+            echo "<td width='10'>";
+            if ($canedit) {
+               Html::showMassiveActionCheckBox(__CLASS__, $closeTicket['id']);
+            }
+            echo "</td>";
             echo "<td>";
             echo Html::convDateTime($closeTicket['date']);
             echo "</td>";
@@ -267,7 +312,12 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
             echo "</td>";
             echo"</tr>";
          }
-
+         
+         if ($canedit) {
+            $massiveactionparams['ontop'] = false;
+            Html::showMassiveActions($massiveactionparams);
+            Html::closeForm(); 
+         }
          echo "</table>";
          echo "</div>";
          Html::printAjaxPager(__('Close ticket informations', 'moreticket'), $start, count($data));
@@ -306,21 +356,21 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          return false;
       }
       
-      $this->forceTable('glpi_tickets');
+      $ticket = new Ticket();
       
       if ($ID > 0) {
-         if (!$this->fields = self::getTicketFromDB($ID)) {
-            $this->getEmpty();
+         if (!$ticket->getFromDB($ID)) {
+            $ticket->getEmpty();
          }
       } else {
          // Create item
-         $this->getEmpty();
+         $ticket->getEmpty();
       }
 
       // If values are saved in session we retrieve it
       if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
          foreach ($_SESSION['glpi_plugin_moreticket_close'] as $key => $value) {
-            $this->fields[$key] = str_replace(array('\r\n','\r','\n'), '', $value);
+            $ticket->fields[$key] = str_replace(array('\r\n','\r','\n'), '', $value);
          }
       }
 
@@ -336,7 +386,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       $rand_text = mt_rand();
       $rand_type = mt_rand();
       SolutionTemplate::dropdown(array('value'    => 0,
-                                       'entity'   => $this->getEntityID(),
+                                       'entity'   => $ticket->getEntityID(),
                                        'rand'     => $rand_template,
                                        // Load type and solution from bookmark
                                        'toupdate'
@@ -359,34 +409,21 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
       }
       Dropdown::show('SolutionType',
-                        array('value'  => $this->getField('solutiontypes_id'),
+                        array('value'  => $ticket->getField('solutiontypes_id'),
                               'rand'   => $rand_type,
-                              'entity' => $this->getEntityID()));
+                              'entity' => $ticket->getEntityID()));
       echo "</td></tr>";
       echo "<tr><td>";
       echo __('Solution description', 'moreticket')."&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
       $rand = mt_rand();
       Html::initEditorSystem("solution".$rand);
       echo "<div id='solution$rand_text'>";
-      echo "<textarea id='solution$rand' name='solution' rows='3'>".stripslashes($this->fields['solution'])."</textarea></div>";
+      echo "<textarea id='solution$rand' name='solution' rows='3'>".stripslashes($ticket->fields['solution'])."</textarea></div>";
       echo "</td></tr>";
       echo "</table>";
       echo "</div>";
    }
 
-
-   // Get last waitingTicket 
-   static function getTicketFromDB($tickets_id) {
-      global $DB;
-
-      $data_CloseType = getAllDatasFromTable("glpi_tickets", "`id` = '.$tickets_id.'");
-      if (sizeof($data_CloseType) > 0) {
-         return $data_CloseType;
-      }
-
-      return false;
-   }
-   
    // Hook done on before add ticket - checkMandatory
    static function preAddCloseTicket($item) {
       if (!is_array($item->input) || !count($item->input)) {
