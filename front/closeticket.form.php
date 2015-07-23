@@ -40,8 +40,6 @@ if(isset($_POST["add"])){
                                    'date'          => $_POST['date'],
                                    'comment'       => $_POST['comment'], 
                                    'documents_id'  => $DocId));
-   
-                        Toolbox::logDebug($test);
    Html::back();
 }
 
