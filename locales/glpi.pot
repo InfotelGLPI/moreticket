@@ -1,0 +1,112 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Moreticket Development Team
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GLPI - Moreticket plugin 1.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-01 16:07+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: hook.php:132 inc/waitingticket.class.php:108
+#: inc/waitingticket.class.php:215 inc/waitingticket.class.php:269
+msgid "Postponement date"
+msgstr ""
+
+#: hook.php:149 hook.php:156 hook.php:163 hook.php:170
+#: inc/closeticket.class.php:67 inc/closeticket.class.php:103
+#: inc/closeticket.class.php:150 inc/config.class.php:89
+msgid "Close ticket informations"
+msgstr ""
+
+#: setup.php:71 inc/profile.class.php:39 inc/profile.class.php:130
+msgid "More ticket"
+msgstr ""
+
+#: setup.php:83
+msgid "This plugin requires GLPI >= 0.85"
+msgstr ""
+
+#: front/config.form.php:57
+msgid "Please activate the plugin"
+msgstr ""
+
+#: inc/closeticket.class.php:111 inc/closeticket.class.php:275
+msgid "Solution description"
+msgstr ""
+
+#: inc/closeticket.class.php:126
+msgid "Ticket cannot be closed"
+msgstr ""
+
+#: inc/closeticket.class.php:355 inc/closeticket.class.php:367
+#, php-format
+msgid "%1$s added closing informations"
+msgstr ""
+
+#: inc/config.class.php:71
+msgid "Plugin configuration"
+msgstr ""
+
+#: inc/config.class.php:76
+msgid "Use waiting process"
+msgstr ""
+
+#: inc/config.class.php:83
+msgid "Use solution process"
+msgstr ""
+
+#: inc/config.class.php:95
+msgid "Status used to display solution bloc"
+msgstr ""
+
+#: inc/waitingticket.class.php:58
+msgid "Waiting ticket"
+msgid_plural "Waiting tickets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/waitingticket.class.php:107 inc/waitingticket.class.php:206
+#: inc/waitingticket.class.php:267
+msgid "Reason"
+msgstr ""
+
+#: inc/waitingticket.class.php:138
+msgid "Waiting ticket cannot be saved"
+msgstr ""
+
+#: inc/waitingticket.class.php:140
+msgid "Ticket cannot be saved"
+msgstr ""
+
+#: inc/waitingticket.class.php:144
+msgid "Report date is inferior of today's date"
+msgstr ""
+
+#: inc/waitingticket.class.php:263 inc/waitingticket.class.php:297
+msgid "Ticket suspension history"
+msgstr ""
+
+#: inc/waitingticket.class.php:266
+msgid "Suspension date"
+msgstr ""
+
+#: inc/waitingticket.class.php:270
+msgid "Suspension end date"
+msgstr ""
+
+#: inc/waitingtype.class.php:37
+msgid "Waiting type"
+msgid_plural "Waiting types"
+msgstr[0] ""
+msgstr[1] ""
