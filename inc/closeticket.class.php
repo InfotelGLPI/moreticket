@@ -493,7 +493,18 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
 
       $changes[0] = '0';
       $changes[1] = '';
-      $changes[2] = sprintf(__('%1$s added closing informations', 'moreticket'), getUserName(Session::getLoginUserID()));
+      $changes[2] = sprintf(__('%1$s updated closing informations', 'moreticket'), getUserName(Session::getLoginUserID()));
+      Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
+      
+      parent::post_updateItem();
+   }
+   
+      
+   public function post_purgeItem($history=1) {
+
+      $changes[0] = '0';
+      $changes[1] = '';
+      $changes[2] = sprintf(__('%1$s deleted closing informations', 'moreticket'), getUserName(Session::getLoginUserID()));
       Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
       
       parent::post_updateItem();
