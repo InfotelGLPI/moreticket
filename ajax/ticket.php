@@ -34,19 +34,19 @@ if (!isset($_POST['tickets_id']) || empty($_POST['tickets_id'])){
    $_POST['tickets_id'] = 0;
 }
 
-switch($_POST['action']){
-   case 'showForm':
-      header("Content-Type: text/html; charset=UTF-8");
-      // Ticket is waiting
-      $waiting_ticket = new PluginMoreticketWaitingTicket();
-      $waiting_ticket->showForm($_POST['tickets_id']);
-      // Ticket is closed
-      if(isset($_POST['type']) && $_POST['type'] == 'add'){
-         $close_ticket = new PluginMoreticketCloseTicket();
-         $close_ticket->showForm($_POST['tickets_id']);
-      }
-      break;
+if (isset($_POST['action'])) {
+   switch ($_POST['action']) {
+      case 'showForm':
+         header("Content-Type: text/html; charset=UTF-8");
+         // Ticket is waiting
+         $waiting_ticket = new PluginMoreticketWaitingTicket();
+         $waiting_ticket->showForm($_POST['tickets_id']);
+         // Ticket is closed
+         if (isset($_POST['type']) && $_POST['type'] == 'add') {
+            $close_ticket = new PluginMoreticketCloseTicket();
+            $close_ticket->showForm($_POST['tickets_id']);
+         }
+         break;
+   }
 }
-
-
 ?>
