@@ -71,7 +71,7 @@ function plugin_version_moreticket() {
       'name'           => __('More ticket', 'moreticket'),
       'version'        => "1.1.3",
       'author'         => "Infotel",
-      'homepage'       => "",
+      'homepage'       => "https://github.com/InfotelGLPI/moreticket",
       'license'        => 'GPLv2+',
       'minGlpiVersion' => "0.85"
    );
