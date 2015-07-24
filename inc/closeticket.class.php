@@ -209,7 +209,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       $tab[10]['field']         = 'date';
       $tab[10]['name']          = __('Date');
       $tab[10]['datatype']      = 'datetime';
-      $tab[10]['massiveaction'] = true;
+      $tab[10]['massiveaction'] = false;
 
       $tab[11]['table']         = $this->getTable();
       $tab[11]['field']         = 'comment';
