@@ -85,7 +85,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       $config = new PluginMoreticketConfig();
       
       if ($item->getType() == 'Ticket' 
-            && $item->fields['status'] == Ticket::CLOSED 
+            && ($item->fields['status'] == Ticket::CLOSED)
             && $config->closeInformations()) {
          
          self::showForTicket($item);
@@ -106,13 +106,15 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
    // Check the mandatory values of forms
    static function checkMandatory($values) {
       $checkKo = array();
-      
-      $mandatory_fields = array('solution'         => __('Solution description', 'moreticket'));
-                                   
+
+      $config = new PluginMoreticketConfig();
+
+      $mandatory_fields = array('solution' => __('Solution description', 'moreticket'));
+
       if ($config->mandatorySolutionType() == true) {
          $mandatory_fields['solutiontypes_id'] = _n('Solution type', 'Solution types', 1);
       }
-      
+
       $msg = array();
 
       foreach ($values as $key => $value) {
@@ -159,7 +161,6 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       // Date
       echo "<tr class='tab_bg_1'>";
       echo "<td>";
-      echo __('Date');
       echo "</td>";
       echo "<td>";
       Html::showDateTimeField("date", array('value'  => date('Y-m-d H:i:s')));
@@ -430,11 +431,15 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          // Already cancel by another plugin
          return false;
       }
+
+      // Get allowed status
+      $config = new PluginMoreticketConfig();
+      $solution_status = array_keys(json_decode($config->solutionStatus(), true));
       
       // Then we add tickets informations
       if (isset($item->input['id']) 
             && isset($item->input['status']) 
-               && $item->input['status'] == CommonITILObject::CLOSED
+               && in_array($item->input['status'], $solution_status)
                   && !self::checkMandatory($item->input, true)) {
          
          $_SESSION['saveInput'][$item->getType()] = $item->input;
@@ -455,11 +460,16 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       if (isset($_POST['solution'])) {
          $item->input['solution'] = str_replace(array('\r\n','\r','\n'), '', $_POST['solution']);
       }
+      
+      // Get allowed status
+      $config = new PluginMoreticketConfig();
+      $solution_status = array_keys(json_decode($config->solutionStatus(), true));
+
       if (isset($item->input['id'])) {
          if (isset($item->input['status']) 
                && isset($_POST['solutiontypes_id'])
                && isset($_POST['solution'])
-               && $item->input['status'] == TICKET::CLOSED) {
+               && in_array($item->input['status'], $solution_status)) {
             if (self::checkMandatory($_POST)) {
                // Then we add tickets informations
                $ticket->update(array('id'               => $item->input['id'],

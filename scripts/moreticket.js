@@ -93,11 +93,6 @@ function moreticket(params) {
                                 }
                             });
                         }
-
-                        var scripts, scriptsFinder = /<script[^>]*>([\s\S]+?)<\/script>/gi;
-                        while (scripts = scriptsFinder.exec(requester)) {
-                            eval(scripts[1]);
-                        }
                     }
                 }
             });
@@ -173,11 +168,6 @@ function moreticket(params) {
                                                 $("#moreticket_waiting_ticket").css({'display': 'none'});
                                             }
                                         });
-                                    }
-
-                                    var scripts, scriptsFinder = /<script[^>]*>([\s\S]+?)<\/script>/gi;
-                                    while (scripts = scriptsFinder.exec(requester)) {
-                                        eval(scripts[1]);
                                     }
                                 }
                             }
