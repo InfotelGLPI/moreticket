@@ -69,18 +69,18 @@ function plugin_version_moreticket() {
 
    return array(
       'name'           => __('More ticket', 'moreticket'),
-      'version'        => "1.1.3",
+      'version'        => "1.2.0",
       'author'         => "Infotel",
       'homepage'       => "https://github.com/InfotelGLPI/moreticket",
       'license'        => 'GPLv2+',
-      'minGlpiVersion' => "0.85"
+      'minGlpiVersion' => "0.90"
    );
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_moreticket_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '0.85', 'lt') || version_compare(GLPI_VERSION, '0.86', 'ge')) {
-      _e('This plugin requires GLPI >= 0.85', 'moreticket');
+   if (version_compare(GLPI_VERSION, '0.90', 'lt') || version_compare(GLPI_VERSION, '0.91', 'ge')) {
+      _e('This plugin requires GLPI >= 0.90', 'moreticket');
    } else {
       return true;
    }
