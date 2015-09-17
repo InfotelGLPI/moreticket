@@ -1,32 +1,33 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Moreticket Development Team
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Translators:
+# Xavier CAILLAUD <tsmr@thetsmr.fr>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: GLPI - Moreticket plugin 1.0.0\n"
+"Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 09:59+0200\n"
-"PO-Revision-Date: 2015-07-24 10:06+0100\n"
+"POT-Creation-Date: 2015-09-17 13:28+0200\n"
+"PO-Revision-Date: 2015-09-17 13:39+0200\n"
 "Last-Translator: Xavier CAILLAUD <tsmr@thetsmr.fr>\n"
-"Language-Team: \n"
-"Language: fr_FR\n"
+"Language-Team: French (France) (http://www.transifex.com/tsmr/GLPI_moreticket/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.4\n"
+"Language: fr_FR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.8.3\n"
 
-#: hook.php:140 inc/waitingticket.class.php:111
-#: inc/waitingticket.class.php:228 inc/waitingticket.class.php:286
+#: hook.php:140 inc/waitingticket.class.php:111 inc/waitingticket.class.php:228
+#: inc/waitingticket.class.php:286
 msgid "Postponement date"
 msgstr "Date de report"
 
 #: hook.php:157 hook.php:164 hook.php:171 hook.php:178
 #: inc/closeticket.class.php:67 inc/closeticket.class.php:103
-#: inc/closeticket.class.php:146 inc/closeticket.class.php:271
-#: inc/closeticket.class.php:323 inc/config.class.php:113
+#: inc/closeticket.class.php:148 inc/closeticket.class.php:272
+#: inc/closeticket.class.php:324 inc/config.class.php:113
 msgid "Close ticket informations"
 msgstr "Informations de clôture des tickets"
 
@@ -35,32 +36,32 @@ msgid "More ticket"
 msgstr "More ticket"
 
 #: setup.php:83
-msgid "This plugin requires GLPI >= 0.85"
-msgstr "Ce plugin requiert GLPI >= 0.85"
+msgid "This plugin requires GLPI >= 0.90"
+msgstr "Ce plugin nécessite GLPI >= 0.90"
 
 #: front/config.form.php:57
 msgid "Please activate the plugin"
 msgstr "Merci d'activer le plugin"
 
-#: inc/closeticket.class.php:110 inc/closeticket.class.php:417
+#: inc/closeticket.class.php:112 inc/closeticket.class.php:418
 msgid "Solution description"
 msgstr "Description de la solution"
 
-#: inc/closeticket.class.php:129
+#: inc/closeticket.class.php:131
 msgid "Ticket cannot be closed"
 msgstr "Impossible de clore le ticket"
 
-#: inc/closeticket.class.php:484
+#: inc/closeticket.class.php:494
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s a ajouté des informations de clôture"
 
-#: inc/closeticket.class.php:496
+#: inc/closeticket.class.php:506
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s a mis à jour des informations de clôture"
 
-#: inc/closeticket.class.php:507
+#: inc/closeticket.class.php:517
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s a supprimé des informations de clôture"
@@ -133,19 +134,3 @@ msgid "Waiting type"
 msgid_plural "Waiting types"
 msgstr[0] "Type d'attente"
 msgstr[1] "Types d'attente"
-
-#~ msgid "Solution management"
-#~ msgid_plural "Solutions management"
-#~ msgstr[0] "Gestion de la solution"
-#~ msgstr[1] "Gestion des solutions"
-
-#~ msgid "This plugin requires GLPI >= 0.84"
-#~ msgstr "Ce plugin requiert GLPI >= 0.84"
-
-#~ msgid "Rights management"
-#~ msgstr "Gestion des droits"
-
-#~ msgid "Ticket"
-#~ msgid_plural "Tickets"
-#~ msgstr[0] "Ticket"
-#~ msgstr[1] "Tickets"
