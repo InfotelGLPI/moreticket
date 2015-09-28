@@ -3,7 +3,7 @@
    <name>Moreticket</name>
    <key>moreticket</key>
    <state>stable</state>
-   <logo></logo>
+   <logo>https://raw.githubusercontent.com/InfotelGLPI/moreticket/master/moreticket.png</logo>
    <description>
       <short>
          <fr><![CDATA[Ce plugin permet d'ajouter 3 nouvelles options sur un ticket GLPI]]></fr>
