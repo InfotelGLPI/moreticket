@@ -79,7 +79,6 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</tr>";
       
       if ($this->usewaiting() == true) {
-      
          echo "<tr class='tab_bg_1'>
                <td>".__("Report date is mandatory", "moreticket")."</td><td>";
          Dropdown::showYesNo("date_report_mandatory", $this->fields["date_report_mandatory"]);

@@ -70,7 +70,7 @@ function moreticket(params) {
                                             }
                                             // CLOSE TICKET 
                                             var show_solution = false;
-                                            if (solution_status != null) {
+                                            if (solution_status != null && solution_status != '') {
                                                 $.each($.parseJSON(solution_status), function (index, val) {
                                                     if (index == status_bloc.val()) {
                                                         show_solution = true;
@@ -94,7 +94,7 @@ function moreticket(params) {
 
                                                 // CLOSE TICKET
                                                 var show_solution = false;
-                                                if (solution_status != null) {
+                                                if (solution_status != null && solution_status != '') {
                                                     $.each($.parseJSON(solution_status), function (index, val) {
                                                         if (index == status_bloc.val()) {
                                                             show_solution = true;
