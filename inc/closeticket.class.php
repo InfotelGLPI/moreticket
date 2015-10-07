@@ -324,7 +324,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          Html::printAjaxPager(__('Close ticket informations', 'moreticket'), $start, count($data));
       }
    }
-   
+
    /**
     * Get close ticket informations
     * 
