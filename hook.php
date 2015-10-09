@@ -191,7 +191,7 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
    return $sopt;
 }
 
-function plugin_moreticket_addWhere($link, $nott, $type, $ID, $val) {
+function plugin_moreticket_addWhere($link, $nott, $type, $ID, $val, $searchtype) {
 
    $searchopt = &Search::getOptions($type);
    $table     = $searchopt[$ID]["table"];
@@ -227,7 +227,7 @@ function plugin_moreticket_addWhere($link, $nott, $type, $ID, $val) {
                      break;
                }
 
-               $query = " ".$link." ".$NOT." (`".$table."`.`".$field."` ".$SEARCH;
+               $query = " ".$link." ".$NOT." ((SELECT max(`".$table."`.`".$field."`) FROM `".$table."` WHERE `tickets_id` = `glpi_tickets`.`id`) ".$SEARCH;
                if ($search_item['searchtype'] != 'contains') {
                   $query .= " OR `".$table."`.`".$field."` IS NULL";
                }
