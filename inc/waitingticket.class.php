@@ -343,26 +343,29 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
    }
 
    static function preUpdateWaitingTicket($item) {
-      $waiting_ticket = new self();
-      // Then we add tickets informations
-      if (isset($item->fields['id']) && isset($item->input['status']) && $item->input['status'] == CommonITILObject::WAITING) {
+      $config = new PluginMoreticketConfig();
+      if ($config->useWaiting()) {
+         $waiting_ticket = new self();
+         // Then we add tickets informations
+         if (isset($item->fields['id']) && isset($item->input['status']) && $item->input['status'] == CommonITILObject::WAITING) {
 
-         if (self::checkMandatory($item->input)) {
-            if ($item->input['date_report'] == "0000-00-00 00:00:00") {
-               $item->input['date_report'] = 'NULL';
-            }
-            // Then we add tickets informations
-            if ($waiting_ticket->add(array('reason'                            => $item->input['reason'],
-                                           'tickets_id'                        => $item->fields['id'],
-                                           'date_report'                       => $item->input['date_report'],
-                                           'date_suspension'                   => date("Y-m-d H:i:s"),
-                                           'date_end_suspension'               => 'NULL',
-                                           'plugin_moreticket_waitingtypes_id' => $item->input['plugin_moreticket_waitingtypes_id']))) {
+            if (self::checkMandatory($item->input)) {
+               if ($item->input['date_report'] == "0000-00-00 00:00:00") {
+                  $item->input['date_report'] = 'NULL';
+               }
+               // Then we add tickets informations
+               if ($waiting_ticket->add(array('reason'                            => $item->input['reason'],
+                                              'tickets_id'                        => $item->fields['id'],
+                                              'date_report'                       => $item->input['date_report'],
+                                              'date_suspension'                   => date("Y-m-d H:i:s"),
+                                              'date_end_suspension'               => 'NULL',
+                                              'plugin_moreticket_waitingtypes_id' => $item->input['plugin_moreticket_waitingtypes_id']))) {
 
-               unset($_SESSION['glpi_plugin_moreticket_waiting']);
+                  unset($_SESSION['glpi_plugin_moreticket_waiting']);
+               }
+            } else {
+               unset($item->input['status']);
             }
-         } else {
-            unset($item->input['status']);
          }
       }
    }
@@ -392,14 +395,16 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
          // Already cancel by another plugin
          return false;
       }
+      
+      $config = new PluginMoreticketConfig();
+      if ($config->useWaiting()) {
+         // Then we add tickets informations
+         if (isset($item->input['id']) && isset($item->input['status']) && $item->input['status'] == CommonITILObject::WAITING && !self::checkMandatory($item->input, true)) {
 
-      // Then we add tickets informations
-      if (isset($item->input['id']) && isset($item->input['status']) && $item->input['status'] == CommonITILObject::WAITING && !self::checkMandatory($item->input, true)) {
-
-         $_SESSION['saveInput'][$item->getType()] = $item->input;
-         $item->input                             = array();
+            $_SESSION['saveInput'][$item->getType()] = $item->input;
+            $item->input                             = array();
+         }
       }
-
       return true;
    }
 
@@ -409,32 +414,34 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
          // Already cancel by another plugin
          return false;
       }
+      
+      $config = new PluginMoreticketConfig();
+      if ($config->useWaiting()) {
+         $waiting_ticket = new self();
+         // Then we add tickets informations
+         if (isset($item->fields['id']) && $item->input['status'] == CommonITILObject::WAITING) {
+            if (self::checkMandatory($item->input)) {
 
-      $waiting_ticket = new self();
-      // Then we add tickets informations
-      if (isset($item->fields['id']) && $item->input['status'] == CommonITILObject::WAITING) {
-         if (self::checkMandatory($item->input)) {
+               if (empty($item->input['date_report'])) {
+                  $item->input['date_report'] = 'NULL';
+               }
+               // Then we add tickets informations
+               if ($waiting_ticket->add(array('reason'                            => $item->input['reason'],
+                                              'tickets_id'                        => $item->fields['id'],
+                                              'date_report'                       => $item->input['date_report'],
+                                              'date_suspension'                   => date("Y-m-d H:i:s"),
+                                              'date_end_suspension'               => 'NULL',
+                                              'plugin_moreticket_waitingtypes_id' => $item->input['plugin_moreticket_waitingtypes_id']))) {
 
-            if (empty($item->input['date_report'])) {
-               $item->input['date_report'] = 'NULL';
+                  unset($_SESSION['glpi_plugin_moreticket_waiting']);
+               }
+            } else {
+               $item->input['id']                       = $item->fields['id'];
+               $_SESSION['saveInput'][$item->getType()] = $item->input;
+               unset($item->input['status']);
             }
-            // Then we add tickets informations
-            if ($waiting_ticket->add(array('reason'                            => $item->input['reason'],
-                                           'tickets_id'                        => $item->fields['id'],
-                                           'date_report'                       => $item->input['date_report'],
-                                           'date_suspension'                   => date("Y-m-d H:i:s"),
-                                           'date_end_suspension'               => 'NULL',
-                                           'plugin_moreticket_waitingtypes_id' => $item->input['plugin_moreticket_waitingtypes_id']))) {
-
-               unset($_SESSION['glpi_plugin_moreticket_waiting']);
-            }
-         } else {
-            $item->input['id']                       = $item->fields['id'];
-            $_SESSION['saveInput'][$item->getType()] = $item->input;
-            unset($item->input['status']);
          }
       }
-
       return true;
    }
 

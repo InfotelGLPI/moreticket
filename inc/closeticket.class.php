@@ -431,19 +431,21 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          // Already cancel by another plugin
          return false;
       }
-
-      // Get allowed status
-      $config = new PluginMoreticketConfig();
-      $solution_status = array_keys(json_decode($config->solutionStatus(), true));
       
-      // Then we add tickets informations
-      if (isset($item->input['id']) 
-            && isset($item->input['status']) 
-               && in_array($item->input['status'], $solution_status)
-                  && !self::checkMandatory($item->input, true)) {
-         
-         $_SESSION['saveInput'][$item->getType()] = $item->input;
-         $item->input = array();
+      $config = new PluginMoreticketConfig();
+      if ($config->useSolution()) {
+         // Get allowed status
+         $solution_status = array_keys(json_decode($config->solutionStatus(), true));
+
+         // Then we add tickets informations
+         if (isset($item->input['id']) 
+               && isset($item->input['status']) 
+                  && in_array($item->input['status'], $solution_status)
+                     && !self::checkMandatory($item->input, true)) {
+
+            $_SESSION['saveInput'][$item->getType()] = $item->input;
+            $item->input = array();
+         }
       }
 
       return true;
@@ -456,34 +458,37 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          // Already cancel by another plugin
          return false;
       }
-      $ticket = new Ticket();
-      if (isset($_POST['solution'])) {
-         $item->input['solution'] = str_replace(array('\r\n','\r','\n'), '', $_POST['solution']);
-      }
       
-      // Get allowed status
       $config = new PluginMoreticketConfig();
-      $solution_status = array_keys(json_decode($config->solutionStatus(), true));
+      if ($config->useSolution()) {
+         $ticket = new Ticket();
+         if (isset($_POST['solution'])) {
+            $item->input['solution'] = str_replace(array('\r\n','\r','\n'), '', $_POST['solution']);
+         }
 
-      if (isset($item->input['id'])) {
-         if (isset($item->input['status']) 
-               && isset($_POST['solutiontypes_id'])
-               && isset($_POST['solution'])
-               && in_array($item->input['status'], $solution_status)) {
-            if (self::checkMandatory($_POST)) {
-               // Then we add tickets informations
-               $ticket->update(array('id'               => $item->input['id'],
-                                     'solutiontypes_id' => $_POST['solutiontypes_id'],
-                                     'solution'         => $_POST['solution']));
-               unset($_SESSION['glpi_plugin_moreticket_close']);
-            } else {
-               //$item->input = array();
-               $_SESSION['saveInput'][$item->getType()] = $item->input;
-               $item->input = array();
+         // Get allowed status
+         $solution_status = array_keys(json_decode($config->solutionStatus(), true));
+
+         if (isset($item->input['id'])) {
+            if (isset($item->input['status']) 
+                  && isset($_POST['solutiontypes_id'])
+                  && isset($_POST['solution'])
+                  && in_array($item->input['status'], $solution_status)) {
+               if (self::checkMandatory($_POST)) {
+                  // Then we add tickets informations
+                  $ticket->update(array('id'               => $item->input['id'],
+                                        'solutiontypes_id' => $_POST['solutiontypes_id'],
+                                        'solution'         => $_POST['solution']));
+                  unset($_SESSION['glpi_plugin_moreticket_close']);
+               } else {
+                  //$item->input = array();
+                  $_SESSION['saveInput'][$item->getType()] = $item->input;
+                  $item->input = array();
+               }
             }
          }
       }
-
+      
       return true;
    }
    
