@@ -55,6 +55,8 @@ function plugin_moreticket_install() {
       $DB->runFile(GLPI_ROOT."/plugins/moreticket/sql/update-1.2.0.sql");
    }
    
+   CronTask::Register('PluginMoreticketWaitingTicket', 'MoreticketWaitingTicket', DAY_TIMESTAMP);
+   
    return true;
 }
 
@@ -62,6 +64,8 @@ function plugin_moreticket_install() {
 function plugin_moreticket_uninstall() {
    global $DB;
 
+   include_once (GLPI_ROOT . "/plugins/certificates/inc/profile.class.php");
+   
    // Plugin tables deletion
    $tables = array("glpi_plugin_moreticket_configs",
                    "glpi_plugin_moreticket_waitingtickets",
@@ -76,6 +80,8 @@ function plugin_moreticket_uninstall() {
    foreach (PluginMoreticketProfile::getAllRights() as $right) {
       $profileRight->deleteByCriteria(array('name' => $right['field']));
    }
+   
+   CronTask::Unregister('moreticket');
    
    return true;
 }

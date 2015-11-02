@@ -137,7 +137,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
                $checkKo[] = 1;
             }
          }
-
          $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $value;
       }
 
@@ -471,6 +470,73 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
          }
       }
       return $types;
+   }
+   
+    static function queryTicketWaiting() {
+      global $DB;
+
+      $date=date("Y-m-d H:i");
+     
+      $query = "SELECT *
+      FROM `glpi_plugin_moreticket_waitingtickets`
+      WHERE `date_report` <= '".$date."'
+      AND `date_end_suspension` IS NULL";
+      
+      return $query;
+   }
+   
+   
+   static function queryFinishedTicketWaiting($id) {
+      global $DB;
+
+      $query = "SELECT *
+      FROM `glpi_plugin_moreticket_waitingtickets`
+      WHERE `id` = ".$id;
+      return $query;
+   }
+   
+   /**
+    * Cron action 
+    * 
+    * @global $DB
+    * @global $CFG_GLPI
+    * @param $task for log
+    */
+   static function cronMoreticketWaitingTicket($task = NULL){
+      global $DB, $CFG_GLPI;
+
+      $CronTask = new CronTask();
+      if($CronTask->getFromDBbyName("PluginMoreticketWaitingTicket", "MoreticketWaitingTicket")){
+         if($CronTask->fields["state"] = CronTask::STATE_DISABLE){
+            return 0;
+         }
+      }else{
+         return 0;
+      }
+      
+      $cron_status = 0;
+      
+      $query_ticket_waiting = self::queryTicketWaiting();
+ 
+      foreach ($DB->request($query_ticket_waiting) as $waitingticket) {
+         $ticket = new Ticket();
+         if ($ticket->update(array('id' => $waitingticket['tickets_id'],
+               'status' => CommonITILObject::ASSIGNED))) {
+
+            $query = self::queryFinishedTicketWaiting($waitingticket['id']);
+            $result = $DB->query($query);
+            
+            foreach ($DB->request($query) as $result) {
+               $diffDate = strtotime($result['date_end_suspension']) - strtotime($result['date_suspension']);
+               $date_echeance = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) + strtotime(date('Y-m-d H:i:s', $diffDate)));
+               $ticket->update(array('id' => $waitingticket['tickets_id'],
+               'due_date' => $date_echeance));
+               
+            }
+            $cron_status = 1;
+         }
+      }
+      return $cron_status;
    }
 
 }
