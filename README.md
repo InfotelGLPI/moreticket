@@ -1,5 +1,5 @@
 # moreticket
-Plugin moreticket for GLPI 0.85
+Plugin moreticket for GLPI
 
 Ce plugin est sur Transifex - Aidez-nous à le traduire :
 https://www.transifex.com/tsmr/GLPI_moreticket/
