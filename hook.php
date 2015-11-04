@@ -64,7 +64,7 @@ function plugin_moreticket_install() {
 function plugin_moreticket_uninstall() {
    global $DB;
 
-   include_once (GLPI_ROOT . "/plugins/certificates/inc/profile.class.php");
+   include_once (GLPI_ROOT . "/plugins/moreticket/inc/profile.class.php");
    
    // Plugin tables deletion
    $tables = array("glpi_plugin_moreticket_configs",
