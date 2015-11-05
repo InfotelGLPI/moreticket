@@ -48,7 +48,9 @@ class PluginMoreticketTicketTask extends CommonITILTask {
          return false;
       }
       
-      if (isset($tickettask->input['_status'])) {
+      $config = new PluginMoreticketConfig();
+      
+      if (isset($tickettask->input['_status']) && $config->useWaiting() == true) {
          $updates['id']                                = $tickettask->input['tickets_id'];
          $updates['reason']                            = $tickettask->input['reason'];
          $updates['date_report']                       = $tickettask->input['date_report'];
@@ -67,7 +69,9 @@ class PluginMoreticketTicketTask extends CommonITILTask {
          return false;
       }
 
-      if (isset($tickettask->input['_status'])) {
+      $config = new PluginMoreticketConfig();
+      
+      if (isset($tickettask->input['_status']) && $config->useWaiting() == true) {
          $updates['id']                                = $tickettask->input['tickets_id'];
          $updates['reason']                            = $tickettask->input['reason'];
          $updates['date_report']                       = $tickettask->input['date_report'];
