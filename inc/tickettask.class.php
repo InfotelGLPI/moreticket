@@ -40,12 +40,6 @@ class PluginMoreticketTicketTask extends CommonITILTask {
 
       return _n('Ticket','Tickets',$nb);
    }
-   
-   static function emptyTicket(TicketTask $tickettask) {
-      if (!empty($_POST)) {
-         self::setSessions($_POST);
-      }
-   }
 
    static function beforeAdd(TicketTask $tickettask) {
 
@@ -53,63 +47,35 @@ class PluginMoreticketTicketTask extends CommonITILTask {
          // Already cancel by another plugin
          return false;
       }
-
-      self::setSessions($tickettask->input);
-      unset($tickettask->input['_status']);
-   }
-
-   static function afterAdd(TicketTask $tickettask) {
-
-      if (!is_array($tickettask->input) || !count($tickettask->input)) {
-         // Already cancel by another plugin
-         return false;
-      }
       
-      $updates['id']                                = $tickettask->input['tickets_id'];
-      $updates['reason']                            = $tickettask->input['reason'];
-      $updates['date_report']                       = $tickettask->input['date_report'];
-      $updates['plugin_moreticket_waitingtypes_id'] = $tickettask->input['plugin_moreticket_waitingtypes_id'];
-      $updates['status']                            = $_SESSION['glpi_plugin_moreticket_waiting']['_status'];
-      $ticket                 = new Ticket();
-      $ticket->update($updates);
+      if (isset($tickettask->input['_status'])) {
+         $updates['id']                                = $tickettask->input['tickets_id'];
+         $updates['reason']                            = $tickettask->input['reason'];
+         $updates['date_report']                       = $tickettask->input['date_report'];
+         $updates['plugin_moreticket_waitingtypes_id'] = $tickettask->input['plugin_moreticket_waitingtypes_id'];
+         $updates['status']                            = $tickettask->input['_status'];
+         $ticket = new Ticket();
+         $ticket->update($updates);
+         unset($tickettask->input['_status']);
+      }
    }
    
    static function beforeUpdate(TicketTask $tickettask) {
-      
+
       if (!is_array($tickettask->input) || !count($tickettask->input)) {
          // Already cancel by another plugin
          return false;
       }
-      
-      self::setSessions($tickettask->input);
-      unset($tickettask->input['_status']);
-   }
-   
-   static function afterUpdate(TicketTask $tickettask) {
-            
-      if (!is_array($tickettask->input) || !count($tickettask->input)) {
-         // Already cancel by another plugin
-         return false;
-      }
-      
-      $updates['id']                                = $tickettask->input['tickets_id'];
-      $updates['reason']                            = $tickettask->input['reason'];
-      $updates['date_report']                       = $tickettask->input['date_report'];
-      $updates['plugin_moreticket_waitingtypes_id'] = $tickettask->input['plugin_moreticket_waitingtypes_id'];
-      $updates['status']                            = $_SESSION['glpi_plugin_moreticket_waiting']['_status'];
-      $ticket                 = new Ticket();
-      $ticket->update($updates);
-   }
-   
-   static function setSessions($input){
-      
-      foreach($input as $key => $values){
-         switch($key){
-            case '_status':
-               $_SESSION['glpi_plugin_moreticket_waiting'][$key]   = $values;
-               break;
-    
-         }
+
+      if (isset($tickettask->input['_status'])) {
+         $updates['id']                                = $tickettask->input['tickets_id'];
+         $updates['reason']                            = $tickettask->input['reason'];
+         $updates['date_report']                       = $tickettask->input['date_report'];
+         $updates['plugin_moreticket_waitingtypes_id'] = $tickettask->input['plugin_moreticket_waitingtypes_id'];
+         $updates['status']                            = $tickettask->input['_status'];
+         $ticket = new Ticket();
+         $ticket->update($updates);
+         unset($tickettask->input['_status']);
       }
    }
 }
