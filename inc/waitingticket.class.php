@@ -55,7 +55,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
     * */
    public static function getTypeName($nb = 0) {
 
-      return _n('Waiting ticket', 'Waiting tickets', $nb, 'moreticket');
+      return _n('Closure of pending ticket', 'Closure of pending tickets', $nb, 'moreticket');
    }
 
    /**
