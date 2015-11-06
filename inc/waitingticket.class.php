@@ -55,7 +55,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
     * */
    public static function getTypeName($nb = 0) {
 
-      return __('Close ticket', 'moreticket');
+      return _n('Waiting ticket', 'Waiting tickets', $nb, 'moreticket');
    }
 
    /**
@@ -545,7 +545,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       switch ($name) {
          case 'MoreticketWaitingTicket':
             return array (
-               'description' => __("End of standby ticket"));   // Optional
+               'description' => __("End of standby ticket", 'moreticket'));   // Optional
             break;
       }
       return array();
