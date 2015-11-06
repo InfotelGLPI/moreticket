@@ -55,7 +55,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
     * */
    public static function getTypeName($nb = 0) {
 
-      return _n('Closure of pending ticket', 'Closure of pending tickets', $nb, 'moreticket');
+      return __('Close ticket', 'moreticket');
    }
 
    /**
@@ -537,6 +537,18 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
          }
       }
       return $cron_status;
+   }
+   
+   // Cron action
+   static function cronInfo($name) {
+
+      switch ($name) {
+         case 'MoreticketWaitingTicket':
+            return array (
+               'description' => __("End of standby ticket"));   // Optional
+            break;
+      }
+      return array();
    }
 
 }
