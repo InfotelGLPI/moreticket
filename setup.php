@@ -49,11 +49,15 @@ function plugin_init_moreticket() {
             
             $PLUGIN_HOOKS['config_page']['moreticket'] = 'front/config.form.php';
 
-            $PLUGIN_HOOKS['pre_item_update']['moreticket'] = array('Ticket' => array('PluginMoreticketTicket', 'beforeUpdate'), 'TicketTask' => array('PluginMoreticketTicketTask', 'beforeUpdate'));
-            $PLUGIN_HOOKS['pre_item_add']['moreticket']    = array('Ticket' => array('PluginMoreticketTicket', 'beforeAdd'), 'TicketTask' => array('PluginMoreticketTicketTask', 'beforeAdd'));
-            $PLUGIN_HOOKS['item_add']['moreticket']        = array('Ticket' => array('PluginMoreticketTicket', 'afterAdd'), 'TicketTask' => array('PluginMoreticketTicketTask', 'afterAdd'));
-            $PLUGIN_HOOKS['item_update']['moreticket']     = array('Ticket' => array('PluginMoreticketTicket', 'afterUpdate'), 'TicketTask' => array('PluginMoreticketTicketTask', 'afterUpdate'));
-            $PLUGIN_HOOKS['item_empty']['moreticket']      = array('Ticket' => array('PluginMoreticketTicket', 'emptyTicket'), 'TicketTask' => array('PluginMoreticketTicketTask', 'emptyTicket'));
+            $PLUGIN_HOOKS['pre_item_update']['moreticket'] = array('Ticket'         => array('PluginMoreticketTicket', 'beforeUpdate'),
+                                                                   'TicketTask'     => array('PluginMoreticketTicketTask', 'beforeUpdate'),
+                                                                   'TicketFollowup' => array('PluginMoreticketTicketFollowup', 'beforeUpdate'));
+            $PLUGIN_HOOKS['pre_item_add']['moreticket']    = array('Ticket'         => array('PluginMoreticketTicket', 'beforeAdd'),
+                                                                   'TicketTask'     => array('PluginMoreticketTicketTask', 'beforeAdd'),
+                                                                   'TicketFollowup' => array('PluginMoreticketTicketFollowup', 'beforeAdd'));
+            $PLUGIN_HOOKS['item_add']['moreticket']        = array('Ticket'     => array('PluginMoreticketTicket', 'afterAdd'));
+            $PLUGIN_HOOKS['item_update']['moreticket']     = array('Ticket'     => array('PluginMoreticketTicket', 'afterUpdate'));
+            $PLUGIN_HOOKS['item_empty']['moreticket']      = array('Ticket'     => array('PluginMoreticketTicket', 'emptyTicket'));
          }
          
          if (Session::haveRight('plugin_moreticket', READ)) {

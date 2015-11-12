@@ -140,9 +140,7 @@ function moreticket(params) {
 
             if (tickets_id == 0 || tickets_id == undefined)
                 return;
-            
-            var countTask = 0;
-            
+
             // Launched on each complete Ajax load 
             $(document).ajaxComplete(function (event, xhr, option) {
 //                setTimeout(function () {
@@ -195,7 +193,7 @@ function moreticket(params) {
                         });
 
                     } else if (option.url.indexOf("ajax/timeline_viewsubitem.php") > 0
-                            && $.urlParam('type', option.data) == 'TicketTask') {
+                            && ($.urlParam('type', option.data) == 'TicketTask' || $.urlParam('type', option.data) == 'TicketFollowup')) {
                         //Inject Waiting ticket data
                         $.ajax({
                             url: root_doc + '/plugins/moreticket/ajax/ticket.php',
@@ -204,7 +202,6 @@ function moreticket(params) {
                             dataType: "html",
                             success: function (response, opts) {
                                 var requester = response;
-                                countTask++
                                 var status_bloc = $("#x-split-button");
 
                                 if (status_bloc != undefined) {
