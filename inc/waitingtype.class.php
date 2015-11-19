@@ -30,7 +30,7 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginMoreticketWaitingType extends commonTreeDropdown {
    
-   static $rightname = "plugin_moreticket";
+   static $rightname = "dropdown";
    
    public static function getTypeName($nb=0) {
 
