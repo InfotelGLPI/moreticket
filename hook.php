@@ -36,8 +36,7 @@ function plugin_moreticket_install() {
    
    PluginMoreticketProfile::initProfile();
    PluginMoreticketProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
-   $migration = new Migration("1.1.0");
-   $migration->dropTable('glpi_plugin_moreticket_profiles');
+   $DB->query("DROP TABLE IF EXISTS `glpi_plugin_moreticket_profiles`;");
    
    if (!FieldExists("glpi_plugin_moreticket_configs", "solution_status")) {
       $DB->runFile(GLPI_ROOT."/plugins/moreticket/sql/update-1.1.1.sql");
