@@ -522,19 +522,9 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
          $ticket = new Ticket();
          if ($ticket->update(array('id' => $waitingticket['tickets_id'],
                'status' => CommonITILObject::ASSIGNED))) {
-
-            $query = self::queryFinishedTicketWaiting($waitingticket['id']);
-            $result = $DB->query($query);
-            
-            foreach ($DB->request($query) as $result) {
-               $diffDate = strtotime($result['date_end_suspension']) - strtotime($result['date_suspension']);
-               $date_echeance = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) + strtotime(date('Y-m-d H:i:s', $diffDate)));
-               $ticket->update(array('id' => $waitingticket['tickets_id'],
-               'due_date' => $date_echeance));
-               
-            }
             $cron_status = 1;
          }
+         $task->addVolume(1);
       }
       return $cron_status;
    }
