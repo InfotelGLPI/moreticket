@@ -438,60 +438,26 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          $solution_status = array_keys(json_decode($config->solutionStatus(), true));
 
          // Then we add tickets informations
-         if (isset($item->input['id']) 
-               && isset($item->input['status']) 
-                  && in_array($item->input['status'], $solution_status)
-                     && !self::checkMandatory($item->input, true)) {
-
-            $_SESSION['saveInput'][$item->getType()] = $item->input;
-            $item->input = array();
-         }
-      }
-
-      return true;
-   }
-
-
-   // Hook done on after add ticket - update closetickets
-   static function postAddCloseTicket($item) {
-      if (!is_array($item->input) || !count($item->input)) {
-         // Already cancel by another plugin
-         return false;
-      }
-      
-      $config = new PluginMoreticketConfig();
-      if ($config->useSolution()) {
-         $ticket = new Ticket();
-         if (isset($_POST['solution'])) {
-            $item->input['solution'] = str_replace(array('\r\n','\r','\n'), '', $_POST['solution']);
-         }
-
-         // Get allowed status
-         $solution_status = array_keys(json_decode($config->solutionStatus(), true));
-
-         if (isset($item->input['id'])) {
-            if (isset($item->input['status']) 
-                  && isset($_POST['solutiontypes_id'])
-                  && isset($_POST['solution'])
-                  && in_array($item->input['status'], $solution_status)) {
-               if (self::checkMandatory($_POST)) {
-                  // Then we add tickets informations
-                  $ticket->update(array('id'               => $item->input['id'],
-                                        'solutiontypes_id' => $_POST['solutiontypes_id'],
-                                        'solution'         => $_POST['solution']));
-                  unset($_SESSION['glpi_plugin_moreticket_close']);
-               } else {
-                  //$item->input = array();
-                  $_SESSION['saveInput'][$item->getType()] = $item->input;
-                  $item->input = array();
+         if (isset($item->input['id']) && isset($item->input['status']) && in_array($item->input['status'], $solution_status)) {
+            if (self::checkMandatory($item->input, true)) {
+               // Add followup on immediate ticket closing
+               if ($config->closeFollowup() 
+                     && in_array($item->input['status'], Ticket::getClosedStatusArray()) 
+                     && $item->input['id'] == 0) {
+                  $item->input['_followup']['content'] = Html::clean(Html::entity_decode_deep($item->input['solution']));
                }
+   
+               $item->input['solution'] = str_replace(array('\r', '\n', '\r\n'), '', $item->input['solution']);
+            } else {
+               $_SESSION['saveInput'][$item->getType()] = $item->input;
+               $item->input                             = array();
             }
          }
       }
-      
+
       return true;
    }
-   
+
    public function post_addItem() {
 
       $changes[0] = '0';

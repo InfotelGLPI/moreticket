@@ -127,6 +127,12 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</td>";
       echo "</tr>";
       
+      echo "<tr class='tab_bg_1'>
+            <td>".__("Add a followup on immediate ticket closing", "moreticket")."</td><td>";
+      Dropdown::showYesNo("close_followup", $this->fields["close_followup"]);
+      echo "</td>";
+      echo "</tr>";
+      
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td colspan='2' align='center'>";
       echo "<input type='submit' name='update' value=\""._sx("button", "Post")."\" class='submit' >";
@@ -175,6 +181,10 @@ class PluginMoreticketConfig extends CommonDBTM {
    
    function closeInformations(){
       return $this->fields["close_informations"];
+   }
+   
+   function closeFollowup(){
+      return $this->fields["close_followup"];
    }
 }
 

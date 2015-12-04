@@ -64,7 +64,6 @@ class PluginMoreticketTicket extends CommonITILObject {
          return false;
       }
       PluginMoreticketWaitingTicket::postAddWaitingTicket($ticket);
-      PluginMoreticketCloseTicket::postAddCloseTicket($ticket);
    }
    
    static function beforeUpdate(Ticket $ticket) {
