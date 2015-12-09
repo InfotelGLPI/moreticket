@@ -441,10 +441,9 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          if (isset($item->input['id']) && isset($item->input['status']) && in_array($item->input['status'], $solution_status)) {
             if (self::checkMandatory($item->input, true)) {
                // Add followup on immediate ticket closing
-               if ($config->closeFollowup() 
-                     && in_array($item->input['status'], Ticket::getClosedStatusArray()) 
+               if ($config->closeFollowup()
                      && $item->input['id'] == 0) {
-                  $item->input['_followup']['content'] = Html::clean(Html::entity_decode_deep($item->input['solution']));
+                  $item->input['_followup']['content'] = str_replace(array('\r', '\n', '\r\n'), '',Html::clean(Html::entity_decode_deep($item->input['solution'])));
                }
    
                $item->input['solution'] = str_replace(array('\r', '\n', '\r\n'), '', $item->input['solution']);
@@ -465,6 +464,14 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       $changes[2] = sprintf(__('%1$s added closing informations', 'moreticket'), getUserName(Session::getLoginUserID()));
       Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
       
+      if (isset($_SESSION['glpi_plugin_moreticket_close'])){
+         unset($_SESSION['glpi_plugin_moreticket_close']);
+      }
+
+      if (isset($_SESSION['glpi_plugin_moreticket_waiting'])){
+         unset($_SESSION['glpi_plugin_moreticket_waiting']);
+      }
+      
       parent::post_addItem();
    }
    
@@ -477,6 +484,14 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       $changes[2] = sprintf(__('%1$s updated closing informations', 'moreticket'), getUserName(Session::getLoginUserID()));
       Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
       
+      if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
+         unset($_SESSION['glpi_plugin_moreticket_close']);
+      }
+
+      if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
+         unset($_SESSION['glpi_plugin_moreticket_waiting']);
+      }
+
       parent::post_updateItem();
    }
    
