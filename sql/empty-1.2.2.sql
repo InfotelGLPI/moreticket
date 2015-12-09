@@ -57,7 +57,7 @@ CREATE TABLE `glpi_plugin_moreticket_configs` (
    PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `glpi_plugin_moreticket_configs`(`id`,`use_waiting`,`use_solution`, `close_informations`, `date_report_mandatory`, `waitingtype_mandatory`, `solutiontype_mandatory`, `solution_status`) VALUES (1,1,1,1,1,1,1, '{"5":1}');
+INSERT INTO `glpi_plugin_moreticket_configs`(`id`,`use_waiting`,`use_solution`, `close_informations`, `date_report_mandatory`, `waitingtype_mandatory`, `solutiontype_mandatory`, `solution_status`,`close_followup`) VALUES (1,1,1,1,1,1,1, '{"5":1}',0);
 
 -- --------------------------------------------------------
 -- 
