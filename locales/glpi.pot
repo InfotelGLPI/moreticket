@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Moreticket plugin 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-06 13:46+0100\n"
+"POT-Creation-Date: 2015-12-09 10:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:146 inc/waitingticket.class.php:111
+#: hook.php:149 inc/waitingticket.class.php:111
 #: inc/waitingticket.class.php:227 inc/waitingticket.class.php:285
 msgid "Postponement date"
 msgstr ""
 
-#: hook.php:163 hook.php:170 hook.php:177 hook.php:184
+#: hook.php:166 hook.php:173 hook.php:180 hook.php:187
 #: inc/closeticket.class.php:67 inc/closeticket.class.php:103
 #: inc/closeticket.class.php:148 inc/closeticket.class.php:272
 #: inc/closeticket.class.php:324 inc/config.class.php:112
 msgid "Close ticket informations"
 msgstr ""
 
-#: setup.php:71 inc/profile.class.php:39 inc/profile.class.php:130
+#: setup.php:75 inc/profile.class.php:39 inc/profile.class.php:130
 msgid "More ticket"
 msgstr ""
 
-#: setup.php:83
+#: setup.php:87
 msgid "This plugin requires GLPI >= 0.90"
 msgstr ""
 
@@ -50,17 +50,17 @@ msgstr ""
 msgid "Ticket cannot be closed"
 msgstr ""
 
-#: inc/closeticket.class.php:499
+#: inc/closeticket.class.php:465
 #, php-format
 msgid "%1$s added closing informations"
 msgstr ""
 
-#: inc/closeticket.class.php:511
+#: inc/closeticket.class.php:477
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr ""
 
-#: inc/closeticket.class.php:522
+#: inc/closeticket.class.php:488
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr ""
@@ -91,6 +91,10 @@ msgstr ""
 
 #: inc/config.class.php:118
 msgid "Status used to display solution bloc"
+msgstr ""
+
+#: inc/config.class.php:131
+msgid "Add a followup on immediate ticket closing"
 msgstr ""
 
 #: inc/waitingticket.class.php:58
@@ -128,7 +132,7 @@ msgstr ""
 msgid "Suspension end date"
 msgstr ""
 
-#: inc/waitingticket.class.php:548
+#: inc/waitingticket.class.php:538
 msgid "End of standby ticket"
 msgstr ""
 
