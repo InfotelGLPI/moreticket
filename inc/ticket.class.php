@@ -64,6 +64,15 @@ class PluginMoreticketTicket extends CommonITILObject {
          return false;
       }
       PluginMoreticketWaitingTicket::postAddWaitingTicket($ticket);
+      
+            
+      if (isset($_SESSION['glpi_plugin_moreticket_close'])){
+         unset($_SESSION['glpi_plugin_moreticket_close']);
+      }
+
+      if (isset($_SESSION['glpi_plugin_moreticket_waiting'])){
+         unset($_SESSION['glpi_plugin_moreticket_waiting']);
+      }
    }
    
    static function beforeUpdate(Ticket $ticket) {
@@ -80,6 +89,15 @@ class PluginMoreticketTicket extends CommonITILObject {
    static function afterUpdate(Ticket $ticket) {
       
       PluginMoreticketWaitingTicket::postUpdateWaitingTicket($ticket);
+      
+            
+      if (isset($_SESSION['glpi_plugin_moreticket_close'])){
+         unset($_SESSION['glpi_plugin_moreticket_close']);
+      }
+
+      if (isset($_SESSION['glpi_plugin_moreticket_waiting'])){
+         unset($_SESSION['glpi_plugin_moreticket_waiting']);
+      }
    }
    
    static function setSessions($input){

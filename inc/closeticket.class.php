@@ -463,15 +463,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       $changes[1] = '';
       $changes[2] = sprintf(__('%1$s added closing informations', 'moreticket'), getUserName(Session::getLoginUserID()));
       Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
-      
-      if (isset($_SESSION['glpi_plugin_moreticket_close'])){
-         unset($_SESSION['glpi_plugin_moreticket_close']);
-      }
 
-      if (isset($_SESSION['glpi_plugin_moreticket_waiting'])){
-         unset($_SESSION['glpi_plugin_moreticket_waiting']);
-      }
-      
       parent::post_addItem();
    }
    
@@ -483,14 +475,6 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       $changes[1] = '';
       $changes[2] = sprintf(__('%1$s updated closing informations', 'moreticket'), getUserName(Session::getLoginUserID()));
       Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
-      
-      if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
-         unset($_SESSION['glpi_plugin_moreticket_close']);
-      }
-
-      if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-         unset($_SESSION['glpi_plugin_moreticket_waiting']);
-      }
 
       parent::post_updateItem();
    }
