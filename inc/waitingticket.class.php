@@ -478,20 +478,13 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       $date=date("Y-m-d H:i");
      
       $query = "SELECT *
-      FROM `glpi_plugin_moreticket_waitingtickets`
-      WHERE `date_report` <= '".$date."'
-      AND `date_end_suspension` IS NULL";
+                FROM `glpi_plugin_moreticket_waitingtickets` 
+                LEFT JOIN `glpi_tickets` 
+                   ON (`glpi_plugin_moreticket_waitingtickets`.`tickets_id` = `glpi_tickets`.`id`)
+                WHERE `date_report` <= '".$date."'
+                AND `glpi_tickets`.`status` = '".Ticket::WAITING."'
+                AND `date_end_suspension` IS NULL";
       
-      return $query;
-   }
-   
-   
-   static function queryFinishedTicketWaiting($id) {
-      global $DB;
-
-      $query = "SELECT *
-      FROM `glpi_plugin_moreticket_waitingtickets`
-      WHERE `id` = ".$id;
       return $query;
    }
    
