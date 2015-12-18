@@ -58,8 +58,8 @@ function plugin_moreticket_install() {
       $DB->runFile(GLPI_ROOT."/plugins/moreticket/sql/update-1.2.2.sql");
    }
    
-   CronTask::Register('PluginMoreticketWaitingTicket', 'MoreticketWaitingTicket', DAY_TIMESTAMP);
-   
+   CronTask::Register('PluginMoreticketWaitingTicket', 'MoreticketWaitingTicket', DAY_TIMESTAMP, array('state' => 0));
+      
    return true;
 }
 
@@ -101,8 +101,7 @@ function plugin_moreticket_getDatabaseRelations() {
 
    $plugin = new Plugin();
    if ($plugin->isActivated("moreticket"))
-      return array("glpi_entities"                       => array("glpi_plugin_moreticket_waitingtypes"   => "entities_id"),
-                   "glpi_tickets"                        => array("glpi_plugin_moreticket_waitingtickets" => "tickets_id"),
+      return array("glpi_tickets"                        => array("glpi_plugin_moreticket_waitingtickets" => "tickets_id"),
                    "glpi_plugin_moreticket_waitingtypes" => array("glpi_plugin_moreticket_waitingtickets" => "plugin_moreticket_waitingtypes_id"),
                    "glpi_tickets"                        => array("glpi_plugin_moreticket_closetickets"   => "tickets_id"));
    else
@@ -237,9 +236,9 @@ function plugin_moreticket_addWhere($link, $nott, $type, $ID, $val, $searchtype)
                }
 
                $query = " ".$link." ".$NOT." ((SELECT max(`".$table."`.`".$field."`) FROM `".$table."` WHERE `tickets_id` = `glpi_tickets`.`id`) ".$SEARCH;
-               if ($search_item['searchtype'] != 'contains') {
-                  $query .= " OR `".$table."`.`".$field."` IS NULL";
-               }
+//               if ($search_item['searchtype'] != 'contains') {
+//                  $query .= " OR `".$table."`.`".$field."` IS NULL";
+//               }
                $query .= ")";
             }
          }
