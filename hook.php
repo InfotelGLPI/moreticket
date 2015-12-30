@@ -209,37 +209,39 @@ function plugin_moreticket_addWhere($link, $nott, $type, $ID, $val, $searchtype)
       case "glpi_plugin_moreticket_waitingtickets.date_report" :
          $criteria = array();
          $query    = "";
-         foreach ($_GET['criteria'] as $key => $search_item) {
-            if (in_array($search_item['field'], array_keys($searchopt)) && $search_item['field'] == $ID) {
-               $NOT = $nott ? "NOT" : "";
+         if (isset($_GET['criteria'])) {
+            foreach ($_GET['criteria'] as $key => $search_item) {
+               if (in_array($search_item['field'], array_keys($searchopt)) && $search_item['field'] == $ID) {
+                  $NOT = $nott ? "NOT" : "";
 
-               $SEARCH = "";
-               switch ($search_item['searchtype']) {
-                  case 'morethan':
-                     $SEARCH = "> '".$val."'";
-                     break;
-                  case 'lessthan':
-                     $SEARCH = "< '".$val."'";
-                     break;
-                  case 'equals':
-                     $SEARCH = "= '".$val."'";
-                     break;
-                  case 'notequals':
-                     $SEARCH = "!= '".$val."'";
-                     break;
-                  case 'contains':
-                     $SEARCH = "LIKE '%".$val."%'";
-                     if ($val == 'NULL') {
-                        $SEARCH = "IS NULL";
-                     }
-                     break;
-               }
+                  $SEARCH = "";
+                  switch ($search_item['searchtype']) {
+                     case 'morethan':
+                        $SEARCH = "> '".$val."'";
+                        break;
+                     case 'lessthan':
+                        $SEARCH = "< '".$val."'";
+                        break;
+                     case 'equals':
+                        $SEARCH = "= '".$val."'";
+                        break;
+                     case 'notequals':
+                        $SEARCH = "!= '".$val."'";
+                        break;
+                     case 'contains':
+                        $SEARCH = "LIKE '%".$val."%'";
+                        if ($val == 'NULL') {
+                           $SEARCH = "IS NULL";
+                        }
+                        break;
+                  }
 
-               $query = " ".$link." ".$NOT." ((SELECT max(`".$table."`.`".$field."`) FROM `".$table."` WHERE `tickets_id` = `glpi_tickets`.`id`) ".$SEARCH;
+                  $query = " ".$link." ".$NOT." ((SELECT max(`".$table."`.`".$field."`) FROM `".$table."` WHERE `tickets_id` = `glpi_tickets`.`id`) ".$SEARCH;
 //               if ($search_item['searchtype'] != 'contains') {
 //                  $query .= " OR `".$table."`.`".$field."` IS NULL";
 //               }
-               $query .= ")";
+                  $query .= ")";
+               }
             }
          }
 
