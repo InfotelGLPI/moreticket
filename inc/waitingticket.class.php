@@ -500,17 +500,17 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
 
       $CronTask = new CronTask();
       if($CronTask->getFromDBbyName("PluginMoreticketWaitingTicket", "MoreticketWaitingTicket")){
-         if($CronTask->fields["state"] = CronTask::STATE_DISABLE){
+         if($CronTask->fields["state"] == CronTask::STATE_DISABLE){
             return 0;
          }
       }else{
          return 0;
       }
-      
+
       $cron_status = 0;
       
       $query_ticket_waiting = self::queryTicketWaiting();
- 
+
       foreach ($DB->request($query_ticket_waiting) as $waitingticket) {
          $ticket = new Ticket();
          if ($ticket->update(array('id' => $waitingticket['tickets_id'],
