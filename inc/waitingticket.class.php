@@ -320,8 +320,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
 
    // Get last waitingTicket 
    static function getWaitingTicketFromDB($tickets_id, $options = array()) {
-      global $DB;
-
       if (sizeof($options) == 0) {
          $data_WaitingType = getAllDatasFromTable("glpi_plugin_moreticket_waitingtickets", '`tickets_id` = '.$tickets_id.
                ' AND `date_suspension` IN (SELECT max(`date_suspension`) 
@@ -330,7 +328,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       } else {
          $data_WaitingType = getAllDatasFromTable("glpi_plugin_moreticket_waitingtickets", 'tickets_id = '.$tickets_id, false, '`date_suspension` DESC LIMIT '.intval($options['start']).",".intval($options['limit']));
       }
-      
+
       if (sizeof($data_WaitingType) > 0) {
          if (sizeof($options) == 0)
             $data_WaitingType = reset($data_WaitingType);
@@ -370,19 +368,21 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
    }
 
    static function postUpdateWaitingTicket($item) {
-
       $waiting_ticket = new self();
       // Then we add tickets informations
       if (isset($item->fields['id'])) {
-
          if (isset($item->oldvalues['status']) && $item->oldvalues['status'] == CommonITILObject::WAITING) {
-
             if (isset($item->input['status']) && $item->input['status'] != CommonITILObject::WAITING) {
-               $fields = self::getWaitingTicketFromDB($item->fields['id']);
-               if ($waiting_ticket->update(array('id'                  => $fields['id'],
-                        'date_end_suspension' => date("Y-m-d H:i:s")))) {
-                  unset($_SESSION['glpi_plugin_moreticket_waiting']);
+               // Get all waiting with date_suspension < today
+               $lastWaiting = $waiting_ticket->find("`tickets_id` = '".$item->fields['id']."' "
+                                                . " AND (`date_end_suspension` IS NULL OR `date_end_suspension` = '') "
+                                                . " AND UNIX_TIMESTAMP(`date_suspension`) <= '".time()."'");
+
+               foreach ($lastWaiting as $field) {
+                  $waiting_ticket->update(array('id'                  => $field['id'],
+                                                'date_end_suspension' => date("Y-m-d H:i:s")));
                }
+               unset($_SESSION['glpi_plugin_moreticket_waiting']);
             }
          }
       }
@@ -473,17 +473,10 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
    }
    
     static function queryTicketWaiting() {
-      global $DB;
-
-      $date=date("Y-m-d H:i");
-     
-      $query = "SELECT *
-                FROM `glpi_plugin_moreticket_waitingtickets` 
-                LEFT JOIN `glpi_tickets` 
-                   ON (`glpi_plugin_moreticket_waitingtickets`.`tickets_id` = `glpi_tickets`.`id`)
-                WHERE `date_report` <= '".$date."'
-                AND `glpi_tickets`.`status` = '".Ticket::WAITING."'
-                AND `date_end_suspension` IS NULL";
+      $query = "SELECT `glpi_tickets`.`id` as tickets_id
+                FROM `glpi_tickets` 
+                WHERE `glpi_tickets`.`status` = '".Ticket::WAITING."'
+                AND `is_deleted` = 0";
       
       return $query;
    }
@@ -496,28 +489,32 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
     * @param $task for log
     */
    static function cronMoreticketWaitingTicket($task = NULL){
-      global $DB, $CFG_GLPI;
+      global $DB;
 
-      $CronTask = new CronTask();
-      if($CronTask->getFromDBbyName("PluginMoreticketWaitingTicket", "MoreticketWaitingTicket")){
-         if($CronTask->fields["state"] == CronTask::STATE_DISABLE){
-            return 0;
-         }
-      }else{
+      if ($task->fields["state"] == CronTask::STATE_DISABLE) {
          return 0;
       }
 
       $cron_status = 0;
-      
-      $query_ticket_waiting = self::queryTicketWaiting();
+      $today       = date('Y-m-d H:i:s');
 
-      foreach ($DB->request($query_ticket_waiting) as $waitingticket) {
-         $ticket = new Ticket();
-         if ($ticket->update(array('id' => $waitingticket['tickets_id'],
-               'status' => CommonITILObject::ASSIGNED))) {
+      $waiting_ticket = new self();
+      $ticket         = new Ticket();
+      $log            = new Log();
+
+      $query_ticket_waiting = self::queryTicketWaiting();
+      foreach ($DB->request($query_ticket_waiting) as $data) {
+         // Update ticket only if last waiting has empty end of suspension
+         $waiting = $waiting_ticket->getWaitingTicketFromDB($data['tickets_id']);
+         if ($waiting && $waiting['date_report'] <= $today) {
+            $ticket->update(array('id'     => $data['tickets_id'],
+                                  'status' => Ticket::ASSIGNED));
             $cron_status = 1;
+            $task->addVolume(1);
+            if (Session::isCron()) {
+               $log->history($data['tickets_id'], 'Ticket', array(12, Ticket::WAITING, Ticket::ASSIGNED));
+            }
          }
-         $task->addVolume(1);
       }
       return $cron_status;
    }
