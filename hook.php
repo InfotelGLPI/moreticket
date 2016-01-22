@@ -154,9 +154,11 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
          $sopt[3452]['field']          = 'name';
          $sopt[3452]['name']           = PluginMoreticketWaitingType::getTypeName(1);
          $sopt[3452]['datatype']       = "dropdown";
+         $condition = "AND (`NEWTABLE`.`date_end_suspension` IS NULL)";
          $sopt[3452]['joinparams']     = array('beforejoin'
                                              => array('table'      => 'glpi_plugin_moreticket_waitingtickets',
-                                                      'joinparams' => array('jointype' => 'child')));
+                                                      'joinparams' => array('jointype' => 'child',
+                                                                           'condition' => $condition)));
          $sopt[3452]['massiveaction']  = false;
          
          if ($config->closeInformations()) {
