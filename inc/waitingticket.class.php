@@ -527,6 +527,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
          if ($waiting && $waiting['date_report'] <= $today) {
             $ticket->update(array('id'     => $data['tickets_id'],
                                   'status' => Ticket::ASSIGNED));
+            $waiting_ticket->update(array('id'                  => $waiting['id'],
+                                           'date_end_suspension' => date("Y-m-d H:i:s")));
             $cron_status = 1;
             $task->addVolume(1);
             if (Session::isCron()) {
