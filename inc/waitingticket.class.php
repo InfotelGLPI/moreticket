@@ -105,7 +105,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       
       $config = new PluginMoreticketConfig();
       
-      $mandatory_fields = array('reason' => __('Reason', 'moreticket'));
+      $mandatory_fields = array();
                                    
       if ($config->mandatoryReportDate() == true) {
          $mandatory_fields['date_report'] = __('Postponement date', 'moreticket');
@@ -113,6 +113,10 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       
       if ($config->mandatoryWaitingType() == true) {
          $mandatory_fields['plugin_moreticket_waitingtypes_id'] = PluginMoreticketWaitingType::getTypeName(1);
+      }
+      
+      if ($config->mandatoryWaitingReason() == true) {
+         $mandatory_fields['reason'] = __('Reason', 'moreticket');
       }
 
       $msg = array();
@@ -212,7 +216,10 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       echo "</br>";
       echo "<table class='moreticket_waiting_ticket' id='cl_menu'>";
       echo "<tr><td>";
-      echo __('Reason', 'moreticket')."&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+      _e('Reason', 'moreticket');
+      if ($config->mandatoryWaitingReason() == true) {
+         echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+      }
       Html::autocompletionTextField($this, "reason");
       echo "</td></tr>";
       echo "<tr><td>";

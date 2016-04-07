@@ -91,7 +91,14 @@ class PluginMoreticketConfig extends CommonDBTM {
          echo "</td>";
          echo "</tr>";
          
+         echo "<tr class='tab_bg_1'>
+               <td>".__("Waiting reason is mandatory", "moreticket")."</td><td>";
+         Dropdown::showYesNo("waitingreason_mandatory", $this->fields["waitingreason_mandatory"]);
+         echo "</td>";
+         echo "</tr>";
+         
       }
+      
       echo "<tr class='tab_bg_1'>
             <td>".__("Use solution process", "moreticket")."</td><td>";
       Dropdown::showYesNo("use_solution", $this->fields["use_solution"]);
@@ -165,6 +172,10 @@ class PluginMoreticketConfig extends CommonDBTM {
    
    function mandatoryWaitingType() {
       return $this->fields['waitingtype_mandatory'];
+   }
+   
+   function mandatoryWaitingReason() {
+      return $this->fields['waitingreason_mandatory'];
    }
    
    function useSolution() {

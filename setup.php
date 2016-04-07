@@ -73,7 +73,7 @@ function plugin_version_moreticket() {
 
    return array(
       'name'           => __('More ticket', 'moreticket'),
-      'version'        => "1.2.2",
+      'version'        => "1.2.3",
       'author'         => "Infotel",
       'homepage'       => "https://github.com/InfotelGLPI/moreticket",
       'license'        => 'GPLv2+',
