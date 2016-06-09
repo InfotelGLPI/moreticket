@@ -28,6 +28,8 @@ include ('../../../inc/includes.php');
 
 Session::checkLoginUser();
 
+Session::checkLoginUser();
+
 //Html::header_nocache();
 
 if (!isset($_POST['tickets_id']) || empty($_POST['tickets_id'])){
