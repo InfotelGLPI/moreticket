@@ -162,6 +162,9 @@ function moreticket(params) {
                             type: "POST",
                             dataType: "html",
                             success: function (response, opts) {
+                                if ($("#moreticket_waiting_ticket").length != 0) {
+                                    $("#moreticket_waiting_ticket").remove();
+                                }
                                 var requester = response;
 
                                 var status_bloc = $("select[name='status']");

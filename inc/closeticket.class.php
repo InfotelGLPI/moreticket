@@ -433,7 +433,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       }
       
       $config = new PluginMoreticketConfig();
-      if ($config->useSolution()) {
+      if (isset($config->fields['use_solution']) && $config->useSolution()) {
          // Get allowed status
          $solution_status = array_keys(json_decode($config->solutionStatus(), true));
 
