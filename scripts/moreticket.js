@@ -38,7 +38,7 @@ function moreticket(params) {
                     if (option.url != undefined) {
                         var ajaxTab_param, tid;
                         var paramFinder = /[?&]?_glpi_tab=([^&]+)(&|$)/;
-
+                        
                         // We find the name of the current tab
                         ajaxTab_param = paramFinder.exec(option.url);
 

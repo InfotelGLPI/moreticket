@@ -46,6 +46,11 @@ function plugin_init_moreticket() {
                $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket.js';
                $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket.js.php';
             }
+            if (strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false 
+               && ($config->useUrgency() == true)) {
+               $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_urgency.js';
+               $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_urgency.js.php';
+            }
             
             $PLUGIN_HOOKS['config_page']['moreticket'] = 'front/config.form.php';
 
