@@ -44,8 +44,6 @@ class PluginMoreticketTicket extends CommonITILObject {
    static function emptyTicket(Ticket $ticket) {
       if (!empty($_POST)) {
          self::setSessions($_POST);
-      }else if (!empty($_REQUEST)) {
-         self::setSessions($_REQUEST);
       }
    }
 
@@ -57,7 +55,6 @@ class PluginMoreticketTicket extends CommonITILObject {
       }
       PluginMoreticketWaitingTicket::preAddWaitingTicket($ticket);
       PluginMoreticketCloseTicket::preAddCloseTicket($ticket);
-      PluginMoreticketUrgencyTicket::preAddUrgencyTicket($ticket);
    }
    
    static function afterAdd(Ticket $ticket) {
@@ -67,7 +64,6 @@ class PluginMoreticketTicket extends CommonITILObject {
          return false;
       }
       PluginMoreticketWaitingTicket::postAddWaitingTicket($ticket);
-      PluginMoreticketUrgencyTicket::postAddUrgencyTicket($ticket);
       
             
       if (isset($_SESSION['glpi_plugin_moreticket_close'])){
@@ -76,10 +72,6 @@ class PluginMoreticketTicket extends CommonITILObject {
 
       if (isset($_SESSION['glpi_plugin_moreticket_waiting'])){
          unset($_SESSION['glpi_plugin_moreticket_waiting']);
-      }
-      
-      if (isset($_SESSION['glpi_plugin_moreticket_urgency'])){
-         unset($_SESSION['glpi_plugin_moreticket_urgency']);
       }
    }
    
@@ -91,14 +83,12 @@ class PluginMoreticketTicket extends CommonITILObject {
       }
 
       PluginMoreticketWaitingTicket::preUpdateWaitingTicket($ticket);
-      PluginMoreticketUrgencyTicket::preUpdateUrgencyTicket($ticket);
 
    }
    
    static function afterUpdate(Ticket $ticket) {
       
       PluginMoreticketWaitingTicket::postUpdateWaitingTicket($ticket);
-      PluginMoreticketUrgencyTicket::postUpdateUrgencyTicket($ticket);
       
             
       if (isset($_SESSION['glpi_plugin_moreticket_close'])){
@@ -131,9 +121,6 @@ class PluginMoreticketTicket extends CommonITILObject {
                break;
             case 'solution':
                $_SESSION['glpi_plugin_moreticket_close'][$key] = $values;
-               break;
-            case 'justification':
-               $_SESSION['glpi_plugin_moreticket_urgency'][$key] = $values;
                break;
          }
       }
