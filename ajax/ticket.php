@@ -56,6 +56,16 @@ if (isset($_POST['action'])) {
             }
          }
          break;
+      case 'showFormUrgency':
+         header("Content-Type: text/html; charset=UTF-8");
+         $config = new PluginMoreticketConfig();
+         
+         // Ticket is waiting
+         if ($config->useUrgency()) {
+            $urgency_ticket = new PluginMoreticketUrgencyTicket();
+            $urgency_ticket->showForm($_POST['tickets_id']);
+         }
+         break;
    }
 }
 ?>

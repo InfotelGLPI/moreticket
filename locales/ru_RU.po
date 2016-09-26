@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-26 10:21+0200\n"
-"PO-Revision-Date: 2016-09-26 08:22+0000\n"
+"POT-Creation-Date: 2015-12-09 10:57+0100\n"
+"PO-Revision-Date: 2015-12-09 09:59+0000\n"
 "Last-Translator: Xavier CAILLAUD <tsmr@thetsmr.fr>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/tsmr/GLPI_moreticket/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: hook.php:152 inc/waitingticket.class.php:111
-#: inc/waitingticket.class.php:234 inc/waitingticket.class.php:292
+#: hook.php:149 inc/waitingticket.class.php:111
+#: inc/waitingticket.class.php:227 inc/waitingticket.class.php:285
 msgid "Postponement date"
 msgstr "Дата отсрочки"
 
-#: hook.php:171 hook.php:178 hook.php:185 hook.php:192
+#: hook.php:166 hook.php:173 hook.php:180 hook.php:187
 #: inc/closeticket.class.php:67 inc/closeticket.class.php:103
 #: inc/closeticket.class.php:148 inc/closeticket.class.php:272
-#: inc/closeticket.class.php:324 inc/config.class.php:119
+#: inc/closeticket.class.php:324 inc/config.class.php:112
 msgid "Close ticket informations"
 msgstr "Информация о закрытии заявки"
 
@@ -50,17 +50,17 @@ msgstr "Описание решения"
 msgid "Ticket cannot be closed"
 msgstr "Заявка не может быть закрыта"
 
-#: inc/closeticket.class.php:464
+#: inc/closeticket.class.php:465
 #, php-format
 msgid "%1$s added closing informations"
 msgstr ""
 
-#: inc/closeticket.class.php:476
+#: inc/closeticket.class.php:477
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr ""
 
-#: inc/closeticket.class.php:487
+#: inc/closeticket.class.php:488
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr ""
@@ -81,23 +81,19 @@ msgstr "Дата отчета является обязательным"
 msgid "Waiting type is mandatory"
 msgstr "Тип ожидания является обязательным"
 
-#: inc/config.class.php:95
-msgid "Waiting reason is mandatory"
-msgstr ""
-
-#: inc/config.class.php:103
+#: inc/config.class.php:96
 msgid "Use solution process"
 msgstr "Использовать процесс решения"
 
-#: inc/config.class.php:111
+#: inc/config.class.php:104
 msgid "Solution type is mandatory"
 msgstr "Тип решения является обязательным"
 
-#: inc/config.class.php:125
+#: inc/config.class.php:118
 msgid "Status used to display solution bloc"
 msgstr "Использовать статус для отображения блока решения"
 
-#: inc/config.class.php:138
+#: inc/config.class.php:131
 msgid "Add a followup on immediate ticket closing"
 msgstr ""
 
@@ -109,36 +105,36 @@ msgstr[1] "Ожидающая заявка"
 msgstr[2] "Ожидающая заявка"
 msgstr[3] "Ожидающие заявки"
 
-#: inc/waitingticket.class.php:119 inc/waitingticket.class.php:219
-#: inc/waitingticket.class.php:290
+#: inc/waitingticket.class.php:108 inc/waitingticket.class.php:215
+#: inc/waitingticket.class.php:283
 msgid "Reason"
 msgstr "Причина"
 
-#: inc/waitingticket.class.php:149
+#: inc/waitingticket.class.php:145
 msgid "Waiting ticket cannot be saved"
 msgstr "Ожидающая заявка не может быть сохранена"
 
-#: inc/waitingticket.class.php:151
+#: inc/waitingticket.class.php:147
 msgid "Ticket cannot be saved"
 msgstr "Заявка не может быть сохранена"
 
-#: inc/waitingticket.class.php:155
+#: inc/waitingticket.class.php:151
 msgid "Report date is inferior of today's date"
 msgstr "Дата отчета позднее сегодняшней даты"
 
-#: inc/waitingticket.class.php:286 inc/waitingticket.class.php:324
+#: inc/waitingticket.class.php:279 inc/waitingticket.class.php:317
 msgid "Ticket suspension history"
 msgstr "История приостановки заявок"
 
-#: inc/waitingticket.class.php:289
+#: inc/waitingticket.class.php:282
 msgid "Suspension date"
 msgstr "Дата приостановки"
 
-#: inc/waitingticket.class.php:293
+#: inc/waitingticket.class.php:286
 msgid "Suspension end date"
 msgstr "Дата возобновления"
 
-#: inc/waitingticket.class.php:573
+#: inc/waitingticket.class.php:538
 msgid "End of standby ticket"
 msgstr ""
 

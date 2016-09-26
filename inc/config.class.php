@@ -63,6 +63,7 @@ class PluginMoreticketConfig extends CommonDBTM {
    }
    
    function showForm(){
+      global $CFG_GLPI;
       
       $this->getFromDB(1);
       echo "<div class='center'>";
@@ -140,6 +141,30 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</td>";
       echo "</tr>";
       
+      echo "<tr class='tab_bg_1'>
+            <td>".__("Use a justification of the urgency field", "moreticket")."</td><td>";
+      Dropdown::showYesNo("urgency_justification", $this->fields["urgency_justification"], -1 , array('on_change' => 'hide_show_urgency(this.value);'));
+      echo "</td>";
+      echo "</tr>";
+      
+      echo Html::scriptBlock("
+         function hide_show_urgency(val) {
+            var display = (val == 0) ? 'none' : '';
+            document.getElementById('show_urgency_td1').style.display = display;
+            document.getElementById('show_urgency_td2').style.display = display;
+         }");
+      
+      $style = ($this->fields["urgency_justification"]) ? "" : "style='display: none '";
+      echo "<tr class='tab_bg_1'>";
+      echo "<td id='show_urgency_td1' $style>";
+      echo __("Urgency impacted justification for the field", "moreticket");
+      echo "</td>";
+      echo "<td id='show_urgency_td2' $style>";
+      $urgency_ids = self::getValuesUrgency();
+      Dropdown::showFromArray('urgency_ids', $urgency_ids, array('multiple' => true, 'values' => importArrayFromDB($this->fields["urgency_ids"])));
+      echo "</td>";
+      echo "</tr>";
+      
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td colspan='2' align='center'>";
       echo "<input type='submit' name='update' value=\""._sx("button", "Post")."\" class='submit' >";
@@ -196,6 +221,41 @@ class PluginMoreticketConfig extends CommonDBTM {
    
    function closeFollowup(){
       return $this->fields["close_followup"];
+   }
+   
+   function useUrgency() {
+      return $this->fields['urgency_justification'];
+   }
+   function getUrgency_ids() {
+      return importArrayFromDB($this->fields['urgency_ids']);
+   }
+   
+   static function getValuesUrgency(){
+      global $CFG_GLPI;
+      
+      $URGENCY_MASK_FIELD            = 'urgency_mask';
+      $values = array();
+      
+      if (isset($CFG_GLPI[$URGENCY_MASK_FIELD])) {
+         if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1<<5)) {
+            $values[5]  = CommonITILObject::getUrgencyName(5);
+         }
+
+         if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1<<4)) {
+            $values[4]  = CommonITILObject::getUrgencyName(4);
+         }
+
+         $values[3]  = CommonITILObject::getUrgencyName(3);
+
+         if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1<<2)) {
+            $values[2]  = CommonITILObject::getUrgencyName(2);
+         }
+
+         if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1<<1)) {
+            $values[1]  = CommonITILObject::getUrgencyName(1);
+         }
+      }
+      return $values;
    }
 }
 

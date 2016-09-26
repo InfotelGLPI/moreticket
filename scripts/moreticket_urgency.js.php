@@ -1,5 +1,4 @@
 <?php
-
 /*
   -------------------------------------------------------------------------
   Moreticket plugin for GLPI
@@ -27,36 +26,21 @@
 
 include ('../../../inc/includes.php');
 
-$plugin = new Plugin();
-if ($plugin->isActivated("moreticket")) {
+//change mimetype
+header("Content-type: application/javascript");
 
-   $config = new PluginMoreticketConfig();
+//not executed in self-service interface & right verification
+if (isset($_SESSION['glpiactiveprofile']['interface'])
+      && $_SESSION['glpiactiveprofile']['interface'] == "central") {
 
-   if (isset($_POST["update"])) {
-      if (isset($_POST['solution_status'])) {
-         $_POST['solution_status'] = json_encode($_POST['solution_status']);
-      } else {
-         $_POST['solution_status'] = "";
-      }
-     
-      $_POST['urgency_ids'] = exportArrayToDB($_POST['urgency_ids']);
-      
-      $config->update($_POST);
-      //Update singelton
-      PluginMoreticketConfig::getConfig(true);
-      Html::redirect($_SERVER['HTTP_REFERER']);
-      
-   } else {
-      Html::header(PluginMoreticketConfig::getTypeName(), '', "plugins", "moreticket");
-      $config->showForm();
-      Html::footer();
-   }
-   
-} else {
-   Html::header(__('Setup'), '', "config", "plugins");
-   echo "<div align='center'><br><br>";
-   echo "<img src=\"".$CFG_GLPI["root_doc"]."/pics/warning.png\" alt='warning'><br><br>";
-   echo "<b>".__('Please activate the plugin', 'moreticket')."</b></div>";
-   Html::footer();
+   $config          = new PluginMoreticketConfig();
+   $use_urgency     = $config->useUrgency();
+   $urgency_ids     = $config->getUrgency_ids();
+
+   $params = array('root_doc'        => $CFG_GLPI['root_doc'],
+                   'use_urgency'     => $use_urgency,
+                   'urgency_ids'     => $urgency_ids);
+
+   echo "moreticket_urgency(".json_encode($params).");";
 }
 ?>
