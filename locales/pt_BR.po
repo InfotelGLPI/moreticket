@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Luis Angel Uriarte <luisuriarte@gmail.com>, 2016
+# Luciano Silva <lucianoes10@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
@@ -11,75 +11,75 @@ msgstr ""
 "POT-Creation-Date: 2016-09-26 11:19+0200\n"
 "PO-Revision-Date: 2016-09-26 09:21+0000\n"
 "Last-Translator: Xavier CAILLAUD <tsmr@thetsmr.fr>\n"
-"Language-Team: Spanish (Argentina) (http://www.transifex.com/tsmr/GLPI_moreticket/language/es_AR/)\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/tsmr/GLPI_moreticket/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es_AR\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: hook.php:159 inc/waitingticket.class.php:111
 #: inc/waitingticket.class.php:234 inc/waitingticket.class.php:292
 msgid "Postponement date"
-msgstr "Posponer hasta"
+msgstr "Data de adiamento"
 
 #: hook.php:178 hook.php:185 hook.php:192 hook.php:199
 #: inc/closeticket.class.php:67 inc/closeticket.class.php:103
 #: inc/closeticket.class.php:148 inc/closeticket.class.php:272
 #: inc/closeticket.class.php:324 inc/config.class.php:120
 msgid "Close ticket informations"
-msgstr "Informaciones del Req. Cerrado"
+msgstr "Encerrar informações do ticket"
 
 #: setup.php:80 inc/profile.class.php:39 inc/profile.class.php:130
 msgid "More ticket"
-msgstr "Más requerimientos"
+msgstr "More ticket"
 
 #: setup.php:92
 msgid "This plugin requires GLPI >= 0.90"
-msgstr "El complemento requiere GLPI >= 0.90"
+msgstr "Este plugin requer GLPI >= 0.90"
 
 #: front/config.form.php:59
 msgid "Please activate the plugin"
-msgstr "Por favor activar el complemento"
+msgstr "Por favor ative o plugin"
 
 #: inc/closeticket.class.php:112 inc/closeticket.class.php:418
 msgid "Solution description"
-msgstr "Descripción"
+msgstr "Descrição da solução"
 
 #: inc/closeticket.class.php:131
 msgid "Ticket cannot be closed"
-msgstr "Requerimiento no se puede cerrar"
+msgstr "Ticket não pode ser fechado"
 
 #: inc/closeticket.class.php:464
 #, php-format
 msgid "%1$s added closing informations"
-msgstr "%1$s informaciones de cierres agregada"
+msgstr "%1$s adicionadas informações de fechamento"
 
 #: inc/closeticket.class.php:476
 #, php-format
 msgid "%1$s updated closing informations"
-msgstr "%1$s informaciones de cierres actualizadas"
+msgstr "%1$s atualizadas informações de fechamento"
 
 #: inc/closeticket.class.php:487
 #, php-format
 msgid "%1$s deleted closing informations"
-msgstr "%1$s informaciones de cierres borradas"
+msgstr "%1$s apagadas informações de fechamento"
 
 #: inc/config.class.php:72
 msgid "Plugin configuration"
-msgstr "Configuración de complemento"
+msgstr "Configuração do plugin"
 
 #: inc/config.class.php:77
 msgid "Use waiting process"
-msgstr "Usar procesos de espera"
+msgstr "Usar processo em espera"
 
 #: inc/config.class.php:84
 msgid "Report date is mandatory"
-msgstr "Fecha de informe es obligatoria"
+msgstr "Data do relatório é obrigatória"
 
 #: inc/config.class.php:90
 msgid "Waiting type is mandatory"
-msgstr "Tipo de espera es obligatorio"
+msgstr "Tipo de espera é obrigatório"
 
 #: inc/config.class.php:96
 msgid "Waiting reason is mandatory"
@@ -87,19 +87,19 @@ msgstr ""
 
 #: inc/config.class.php:104
 msgid "Use solution process"
-msgstr "Usar procesos en soución"
+msgstr "Use processo de solução"
 
 #: inc/config.class.php:112
 msgid "Solution type is mandatory"
-msgstr "Tipo de solución es obligatorio"
+msgstr "Tipo de solução é obrigatório"
 
 #: inc/config.class.php:126
 msgid "Status used to display solution bloc"
-msgstr "Estado usado para mostrar solución en"
+msgstr "Status utilizado para mostrar bloco de solução"
 
 #: inc/config.class.php:139
 msgid "Add a followup on immediate ticket closing"
-msgstr "Agregar un seguimiento en el cierre inmediato del servicio"
+msgstr "Adicionar um followup imediatamente após fechamento do ticket"
 
 #: inc/config.class.php:145
 msgid "Use a justification of the urgency field"
@@ -119,13 +119,13 @@ msgstr ""
 
 #: inc/urgencyticket.class.php:82 inc/waitingticket.class.php:151
 msgid "Ticket cannot be saved"
-msgstr "Requerimiento no se puede guardar"
+msgstr "Ticket não pode ser salvo"
 
 #: inc/waitingticket.class.php:58
 msgid "Waiting ticket"
 msgid_plural "Waiting tickets"
-msgstr[0] "Esperando servicio"
-msgstr[1] "Esperando servicios"
+msgstr[0] "Tickets em espera"
+msgstr[1] "Tickets em espera"
 
 #: inc/waitingticket.class.php:119 inc/waitingticket.class.php:219
 #: inc/waitingticket.class.php:290
@@ -134,30 +134,30 @@ msgstr "Motivo"
 
 #: inc/waitingticket.class.php:149
 msgid "Waiting ticket cannot be saved"
-msgstr "En espera no se puede guardar"
+msgstr "Tickets em espera não podem ser salvos"
 
 #: inc/waitingticket.class.php:155
 msgid "Report date is inferior of today's date"
-msgstr "Fecha de informe es inferior a fecha de hoy"
+msgstr "Data do relatório é inferior a data de hoje"
 
 #: inc/waitingticket.class.php:286 inc/waitingticket.class.php:324
 msgid "Ticket suspension history"
-msgstr "Historial de espera"
+msgstr "Histórico da suspensão do ticket"
 
 #: inc/waitingticket.class.php:289
 msgid "Suspension date"
-msgstr "Fecha de suspención"
+msgstr "Data da suspensão"
 
 #: inc/waitingticket.class.php:293
 msgid "Suspension end date"
-msgstr "Fecha fin de suspención"
+msgstr "Data fim da suspensão"
 
 #: inc/waitingticket.class.php:573
 msgid "End of standby ticket"
-msgstr "Fin de servicio en espera"
+msgstr "Fim do ticket pendente"
 
 #: inc/waitingtype.class.php:37
 msgid "Waiting type"
 msgid_plural "Waiting types"
-msgstr[0] "Waiting type"
-msgstr[1] "Tipo de espera"
+msgstr[0] "Tipos de espera"
+msgstr[1] "Tipos de espera"

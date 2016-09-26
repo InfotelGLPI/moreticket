@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-26 10:21+0200\n"
-"PO-Revision-Date: 2016-09-26 08:22+0000\n"
+"POT-Creation-Date: 2016-09-26 11:19+0200\n"
+"PO-Revision-Date: 2016-09-26 09:21+0000\n"
 "Last-Translator: Xavier CAILLAUD <tsmr@thetsmr.fr>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/tsmr/GLPI_moreticket/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: hook.php:152 inc/waitingticket.class.php:111
+#: hook.php:159 inc/waitingticket.class.php:111
 #: inc/waitingticket.class.php:234 inc/waitingticket.class.php:292
 msgid "Postponement date"
 msgstr "Дата отсрочки"
 
-#: hook.php:171 hook.php:178 hook.php:185 hook.php:192
+#: hook.php:178 hook.php:185 hook.php:192 hook.php:199
 #: inc/closeticket.class.php:67 inc/closeticket.class.php:103
 #: inc/closeticket.class.php:148 inc/closeticket.class.php:272
-#: inc/closeticket.class.php:324 inc/config.class.php:119
+#: inc/closeticket.class.php:324 inc/config.class.php:120
 msgid "Close ticket informations"
 msgstr "Информация о закрытии заявки"
 
-#: setup.php:75 inc/profile.class.php:39 inc/profile.class.php:130
+#: setup.php:80 inc/profile.class.php:39 inc/profile.class.php:130
 msgid "More ticket"
 msgstr "Еще заявка"
 
-#: setup.php:87
+#: setup.php:92
 msgid "This plugin requires GLPI >= 0.90"
 msgstr "Этот плагин требует GLPI >= 0.90"
 
-#: front/config.form.php:57
+#: front/config.form.php:59
 msgid "Please activate the plugin"
 msgstr "Включите плагин"
 
@@ -65,41 +65,61 @@ msgstr ""
 msgid "%1$s deleted closing informations"
 msgstr ""
 
-#: inc/config.class.php:71
+#: inc/config.class.php:72
 msgid "Plugin configuration"
 msgstr "Настройка плагина"
 
-#: inc/config.class.php:76
+#: inc/config.class.php:77
 msgid "Use waiting process"
 msgstr "Использовать процесс ожидания"
 
-#: inc/config.class.php:83
+#: inc/config.class.php:84
 msgid "Report date is mandatory"
 msgstr "Дата отчета является обязательным"
 
-#: inc/config.class.php:89
+#: inc/config.class.php:90
 msgid "Waiting type is mandatory"
 msgstr "Тип ожидания является обязательным"
 
-#: inc/config.class.php:95
+#: inc/config.class.php:96
 msgid "Waiting reason is mandatory"
 msgstr ""
 
-#: inc/config.class.php:103
+#: inc/config.class.php:104
 msgid "Use solution process"
 msgstr "Использовать процесс решения"
 
-#: inc/config.class.php:111
+#: inc/config.class.php:112
 msgid "Solution type is mandatory"
 msgstr "Тип решения является обязательным"
 
-#: inc/config.class.php:125
+#: inc/config.class.php:126
 msgid "Status used to display solution bloc"
 msgstr "Использовать статус для отображения блока решения"
 
-#: inc/config.class.php:138
+#: inc/config.class.php:139
 msgid "Add a followup on immediate ticket closing"
 msgstr ""
+
+#: inc/config.class.php:145
+msgid "Use a justification of the urgency field"
+msgstr ""
+
+#: inc/config.class.php:160
+msgid "Urgency impacted justification for the field"
+msgstr ""
+
+#: inc/urgencyticket.class.php:57 inc/urgencyticket.class.php:144
+msgid "Justification"
+msgstr ""
+
+#: inc/urgencyticket.class.php:80
+msgid "Urgency ticket cannot be saved"
+msgstr ""
+
+#: inc/urgencyticket.class.php:82 inc/waitingticket.class.php:151
+msgid "Ticket cannot be saved"
+msgstr "Заявка не может быть сохранена"
 
 #: inc/waitingticket.class.php:58
 msgid "Waiting ticket"
@@ -117,10 +137,6 @@ msgstr "Причина"
 #: inc/waitingticket.class.php:149
 msgid "Waiting ticket cannot be saved"
 msgstr "Ожидающая заявка не может быть сохранена"
-
-#: inc/waitingticket.class.php:151
-msgid "Ticket cannot be saved"
-msgstr "Заявка не может быть сохранена"
 
 #: inc/waitingticket.class.php:155
 msgid "Report date is inferior of today's date"

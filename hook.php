@@ -31,7 +31,7 @@ function plugin_moreticket_install() {
 
    if (!TableExists("glpi_plugin_moreticket_configs")) {
       // table sql creation
-      $DB->runFile(GLPI_ROOT."/plugins/moreticket/sql/empty-1.2.3.sql");
+      $DB->runFile(GLPI_ROOT."/plugins/moreticket/sql/empty-1.2.4.sql");
    }
    
    PluginMoreticketProfile::initProfile();
@@ -58,8 +58,14 @@ function plugin_moreticket_install() {
       $DB->runFile(GLPI_ROOT."/plugins/moreticket/sql/update-1.2.2.sql");
    }
    
+   //version 1.2.3
    if (!FieldExists("glpi_plugin_moreticket_configs", "waitingreason_mandatory")) {
       $DB->runFile(GLPI_ROOT."/plugins/moreticket/sql/update-1.2.3.sql");
+   }
+   
+   //version 1.2.4
+   if (!FieldExists("glpi_plugin_moreticket_configs", "urgency_justification")) {
+      $DB->runFile(GLPI_ROOT."/plugins/moreticket/sql/update-1.2.4.sql");
    }
    
    CronTask::Register('PluginMoreticketWaitingTicket', 'MoreticketWaitingTicket', DAY_TIMESTAMP, array('state' => 0));
@@ -77,7 +83,8 @@ function plugin_moreticket_uninstall() {
    $tables = array("glpi_plugin_moreticket_configs",
                    "glpi_plugin_moreticket_waitingtickets",
                    "glpi_plugin_moreticket_waitingtypes",
-                   "glpi_plugin_moreticket_closetickets");
+                   "glpi_plugin_moreticket_closetickets",
+                   "glpi_plugin_moreticket_urgencytickets");
 
    foreach ($tables as $table)
       $DB->query("DROP TABLE IF EXISTS `$table`;");
