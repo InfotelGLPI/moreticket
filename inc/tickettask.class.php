@@ -50,11 +50,19 @@ class PluginMoreticketTicketTask extends CommonITILTask {
       
       $config = new PluginMoreticketConfig();
       
-      if (isset($tickettask->input['_status']) && $config->useWaiting() == true) {
+      if (isset($tickettask->input['_status']) 
+            && $config->useWaiting() == true) {
+         
          $updates['id']                                = $tickettask->input['tickets_id'];
-         $updates['reason']                            = $tickettask->input['reason'];
-         $updates['date_report']                       = $tickettask->input['date_report'];
-         $updates['plugin_moreticket_waitingtypes_id'] = $tickettask->input['plugin_moreticket_waitingtypes_id'];
+         if (isset($tickettask->input['reason'])) {
+            $updates['reason']                            = $tickettask->input['reason'];
+         }
+         if (isset($tickettask->input['date_report'])) {
+            $updates['date_report']                       = $tickettask->input['date_report'];
+         }
+         if (isset($tickettask->input['plugin_moreticket_waitingtypes_id'])) {
+            $updates['plugin_moreticket_waitingtypes_id'] = $tickettask->input['plugin_moreticket_waitingtypes_id'];
+         }
          $updates['status']                            = $tickettask->input['_status'];
          $ticket = new Ticket();
          $ticket->update($updates);
@@ -73,9 +81,17 @@ class PluginMoreticketTicketTask extends CommonITILTask {
       
       if (isset($tickettask->input['_status']) && $config->useWaiting() == true) {
          $updates['id']                                = $tickettask->input['tickets_id'];
-         $updates['reason']                            = $tickettask->input['reason'];
-         $updates['date_report']                       = $tickettask->input['date_report'];
-         $updates['plugin_moreticket_waitingtypes_id'] = $tickettask->input['plugin_moreticket_waitingtypes_id'];
+         
+         if (isset($tickettask->input['reason'])) {
+            $updates['reason']                            = $tickettask->input['reason'];
+         }
+         if (isset($tickettask->input['date_report'])) {
+            $updates['date_report']                       = $tickettask->input['date_report'];
+         }
+         if (isset($tickettask->input['plugin_moreticket_waitingtypes_id'])) {
+            $updates['plugin_moreticket_waitingtypes_id'] = $tickettask->input['plugin_moreticket_waitingtypes_id'];
+         }
+
          $updates['status']                            = $tickettask->input['_status'];
          $ticket = new Ticket();
          $ticket->update($updates);
