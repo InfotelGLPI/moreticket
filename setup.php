@@ -1,28 +1,30 @@
 <?php
-
 /*
-  -------------------------------------------------------------------------
-  Moreticket plugin for GLPI
-  Copyright (C) 2013 by the Moreticket Development Team.
-  -------------------------------------------------------------------------
+ * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
+ -------------------------------------------------------------------------
+ moreticket plugin for GLPI
+ Copyright (C) 2013-2016 by the moreticket Development Team.
 
-  LICENSE
+ https://github.com/InfotelGLPI/moreticket
+ -------------------------------------------------------------------------
 
-  This file is part of Moreticket.
+ LICENSE
+      
+ This file is part of moreticket.
 
-  Moreticket is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
-  (at your option) any later version.
+ moreticket is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
 
-  Moreticket is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+ moreticket is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with Moreticket. If not, see <http://www.gnu.org/licenses/>.
-  --------------------------------------------------------------------------
+ You should have received a copy of the GNU General Public License
+ along with moreticket. If not, see <http://www.gnu.org/licenses/>.
+ --------------------------------------------------------------------------
  */
 
 // Init the hooks of the plugins -Needed

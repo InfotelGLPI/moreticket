@@ -10,7 +10,7 @@ function moreticket_urgency(params) {
         // only in ticket form
         if (location.pathname.indexOf('ticket.form.php') > 0
                 && use_urgency) {
-            console.log(window.location.href);
+            //console.log(window.location.href);
             $.urlParam = function (name) {
                 var results = new RegExp('[\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
                 if (results != null) {
@@ -33,7 +33,7 @@ function moreticket_urgency(params) {
                 setTimeout(function () {
                     // We execute the code only if the ticket form display request is done 
                     if (option.url != undefined) {
-                        console.log(option.url);
+                        //console.log(option.url);
                         var ajaxTab_param, tid;
                         var paramFinder = /[?&]?_glpi_tab=([^&]+)(&|$)/;
 
