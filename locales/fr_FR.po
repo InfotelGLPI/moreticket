@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Amandine Manceau <amandine.manceau@infotel.com>, 2016
 # Xavier CAILLAUD <tsmr@thetsmr.fr>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-09 10:57+0100\n"
-"PO-Revision-Date: 2015-12-09 10:02+0000\n"
+"POT-Creation-Date: 2016-09-26 10:21+0200\n"
+"PO-Revision-Date: 2016-09-26 08:22+0000\n"
 "Last-Translator: Xavier CAILLAUD <tsmr@thetsmr.fr>\n"
 "Language-Team: French (France) (http://www.transifex.com/tsmr/GLPI_moreticket/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
@@ -18,15 +19,15 @@ msgstr ""
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: hook.php:149 inc/waitingticket.class.php:111
-#: inc/waitingticket.class.php:227 inc/waitingticket.class.php:285
+#: hook.php:152 inc/waitingticket.class.php:111
+#: inc/waitingticket.class.php:234 inc/waitingticket.class.php:292
 msgid "Postponement date"
 msgstr "Date de report"
 
-#: hook.php:166 hook.php:173 hook.php:180 hook.php:187
+#: hook.php:171 hook.php:178 hook.php:185 hook.php:192
 #: inc/closeticket.class.php:67 inc/closeticket.class.php:103
 #: inc/closeticket.class.php:148 inc/closeticket.class.php:272
-#: inc/closeticket.class.php:324 inc/config.class.php:112
+#: inc/closeticket.class.php:324 inc/config.class.php:119
 msgid "Close ticket informations"
 msgstr "Informations de clôture des tickets"
 
@@ -50,17 +51,17 @@ msgstr "Description de la solution"
 msgid "Ticket cannot be closed"
 msgstr "Impossible de clore le ticket"
 
-#: inc/closeticket.class.php:465
+#: inc/closeticket.class.php:464
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s a ajouté des informations de clôture"
 
-#: inc/closeticket.class.php:477
+#: inc/closeticket.class.php:476
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s a mis à jour des informations de clôture"
 
-#: inc/closeticket.class.php:488
+#: inc/closeticket.class.php:487
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s a supprimé des informations de clôture"
@@ -81,19 +82,23 @@ msgstr "La date de report est obligatoire"
 msgid "Waiting type is mandatory"
 msgstr "Le type d'attente est obligatoire"
 
-#: inc/config.class.php:96
+#: inc/config.class.php:95
+msgid "Waiting reason is mandatory"
+msgstr "La raison de l'attente est obligatoire"
+
+#: inc/config.class.php:103
 msgid "Use solution process"
 msgstr "Utiliser le bloc solution à la création du ticket"
 
-#: inc/config.class.php:104
+#: inc/config.class.php:111
 msgid "Solution type is mandatory"
 msgstr "Le type de solution est obligatoire"
 
-#: inc/config.class.php:118
+#: inc/config.class.php:125
 msgid "Status used to display solution bloc"
 msgstr "Statuts utilisés pour afficher le bloc solution"
 
-#: inc/config.class.php:131
+#: inc/config.class.php:138
 msgid "Add a followup on immediate ticket closing"
 msgstr "Ajouter un suivi lors de la clôture à la création du ticket"
 
@@ -103,36 +108,36 @@ msgid_plural "Waiting tickets"
 msgstr[0] "Mise en attente"
 msgstr[1] "Mises en attente"
 
-#: inc/waitingticket.class.php:108 inc/waitingticket.class.php:215
-#: inc/waitingticket.class.php:283
+#: inc/waitingticket.class.php:119 inc/waitingticket.class.php:219
+#: inc/waitingticket.class.php:290
 msgid "Reason"
 msgstr "Raison"
 
-#: inc/waitingticket.class.php:145
+#: inc/waitingticket.class.php:149
 msgid "Waiting ticket cannot be saved"
 msgstr "Impossible d'enregistrer la mise en attente"
 
-#: inc/waitingticket.class.php:147
+#: inc/waitingticket.class.php:151
 msgid "Ticket cannot be saved"
 msgstr "Impossible d'enregistrer le ticket"
 
-#: inc/waitingticket.class.php:151
+#: inc/waitingticket.class.php:155
 msgid "Report date is inferior of today's date"
 msgstr "Date de report inférieure à la date d'aujourd'hui"
 
-#: inc/waitingticket.class.php:279 inc/waitingticket.class.php:317
+#: inc/waitingticket.class.php:286 inc/waitingticket.class.php:324
 msgid "Ticket suspension history"
 msgstr "Historique des suspensions de ticket"
 
-#: inc/waitingticket.class.php:282
+#: inc/waitingticket.class.php:289
 msgid "Suspension date"
 msgstr "Date de suspension"
 
-#: inc/waitingticket.class.php:286
+#: inc/waitingticket.class.php:293
 msgid "Suspension end date"
 msgstr "Date de fin de suspension"
 
-#: inc/waitingticket.class.php:538
+#: inc/waitingticket.class.php:573
 msgid "End of standby ticket"
 msgstr "Fin des mises en attente"
 
