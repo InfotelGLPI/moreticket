@@ -48,11 +48,6 @@ function plugin_init_moreticket() {
                $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket.js';
                $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket.js.php';
             }
-            if (strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false 
-               && ($config->useUrgency() == true)) {
-               $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_urgency.js';
-               $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_urgency.js.php';
-            }
             
             $PLUGIN_HOOKS['config_page']['moreticket'] = 'front/config.form.php';
 
@@ -65,6 +60,17 @@ function plugin_init_moreticket() {
             $PLUGIN_HOOKS['item_add']['moreticket']        = array('Ticket'     => array('PluginMoreticketTicket', 'afterAdd'));
             $PLUGIN_HOOKS['item_update']['moreticket']     = array('Ticket'     => array('PluginMoreticketTicket', 'afterUpdate'));
             $PLUGIN_HOOKS['item_empty']['moreticket']      = array('Ticket'     => array('PluginMoreticketTicket', 'emptyTicket'));
+         }
+         if (Session::haveRight("plugin_moreticket_justification", READ)) {
+            if ((strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false ||
+                  strpos($_SERVER['REQUEST_URI'], "helpdesk.public.php") !== false )
+                  && ($config->useUrgency() == true)) {
+                  $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_urgency.js';
+                  $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_urgency.js.php';
+            }
+            
+            $PLUGIN_HOOKS['pre_item_update']['moreticket'] = array('Ticket'         => array('PluginMoreticketTicket', 'beforeUpdateUrgency'));
+            $PLUGIN_HOOKS['pre_item_add']['moreticket']    = array('Ticket'         => array('PluginMoreticketTicket', 'beforeAddUrgency'));
          }
          
          if (Session::haveRight('plugin_moreticket', READ)) {
@@ -80,7 +86,7 @@ function plugin_version_moreticket() {
 
    return array(
       'name'           => __('More ticket', 'moreticket'),
-      'version'        => "1.2.3",
+      'version'        => "1.2.4",
       'author'         => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>",
       'homepage'       => "https://github.com/InfotelGLPI/moreticket",
       'license'        => 'GPLv2+',

@@ -60,6 +60,14 @@ class PluginMoreticketTicket extends CommonITILObject {
       }
       PluginMoreticketWaitingTicket::preAddWaitingTicket($ticket);
       PluginMoreticketCloseTicket::preAddCloseTicket($ticket);
+   }
+   
+   static function beforeAddUrgency(Ticket $ticket) {
+
+      if (!is_array($ticket->input) || !count($ticket->input)) {
+         // Already cancel by another plugin
+         return false;
+      }
       PluginMoreticketUrgencyTicket::preAddUrgencyTicket($ticket);
    }
    
@@ -94,6 +102,16 @@ class PluginMoreticketTicket extends CommonITILObject {
       }
 
       PluginMoreticketWaitingTicket::preUpdateWaitingTicket($ticket);
+
+   }
+   
+   static function beforeUpdateUrgency(Ticket $ticket) {
+      
+      if (!is_array($ticket->input) || !count($ticket->input)) {
+         // Already cancel by another plugin
+         return false;
+      }
+
       PluginMoreticketUrgencyTicket::preUpdateUrgencyTicket($ticket);
 
    }

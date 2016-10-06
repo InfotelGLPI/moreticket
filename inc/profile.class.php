@@ -37,8 +37,7 @@ class PluginMoreticketProfile extends CommonDBTM {
    
    function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
 
-      if ($item->getType()=='Profile' 
-            && $item->getField('interface')!='helpdesk') {
+      if ($item->getType()=='Profile') {
             return __('More ticket', 'moreticket');
       }
       return '';
@@ -52,7 +51,8 @@ class PluginMoreticketProfile extends CommonDBTM {
          $prof = new self();
 
          self::addDefaultProfileInfos($ID, 
-                                    array('plugin_moreticket' => 0));
+                                    array('plugin_moreticket' => 0,
+                                          'plugin_moreticket_justification'     => 0));
          $prof->showForm($ID);
       }
       
@@ -62,7 +62,8 @@ class PluginMoreticketProfile extends CommonDBTM {
    static function createFirstAccess($ID) {
       //85
       self::addDefaultProfileInfos($ID,
-                                    array('plugin_moreticket' => 127), true);
+                                    array('plugin_moreticket' => 127,
+                                          'plugin_moreticket_justification' => 1), true);
    }
 
    /**
@@ -116,6 +117,18 @@ class PluginMoreticketProfile extends CommonDBTM {
                                                          'title'         => __('General')));
       }
       
+      echo "<table class='tab_cadre_fixehov'>";
+      echo "<tr class='tab_bg_1'><th colspan='4'>".__('Helpdesk')."</th></tr>\n";
+
+      $effective_rights = ProfileRight::getProfileRights($profiles_id, array('plugin_moreticket_justification'));
+      echo "<tr class='tab_bg_2'>";
+      echo "<td width='20%'>".__('Adding a justification of urgency', 'moreticket')."</td>";
+      echo "<td colspan='5'>";
+      Html::showCheckbox(array('name'    => '_plugin_moreticket_justification',
+                               'checked' => $effective_rights['plugin_moreticket_justification']));
+      echo "</td></tr>\n";
+      echo "</table>";
+      
       if ($canedit
           && $closeform) {
          echo "<div class='center'>";
@@ -134,6 +147,12 @@ class PluginMoreticketProfile extends CommonDBTM {
                 'field'     => 'plugin_moreticket'
           ),
       );
+      
+      if ($all) {
+         $rights[] = array('itemtype' => 'PluginMoreticketUrgencyTicket',
+                           'label'    =>  __('Adding a justification of urgency'),
+                           'field'    => 'plugin_moreticket_justification');
+      }
 
       return $rights;
    }
@@ -175,7 +194,8 @@ class PluginMoreticketProfile extends CommonDBTM {
       foreach ($DB->request('glpi_plugin_moreticket_profiles', 
                             "`profiles_id`='$profiles_id'") as $profile_data) {
 
-         $matching = array('moreticket'    => 'plugin_moreticket');
+         $matching = array('moreticket'    => 'plugin_moreticket',
+                           'justification' => 'plugin_moreticket_justification');
          $current_rights = ProfileRight::getProfileRights($profiles_id, array_values($matching));
          foreach ($matching as $old => $new) {
             if (!isset($current_rights[$old])) {
@@ -214,7 +234,7 @@ class PluginMoreticketProfile extends CommonDBTM {
          $_SESSION['glpiactiveprofile'][$prof['name']] = $prof['rights']; 
       }
    }
-
+   
 
    static function removeRightsFromSession() {
       foreach (self::getAllRights(true) as $right) {

@@ -82,7 +82,45 @@ function moreticket_urgency(params) {
                     }
                 }, 200);
             });
-        }
+        } else if ((window.location.href.indexOf('helpdesk.public.php?create_ticket=1') > 0 ||
+                              window.location.href.indexOf('tracking.injector.php') > 0)
+                  && use_urgency) {
+                    //Inject Urgency ticket data
+                            $.ajax({
+                                url: root_doc + '/plugins/moreticket/ajax/ticket.php',
+                                data: {'tickets_id': tickets_id, 'action': 'showFormUrgency', 'type': 'add'},
+                                type: "POST",
+                                dataType: "html",
+                                success: function (response, opts) {
+                                    var requester = response;
+
+                                    var urgency_bloc = $("select[name='urgency']");
+
+                                    if (urgency_bloc != undefined) {
+                                        urgency_bloc.parent().append(requester);
+                                        // ON DISPLAY : Display or hide urgency type
+                                        if ($("#moreticket_urgency_ticket") != undefined) {
+                                            // URGENCY TICKET 
+                                            if (inarray(urgency_bloc.val(), urgency_ids) && use_urgency) {
+                                                $("#moreticket_urgency_ticket").css({'display': 'block'});
+                                            } else {
+                                                $("#moreticket_urgency_ticket").css({'display': 'none'});
+                                            }
+                
+                                            // ONCLICK : Display or hide urgency type
+                                            urgency_bloc.change(function () {
+                                                // URGENCY TICKET 
+                                                if (inarray(urgency_bloc.val(), urgency_ids) && use_urgency) {
+                                                    $("#moreticket_urgency_ticket").css({'display': 'block'});
+                                                } else {
+                                                    $("#moreticket_urgency_ticket").css({'display': 'none'});
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+                            });
+                }
     });
 
     //################## On UPDATE side ################################################################

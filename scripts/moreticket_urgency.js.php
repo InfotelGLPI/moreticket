@@ -33,8 +33,6 @@ include ('../../../inc/includes.php');
 header("Content-type: application/javascript");
 
 //not executed in self-service interface & right verification
-if (isset($_SESSION['glpiactiveprofile']['interface'])
-      && $_SESSION['glpiactiveprofile']['interface'] == "central") {
 
    $config          = new PluginMoreticketConfig();
    $use_urgency     = $config->useUrgency();
@@ -45,5 +43,4 @@ if (isset($_SESSION['glpiactiveprofile']['interface'])
                    'urgency_ids'     => $urgency_ids);
 
    echo "moreticket_urgency(".json_encode($params).");";
-}
 ?>

@@ -35,7 +35,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
 
    static $types     = array('Ticket');
    var $dohistory = true;
-   static $rightname = "plugin_moreticket";
+   static $rightname = "plugin_moreticket_justification";
    
    /**
     * Have I the global right to "create" the Object
@@ -141,7 +141,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
       
       echo "<div class='spaced' id='moreticket_urgency_ticket'>";
       echo "</br>";
-      echo "<table class='moreticket_waiting_ticket' id='cl_menu'>";
+      echo "<table align='left' class='moreticket_waiting_ticket' id='cl_menu'>";
       echo "<tr><td>";
       _e('Justification', 'moreticket');
       echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;</br>";
