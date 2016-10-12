@@ -71,6 +71,8 @@ function plugin_init_moreticket() {
             
             $PLUGIN_HOOKS['pre_item_update']['moreticket'] = array('Ticket'         => array('PluginMoreticketTicket', 'beforeUpdateUrgency'));
             $PLUGIN_HOOKS['pre_item_add']['moreticket']    = array('Ticket'         => array('PluginMoreticketTicket', 'beforeAddUrgency'));
+            $PLUGIN_HOOKS['item_update']['moreticket'] = array('Ticket'         => array('PluginMoreticketTicket', 'afterUpdateUrgency'));
+            $PLUGIN_HOOKS['item_add']['moreticket']    = array('Ticket'         => array('PluginMoreticketTicket', 'afterAddUrgency'));
          }
          
          if (Session::haveRight('plugin_moreticket', READ)) {
