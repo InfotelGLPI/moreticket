@@ -41,7 +41,11 @@ if ($plugin->isActivated("moreticket")) {
          $_POST['solution_status'] = "";
       }
      
-      $_POST['urgency_ids'] = exportArrayToDB($_POST['urgency_ids']);
+      if (isset($_POST['urgency_ids'])) {
+         $_POST['urgency_ids'] = exportArrayToDB($_POST['urgency_ids']);
+      }else{
+         $_POST['urgency_ids'] = exportArrayToDB(array());
+      }
       
       $config->update($_POST);
       //Update singelton
