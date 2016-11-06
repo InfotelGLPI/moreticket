@@ -27,27 +27,28 @@
  --------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
 //change mimetype
 header("Content-type: application/javascript");
 
 //not executed in self-service interface & right verification
 if (isset($_SESSION['glpiactiveprofile']['interface'])
-      && $_SESSION['glpiactiveprofile']['interface'] == "central") {
+   && $_SESSION['glpiactiveprofile']['interface'] == "central"
+) {
 
-   $config          = new PluginMoreticketConfig();
-   $use_waiting     = $config->useWaiting();
-   $use_solution    = $config->useSolution();
+   $config = new PluginMoreticketConfig();
+   $use_waiting = $config->useWaiting();
+   $use_solution = $config->useSolution();
    $solution_status = $config->solutionStatus();
 
-   $params = array('root_doc'        => $CFG_GLPI['root_doc'],
-                   'waiting'         => CommonITILObject::WAITING,
-                   'closed'          => CommonITILObject::CLOSED,
-                   'use_waiting'     => $use_waiting,
-                   'use_solution'    => $use_solution,
-                   'solution_status' => $solution_status);
+   $params = array('root_doc' => $CFG_GLPI['root_doc'],
+      'waiting' => CommonITILObject::WAITING,
+      'closed' => CommonITILObject::CLOSED,
+      'use_waiting' => $use_waiting,
+      'use_solution' => $use_solution,
+      'solution_status' => $solution_status);
 
-   echo "moreticket(".json_encode($params).");";
+   echo "moreticket(" . json_encode($params) . ");";
 }
 ?>

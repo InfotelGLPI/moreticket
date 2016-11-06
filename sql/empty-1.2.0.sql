@@ -5,18 +5,21 @@
 -- 
 DROP TABLE IF EXISTS `glpi_plugin_moreticket_waitingtickets`;
 CREATE TABLE `glpi_plugin_moreticket_waitingtickets` (
-  `id` int(11) NOT NULL auto_increment, -- id ...
-  `tickets_id` int(11) NOT NULL, -- id du ticket GLPI
-  `reason` varchar(255) default NULL, -- raison de l'attente
-  `date_suspension` DATETIME default NULL, -- date de suspension
-  `date_report` DATETIME default NULL, -- date de report
-  `date_end_suspension` DATETIME default NULL, -- date de sortie de suspension
-  `plugin_moreticket_waitingtypes_id` int(11) default NULL, -- id du type d'attente
-  PRIMARY KEY  (`id`), -- index
+  `id`                                INT(11) NOT NULL AUTO_INCREMENT, -- id ...
+  `tickets_id`                        INT(11) NOT NULL, -- id du ticket GLPI
+  `reason`                            VARCHAR(255)     DEFAULT NULL, -- raison de l'attente
+  `date_suspension`                   DATETIME         DEFAULT NULL, -- date de suspension
+  `date_report`                       DATETIME         DEFAULT NULL, -- date de report
+  `date_end_suspension`               DATETIME         DEFAULT NULL, -- date de sortie de suspension
+  `plugin_moreticket_waitingtypes_id` INT(11)          DEFAULT NULL, -- id du type d'attente
+  PRIMARY KEY (`id`), -- index
   KEY `date_suspension` (`date_suspension`),
-  FOREIGN KEY (`tickets_id`) REFERENCES glpi_tickets(id),
-  FOREIGN KEY (`plugin_moreticket_waitingtypes_id`) REFERENCES glpi_plugin_moreticket_waitingtypes(id)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  FOREIGN KEY (`tickets_id`) REFERENCES glpi_tickets (id),
+  FOREIGN KEY (`plugin_moreticket_waitingtypes_id`) REFERENCES glpi_plugin_moreticket_waitingtypes (id)
+)
+  ENGINE = MyISAM
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
 
 -- --------------------------------------------------------
 -- 
@@ -25,18 +28,22 @@ CREATE TABLE `glpi_plugin_moreticket_waitingtickets` (
 -- 
 DROP TABLE IF EXISTS `glpi_plugin_moreticket_waitingtypes`;
 CREATE TABLE `glpi_plugin_moreticket_waitingtypes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,-- nom du type d'attente
-  `comment` text COLLATE utf8_unicode_ci,
-  `plugin_moreticket_waitingtypes_id` int(11) NOT NULL DEFAULT '0',
-  `completename` text COLLATE utf8_unicode_ci,
-  `level` int(11) NOT NULL DEFAULT '0',
-  `ancestors_cache` longtext COLLATE utf8_unicode_ci,
-  `sons_cache` longtext COLLATE utf8_unicode_ci,
+  `id`                                INT(11) NOT NULL        AUTO_INCREMENT,
+  `name`                              VARCHAR(255)
+                                      COLLATE utf8_unicode_ci DEFAULT NULL, -- nom du type d'attente
+  `comment`                           TEXT COLLATE utf8_unicode_ci,
+  `plugin_moreticket_waitingtypes_id` INT(11) NOT NULL        DEFAULT '0',
+  `completename`                      TEXT COLLATE utf8_unicode_ci,
+  `level`                             INT(11) NOT NULL        DEFAULT '0',
+  `ancestors_cache`                   LONGTEXT COLLATE utf8_unicode_ci,
+  `sons_cache`                        LONGTEXT COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `name` (`name`),
-  KEY `unicity` (`plugin_moreticket_waitingtypes_id`,`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  KEY `unicity` (`plugin_moreticket_waitingtypes_id`, `name`)
+)
+  ENGINE = MyISAM
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
 
 -- --------------------------------------------------------
 -- 
@@ -45,18 +52,22 @@ CREATE TABLE `glpi_plugin_moreticket_waitingtypes` (
 -- 
 DROP TABLE IF EXISTS `glpi_plugin_moreticket_configs`;
 CREATE TABLE `glpi_plugin_moreticket_configs` (
-   `id` int(11) NOT NULL auto_increment,
-   `use_waiting` tinyint(1) NOT NULL default '0',
-   `use_solution` tinyint(1) NOT NULL default '0',
-   `close_informations` tinyint(1) NOT NULL default '0',
-   `solution_status` text COLLATE utf8_unicode_ci,
-   `waitingtype_mandatory` tinyint(1) NOT NULL default '0',
-   `date_report_mandatory` tinyint(1) NOT NULL default '0',
-   `solutiontype_mandatory` tinyint(1) NOT NULL default '0',
-   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `id`                     INT(11)    NOT NULL AUTO_INCREMENT,
+  `use_waiting`            TINYINT(1) NOT NULL DEFAULT '0',
+  `use_solution`           TINYINT(1) NOT NULL DEFAULT '0',
+  `close_informations`     TINYINT(1) NOT NULL DEFAULT '0',
+  `solution_status`        TEXT COLLATE utf8_unicode_ci,
+  `waitingtype_mandatory`  TINYINT(1) NOT NULL DEFAULT '0',
+  `date_report_mandatory`  TINYINT(1) NOT NULL DEFAULT '0',
+  `solutiontype_mandatory` TINYINT(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+)
+  ENGINE = MyISAM
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
 
-INSERT INTO `glpi_plugin_moreticket_configs`(`id`,`use_waiting`,`use_solution`, `close_informations`, `date_report_mandatory`, `waitingtype_mandatory`, `solutiontype_mandatory`, `solution_status`) VALUES (1,1,1,1,1,1,1, '{"5":1}');
+INSERT INTO `glpi_plugin_moreticket_configs` (`id`, `use_waiting`, `use_solution`, `close_informations`, `date_report_mandatory`, `waitingtype_mandatory`, `solutiontype_mandatory`, `solution_status`)
+VALUES (1, 1, 1, 1, 1, 1, 1, '{"5":1}');
 
 -- --------------------------------------------------------
 -- 
@@ -65,14 +76,18 @@ INSERT INTO `glpi_plugin_moreticket_configs`(`id`,`use_waiting`,`use_solution`, 
 -- 
 DROP TABLE IF EXISTS `glpi_plugin_moreticket_closetickets`;
 CREATE TABLE `glpi_plugin_moreticket_closetickets` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tickets_id` int(11) NOT NULL, -- id du ticket GLPI
-  `date` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `comment` text COLLATE utf8_unicode_ci,
-  `requesters_id` int(11) NOT NULL DEFAULT '0',
-  `documents_id` int(11) NOT NULL DEFAULT '0',
+  `id`            INT(11) NOT NULL        AUTO_INCREMENT,
+  `tickets_id`    INT(11) NOT NULL, -- id du ticket GLPI
+  `date`          VARCHAR(255)
+                  COLLATE utf8_unicode_ci DEFAULT NULL,
+  `comment`       TEXT COLLATE utf8_unicode_ci,
+  `requesters_id` INT(11) NOT NULL        DEFAULT '0',
+  `documents_id`  INT(11) NOT NULL        DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY (`tickets_id`),
   KEY (`documents_id`),
   KEY (`requesters_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+)
+  ENGINE = MyISAM
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;

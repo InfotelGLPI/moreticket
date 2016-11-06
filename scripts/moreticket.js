@@ -1,4 +1,3 @@
-
 function moreticket(params) {
 
     var root_doc = params.root_doc;
@@ -12,7 +11,7 @@ function moreticket(params) {
     $(document).ready(function () {
         // only in ticket form
         if (location.pathname.indexOf('ticket.form.php') > 0
-                && (use_solution || use_waiting)) {
+            && (use_solution || use_waiting)) {
 
             $.urlParam = function (name) {
                 var results = new RegExp('[\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
@@ -38,13 +37,13 @@ function moreticket(params) {
                     if (option.url != undefined) {
                         var ajaxTab_param, tid;
                         var paramFinder = /[?&]?_glpi_tab=([^&]+)(&|$)/;
-                        
+
                         // We find the name of the current tab
                         ajaxTab_param = paramFinder.exec(option.url);
 
                         // Get the right tab
                         if (ajaxTab_param != undefined
-                                && (ajaxTab_param[1] == "Ticket$main")) {
+                            && (ajaxTab_param[1] == "Ticket$main")) {
 
                             //Inject Waiting ticket data
                             $.ajax({
@@ -122,12 +121,12 @@ function moreticket(params) {
     $(document).ready(function () {
         // only in ticket form
         if (location.pathname.indexOf('ticket.form.php') > 0
-                && use_waiting) {
+            && use_waiting) {
 
             $.urlParam = function (name, path) {
                 var results = new RegExp('[\?&]?' + name + '=([^&#]*)').exec(path);
                 if (results == null || results == undefined) {
-                    return  0;
+                    return 0;
                 }
 
                 return results[1];
@@ -154,7 +153,7 @@ function moreticket(params) {
 
                     // Get the right tab
                     if (ajaxTab_param != undefined
-                            && (ajaxTab_param[1] == "Ticket$main" || ajaxTab_param[1] == "-1")) {
+                        && (ajaxTab_param[1] == "Ticket$main" || ajaxTab_param[1] == "-1")) {
                         //Inject Waiting ticket data
                         $.ajax({
                             url: root_doc + '/plugins/moreticket/ajax/ticket.php',
@@ -196,7 +195,7 @@ function moreticket(params) {
                         });
 
                     } else if (option.url.indexOf("ajax/timeline_viewsubitem.php") > 0
-                            && ($.urlParam('type', option.data) == 'TicketTask' || $.urlParam('type', option.data) == 'TicketFollowup')) {
+                        && ($.urlParam('type', option.data) == 'TicketTask' || $.urlParam('type', option.data) == 'TicketFollowup')) {
                         //Inject Waiting ticket data
                         $.ajax({
                             url: root_doc + '/plugins/moreticket/ajax/ticket.php',
@@ -208,14 +207,18 @@ function moreticket(params) {
                                 var status_bloc = $("#x-split-button");
 
                                 if (status_bloc != undefined) {
-                                    if($("#moreticket_waiting_ticket").length != 0){
+                                    if ($("#moreticket_waiting_ticket").length != 0) {
                                         $("#moreticket_waiting_ticket").remove();
                                     }
                                     status_bloc.parent().append(requester);
                                     $("#x-split-button input[type='radio']").each(function (index, value) {
                                         if ($(this).is(':checked')) {
                                             if ($(this).val() == 4) {
-                                                $("#moreticket_waiting_ticket").css({'display': 'block', 'clear':'both', 'text-align' : 'center'});
+                                                $("#moreticket_waiting_ticket").css({
+                                                    'display': 'block',
+                                                    'clear': 'both',
+                                                    'text-align': 'center'
+                                                });
                                             } else {
                                                 $("#moreticket_waiting_ticket").css({'display': 'none'});
                                             }
@@ -224,7 +227,11 @@ function moreticket(params) {
                                     $("#x-split-button input[type='radio']").change(function () {
                                         if ($(this).is(':checked')) {
                                             if ($(this).val() == 4) {
-                                                $("#moreticket_waiting_ticket").css({'display': 'block', 'clear':'both', 'text-align' : 'center'});
+                                                $("#moreticket_waiting_ticket").css({
+                                                    'display': 'block',
+                                                    'clear': 'both',
+                                                    'text-align': 'center'
+                                                });
                                             } else {
                                                 $("#moreticket_waiting_ticket").css({'display': 'none'});
                                             }
@@ -233,7 +240,7 @@ function moreticket(params) {
                                 }
                             }
                         });
-                        
+
 
                     }
                 }

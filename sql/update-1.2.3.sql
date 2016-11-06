@@ -1,1 +1,2 @@
-ALTER TABLE glpi_plugin_moreticket_configs ADD `waitingreason_mandatory` tinyint(1) NOT NULL default '0';
+ALTER TABLE glpi_plugin_moreticket_configs
+  ADD `waitingreason_mandatory` TINYINT(1) NOT NULL DEFAULT '0';

@@ -27,23 +27,21 @@
  --------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
 $closeTicket = new PluginMoreticketCloseTicket();
 
-if(isset($_POST["add"])){
+if (isset($_POST["add"])) {
    $closeTicket->check(-1, UPDATE, $_POST);
-        
+
    $doc = new Document();
    $doc->check(-1, CREATE, $_POST);
    $DocId = $doc->add($_POST);
 
    $test = $closeTicket->add(array('requesters_id' => $_POST['requesters_id'],
-                                   'tickets_id'    => $_POST['tickets_id'],
-                                   'date'          => $_POST['date'],
-                                   'comment'       => $_POST['comment'], 
-                                   'documents_id'  => $DocId));
+      'tickets_id' => $_POST['tickets_id'],
+      'date' => $_POST['date'],
+      'comment' => $_POST['comment'],
+      'documents_id' => $DocId));
    Html::back();
 }
-
-?>

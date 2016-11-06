@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
 $plugin = new Plugin();
 if ($plugin->isActivated("moreticket")) {
@@ -40,29 +40,28 @@ if ($plugin->isActivated("moreticket")) {
       } else {
          $_POST['solution_status'] = "";
       }
-     
+
       if (isset($_POST['urgency_ids'])) {
          $_POST['urgency_ids'] = exportArrayToDB($_POST['urgency_ids']);
-      }else{
+      } else {
          $_POST['urgency_ids'] = exportArrayToDB(array());
       }
-      
+
       $config->update($_POST);
       //Update singelton
       PluginMoreticketConfig::getConfig(true);
       Html::redirect($_SERVER['HTTP_REFERER']);
-      
+
    } else {
       Html::header(PluginMoreticketConfig::getTypeName(), '', "plugins", "moreticket");
       $config->showForm();
       Html::footer();
    }
-   
+
 } else {
    Html::header(__('Setup'), '', "config", "plugins");
    echo "<div align='center'><br><br>";
-   echo "<img src=\"".$CFG_GLPI["root_doc"]."/pics/warning.png\" alt='warning'><br><br>";
-   echo "<b>".__('Please activate the plugin', 'moreticket')."</b></div>";
+   echo "<img src=\"" . $CFG_GLPI["root_doc"] . "/pics/warning.png\" alt='warning'><br><br>";
+   echo "<b>" . __('Please activate the plugin', 'moreticket') . "</b></div>";
    Html::footer();
 }
-?>

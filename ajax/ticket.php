@@ -26,14 +26,14 @@
  along with moreticket. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
- 
-include ('../../../inc/includes.php');
+
+include('../../../inc/includes.php');
 
 Session::checkLoginUser();
 
 //Html::header_nocache();
 
-if (!isset($_POST['tickets_id']) || empty($_POST['tickets_id'])){
+if (!isset($_POST['tickets_id']) || empty($_POST['tickets_id'])) {
    $_POST['tickets_id'] = 0;
 }
 
@@ -42,7 +42,7 @@ if (isset($_POST['action'])) {
       case 'showForm':
          header("Content-Type: text/html; charset=UTF-8");
          $config = new PluginMoreticketConfig();
-         
+
          // Ticket is waiting
          if ($config->useWaiting()) {
             $waiting_ticket = new PluginMoreticketWaitingTicket();
@@ -60,7 +60,7 @@ if (isset($_POST['action'])) {
       case 'showFormUrgency':
          header("Content-Type: text/html; charset=UTF-8");
          $config = new PluginMoreticketConfig();
-         
+
          // Ticket is waiting
          if ($config->useUrgency()) {
             $urgency_ticket = new PluginMoreticketUrgencyTicket();
@@ -69,4 +69,3 @@ if (isset($_POST['action'])) {
          break;
    }
 }
-?>

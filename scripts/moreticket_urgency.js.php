@@ -27,20 +27,20 @@
  --------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
 //change mimetype
 header("Content-type: application/javascript");
 
 //not executed in self-service interface & right verification
 
-   $config          = new PluginMoreticketConfig();
-   $use_urgency     = $config->useUrgency();
-   $urgency_ids     = $config->getUrgency_ids();
+$config = new PluginMoreticketConfig();
+$use_urgency = $config->useUrgency();
+$urgency_ids = $config->getUrgency_ids();
 
-   $params = array('root_doc'        => $CFG_GLPI['root_doc'],
-                   'use_urgency'     => $use_urgency,
-                   'urgency_ids'     => $urgency_ids);
+$params = array('root_doc' => $CFG_GLPI['root_doc'],
+   'use_urgency' => $use_urgency,
+   'urgency_ids' => $urgency_ids);
 
-   echo "moreticket_urgency(".json_encode($params).");";
+echo "moreticket_urgency(" . json_encode($params) . ");";
 ?>

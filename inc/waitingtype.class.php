@@ -31,33 +31,49 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
-class PluginMoreticketWaitingType extends commonTreeDropdown {
-   
+/**
+ * Class PluginMoreticketWaitingType
+ */
+class PluginMoreticketWaitingType extends CommonTreeDropdown
+{
+
    static $rightname = "dropdown";
-   
-   public static function getTypeName($nb=0) {
+
+   /**
+    * @param int $nb
+    * @return translated
+    */
+   public static function getTypeName($nb = 0)
+   {
 
       return _n('Waiting type', 'Waiting types', $nb, 'moreticket');
    }
-   
-   function getAdditionalFields() {
 
-      $tab = array(array('name'  => $this->getForeignKeyField(),
-                         'label' => __('As child of'),
-                         'type'  => 'parent',
-                         'list'  => false)
-                  );
+   /**
+    * @return array
+    */
+   function getAdditionalFields()
+   {
+
+      $tab = array(array('name' => $this->getForeignKeyField(),
+         'label' => __('As child of'),
+         'type' => 'parent',
+         'list' => false)
+      );
 
       return $tab;
 
 
    }
-   
-   function getSearchOptions() {
+
+   /**
+    * @return array
+    */
+   function getSearchOptions()
+   {
 
       $tab = parent::getSearchOptions();
 
       return $tab;
    }
 }
-?>

@@ -32,27 +32,44 @@ if (!defined('GLPI_ROOT')) {
 }
 
 
-class PluginMoreticketTicket extends CommonITILObject {
-   
+/**
+ * Class PluginMoreticketTicket
+ */
+class PluginMoreticketTicket extends CommonITILObject
+{
+
    static $rightname = "plugin_moreticket";
+
    /**
     * functions mandatory
     * getTypeName(), canCreate(), canView()
-    * */
-   public static function getTypeName($nb=0) {
+    * @param int $nb
+    * @return string|translated
+    */
+   public static function getTypeName($nb = 0)
+   {
 
-      return _n('Ticket','Tickets',$nb);
+      return _n('Ticket', 'Tickets', $nb);
    }
-   
-   static function emptyTicket(Ticket $ticket) {
+
+   /**
+    * @param Ticket $ticket
+    */
+   static function emptyTicket(Ticket $ticket)
+   {
       if (!empty($_POST)) {
          self::setSessions($_POST);
-      }else if (!empty($_REQUEST)) {
+      } else if (!empty($_REQUEST)) {
          self::setSessions($_REQUEST);
       }
    }
 
-   static function beforeAdd(Ticket $ticket) {
+   /**
+    * @param Ticket $ticket
+    * @return bool
+    */
+   static function beforeAdd(Ticket $ticket)
+   {
 
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
@@ -61,8 +78,13 @@ class PluginMoreticketTicket extends CommonITILObject {
       PluginMoreticketWaitingTicket::preAddWaitingTicket($ticket);
       PluginMoreticketCloseTicket::preAddCloseTicket($ticket);
    }
-   
-   static function beforeAddUrgency(Ticket $ticket) {
+
+   /**
+    * @param Ticket $ticket
+    * @return bool
+    */
+   static function beforeAddUrgency(Ticket $ticket)
+   {
 
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
@@ -70,41 +92,56 @@ class PluginMoreticketTicket extends CommonITILObject {
       }
       PluginMoreticketUrgencyTicket::preAddUrgencyTicket($ticket);
    }
-   
-   static function afterAdd(Ticket $ticket) {
+
+   /**
+    * @param Ticket $ticket
+    * @return bool
+    */
+   static function afterAdd(Ticket $ticket)
+   {
 
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
          return false;
       }
       PluginMoreticketWaitingTicket::postAddWaitingTicket($ticket);
-            
-      if (isset($_SESSION['glpi_plugin_moreticket_close'])){
+
+      if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
          unset($_SESSION['glpi_plugin_moreticket_close']);
       }
 
-      if (isset($_SESSION['glpi_plugin_moreticket_waiting'])){
+      if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
          unset($_SESSION['glpi_plugin_moreticket_waiting']);
       }
 
    }
-   
-   static function afterAddUrgency(Ticket $ticket) {
+
+   /**
+    * @param Ticket $ticket
+    * @return bool
+    */
+   static function afterAddUrgency(Ticket $ticket)
+   {
 
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
          return false;
       }
       PluginMoreticketUrgencyTicket::postAddUrgencyTicket($ticket);
-      
-            
-      if (isset($_SESSION['glpi_plugin_moreticket_urgency'])){
+
+
+      if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
          unset($_SESSION['glpi_plugin_moreticket_urgency']);
       }
    }
-   
-   static function beforeUpdate(Ticket $ticket) {
-      
+
+   /**
+    * @param Ticket $ticket
+    * @return bool
+    */
+   static function beforeUpdate(Ticket $ticket)
+   {
+
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
          return false;
@@ -113,9 +150,14 @@ class PluginMoreticketTicket extends CommonITILObject {
       PluginMoreticketWaitingTicket::preUpdateWaitingTicket($ticket);
 
    }
-   
-   static function beforeUpdateUrgency(Ticket $ticket) {
-      
+
+   /**
+    * @param Ticket $ticket
+    * @return bool
+    */
+   static function beforeUpdateUrgency(Ticket $ticket)
+   {
+
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
          return false;
@@ -124,40 +166,52 @@ class PluginMoreticketTicket extends CommonITILObject {
       PluginMoreticketUrgencyTicket::preUpdateUrgencyTicket($ticket);
 
    }
-   
-   static function afterUpdate(Ticket $ticket) {
-      
+
+   /**
+    * @param Ticket $ticket
+    */
+   static function afterUpdate(Ticket $ticket)
+   {
+
       PluginMoreticketWaitingTicket::postUpdateWaitingTicket($ticket);
-      
-            
-      if (isset($_SESSION['glpi_plugin_moreticket_close'])){
+
+
+      if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
          unset($_SESSION['glpi_plugin_moreticket_close']);
       }
 
-      if (isset($_SESSION['glpi_plugin_moreticket_waiting'])){
+      if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
          unset($_SESSION['glpi_plugin_moreticket_waiting']);
       }
    }
-   
-   static function afterUpdateUrgency(Ticket $ticket) {
-      
+
+   /**
+    * @param Ticket $ticket
+    */
+   static function afterUpdateUrgency(Ticket $ticket)
+   {
+
       PluginMoreticketUrgencyTicket::postUpdateUrgencyTicket($ticket);
-      
-            
-      if (isset($_SESSION['glpi_plugin_moreticket_urgency'])){
+
+
+      if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
          unset($_SESSION['glpi_plugin_moreticket_urgency']);
       }
    }
-   
-   static function setSessions($input){
-      
-      foreach($input as $key => $values){
-         switch($key){
+
+   /**
+    * @param $input
+    */
+   static function setSessions($input)
+   {
+
+      foreach ($input as $key => $values) {
+         switch ($key) {
             case 'reason':
-               $_SESSION['glpi_plugin_moreticket_waiting'][$key]   = $values;
+               $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $values;
                break;
             case 'plugin_moreticket_waitingtypes_id':
-               $_SESSION['glpi_plugin_moreticket_waiting'][$key]  = $values;
+               $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $values;
                break;
             case 'date_report':
                $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $values;
@@ -178,5 +232,3 @@ class PluginMoreticketTicket extends CommonITILObject {
       }
    }
 }
-
-?>
