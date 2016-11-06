@@ -10,8 +10,7 @@
             <en><![CDATA[This plugin enables you to add 3 new options into a ticket.]]></en>
         </short>
         <long>
-            <fr>
-                <![CDATA[Ce plugin permet d'ajouter 3 nouvelles options sur un ticket GLPI<br />- A la création d'un ticket, lors de la sélection du statut "Résolu" ou "Clos", le ticket vous proposera de remplir la solution du ticket,<br />- A la création et à la modification d'un ticket, lors de la sélection du statut "En attente", vous pourrez définir des types d'attente, la raison de la mise en attente ainsi qu'une date de report,<br />- Enfin une nouvelle zone sera disponible pour ajouter des informations suite à la clôture du ticket.]]></fr>
+            <fr><![CDATA[Ce plugin permet d'ajouter 3 nouvelles options sur un ticket GLPI<br />- A la création d'un ticket, lors de la sélection du statut "Résolu" ou "Clos", le ticket vous proposera de remplir la solution du ticket,<br />- A la création et à la modification d'un ticket, lors de la sélection du statut "En attente", vous pourrez définir des types d'attente, la raison de la mise en attente ainsi qu'une date de report,<br />- Enfin une nouvelle zone sera disponible pour ajouter des informations suite à la clôture du ticket.]]></fr>
             <en></en>
         </long>
     </description>
