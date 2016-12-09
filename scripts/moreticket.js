@@ -194,7 +194,7 @@ function moreticket(params) {
                             }
                         });
 
-                    } else if (option.url.indexOf("ajax/timeline_viewsubitem.php") > 0
+                    } else if (option.url.indexOf("ajax/timeline.php") > 0
                         && ($.urlParam('type', option.data) == 'TicketTask' || $.urlParam('type', option.data) == 'TicketFollowup')) {
                         //Inject Waiting ticket data
                         $.ajax({

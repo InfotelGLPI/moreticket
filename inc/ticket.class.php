@@ -75,23 +75,19 @@ class PluginMoreticketTicket extends CommonITILObject
          // Already cancel by another plugin
          return false;
       }
-      PluginMoreticketWaitingTicket::preAddWaitingTicket($ticket);
-      PluginMoreticketCloseTicket::preAddCloseTicket($ticket);
-   }
 
-   /**
-    * @param Ticket $ticket
-    * @return bool
-    */
-   static function beforeAddUrgency(Ticket $ticket)
-   {
-
-      if (!is_array($ticket->input) || !count($ticket->input)) {
-         // Already cancel by another plugin
-         return false;
+      if (Session::haveRight("plugin_moreticket", UPDATE)) {
+         PluginMoreticketWaitingTicket::preAddWaitingTicket($ticket);
+         PluginMoreticketCloseTicket::preAddCloseTicket($ticket);
       }
-      PluginMoreticketUrgencyTicket::preAddUrgencyTicket($ticket);
+
+      if (Session::haveRight("plugin_moreticket_justification", READ)) {
+         PluginMoreticketUrgencyTicket::preAddUrgencyTicket($ticket);
+      }
+
+
    }
+
 
    /**
     * @param Ticket $ticket
@@ -104,36 +100,28 @@ class PluginMoreticketTicket extends CommonITILObject
          // Already cancel by another plugin
          return false;
       }
-      PluginMoreticketWaitingTicket::postAddWaitingTicket($ticket);
+      if (Session::haveRight("plugin_moreticket", UPDATE)) {
+         PluginMoreticketWaitingTicket::postAddWaitingTicket($ticket);
 
-      if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
-         unset($_SESSION['glpi_plugin_moreticket_close']);
+         if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
+            unset($_SESSION['glpi_plugin_moreticket_close']);
+         }
+
+         if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
+            unset($_SESSION['glpi_plugin_moreticket_waiting']);
+         }
       }
 
-      if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-         unset($_SESSION['glpi_plugin_moreticket_waiting']);
+      if (Session::haveRight("plugin_moreticket_justification", READ)) {
+         PluginMoreticketUrgencyTicket::postAddUrgencyTicket($ticket);
+
+         if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
+            unset($_SESSION['glpi_plugin_moreticket_urgency']);
+         }
       }
 
    }
 
-   /**
-    * @param Ticket $ticket
-    * @return bool
-    */
-   static function afterAddUrgency(Ticket $ticket)
-   {
-
-      if (!is_array($ticket->input) || !count($ticket->input)) {
-         // Already cancel by another plugin
-         return false;
-      }
-      PluginMoreticketUrgencyTicket::postAddUrgencyTicket($ticket);
-
-
-      if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
-         unset($_SESSION['glpi_plugin_moreticket_urgency']);
-      }
-   }
 
    /**
     * @param Ticket $ticket
@@ -147,23 +135,13 @@ class PluginMoreticketTicket extends CommonITILObject
          return false;
       }
 
-      PluginMoreticketWaitingTicket::preUpdateWaitingTicket($ticket);
-
-   }
-
-   /**
-    * @param Ticket $ticket
-    * @return bool
-    */
-   static function beforeUpdateUrgency(Ticket $ticket)
-   {
-
-      if (!is_array($ticket->input) || !count($ticket->input)) {
-         // Already cancel by another plugin
-         return false;
+      if (Session::haveRight("plugin_moreticket", UPDATE)) {
+         PluginMoreticketWaitingTicket::preUpdateWaitingTicket($ticket);
       }
 
-      PluginMoreticketUrgencyTicket::preUpdateUrgencyTicket($ticket);
+      if (Session::haveRight("plugin_moreticket_justification", READ)) {
+         PluginMoreticketUrgencyTicket::preUpdateUrgencyTicket($ticket);
+      }
 
    }
 
@@ -172,32 +150,28 @@ class PluginMoreticketTicket extends CommonITILObject
     */
    static function afterUpdate(Ticket $ticket)
    {
+      if (Session::haveRight("plugin_moreticket", UPDATE)) {
+         PluginMoreticketWaitingTicket::postUpdateWaitingTicket($ticket);
 
-      PluginMoreticketWaitingTicket::postUpdateWaitingTicket($ticket);
+         if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
+            unset($_SESSION['glpi_plugin_moreticket_close']);
+         }
 
-
-      if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
-         unset($_SESSION['glpi_plugin_moreticket_close']);
+         if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
+            unset($_SESSION['glpi_plugin_moreticket_waiting']);
+         }
       }
 
-      if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-         unset($_SESSION['glpi_plugin_moreticket_waiting']);
-      }
-   }
-
-   /**
-    * @param Ticket $ticket
-    */
-   static function afterUpdateUrgency(Ticket $ticket)
-   {
-
-      PluginMoreticketUrgencyTicket::postUpdateUrgencyTicket($ticket);
+      if (Session::haveRight("plugin_moreticket_justification", READ)) {
+         PluginMoreticketUrgencyTicket::postUpdateUrgencyTicket($ticket);
 
 
-      if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
-         unset($_SESSION['glpi_plugin_moreticket_urgency']);
+         if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
+            unset($_SESSION['glpi_plugin_moreticket_urgency']);
+         }
       }
    }
+
 
    /**
     * @param $input

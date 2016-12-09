@@ -53,29 +53,31 @@ function plugin_init_moreticket()
 
             $PLUGIN_HOOKS['config_page']['moreticket'] = 'front/config.form.php';
 
-            $PLUGIN_HOOKS['pre_item_update']['moreticket'] = array('Ticket' => array('PluginMoreticketTicket', 'beforeUpdate'),
-               'TicketTask' => array('PluginMoreticketTicketTask', 'beforeUpdate'),
-               'TicketFollowup' => array('PluginMoreticketTicketFollowup', 'beforeUpdate'));
-            $PLUGIN_HOOKS['pre_item_add']['moreticket'] = array('Ticket' => array('PluginMoreticketTicket', 'beforeAdd'),
-               'TicketTask' => array('PluginMoreticketTicketTask', 'beforeAdd'),
-               'TicketFollowup' => array('PluginMoreticketTicketFollowup', 'beforeAdd'));
-            $PLUGIN_HOOKS['item_add']['moreticket'] = array('Ticket' => array('PluginMoreticketTicket', 'afterAdd'));
-            $PLUGIN_HOOKS['item_update']['moreticket'] = array('Ticket' => array('PluginMoreticketTicket', 'afterUpdate'));
-            $PLUGIN_HOOKS['item_empty']['moreticket'] = array('Ticket' => array('PluginMoreticketTicket', 'emptyTicket'));
+            $PLUGIN_HOOKS['pre_item_update']['moreticket'] = array('TicketTask'     => array('PluginMoreticketTicketTask', 'beforeUpdate'),
+                                                                   'TicketFollowup' => array('PluginMoreticketTicketFollowup', 'beforeUpdate'));
+            $PLUGIN_HOOKS['pre_item_add']['moreticket']    = array('TicketTask'     => array('PluginMoreticketTicketTask', 'beforeAdd'),
+                                                                   'TicketFollowup' => array('PluginMoreticketTicketFollowup', 'beforeAdd'));
+
+            $PLUGIN_HOOKS['item_empty']['moreticket']      = array('Ticket' => array('PluginMoreticketTicket', 'emptyTicket'));
          }
+
+         if (Session::haveRight("plugin_moreticket_justification", READ || Session::haveRight("plugin_moreticket", UPDATE))) {
+
+            $PLUGIN_HOOKS['pre_item_update']['moreticket']['Ticket'] = array('PluginMoreticketTicket', 'beforeUpdate');
+            $PLUGIN_HOOKS['pre_item_add']['moreticket']['Ticket']    = array('PluginMoreticketTicket', 'beforeAdd');
+            $PLUGIN_HOOKS['item_add']['moreticket']                  = array('Ticket' => array('PluginMoreticketTicket', 'afterAdd'));
+            $PLUGIN_HOOKS['item_update']['moreticket']               = array('Ticket' => array('PluginMoreticketTicket', 'afterUpdate'));
+         }
+
          if (Session::haveRight("plugin_moreticket_justification", READ)) {
             if ((strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false ||
-                  strpos($_SERVER['REQUEST_URI'], "helpdesk.public.php") !== false)
+                  strpos($_SERVER['REQUEST_URI'], "helpdesk.public.php") !== false ||
+                   strpos($_SERVER['REQUEST_URI'], "tracking.injector.php") !== false)
                && ($config->useUrgency() == true)
             ) {
                $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_urgency.js';
                $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_urgency.js.php';
             }
-
-            $PLUGIN_HOOKS['pre_item_update']['moreticket'] = array('Ticket' => array('PluginMoreticketTicket', 'beforeUpdateUrgency'));
-            $PLUGIN_HOOKS['pre_item_add']['moreticket'] = array('Ticket' => array('PluginMoreticketTicket', 'beforeAddUrgency'));
-            $PLUGIN_HOOKS['item_update']['moreticket'] = array('Ticket' => array('PluginMoreticketTicket', 'afterUpdateUrgency'));
-            $PLUGIN_HOOKS['item_add']['moreticket'] = array('Ticket' => array('PluginMoreticketTicket', 'afterAddUrgency'));
          }
 
          if (Session::haveRight('plugin_moreticket', READ)) {
