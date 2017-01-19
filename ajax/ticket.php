@@ -57,6 +57,18 @@ if (isset($_POST['action'])) {
             }
          }
          break;
+
+      case 'showFormTicketTask':
+         header("Content-Type: text/html; charset=UTF-8");
+         $config = new PluginMoreticketConfig();
+
+         // Ticket is waiting
+         if ($config->useWaiting()) {
+            $waiting_ticket = new PluginMoreticketWaitingTicket();
+            $waiting_ticket->showFormTicketTask($_POST['tickets_id']);
+         }
+
+         break;
       case 'showFormUrgency':
          header("Content-Type: text/html; charset=UTF-8");
          $config = new PluginMoreticketConfig();

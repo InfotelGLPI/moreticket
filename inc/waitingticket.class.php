@@ -265,6 +265,85 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
    }
 
    /**
+    * Print the waiting ticket task form
+    *
+    * @param $ID integer ID of the item
+    * @param $options array
+    *     - target filename : where to go when done.
+    *     - withtemplate boolean : template or basic item
+    *
+    * @return Nothing (display)
+    * */
+   function showFormTicketTask($ID, $options = array())
+   {
+
+      // validation des droits
+      if (!$this->canView()) {
+         return false;
+      }
+
+      if ($ID > 0) {
+         if (!$this->fields = self::getWaitingTicketFromDB($ID)) {
+            $this->getEmpty();
+         }
+      } else {
+         // Create item
+         $this->getEmpty();
+      }
+
+      // If values are saved in session we retrieve it
+      if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
+         foreach ($_SESSION['glpi_plugin_moreticket_waiting'] as $key => $value) {
+            switch ($key) {
+               case 'reason':
+                  $this->fields[$key] = stripslashes($value);
+                  break;
+               default :
+                  $this->fields[$key] = $value;
+                  break;
+            }
+         }
+      }
+
+      unset($_SESSION['glpi_plugin_moreticket_waiting']);
+
+      $config = new PluginMoreticketConfig();
+
+      echo "<div class='spaced' id='moreticket_waiting_ticket_task'>";
+      echo "</br>";
+      echo "<table class='moreticket_waiting_ticket' id='cl_menu'>";
+      echo "<tr><td>";
+      _e('Reason', 'moreticket');
+      if ($config->mandatoryWaitingReason() == true) {
+         echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+      }
+      Html::autocompletionTextField($this, "reason");
+      echo "</td></tr>";
+      echo "<tr><td>";
+      echo PluginMoreticketWaitingType::getTypeName(1);
+      if ($config->mandatoryWaitingType() == true) {
+         echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+      }
+      $opt = array('value' => $this->fields['plugin_moreticket_waitingtypes_id']);
+      Dropdown::show('PluginMoreticketWaitingType', $opt);
+      echo "</td></tr>";
+      echo "<tr><td>";
+      _e('Postponement date', 'moreticket');
+
+      if ($config->mandatoryReportDate() == true) {
+         echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+      }
+      if ($this->fields['date_report'] == 'NULL') {
+         $this->fields['date_report'] = date("Y-m-d H:i:s");
+      }
+      Html::showDateTimeFormItem("date_report", $this->fields['date_report'], 1, false);
+
+      echo "</td></tr>";
+      echo "</table>";
+      echo "</div>";
+   }
+
+   /**
     * Print the wainting ticket form
     *
     * @param $item
