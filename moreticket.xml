@@ -51,4 +51,10 @@
             <tag>Waiting</tag>
         </en>
     </tags>
+    <screenshots>
+      <screenshot>https://raw.githubusercontent.com/InfotelGLPI/moreticket/master/screenshots/config.PNG</screenshot>
+      <screenshot>https://raw.githubusercontent.com/InfotelGLPI/moreticket/master/screenshots/miseenattente.PNG</screenshot>
+      <screenshot>https://raw.githubusercontent.com/InfotelGLPI/moreticket/master/screenshots/resolu.PNG</screenshot>
+      <screenshot>https://raw.githubusercontent.com/InfotelGLPI/moreticket/master/screenshots/urgence.PNG</screenshot>
+   </screenshots>
 </root>
