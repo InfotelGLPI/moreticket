@@ -682,7 +682,9 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
       foreach ($DB->request($query_ticket_waiting) as $data) {
          // Update ticket only if last waiting has empty end of suspension
          $waiting = $waiting_ticket->getWaitingTicketFromDB($data['tickets_id']);
-         if ($waiting && $waiting['date_report'] <= $today) {
+         if ($waiting
+             && !empty($waiting['date_report'])
+               && $waiting['date_report'] <= $today) {
             $ticket->update(array('id' => $data['tickets_id'],
                'status' => Ticket::ASSIGNED));
             $waiting_ticket->update(array('id' => $waiting['id'],
