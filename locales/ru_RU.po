@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Alexey Petukhov <lexx015@gmail.com>, 2016
 # Andrey Saridzha, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-12 08:53+0200\n"
-"PO-Revision-Date: 2016-10-12 07:14+0000\n"
-"Last-Translator: Amandine Manceau <amandine.manceau@infotel.com>\n"
+"PO-Revision-Date: 2017-04-07 06:37+0000\n"
+"Last-Translator: Alexey Petukhov <lexx015@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/tsmr/GLPI_moreticket/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,17 +54,17 @@ msgstr "Заявка не может быть закрыта"
 #: inc/closeticket.class.php:467
 #, php-format
 msgid "%1$s added closing informations"
-msgstr ""
+msgstr "%1$s добавлена информация при закрытии"
 
 #: inc/closeticket.class.php:479
 #, php-format
 msgid "%1$s updated closing informations"
-msgstr ""
+msgstr "%1$s обновлена информация при закрытии"
 
 #: inc/closeticket.class.php:490
 #, php-format
 msgid "%1$s deleted closing informations"
-msgstr ""
+msgstr "%1$s удалена информация при закрытии"
 
 #: inc/config.class.php:75
 msgid "Plugin configuration"
@@ -83,7 +84,7 @@ msgstr "Тип ожидания является обязательным"
 
 #: inc/config.class.php:99
 msgid "Waiting reason is mandatory"
-msgstr ""
+msgstr "Причина ожидания является обязательной"
 
 #: inc/config.class.php:107
 msgid "Use solution process"
@@ -99,27 +100,27 @@ msgstr "Использовать статус для отображения бл
 
 #: inc/config.class.php:142
 msgid "Add a followup on immediate ticket closing"
-msgstr ""
+msgstr "Добавить заметку на немедленное закрытие заявки"
 
 #: inc/config.class.php:148
 msgid "Use a justification of the urgency field"
-msgstr ""
+msgstr "Использовать обоснование для поля срочности"
 
 #: inc/config.class.php:163
 msgid "Urgency impacted justification for the field"
-msgstr ""
+msgstr "Обоснование влияния срочности для заявки"
 
 #: inc/profile.class.php:125
 msgid "Adding a justification of urgency"
-msgstr ""
+msgstr "Добавлять обоснование срочности"
 
 #: inc/urgencyticket.class.php:59 inc/urgencyticket.class.php:146
 msgid "Justification"
-msgstr ""
+msgstr "Обоснование"
 
 #: inc/urgencyticket.class.php:82
 msgid "Urgency ticket cannot be saved"
-msgstr ""
+msgstr "Срочная заявка не может быть сохранена"
 
 #: inc/urgencyticket.class.php:84 inc/waitingticket.class.php:153
 msgid "Ticket cannot be saved"
@@ -160,7 +161,7 @@ msgstr "Дата возобновления"
 
 #: inc/waitingticket.class.php:575
 msgid "End of standby ticket"
-msgstr ""
+msgstr "Конец ожидания заявки"
 
 #: inc/waitingtype.class.php:40
 msgid "Waiting type"

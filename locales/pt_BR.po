@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Luciano Silva <lucianoes10@gmail.com>, 2016
+# Eskiso <wiSe_gdr@hotmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-12 08:53+0200\n"
-"PO-Revision-Date: 2016-10-12 07:14+0000\n"
-"Last-Translator: Amandine Manceau <amandine.manceau@infotel.com>\n"
+"PO-Revision-Date: 2017-04-07 06:37+0000\n"
+"Last-Translator: Eskiso <wiSe_gdr@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/tsmr/GLPI_moreticket/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,7 +84,7 @@ msgstr "Tipo de espera é obrigatório"
 
 #: inc/config.class.php:99
 msgid "Waiting reason is mandatory"
-msgstr ""
+msgstr "Razão de espera é obrigatório"
 
 #: inc/config.class.php:107
 msgid "Use solution process"
@@ -103,23 +104,23 @@ msgstr "Adicionar um followup imediatamente após fechamento do ticket"
 
 #: inc/config.class.php:148
 msgid "Use a justification of the urgency field"
-msgstr ""
+msgstr "Use a justificação no campo de urgencia"
 
 #: inc/config.class.php:163
 msgid "Urgency impacted justification for the field"
-msgstr ""
+msgstr "Use a justificação no campo de urgencia"
 
 #: inc/profile.class.php:125
 msgid "Adding a justification of urgency"
-msgstr ""
+msgstr "A adicionar uma justificação de urgência."
 
 #: inc/urgencyticket.class.php:59 inc/urgencyticket.class.php:146
 msgid "Justification"
-msgstr ""
+msgstr "Justificação"
 
 #: inc/urgencyticket.class.php:82
 msgid "Urgency ticket cannot be saved"
-msgstr ""
+msgstr "Ticket de urgência não pode ser salvo"
 
 #: inc/urgencyticket.class.php:84 inc/waitingticket.class.php:153
 msgid "Ticket cannot be saved"

@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Amandine Manceau <amandine.manceau@infotel.com>, 2016
-# Xavier CAILLAUD <tsmr@thetsmr.fr>, 2015-2016
+# Amandine Manceau, 2016
+# Xavier CAILLAUD <thetsmr@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-12 08:53+0200\n"
-"PO-Revision-Date: 2016-10-12 07:15+0000\n"
-"Last-Translator: Amandine Manceau <amandine.manceau@infotel.com>\n"
+"PO-Revision-Date: 2017-04-07 06:37+0000\n"
+"Last-Translator: Amandine Manceau\n"
 "Language-Team: French (France) (http://www.transifex.com/tsmr/GLPI_moreticket/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
