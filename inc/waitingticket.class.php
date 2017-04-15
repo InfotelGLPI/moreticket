@@ -523,7 +523,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                      unset($item->input['status']);
                   }
                } else {
-                  Toolbox::logDebug($item);
                   $waiting_ticket->update(array('id'                                => $waiting_ticket_data['id'],
                                                 'reason'                            => $item->input['reason'],
                                                 'date_report'                       => $item->input['date_report'],
