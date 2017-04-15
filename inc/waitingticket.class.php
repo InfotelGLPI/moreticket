@@ -235,7 +235,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
       echo "</br>";
       echo "<table class='moreticket_waiting_ticket' id='cl_menu'>";
       echo "<tr><td>";
-      _e('Reason', 'moreticket');
+      echo __('Reason', 'moreticket');
       if ($config->mandatoryWaitingReason() == true) {
          echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
       }
@@ -250,7 +250,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
       Dropdown::show('PluginMoreticketWaitingType', $opt);
       echo "</td></tr>";
       echo "<tr><td>";
-      _e('Postponement date', 'moreticket');
+      echo __('Postponement date', 'moreticket');
 
       if ($config->mandatoryReportDate() == true) {
          echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
@@ -314,7 +314,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
       echo "</br>";
       echo "<table class='moreticket_waiting_ticket' id='cl_menu'>";
       echo "<tr><td>";
-      _e('Reason', 'moreticket');
+      echo __('Reason', 'moreticket');
       if ($config->mandatoryWaitingReason() == true) {
          echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
       }
@@ -329,7 +329,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
       Dropdown::show('PluginMoreticketWaitingType', $opt);
       echo "</td></tr>";
       echo "<tr><td>";
-      _e('Postponement date', 'moreticket');
+      echo __('Postponement date', 'moreticket');
 
       if ($config->mandatoryReportDate() == true) {
          echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";

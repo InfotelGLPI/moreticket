@@ -109,7 +109,7 @@ function plugin_version_moreticket()
 function plugin_moreticket_check_prerequisites()
 {
    if (version_compare(GLPI_VERSION, '0.90', 'lt') || version_compare(GLPI_VERSION, '9.2', 'ge')) {
-      _e('This plugin requires GLPI >= 0.90', 'moreticket');
+      echo __('This plugin requires GLPI >= 0.90', 'moreticket');
    } else {
       return true;
    }

@@ -154,7 +154,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
       echo "</br>";
       echo "<table align='left' class='moreticket_waiting_ticket' id='cl_menu'>";
       echo "<tr><td>";
-      _e('Justification', 'moreticket');
+      echo __('Justification', 'moreticket');
       echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;</br>";
       echo "</td></tr>";
       echo "<tr><td>";
