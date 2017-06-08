@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of moreticket.
 
  moreticket is free software; you can redistribute it and/or modify
@@ -34,17 +34,16 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class PluginMoreticketConfig
  */
-class PluginMoreticketConfig extends CommonDBTM
-{
+class PluginMoreticketConfig extends CommonDBTM {
 
    static $rightname = "plugin_moreticket";
 
    /**
     * @param bool $update
+    *
     * @return null|PluginMoreticketConfig
     */
-   static function getConfig($update = false)
-   {
+   static function getConfig($update = false) {
       static $config = null;
 
       if (is_null($config)) {
@@ -59,8 +58,7 @@ class PluginMoreticketConfig extends CommonDBTM
    /**
     * PluginMoreticketConfig constructor.
     */
-   function __construct()
-   {
+   function __construct() {
       if (TableExists($this->getTable())) {
          $this->getFromDB(1);
       }
@@ -68,19 +66,19 @@ class PluginMoreticketConfig extends CommonDBTM
 
    /**
     * @param int $nb
+    *
     * @return translated
     */
-   static function getTypeName($nb = 0)
-   {
+   static function getTypeName($nb = 0) {
       return __("Setup");
    }
 
    /**
     * @param string $interface
+    *
     * @return array
     */
-   function getRights($interface = 'central')
-   {
+   function getRights($interface = 'central') {
 
       $values = parent::getRights();
 
@@ -88,8 +86,7 @@ class PluginMoreticketConfig extends CommonDBTM
       return $values;
    }
 
-   function showForm()
-   {
+   function showForm() {
 
       $this->getFromDB(1);
       echo "<div class='center'>";
@@ -169,7 +166,8 @@ class PluginMoreticketConfig extends CommonDBTM
 
       echo "<tr class='tab_bg_1'>
             <td>" . __("Use a justification of the urgency field", "moreticket") . "</td><td>";
-      Dropdown::showYesNo("urgency_justification", $this->fields["urgency_justification"], -1, array('on_change' => 'hide_show_urgency(this.value);'));
+      Dropdown::showYesNo("urgency_justification", $this->fields["urgency_justification"], -1,
+                          array('on_change' => 'hide_show_urgency(this.value);'));
       echo "</td>";
       echo "</tr>";
 
@@ -187,7 +185,10 @@ class PluginMoreticketConfig extends CommonDBTM
       echo "</td>";
       echo "<td id='show_urgency_td2' $style>";
       $urgency_ids = self::getValuesUrgency();
-      Dropdown::showFromArray('urgency_ids', $urgency_ids, array('multiple' => true, 'values' => importArrayFromDB($this->fields["urgency_ids"])));
+      Dropdown::showFromArray('urgency_ids',
+                              $urgency_ids,
+                              array('multiple' => true,
+                                    'values'   => importArrayFromDB($this->fields["urgency_ids"])));
       echo "</td>";
       echo "</tr>";
 
@@ -204,10 +205,10 @@ class PluginMoreticketConfig extends CommonDBTM
 
    /**
     * @param $input
+    *
     * @return array|mixed
     */
-   function getSolutionStatus($input)
-   {
+   function getSolutionStatus($input) {
 
       $solution_status = array();
 
@@ -221,100 +222,88 @@ class PluginMoreticketConfig extends CommonDBTM
    /**
     * @return mixed
     */
-   function useWaiting()
-   {
+   function useWaiting() {
       return $this->fields['use_waiting'];
    }
 
    /**
     * @return mixed
     */
-   function mandatoryReportDate()
-   {
+   function mandatoryReportDate() {
       return $this->fields['date_report_mandatory'];
    }
 
    /**
     * @return mixed
     */
-   function mandatoryWaitingType()
-   {
+   function mandatoryWaitingType() {
       return $this->fields['waitingtype_mandatory'];
    }
 
    /**
     * @return mixed
     */
-   function mandatoryWaitingReason()
-   {
+   function mandatoryWaitingReason() {
       return $this->fields['waitingreason_mandatory'];
    }
 
    /**
     * @return mixed
     */
-   function useSolution()
-   {
+   function useSolution() {
       return $this->fields['use_solution'];
    }
 
    /**
     * @return mixed
     */
-   function mandatorySolutionType()
-   {
+   function mandatorySolutionType() {
       return $this->fields['solutiontype_mandatory'];
    }
 
    /**
     * @return mixed
     */
-   function solutionStatus()
-   {
+   function solutionStatus() {
       return $this->fields["solution_status"];
    }
 
    /**
     * @return mixed
     */
-   function closeInformations()
-   {
+   function closeInformations() {
       return $this->fields["close_informations"];
    }
 
    /**
     * @return mixed
     */
-   function closeFollowup()
-   {
+   function closeFollowup() {
       return $this->fields["close_followup"];
    }
 
    /**
     * @return mixed
     */
-   function useUrgency()
-   {
+   function useUrgency() {
       return $this->fields['urgency_justification'];
    }
 
    /**
     * @return array
     */
-   function getUrgency_ids()
-   {
+   function getUrgency_ids() {
       return importArrayFromDB($this->fields['urgency_ids']);
    }
 
    /**
     * @return array
     */
-   static function getValuesUrgency()
-   {
+   static function getValuesUrgency() {
       global $CFG_GLPI;
 
       $URGENCY_MASK_FIELD = 'urgency_mask';
-      $values = array();
+      $values             = array();
 
       if (isset($CFG_GLPI[$URGENCY_MASK_FIELD])) {
          if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1 << 5)) {

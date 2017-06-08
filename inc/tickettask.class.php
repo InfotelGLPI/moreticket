@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of moreticket.
 
  moreticket is free software; you can redistribute it and/or modify
@@ -35,29 +35,29 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class PluginMoreticketTicketTask
  */
-class PluginMoreticketTicketTask extends CommonITILTask
-{
+class PluginMoreticketTicketTask extends CommonITILTask {
 
    static $rightname = "plugin_moreticket";
 
    /**
     * functions mandatory
     * getTypeName(), canCreate(), canView()
+    *
     * @param int $nb
+    *
     * @return string|translated
     */
-   public static function getTypeName($nb = 0)
-   {
+   public static function getTypeName($nb = 0) {
 
       return _n('Ticket', 'Tickets', $nb);
    }
 
    /**
     * @param TicketTask $tickettask
+    *
     * @return bool
     */
-   static function beforeAdd(TicketTask $tickettask)
-   {
+   static function beforeAdd(TicketTask $tickettask) {
 
       if (!is_array($tickettask->input) || !count($tickettask->input)) {
          // Already cancel by another plugin
@@ -67,7 +67,7 @@ class PluginMoreticketTicketTask extends CommonITILTask
       $config = new PluginMoreticketConfig();
 
       if (isset($tickettask->input['_status'])
-         && $config->useWaiting() == true
+          && $config->useWaiting() == true
       ) {
 
          $updates['id'] = $tickettask->input['tickets_id'];
@@ -81,7 +81,7 @@ class PluginMoreticketTicketTask extends CommonITILTask
             $updates['plugin_moreticket_waitingtypes_id'] = $tickettask->input['plugin_moreticket_waitingtypes_id'];
          }
          $updates['status'] = $tickettask->input['_status'];
-         $ticket = new Ticket();
+         $ticket            = new Ticket();
          $ticket->update($updates);
          unset($tickettask->input['_status']);
       }
@@ -89,10 +89,10 @@ class PluginMoreticketTicketTask extends CommonITILTask
 
    /**
     * @param TicketTask $tickettask
+    *
     * @return bool
     */
-   static function beforeUpdate(TicketTask $tickettask)
-   {
+   static function beforeUpdate(TicketTask $tickettask) {
 
       if (!is_array($tickettask->input) || !count($tickettask->input)) {
          // Already cancel by another plugin
@@ -115,7 +115,7 @@ class PluginMoreticketTicketTask extends CommonITILTask
          }
 
          $updates['status'] = $tickettask->input['_status'];
-         $ticket = new Ticket();
+         $ticket            = new Ticket();
          $ticket->update($updates);
          unset($tickettask->input['_status']);
       }

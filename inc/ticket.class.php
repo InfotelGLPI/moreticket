@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of moreticket.
 
  moreticket is free software; you can redistribute it and/or modify
@@ -35,19 +35,19 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class PluginMoreticketTicket
  */
-class PluginMoreticketTicket extends CommonITILObject
-{
+class PluginMoreticketTicket extends CommonITILObject {
 
    static $rightname = "plugin_moreticket";
 
    /**
     * functions mandatory
     * getTypeName(), canCreate(), canView()
+    *
     * @param int $nb
+    *
     * @return string|translated
     */
-   public static function getTypeName($nb = 0)
-   {
+   public static function getTypeName($nb = 0) {
 
       return _n('Ticket', 'Tickets', $nb);
    }
@@ -55,8 +55,7 @@ class PluginMoreticketTicket extends CommonITILObject
    /**
     * @param Ticket $ticket
     */
-   static function emptyTicket(Ticket $ticket)
-   {
+   static function emptyTicket(Ticket $ticket) {
       if (!empty($_POST)) {
          self::setSessions($_POST);
       } else if (!empty($_REQUEST)) {
@@ -66,10 +65,10 @@ class PluginMoreticketTicket extends CommonITILObject
 
    /**
     * @param Ticket $ticket
+    *
     * @return bool
     */
-   static function beforeAdd(Ticket $ticket)
-   {
+   static function beforeAdd(Ticket $ticket) {
 
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
@@ -85,16 +84,15 @@ class PluginMoreticketTicket extends CommonITILObject
          PluginMoreticketUrgencyTicket::preAddUrgencyTicket($ticket);
       }
 
-
    }
 
 
    /**
     * @param Ticket $ticket
+    *
     * @return bool
     */
-   static function afterAdd(Ticket $ticket)
-   {
+   static function afterAdd(Ticket $ticket) {
 
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
@@ -125,10 +123,10 @@ class PluginMoreticketTicket extends CommonITILObject
 
    /**
     * @param Ticket $ticket
+    *
     * @return bool
     */
-   static function beforeUpdate(Ticket $ticket)
-   {
+   static function beforeUpdate(Ticket $ticket) {
 
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
@@ -148,8 +146,7 @@ class PluginMoreticketTicket extends CommonITILObject
    /**
     * @param Ticket $ticket
     */
-   static function afterUpdate(Ticket $ticket)
-   {
+   static function afterUpdate(Ticket $ticket) {
       if (Session::haveRight("plugin_moreticket", UPDATE)) {
          PluginMoreticketWaitingTicket::postUpdateWaitingTicket($ticket);
 
@@ -165,7 +162,6 @@ class PluginMoreticketTicket extends CommonITILObject
       if (Session::haveRight("plugin_moreticket_justification", READ)) {
          PluginMoreticketUrgencyTicket::postUpdateUrgencyTicket($ticket);
 
-
          if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
             unset($_SESSION['glpi_plugin_moreticket_urgency']);
          }
@@ -176,8 +172,7 @@ class PluginMoreticketTicket extends CommonITILObject
    /**
     * @param $input
     */
-   static function setSessions($input)
-   {
+   static function setSessions($input) {
 
       foreach ($input as $key => $values) {
          switch ($key) {

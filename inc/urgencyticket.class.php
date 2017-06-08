@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of moreticket.
 
  moreticket is free software; you can redistribute it and/or modify
@@ -34,11 +34,10 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class PluginMoreticketUrgencyTicket
  */
-class PluginMoreticketUrgencyTicket extends CommonDBTM
-{
+class PluginMoreticketUrgencyTicket extends CommonDBTM {
 
-   static $types = array('Ticket');
-   var $dohistory = true;
+   static $types     = array('Ticket');
+   var    $dohistory = true;
    static $rightname = "plugin_moreticket_justification";
 
    /**
@@ -47,8 +46,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
     *
     * @return booleen
     **/
-   static function canCreate()
-   {
+   static function canCreate() {
 
       if (static::$rightname) {
          return Session::haveRight(static::$rightname, UPDATE);
@@ -56,24 +54,25 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
       return false;
    }
 
-   // Check the mandatory values of forms
    /**
-    * @param $values
+    * Check the mandatory values of forms
+    *
+    * @param      $values
     * @param bool $add
+    *
     * @return bool
     */
-   static function checkMandatory($values, $add = false)
-   {
+   static function checkMandatory($values, $add = false) {
       $checkKo = array();
 
-      $mandatory_fields = array();
+      $mandatory_fields                  = array();
       $mandatory_fields['justification'] = __('Justification', 'moreticket');
 
       $msg = array();
 
       foreach ($mandatory_fields as $key => $value) {
          if (!array_key_exists($key, $values) && empty($values[$key])) {
-            $msg[] = $value;
+            $msg[]     = $value;
             $checkKo[] = 1;
          }
       }
@@ -81,7 +80,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
       foreach ($values as $key => $value) {
          if (array_key_exists($key, $mandatory_fields)) {
             if (empty($value)) {
-               $msg[] = $mandatory_fields[$key];
+               $msg[]     = $mandatory_fields[$key];
                $checkKo[] = 1;
             }
          }
@@ -117,8 +116,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
     *
     * @return Nothing (display)
     * */
-   function showForm($ID, $options = array())
-   {
+   function showForm($ID, $options = array()) {
 
       // validation des droits
       if (!$this->canView()) {
@@ -164,18 +162,23 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
       echo "</div>";
    }
 
-   // Get last urgencyTicket
    /**
-    * @param $tickets_id
+    * Get last urgencyTicket
+    *
+    * @param       $tickets_id
     * @param array $options
+    *
     * @return array|bool|mixed
     */
-   static function getUrgencyTicketFromDB($tickets_id, $options = array())
-   {
+   static function getUrgencyTicketFromDB($tickets_id, $options = array()) {
       if (sizeof($options) == 0) {
-         $data_Urgency = getAllDatasFromTable("glpi_plugin_moreticket_urgencytickets", '`tickets_id` = ' . $tickets_id);
+         $data_Urgency = getAllDatasFromTable("glpi_plugin_moreticket_urgencytickets",
+                                              '`tickets_id` = ' . $tickets_id);
       } else {
-         $data_Urgency = getAllDatasFromTable("glpi_plugin_moreticket_urgencytickets", 'tickets_id = ' . $tickets_id, false, ' LIMIT ' . intval($options['start']) . "," . intval($options['limit']));
+         $data_Urgency = getAllDatasFromTable("glpi_plugin_moreticket_urgencytickets",
+                                              'tickets_id = ' . $tickets_id,
+                                              false,
+                                              ' LIMIT ' . intval($options['start']) . "," . intval($options['limit']));
       }
 
       if (sizeof($data_Urgency) > 0) {
@@ -191,17 +194,16 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
    /**
     * @param $item
     */
-   static function preUpdateUrgencyTicket($item)
-   {
+   static function preUpdateUrgencyTicket($item) {
       $config = new PluginMoreticketConfig();
       if ($config->useUrgency()) {
          $urgency_ticket = new self();
 
          // Then we add tickets informations
          if (isset($item->fields['id'])
-            && isset($item->fields['urgency'])
-            && isset($item->input['urgency'])
-            && isset($item->input['justification'])
+             && isset($item->fields['urgency'])
+             && isset($item->input['urgency'])
+             && isset($item->input['justification'])
          ) {
 
             $urgency_ids = $config->getUrgency_ids();
@@ -211,14 +213,14 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
                if (self::checkMandatory($item->input)) {
                   if ($urgency_ticket_data = self::getUrgencyTicketFromDB($item->fields['id'])) {
                      // UPDATE
-                     $urgency_ticket->update(array('id' => $urgency_ticket_data['id'],
-                        'justification' => $item->input['justification']));
+                     $urgency_ticket->update(array('id'            => $urgency_ticket_data['id'],
+                                                   'justification' => $item->input['justification']));
 
                   } else {
                      // ADD
                      // Then we add tickets informations
                      if ($urgency_ticket->add(array('justification' => (isset($item->input['justification'])) ? $item->input['justification'] : "",
-                        'tickets_id' => $item->fields['id']))
+                                                    'tickets_id'    => $item->fields['id']))
                      ) {
 
                         unset($_SESSION['glpi_plugin_moreticket_urgency']);
@@ -229,7 +231,6 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
                   unset($item->input['urgency']);
                }
 
-
             }
          }
       }
@@ -238,8 +239,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
    /**
     * @param $item
     */
-   static function postUpdateUrgencyTicket($item)
-   {
+   static function postUpdateUrgencyTicket($item) {
       $config = new PluginMoreticketConfig();
 
       if ($config->useUrgency()) {
@@ -247,7 +247,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
          // Then we add tickets informations
          if (isset($item->fields['id'])) {
             if (isset($item->oldvalues['urgency']) && (isset($item->input['urgency']))
-               && $item->input['urgency'] != $item->oldvalues['urgency']
+                && $item->input['urgency'] != $item->oldvalues['urgency']
             ) {
 
                $urgency_ticket_data = self::getUrgencyTicketFromDB($item->fields['id']);
@@ -255,8 +255,8 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
                $urgency_ids = $config->getUrgency_ids();
 
                if (!in_array($item->input['urgency'], $urgency_ids)) {
-                  $urgency_ticket->update(array('id' => $urgency_ticket_data['id'],
-                     'justification' => ""));
+                  $urgency_ticket->update(array('id'            => $urgency_ticket_data['id'],
+                                                'justification' => ""));
                }
 
                unset($_SESSION['glpi_plugin_moreticket_urgency']);
@@ -265,13 +265,14 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
       }
    }
 
-   // Hook done on before add ticket - checkMandatory
    /**
+    * Hook done on before add ticket - checkMandatory
+    *
     * @param $item
+    *
     * @return bool
     */
-   static function preAddUrgencyTicket($item)
-   {
+   static function preAddUrgencyTicket($item) {
       if (!is_array($item->input) || !count($item->input)) {
          // Already cancel by another plugin
          return false;
@@ -284,7 +285,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
          if (isset($item->input['urgency']) && in_array($item->input['urgency'], $urgency_ids)) {
             if (!self::checkMandatory($item->input, true)) {
                $_SESSION['saveInput'][$item->getType()] = $item->input;
-               $item->input = array();
+               $item->input                             = array();
             }
 
          }
@@ -292,13 +293,14 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
       return true;
    }
 
-   // Hook done on after add ticket - add urgencytickets
    /**
+    * Hook done on after add ticket - add urgencytickets
+    *
     * @param $item
+    *
     * @return bool
     */
-   static function postAddUrgencyTicket($item)
-   {
+   static function postAddUrgencyTicket($item) {
       if (!is_array($item->input) || !count($item->input)) {
          // Already cancel by another plugin
          return false;
@@ -307,19 +309,19 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
       $config = new PluginMoreticketConfig();
       if ($config->useUrgency()) {
          $urgency_ticket = new self();
-         $urgency_ids = $config->getUrgency_ids();
+         $urgency_ids    = $config->getUrgency_ids();
          // Then we add tickets informations
          if (in_array($item->input['urgency'], $urgency_ids)) {
             if (self::checkMandatory($item->input)) {
                // Then we add tickets informations
                if ($urgency_ticket->add(array('justification' => $item->input['justification'],
-                  'tickets_id' => $item->fields['id']))
+                                              'tickets_id'    => $item->fields['id']))
                ) {
 
                   unset($_SESSION['glpi_plugin_moreticket_urgency']);
                }
             } else {
-               $item->input['id'] = $item->fields['id'];
+               $item->input['id']                       = $item->fields['id'];
                $_SESSION['saveInput'][$item->getType()] = $item->input;
                unset($item->input['urgency']);
             }
@@ -335,8 +337,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
     *
     * @return array of types
     * */
-   static function getTypes($all = false)
-   {
+   static function getTypes($all = false) {
 
       if ($all) {
          return self::$types;

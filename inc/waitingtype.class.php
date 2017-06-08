@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of moreticket.
 
  moreticket is free software; you can redistribute it and/or modify
@@ -34,17 +34,16 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class PluginMoreticketWaitingType
  */
-class PluginMoreticketWaitingType extends CommonTreeDropdown
-{
+class PluginMoreticketWaitingType extends CommonTreeDropdown {
 
    static $rightname = "dropdown";
 
    /**
     * @param int $nb
-    * @return translated
+    *
+    * @return \translated
     */
-   public static function getTypeName($nb = 0)
-   {
+   public static function getTypeName($nb = 0) {
 
       return _n('Waiting type', 'Waiting types', $nb, 'moreticket');
    }
@@ -52,25 +51,22 @@ class PluginMoreticketWaitingType extends CommonTreeDropdown
    /**
     * @return array
     */
-   function getAdditionalFields()
-   {
+   function getAdditionalFields() {
 
-      $tab = array(array('name' => $this->getForeignKeyField(),
-         'label' => __('As child of'),
-         'type' => 'parent',
-         'list' => false)
+      $tab = array(array('name'  => $this->getForeignKeyField(),
+                         'label' => __('As child of'),
+                         'type'  => 'parent',
+                         'list'  => false)
       );
 
       return $tab;
-
 
    }
 
    /**
     * @return array
     */
-   function getSearchOptions()
-   {
+   function getSearchOptions() {
 
       $tab = parent::getSearchOptions();
 

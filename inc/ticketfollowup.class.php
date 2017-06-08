@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of moreticket.
 
  moreticket is free software; you can redistribute it and/or modify
@@ -35,29 +35,29 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class PluginMoreticketTicketFollowup
  */
-class PluginMoreticketTicketFollowup extends CommonDBTM
-{
+class PluginMoreticketTicketFollowup extends CommonDBTM {
 
    static $rightname = "plugin_moreticket";
 
    /**
     * functions mandatory
     * getTypeName(), canCreate(), canView()
+    *
     * @param int $nb
+    *
     * @return string|translated
     */
-   public static function getTypeName($nb = 0)
-   {
+   public static function getTypeName($nb = 0) {
 
       return _n('Ticket', 'Tickets', $nb);
    }
 
    /**
     * @param TicketFollowup $ticketfollowup
+    *
     * @return bool
     */
-   static function beforeAdd(TicketFollowup $ticketfollowup)
-   {
+   static function beforeAdd(TicketFollowup $ticketfollowup) {
 
       if (!is_array($ticketfollowup->input) || !count($ticketfollowup->input)) {
          // Already cancel by another plugin
@@ -67,12 +67,12 @@ class PluginMoreticketTicketFollowup extends CommonDBTM
       $config = new PluginMoreticketConfig();
 
       if (isset($ticketfollowup->input['_status']) && $config->useWaiting() == true) {
-         $updates['id'] = $ticketfollowup->input['tickets_id'];
-         $updates['reason'] = $ticketfollowup->input['reason'];
-         $updates['date_report'] = $ticketfollowup->input['date_report'];
+         $updates['id']                                = $ticketfollowup->input['tickets_id'];
+         $updates['reason']                            = $ticketfollowup->input['reason'];
+         $updates['date_report']                       = $ticketfollowup->input['date_report'];
          $updates['plugin_moreticket_waitingtypes_id'] = $ticketfollowup->input['plugin_moreticket_waitingtypes_id'];
-         $updates['status'] = $ticketfollowup->input['_status'];
-         $ticket = new Ticket();
+         $updates['status']                            = $ticketfollowup->input['_status'];
+         $ticket                                       = new Ticket();
          $ticket->update($updates);
          unset($ticketfollowup->input['_status']);
       }
@@ -80,10 +80,10 @@ class PluginMoreticketTicketFollowup extends CommonDBTM
 
    /**
     * @param TicketFollowup $ticketfollowup
+    *
     * @return bool
     */
-   static function beforeUpdate(TicketFollowup $ticketfollowup)
-   {
+   static function beforeUpdate(TicketFollowup $ticketfollowup) {
 
       if (!is_array($ticketfollowup->input) || !count($ticketfollowup->input)) {
          // Already cancel by another plugin
@@ -93,12 +93,12 @@ class PluginMoreticketTicketFollowup extends CommonDBTM
       $config = new PluginMoreticketConfig();
 
       if (isset($ticketfollowup->input['_status']) && $config->useWaiting() == true) {
-         $updates['id'] = $ticketfollowup->input['tickets_id'];
-         $updates['reason'] = $ticketfollowup->input['reason'];
-         $updates['date_report'] = $ticketfollowup->input['date_report'];
+         $updates['id']                                = $ticketfollowup->input['tickets_id'];
+         $updates['reason']                            = $ticketfollowup->input['reason'];
+         $updates['date_report']                       = $ticketfollowup->input['date_report'];
          $updates['plugin_moreticket_waitingtypes_id'] = $ticketfollowup->input['plugin_moreticket_waitingtypes_id'];
-         $updates['status'] = $ticketfollowup->input['_status'];
-         $ticket = new Ticket();
+         $updates['status']                            = $ticketfollowup->input['_status'];
+         $ticket                                       = new Ticket();
          $ticket->update($updates);
          unset($ticketfollowup->input['_status']);
       }

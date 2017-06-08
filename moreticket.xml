@@ -6,11 +6,11 @@
     <logo>https://raw.githubusercontent.com/InfotelGLPI/moreticket/master/moreticket.png</logo>
     <description>
         <short>
-            <fr><![CDATA[Ce plugin permet d'ajouter 3 nouvelles options sur un ticket GLPI]]></fr>
-            <en><![CDATA[This plugin enables you to add 3 new options into a ticket.]]></en>
+            <fr><![CDATA[Ce plugin permet d'ajouter 4 nouvelles options sur un ticket GLPI]]></fr>
+            <en><![CDATA[This plugin enables you to add 4 new options into a ticket.]]></en>
         </short>
         <long>
-            <fr><![CDATA[Ce plugin permet d'ajouter 3 nouvelles options sur un ticket GLPI<br />- A la création d'un ticket, lors de la sélection du statut "Résolu" ou "Clos", le ticket vous proposera de remplir la solution du ticket,<br />- A la création et à la modification d'un ticket, lors de la sélection du statut "En attente", vous pourrez définir des types d'attente, la raison de la mise en attente ainsi qu'une date de report,<br />- Enfin une nouvelle zone sera disponible pour ajouter des informations suite à la clôture du ticket.]]></fr>
+            <fr><![CDATA[Ce plugin permet d'ajouter 4 nouvelles options sur un ticket GLPI<br />- A la création d'un ticket, lors de la sélection du statut "Résolu" ou "Clos", le ticket vous proposera de remplir la solution du ticket,<br />- A la création et à la modification d'un ticket, lors de la sélection du statut "En attente", vous pourrez définir des types d'attente, la raison de la mise en attente ainsi qu'une date de report,<br />- Une nouvelle zone sera disponible pour ajouter des informations suite à la clôture du ticket, <br />- A la création et à la modification d'un ticket, lors de la sélection de l'urgence en fonction du paramètrage effectué dans la configuration du plugin, vous pourrez définir une justification.]]></fr>
             <en></en>
         </long>
     </description>
@@ -23,6 +23,22 @@
         <author>Infotel</author>
     </authors>
     <versions>
+        <version>
+            <num>1.2.6</num>
+            <compatibility>0.90, 9.1</compatibility>
+        </version>
+        <version>
+            <num>1.2.5</num>
+            <compatibility>9.1</compatibility>
+        </version>
+        <version>
+            <num>1.2.4</num>
+            <compatibility>9.1</compatibility>
+        </version>
+        <version>
+            <num>1.2.3</num>
+            <compatibility>9.1</compatibility>
+        </version>
         <version>
             <num>1.2.1</num>
             <compatibility>0.90</compatibility>
@@ -37,6 +53,8 @@
         <lang>en_GB</lang>
         <lang>es_AR</lang>
         <lang>ru_RU</lang>
+        <lang>pt_PT</lang>
+        <lang>pt_BR</lang>
     </langs>
     <license><![CDATA[GPL v2+]]></license>
     <tags>

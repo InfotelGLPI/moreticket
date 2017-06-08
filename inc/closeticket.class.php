@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of moreticket.
 
  moreticket is free software; you can redistribute it and/or modify
@@ -34,11 +34,10 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class PluginMoreticketCloseTicket
  */
-class PluginMoreticketCloseTicket extends CommonDBTM
-{
+class PluginMoreticketCloseTicket extends CommonDBTM {
 
-   static $types = array('Ticket');
-   var $dohistory = true;
+   static $types     = array('Ticket');
+   var    $dohistory = true;
    static $rightname = "plugin_moreticket";
 
    /**
@@ -47,8 +46,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
     *
     * @return booleen
     **/
-   static function canCreate()
-   {
+   static function canCreate() {
 
       if (static::$rightname) {
          return Session::haveRight(static::$rightname, UPDATE);
@@ -60,18 +58,18 @@ class PluginMoreticketCloseTicket extends CommonDBTM
     * Display moreticket-item's tab for each users
     *
     * @param CommonGLPI $item
-    * @param int $withtemplate
+    * @param int        $withtemplate
+    *
     * @return array|string
     */
-   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
-   {
+   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
 
       $config = new PluginMoreticketConfig();
 
       if (!$withtemplate) {
          if ($item->getType() == 'Ticket'
-            && $item->fields['status'] == Ticket::CLOSED
-            && $config->closeInformations()
+             && $item->fields['status'] == Ticket::CLOSED
+             && $config->closeInformations()
          ) {
 
             return __('Close ticket informations', 'moreticket');
@@ -85,19 +83,20 @@ class PluginMoreticketCloseTicket extends CommonDBTM
     * Display tab's content for each users
     *
     * @static
+    *
     * @param CommonGLPI $item
-    * @param int $tabnum
-    * @param int $withtemplate
+    * @param int        $tabnum
+    * @param int        $withtemplate
+    *
     * @return bool|true
     */
-   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
-   {
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
 
       $config = new PluginMoreticketConfig();
 
       if ($item->getType() == 'Ticket'
-         && ($item->fields['status'] == Ticket::CLOSED)
-         && $config->closeInformations()
+          && ($item->fields['status'] == Ticket::CLOSED)
+          && $config->closeInformations()
       ) {
 
          self::showForTicket($item);
@@ -109,11 +108,12 @@ class PluginMoreticketCloseTicket extends CommonDBTM
    /**
     * functions mandatory
     * getTypeName(), canCreate(), canView()
+    *
     * @param int $nb
+    *
     * @return string|translated
     */
-   public static function getTypeName($nb = 0)
-   {
+   public static function getTypeName($nb = 0) {
 
       return __('Close ticket informations', 'moreticket');
    }
@@ -121,10 +121,10 @@ class PluginMoreticketCloseTicket extends CommonDBTM
    // Check the mandatory values of forms
    /**
     * @param $values
+    *
     * @return bool
     */
-   static function checkMandatory($values)
-   {
+   static function checkMandatory($values) {
       $checkKo = array();
 
       $config = new PluginMoreticketConfig();
@@ -140,7 +140,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
       foreach ($values as $key => $value) {
          if (array_key_exists($key, $mandatory_fields)) {
             if (empty($value)) {
-               $msg[] = $mandatory_fields[$key];
+               $msg[]     = $mandatory_fields[$key];
                $checkKo[] = 1;
             }
          }
@@ -156,10 +156,10 @@ class PluginMoreticketCloseTicket extends CommonDBTM
 
    /**
     * @param Ticket $item
+    *
     * @return bool
     */
-   static function showForTicket(Ticket $item)
-   {
+   static function showForTicket(Ticket $item) {
 
       if (!self::canView()) {
          return false;
@@ -230,28 +230,27 @@ class PluginMoreticketCloseTicket extends CommonDBTM
    /**
     * @return an
     */
-   function getSearchOptions()
-   {
+   function getSearchOptions() {
 
       $tab = parent::getSearchOptions();
 
-      $tab[10]['table'] = $this->getTable();
-      $tab[10]['field'] = 'date';
-      $tab[10]['name'] = __('Date');
-      $tab[10]['datatype'] = 'datetime';
+      $tab[10]['table']         = $this->getTable();
+      $tab[10]['field']         = 'date';
+      $tab[10]['name']          = __('Date');
+      $tab[10]['datatype']      = 'datetime';
       $tab[10]['massiveaction'] = false;
 
-      $tab[11]['table'] = $this->getTable();
-      $tab[11]['field'] = 'comment';
-      $tab[11]['name'] = __('Comments');
-      $tab[11]['datatype'] = 'text';
+      $tab[11]['table']         = $this->getTable();
+      $tab[11]['field']         = 'comment';
+      $tab[11]['name']          = __('Comments');
+      $tab[11]['datatype']      = 'text';
       $tab[11]['massiveaction'] = true;
 
-      $tab[12]['table'] = "glpi_users";
-      $tab[12]['field'] = 'name';
-      $tab[12]['name'] = __('Writer');
-      $tab[12]['datatype'] = 'dropdown';
-      $tab[12]['linkfield'] = 'requesters_id';
+      $tab[12]['table']         = "glpi_users";
+      $tab[12]['field']         = 'name';
+      $tab[12]['name']          = __('Writer');
+      $tab[12]['datatype']      = 'dropdown';
+      $tab[12]['linkfield']     = 'requesters_id';
       $tab[12]['massiveaction'] = false;
 
       return $tab;
@@ -262,13 +261,14 @@ class PluginMoreticketCloseTicket extends CommonDBTM
     *
     * @param $item
     * @param $canedit
+    *
     * @return Nothing
     * @internal param int $ID ID of the item
-    * @internal param array $options - target filename : where to go when done.*     - target filename : where to go when done.
+    * @internal param array $options - target filename : where to go when done.*     - target filename : where to go
+    *    when done.
     *     - withtemplate boolean : template or basic item
     */
-   static function showList($item, $canedit)
-   {
+   static function showList($item, $canedit) {
 
       // validation des droits
       if (!self::canView()) {
@@ -285,7 +285,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
 
       // Get close informations
       $data = self::getCloseTicketFromDB($item->getField('id'), array('start' => $start,
-         'limit' => $_SESSION['glpilist_limit']));
+                                                                      'limit' => $_SESSION['glpilist_limit']));
 
       if (!count($data)) {
          echo "<div class='center'>";
@@ -357,12 +357,12 @@ class PluginMoreticketCloseTicket extends CommonDBTM
    /**
     * Get close ticket informations
     *
-    * @param type $tickets_id
+    * @param type       $tickets_id
     * @param array|type $options
+    *
     * @return bool
     */
-   static function getCloseTicketFromDB($tickets_id, $options = array())
-   {
+   static function getCloseTicketFromDB($tickets_id, $options = array()) {
 
       $data = getAllDatasFromTable("glpi_plugin_moreticket_closetickets", 'tickets_id = ' . $tickets_id, false, '`date` DESC LIMIT ' . intval($options['start']) . "," . intval($options['limit']));
 
@@ -379,8 +379,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
     *
     * @return Nothing (display)
     * */
-   function showForm($ID, $options = array())
-   {
+   function showForm($ID, $options = array()) {
       global $CFG_GLPI;
 
       // validation des droits
@@ -414,22 +413,22 @@ class PluginMoreticketCloseTicket extends CommonDBTM
       echo "<tr><td>";
       echo _n('Solution template', 'Solution templates', 1) . "&nbsp;:&nbsp;&nbsp;";
       $rand_template = mt_rand();
-      $rand_text = mt_rand();
-      $rand_type = mt_rand();
-      SolutionTemplate::dropdown(array('value' => 0,
-         'entity' => $ticket->getEntityID(),
-         'rand' => $rand_template,
-         // Load type and solution from bookmark
-         'toupdate'
-         => array('value_fieldname'
-         => 'value',
-            'to_update' => 'solution' . $rand_text,
-            'url' => $CFG_GLPI["root_doc"] .
-               "/ajax/solution.php",
-            'moreparams'
-            => array('type_id'
-            => 'dropdown_solutiontypes_id' .
-               $rand_type))));
+      $rand_text     = mt_rand();
+      $rand_type     = mt_rand();
+      SolutionTemplate::dropdown(array('value'  => 0,
+                                       'entity' => $ticket->getEntityID(),
+                                       'rand'   => $rand_template,
+                                       // Load type and solution from bookmark
+                                       'toupdate'
+                                                => array('value_fieldname'
+                                                                     => 'value',
+                                                         'to_update' => 'solution' . $rand_text,
+                                                         'url'       => $CFG_GLPI["root_doc"] .
+                                                                        "/ajax/solution.php",
+                                                         'moreparams'
+                                                                     => array('type_id'
+                                                                              => 'dropdown_solutiontypes_id' .
+                                                                                 $rand_type))));
 
       echo "</td></tr>";
 
@@ -440,9 +439,9 @@ class PluginMoreticketCloseTicket extends CommonDBTM
          echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
       }
       Dropdown::show('SolutionType',
-         array('value' => $ticket->getField('solutiontypes_id'),
-            'rand' => $rand_type,
-            'entity' => $ticket->getEntityID()));
+                     array('value'  => $ticket->getField('solutiontypes_id'),
+                           'rand'   => $rand_type,
+                           'entity' => $ticket->getEntityID()));
       echo "</td></tr>";
       echo "<tr><td>";
       echo __('Solution description', 'moreticket') . "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
@@ -458,10 +457,10 @@ class PluginMoreticketCloseTicket extends CommonDBTM
    // Hook done on before add ticket - checkMandatory
    /**
     * @param $item
+    *
     * @return bool
     */
-   static function preAddCloseTicket($item)
-   {
+   static function preAddCloseTicket($item) {
       if (!is_array($item->input) || !count($item->input)) {
          // Already cancel by another plugin
          return false;
@@ -477,7 +476,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
             if (self::checkMandatory($item->input)) {
                // Add followup on immediate ticket closing
                if ($config->closeFollowup()
-                  && $item->input['id'] == 0
+                   && $item->input['id'] == 0
                ) {
                   $item->input['_followup']['content'] = str_replace(array('\r', '\n', '\r\n'), '', Html::clean(Html::entity_decode_deep($item->input['solution'])));
                }
@@ -485,7 +484,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
                $item->input['solution'] = str_replace(array('\r', '\n', '\r\n'), '', $item->input['solution']);
             } else {
                $_SESSION['saveInput'][$item->getType()] = $item->input;
-               $item->input = array();
+               $item->input                             = array();
             }
          }
       }
@@ -496,8 +495,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
    /**
     *
     */
-   public function post_addItem()
-   {
+   public function post_addItem() {
 
       $changes[0] = '0';
       $changes[1] = '';
@@ -510,10 +508,10 @@ class PluginMoreticketCloseTicket extends CommonDBTM
 
    /**
     * @param int $history
+    *
     * @return nothing|void
     */
-   public function post_updateItem($history = 1)
-   {
+   public function post_updateItem($history = 1) {
 
       $changes[0] = '0';
       $changes[1] = '';
@@ -526,10 +524,10 @@ class PluginMoreticketCloseTicket extends CommonDBTM
 
    /**
     * @param int $history
+    *
     * @return nothing|void
     */
-   public function post_purgeItem($history = 1)
-   {
+   public function post_purgeItem($history = 1) {
 
       $changes[0] = '0';
       $changes[1] = '';
