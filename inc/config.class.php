@@ -59,7 +59,9 @@ class PluginMoreticketConfig extends CommonDBTM {
     * PluginMoreticketConfig constructor.
     */
    function __construct() {
-      if (TableExists($this->getTable())) {
+      global $DB;
+
+      if ($DB->tableExists($this->getTable())) {
          $this->getFromDB(1);
       }
    }

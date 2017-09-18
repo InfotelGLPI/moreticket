@@ -257,7 +257,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       if ($this->fields['date_report'] == 'NULL') {
          $this->fields['date_report'] = date("Y-m-d H:i:s");
       }
-      Html::showDateTimeFormItem("date_report", $this->fields['date_report'], 1, false);
+      Html::showDateTimeField("date_report", ['value'      => $this->fields['date_report'],
+                                              'maybeempty' => false]);
 
       echo "</td></tr>";
       echo "</table>";
@@ -335,7 +336,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       if ($this->fields['date_report'] == 'NULL') {
          $this->fields['date_report'] = date("Y-m-d H:i:s");
       }
-      Html::showDateTimeFormItem("date_report", $this->fields['date_report'], 1, false);
+      Html::showDateTimeField("date_report", ['value'      => $this->fields['date_report'],
+                                              'maybeempty' => false]);
 
       echo "</td></tr>";
       echo "</table>";

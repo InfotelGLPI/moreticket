@@ -28,11 +28,10 @@
  */
 
 // Init the hooks of the plugins -Needed
-function plugin_init_moreticket()
-{
+function plugin_init_moreticket() {
    global $PLUGIN_HOOKS;
 
-   $PLUGIN_HOOKS['add_css']['moreticket'] = 'moreticket.css';
+   $PLUGIN_HOOKS['add_css']['moreticket']        = 'moreticket.css';
    $PLUGIN_HOOKS['csrf_compliant']['moreticket'] = true;
    $PLUGIN_HOOKS['change_profile']['moreticket'] = array('PluginMoreticketProfile', 'initProfile');
 
@@ -45,13 +44,13 @@ function plugin_init_moreticket()
 
          $PLUGIN_HOOKS['add_javascript']['moreticket'] = array("scripts/moreticket.js");
 
-         if (Session::haveRight("plugin_moreticket", UPDATE)  || Session::haveRight("plugin_moreticket_justification", READ)) {
+         if (Session::haveRight("plugin_moreticket", UPDATE) || Session::haveRight("plugin_moreticket_justification", READ)) {
             if (strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false
-               || strpos($_SERVER['REQUEST_URI'], "helpdesk.public.php") !== false
-                   || strpos($_SERVER['REQUEST_URI'], "tracking.injector.php") !== false
-                  && ($config->useWaiting() == true || $config->useSolution() == true || $config->useUrgency() == true)
+                || strpos($_SERVER['REQUEST_URI'], "helpdesk.public.php") !== false
+                || strpos($_SERVER['REQUEST_URI'], "tracking.injector.php") !== false
+                   && ($config->useWaiting() == true || $config->useSolution() == true || $config->useUrgency() == true)
             ) {
-               if ('lefttab' == $_SESSION['glpilayout']){
+               if ('lefttab' == $_SESSION['glpilayout']) {
                   $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_load_scripts_lefttab.js';
                } else {
                   $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_load_scripts.js';
@@ -66,7 +65,7 @@ function plugin_init_moreticket()
             $PLUGIN_HOOKS['pre_item_add']['moreticket']    = array('TicketTask'     => array('PluginMoreticketTicketTask', 'beforeAdd'),
                                                                    'TicketFollowup' => array('PluginMoreticketTicketFollowup', 'beforeAdd'));
 
-            $PLUGIN_HOOKS['item_empty']['moreticket']      = array('Ticket' => array('PluginMoreticketTicket', 'emptyTicket'));
+            $PLUGIN_HOOKS['item_empty']['moreticket'] = array('Ticket' => array('PluginMoreticketTicket', 'emptyTicket'));
          }
 
          if (Session::haveRight("plugin_moreticket_justification", READ) || Session::haveRight("plugin_moreticket", UPDATE)) {
@@ -89,16 +88,15 @@ function plugin_init_moreticket()
 /**
  * @return array
  */
-function plugin_version_moreticket()
-{
+function plugin_version_moreticket() {
 
    return array(
-      'name' => __('More ticket', 'moreticket'),
-      'version' => "1.2.6",
-      'author' => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>",
-      'homepage' => "https://github.com/InfotelGLPI/moreticket",
-      'license' => 'GPLv2+',
-      'minGlpiVersion' => "0.90"
+      'name'           => __('More ticket', 'moreticket'),
+      'version'        => "1.3.0",
+      'author'         => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>",
+      'homepage'       => "https://github.com/InfotelGLPI/moreticket",
+      'license'        => 'GPLv2+',
+      'minGlpiVersion' => "9.2"
    );
 }
 
@@ -106,14 +104,12 @@ function plugin_version_moreticket()
 /**
  * @return bool
  */
-function plugin_moreticket_check_prerequisites()
-{
-   if (version_compare(GLPI_VERSION, '0.90', 'lt') || version_compare(GLPI_VERSION, '9.2', 'ge')) {
-      echo __('This plugin requires GLPI >= 0.90', 'moreticket');
-   } else {
-      return true;
+function plugin_moreticket_check_prerequisites() {
+   if (version_compare(GLPI_VERSION, '9.2', 'lt') || version_compare(GLPI_VERSION, '9.3', 'ge')) {
+      echo __('This plugin requires GLPI >= 9.2');
+      return false;
    }
-   return false;
+   return true;
 }
 
 // Check configuration process for plugin : need to return true if succeeded
@@ -121,7 +117,6 @@ function plugin_moreticket_check_prerequisites()
 /**
  * @return bool
  */
-function plugin_moreticket_check_config()
-{
+function plugin_moreticket_check_config() {
    return true;
 }

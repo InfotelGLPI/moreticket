@@ -30,49 +30,48 @@
 /**
  * @return bool
  */
-function plugin_moreticket_install()
-{
+function plugin_moreticket_install() {
    global $DB;
 
    include_once(GLPI_ROOT . "/plugins/moreticket/inc/profile.class.php");
 
-   if (!TableExists("glpi_plugin_moreticket_configs")) {
+   if (!$DB->tableExists("glpi_plugin_moreticket_configs")) {
       // table sql creation
       $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/empty-1.2.5.sql");
    }
 
-   if (!FieldExists("glpi_plugin_moreticket_configs", "solution_status")) {
+   if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "solution_status")) {
       $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.1.1.sql");
    }
 
-   if (FieldExists("glpi_plugin_moreticket_waitingtypes", "is_helpdeskvisible")) {
+   if ($DB->fieldExists("glpi_plugin_moreticket_waitingtypes", "is_helpdeskvisible")) {
       $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.1.2.sql");
    }
 
-   if (!FieldExists("glpi_plugin_moreticket_closetickets", "documents_id")) {
+   if (!$DB->fieldExists("glpi_plugin_moreticket_closetickets", "documents_id")) {
       $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.1.3.sql");
    }
 
-   if (!FieldExists("glpi_plugin_moreticket_configs", "date_report_mandatory")) {
+   if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "date_report_mandatory")) {
       $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.2.0.sql");
    }
 
-   if (!FieldExists("glpi_plugin_moreticket_configs", "close_followup")) {
+   if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "close_followup")) {
       $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.2.2.sql");
    }
 
    //version 1.2.3
-   if (!FieldExists("glpi_plugin_moreticket_configs", "waitingreason_mandatory")) {
+   if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "waitingreason_mandatory")) {
       $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.2.3.sql");
    }
 
    //version 1.2.4
-   if (!FieldExists("glpi_plugin_moreticket_configs", "urgency_justification")) {
+   if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "urgency_justification")) {
       $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.2.4.sql");
    }
 
    //version 1.2.5
-   if (!FieldExists("glpi_plugin_moreticket_waitingtickets", "status")) {
+   if (!$DB->fieldExists("glpi_plugin_moreticket_waitingtickets", "status")) {
       $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.2.5.sql");
    }
 
@@ -89,18 +88,17 @@ function plugin_moreticket_install()
 /**
  * @return bool
  */
-function plugin_moreticket_uninstall()
-{
+function plugin_moreticket_uninstall() {
    global $DB;
 
    include_once(GLPI_ROOT . "/plugins/moreticket/inc/profile.class.php");
 
    // Plugin tables deletion
    $tables = array("glpi_plugin_moreticket_configs",
-      "glpi_plugin_moreticket_waitingtickets",
-      "glpi_plugin_moreticket_waitingtypes",
-      "glpi_plugin_moreticket_closetickets",
-      "glpi_plugin_moreticket_urgencytickets");
+                   "glpi_plugin_moreticket_waitingtickets",
+                   "glpi_plugin_moreticket_waitingtypes",
+                   "glpi_plugin_moreticket_closetickets",
+                   "glpi_plugin_moreticket_urgencytickets");
 
    foreach ($tables as $table)
       $DB->query("DROP TABLE IF EXISTS `$table`;");
@@ -116,26 +114,24 @@ function plugin_moreticket_uninstall()
    return true;
 }
 
-function plugin_moreticket_postinit()
-{
+function plugin_moreticket_postinit() {
    global $PLUGIN_HOOKS;
 
    $PLUGIN_HOOKS['item_purge']['moreticket'] = array();
-   $PLUGIN_HOOKS['item_add']['moreticket'] = array();
+   $PLUGIN_HOOKS['item_add']['moreticket']   = array();
 }
 
 // Define dropdown relations
 /**
  * @return array
  */
-function plugin_moreticket_getDatabaseRelations()
-{
+function plugin_moreticket_getDatabaseRelations() {
 
    $plugin = new Plugin();
    if ($plugin->isActivated("moreticket"))
-      return array("glpi_tickets" => array("glpi_plugin_moreticket_waitingtickets" => "tickets_id"),
-         "glpi_plugin_moreticket_waitingtypes" => array("glpi_plugin_moreticket_waitingtickets" => "plugin_moreticket_waitingtypes_id"),
-         "glpi_tickets" => array("glpi_plugin_moreticket_closetickets" => "tickets_id"));
+      return array("glpi_tickets"                        => array("glpi_plugin_moreticket_waitingtickets" => "tickets_id"),
+                   "glpi_plugin_moreticket_waitingtypes" => array("glpi_plugin_moreticket_waitingtickets" => "plugin_moreticket_waitingtypes_id"),
+                   "glpi_tickets"                        => array("glpi_plugin_moreticket_closetickets" => "tickets_id"));
    else
       return array();
 }
@@ -144,8 +140,7 @@ function plugin_moreticket_getDatabaseRelations()
 /**
  * @return array
  */
-function plugin_moreticket_getDropdown()
-{
+function plugin_moreticket_getDropdown() {
 
    $plugin = new Plugin();
 
@@ -159,8 +154,7 @@ function plugin_moreticket_getDropdown()
 /**
  * @param $item
  */
-function plugin_pre_item_purge_moreticket($item)
-{
+function plugin_pre_item_purge_moreticket($item) {
 
    switch (get_class($item)) {
       case 'Ticket' :
@@ -176,10 +170,10 @@ function plugin_pre_item_purge_moreticket($item)
 // Define search option for types of the plugins
 /**
  * @param $itemtype
+ *
  * @return array
  */
-function plugin_moreticket_getAddSearchOptions($itemtype)
-{
+function plugin_moreticket_getAddSearchOptions($itemtype) {
 
    $sopt = array();
 
@@ -188,58 +182,58 @@ function plugin_moreticket_getAddSearchOptions($itemtype)
 
          $config = new PluginMoreticketConfig();
 
-         $sopt[3451]['table'] = 'glpi_plugin_moreticket_waitingtickets';
-         $sopt[3451]['field'] = 'date_report';
-         $sopt[3451]['name'] = __('Postponement date', 'moreticket');
-         $sopt[3451]['datatype'] = "datetime";
-         $sopt[3451]['joinparams'] = array('jointype' => 'child');
+         $sopt[3451]['table']         = 'glpi_plugin_moreticket_waitingtickets';
+         $sopt[3451]['field']         = 'date_report';
+         $sopt[3451]['name']          = __('Postponement date', 'moreticket');
+         $sopt[3451]['datatype']      = "datetime";
+         $sopt[3451]['joinparams']    = array('jointype' => 'child');
          $sopt[3451]['massiveaction'] = false;
 
-         $sopt[3452]['table'] = 'glpi_plugin_moreticket_waitingtypes';
-         $sopt[3452]['field'] = 'name';
-         $sopt[3452]['name'] = PluginMoreticketWaitingType::getTypeName(1);
-         $sopt[3452]['datatype'] = "dropdown";
-         $condition = "AND (`NEWTABLE`.`date_end_suspension` IS NULL)";
-         $sopt[3452]['joinparams'] = array('beforejoin'
-         => array('table' => 'glpi_plugin_moreticket_waitingtickets',
-               'joinparams' => array('jointype' => 'child',
-                  'condition' => $condition)));
+         $sopt[3452]['table']         = 'glpi_plugin_moreticket_waitingtypes';
+         $sopt[3452]['field']         = 'name';
+         $sopt[3452]['name']          = PluginMoreticketWaitingType::getTypeName(1);
+         $sopt[3452]['datatype']      = "dropdown";
+         $condition                   = "AND (`NEWTABLE`.`date_end_suspension` IS NULL)";
+         $sopt[3452]['joinparams']    = array('beforejoin'
+                                              => array('table'      => 'glpi_plugin_moreticket_waitingtickets',
+                                                       'joinparams' => array('jointype'  => 'child',
+                                                                             'condition' => $condition)));
          $sopt[3452]['massiveaction'] = false;
 
          if ($config->closeInformations()) {
-            $sopt[3453]['table'] = 'glpi_plugin_moreticket_closetickets';
-            $sopt[3453]['field'] = 'date';
-            $sopt[3453]['name'] = __('Close ticket informations', 'moreticket') . " : " . __('Date');
-            $sopt[3453]['datatype'] = "datetime";
-            $sopt[3453]['joinparams'] = array('jointype' => 'child');
+            $sopt[3453]['table']         = 'glpi_plugin_moreticket_closetickets';
+            $sopt[3453]['field']         = 'date';
+            $sopt[3453]['name']          = __('Close ticket informations', 'moreticket') . " : " . __('Date');
+            $sopt[3453]['datatype']      = "datetime";
+            $sopt[3453]['joinparams']    = array('jointype' => 'child');
             $sopt[3453]['massiveaction'] = false;
 
-            $sopt[3454]['table'] = 'glpi_plugin_moreticket_closetickets';
-            $sopt[3454]['field'] = 'comment';
-            $sopt[3454]['name'] = __('Close ticket informations', 'moreticket') . " : " . __('Comments');
-            $sopt[3454]['datatype'] = "text";
-            $sopt[3454]['joinparams'] = array('jointype' => 'child');
+            $sopt[3454]['table']         = 'glpi_plugin_moreticket_closetickets';
+            $sopt[3454]['field']         = 'comment';
+            $sopt[3454]['name']          = __('Close ticket informations', 'moreticket') . " : " . __('Comments');
+            $sopt[3454]['datatype']      = "text";
+            $sopt[3454]['joinparams']    = array('jointype' => 'child');
             $sopt[3454]['massiveaction'] = false;
 
-            $sopt[3455]['table'] = 'glpi_plugin_moreticket_closetickets';
-            $sopt[3455]['field'] = 'requesters_id';
-            $sopt[3455]['name'] = __('Close ticket informations', 'moreticket') . " : " . __('Writer');
-            $sopt[3455]['datatype'] = "dropdown";
-            $sopt[3455]['joinparams'] = array('jointype' => 'child');
+            $sopt[3455]['table']         = 'glpi_plugin_moreticket_closetickets';
+            $sopt[3455]['field']         = 'requesters_id';
+            $sopt[3455]['name']          = __('Close ticket informations', 'moreticket') . " : " . __('Writer');
+            $sopt[3455]['datatype']      = "dropdown";
+            $sopt[3455]['joinparams']    = array('jointype' => 'child');
             $sopt[3455]['massiveaction'] = false;
 
-            $sopt[3486]['table'] = 'glpi_documents';
-            $sopt[3486]['field'] = 'name';
-            $sopt[3486]['name'] = __('Close ticket informations', 'moreticket') . " : " . _n('Document', 'Documents', Session::getPluralNumber());
-            $sopt[3486]['forcegroupby'] = true;
-            $sopt[3486]['usehaving'] = true;
-            $sopt[3486]['datatype'] = 'dropdown';
+            $sopt[3486]['table']         = 'glpi_documents';
+            $sopt[3486]['field']         = 'name';
+            $sopt[3486]['name']          = __('Close ticket informations', 'moreticket') . " : " . _n('Document', 'Documents', Session::getPluralNumber());
+            $sopt[3486]['forcegroupby']  = true;
+            $sopt[3486]['usehaving']     = true;
+            $sopt[3486]['datatype']      = 'dropdown';
             $sopt[3486]['massiveaction'] = false;
-            $sopt[3486]['joinparams'] = array('beforejoin' => array('table' => 'glpi_documents_items',
-               'joinparams' => array('jointype' => 'itemtype_item',
-                  'specific_itemtype' => 'PluginMoreticketCloseTicket',
-                  'beforejoin' => array('table' => 'glpi_plugin_moreticket_closetickets',
-                     'joinparams' => array()))));
+            $sopt[3486]['joinparams']    = array('beforejoin' => array('table'      => 'glpi_documents_items',
+                                                                       'joinparams' => array('jointype'          => 'itemtype_item',
+                                                                                             'specific_itemtype' => 'PluginMoreticketCloseTicket',
+                                                                                             'beforejoin'        => array('table'      => 'glpi_plugin_moreticket_closetickets',
+                                                                                                                          'joinparams' => array()))));
          }
       }
    }
@@ -253,14 +247,14 @@ function plugin_moreticket_getAddSearchOptions($itemtype)
  * @param $ID
  * @param $val
  * @param $searchtype
+ *
  * @return string
  */
-function plugin_moreticket_addWhere($link, $nott, $type, $ID, $val, $searchtype)
-{
+function plugin_moreticket_addWhere($link, $nott, $type, $ID, $val, $searchtype) {
 
    $searchopt = &Search::getOptions($type);
-   $table = $searchopt[$ID]["table"];
-   $field = $searchopt[$ID]["field"];
+   $table     = $searchopt[$ID]["table"];
+   $field     = $searchopt[$ID]["field"];
 
    switch ($table . "." . $field) {
       case "glpi_plugin_moreticket_waitingtickets.date_report" :
@@ -293,9 +287,9 @@ function plugin_moreticket_addWhere($link, $nott, $type, $ID, $val, $searchtype)
                   }
 
                   $query = " " . $link . " " . $NOT . " ((SELECT max(`" . $table . "`.`" . $field . "`) FROM `" . $table . "` WHERE `tickets_id` = `glpi_tickets`.`id`) " . $SEARCH;
-//               if ($search_item['searchtype'] != 'contains') {
-//                  $query .= " OR `".$table."`.`".$field."` IS NULL";
-//               }
+                  //               if ($search_item['searchtype'] != 'contains') {
+                  //                  $query .= " OR `".$table."`.`".$field."` IS NULL";
+                  //               }
                   $query .= ")";
                }
             }
@@ -311,14 +305,14 @@ function plugin_moreticket_addWhere($link, $nott, $type, $ID, $val, $searchtype)
  * @param $type
  * @param $ID
  * @param $num
+ *
  * @return string
  */
-function plugin_moreticket_addSelect($type, $ID, $num)
-{
+function plugin_moreticket_addSelect($type, $ID, $num) {
 
    $searchopt = &Search::getOptions($type);
-   $table = $searchopt[$ID]["table"];
-   $field = $searchopt[$ID]["field"];
+   $table     = $searchopt[$ID]["table"];
+   $field     = $searchopt[$ID]["field"];
 
    // Example of standard Select clause but use it ONLY for specific Select
    // No need of the function if you do not have specific cases
