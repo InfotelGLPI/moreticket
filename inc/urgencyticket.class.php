@@ -171,11 +171,12 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
     * @return array|bool|mixed
     */
    static function getUrgencyTicketFromDB($tickets_id, $options = array()) {
+      $dbu = new DbUtils();
       if (sizeof($options) == 0) {
-         $data_Urgency = getAllDatasFromTable("glpi_plugin_moreticket_urgencytickets",
+         $data_Urgency = $dbu->getAllDataFromTable("glpi_plugin_moreticket_urgencytickets",
                                               '`tickets_id` = ' . $tickets_id);
       } else {
-         $data_Urgency = getAllDatasFromTable("glpi_plugin_moreticket_urgencytickets",
+         $data_Urgency = $dbu->getAllDataFromTable("glpi_plugin_moreticket_urgencytickets",
                                               'tickets_id = ' . $tickets_id,
                                               false,
                                               ' LIMIT ' . intval($options['start']) . "," . intval($options['limit']));

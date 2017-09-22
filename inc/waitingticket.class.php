@@ -434,13 +434,14 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
     * @return array|bool|mixed
     */
    static function getWaitingTicketFromDB($tickets_id, $options = array()) {
+      $dbu = new DbUtils();
       if (sizeof($options) == 0) {
-         $data_WaitingType = getAllDatasFromTable("glpi_plugin_moreticket_waitingtickets", '`tickets_id` = ' . $tickets_id .
+         $data_WaitingType = $dbu->getAllDataFromTable("glpi_plugin_moreticket_waitingtickets", '`tickets_id` = ' . $tickets_id .
                                                                                            ' AND `date_suspension` IN (SELECT max(`date_suspension`) 
                                                 FROM `glpi_plugin_moreticket_waitingtickets` WHERE `tickets_id` = ' . $tickets_id . ')
                  AND (UNIX_TIMESTAMP(`date_end_suspension`) = 0 OR UNIX_TIMESTAMP(`date_end_suspension`) IS NULL)');
       } else {
-         $data_WaitingType = getAllDatasFromTable("glpi_plugin_moreticket_waitingtickets",
+         $data_WaitingType = $dbu->getAllDataFromTable("glpi_plugin_moreticket_waitingtickets",
                                                   'tickets_id = ' . $tickets_id, false,
                                                   '`date_suspension` DESC LIMIT ' . intval($options['start']) . "," . intval($options['limit']));
       }
