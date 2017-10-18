@@ -100,7 +100,7 @@ class PluginMoreticketTicket extends CommonITILObject {
       }
       if (Session::haveRight("plugin_moreticket", UPDATE)) {
          PluginMoreticketWaitingTicket::postAddWaitingTicket($ticket);
-
+         PluginMoreticketCloseTicket::postAddCloseTicket($ticket);
          if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
             unset($_SESSION['glpi_plugin_moreticket_close']);
          }

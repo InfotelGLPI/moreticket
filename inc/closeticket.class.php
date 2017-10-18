@@ -96,8 +96,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
 
       if ($item->getType() == 'Ticket'
           && ($item->fields['status'] == Ticket::CLOSED)
-          && $config->closeInformations()
-      ) {
+          && $config->closeInformations()) {
 
          self::showForTicket($item);
       }
@@ -364,7 +363,9 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
     */
    static function getCloseTicketFromDB($tickets_id, $options = array()) {
       $dbu = new DbUtils();
-      $data = $dbu->getAllDataFromTable("glpi_plugin_moreticket_closetickets", 'tickets_id = ' . $tickets_id, false, '`date` DESC LIMIT ' . intval($options['start']) . "," . intval($options['limit']));
+      $data = $dbu->getAllDataFromTable("glpi_plugin_moreticket_closetickets", 'tickets_id = ' . $tickets_id,
+                                        false,
+                                        '`date` DESC LIMIT ' . intval($options['start']) . "," . intval($options['limit']));
 
       return $data;
    }
@@ -476,8 +477,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
             if (self::checkMandatory($item->input)) {
                // Add followup on immediate ticket closing
                if ($config->closeFollowup()
-                   && $item->input['id'] == 0
-               ) {
+                   && $item->input['id'] == 0) {
                   $item->input['_followup']['content'] = str_replace(array('\r', '\n', '\r\n'), '', Html::clean(Html::entity_decode_deep($item->input['solution'])));
                }
 
@@ -490,6 +490,29 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       }
 
       return true;
+   }
+
+   static function postAddCloseTicket($item) {
+
+      if (!is_array($item->input) || !count($item->input)) {
+         // Already cancel by another plugin
+         return false;
+      }
+
+      $config = new PluginMoreticketConfig();
+      if (isset($config->fields['use_solution']) && $config->useSolution()) {
+         // Get allowed status
+         $solution_status = array_keys(json_decode($config->solutionStatus(), true));
+         // Then we add tickets informations
+         if (isset($item->input['id']) && isset($item->input['status']) && in_array($item->input['status'], $solution_status)) {
+
+            $changes[0] = '24';
+            $changes[1] = '';
+            $changes[2] = $item->fields['solution'];
+            Log::history($item->fields['id'], 'Ticket', $changes, 0, 0);
+         }
+      }
+
    }
 
    /**
