@@ -186,7 +186,8 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
          $sopt[3451]['field']         = 'date_report';
          $sopt[3451]['name']          = __('Postponement date', 'moreticket');
          $sopt[3451]['datatype']      = "datetime";
-         $sopt[3451]['joinparams']    = array('jointype' => 'child');
+         $sopt[3451]['joinparams']    = array('jointype' => 'child',
+                                              'condition' => "AND `date_end_suspension` IS NULL");
          $sopt[3451]['massiveaction'] = false;
 
          $sopt[3452]['table']         = 'glpi_plugin_moreticket_waitingtypes';
@@ -298,27 +299,5 @@ function plugin_moreticket_addWhere($link, $nott, $type, $ID, $val, $searchtype)
          return $query;
    }
 
-   return "";
-}
-
-/**
- * @param $type
- * @param $ID
- * @param $num
- *
- * @return string
- */
-function plugin_moreticket_addSelect($type, $ID, $num) {
-
-   $searchopt = &Search::getOptions($type);
-   $table     = $searchopt[$ID]["table"];
-   $field     = $searchopt[$ID]["field"];
-
-   // Example of standard Select clause but use it ONLY for specific Select
-   // No need of the function if you do not have specific cases
-   switch ($table . "." . $field) {
-      case "glpi_plugin_moreticket_waitingtickets.date_report":
-         return "max(`" . $table . "`.`" . $field . "`) AS ITEM_$num, ";
-   }
    return "";
 }
