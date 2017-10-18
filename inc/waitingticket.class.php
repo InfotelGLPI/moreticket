@@ -623,8 +623,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
                                               'date_report'                       => $item->input['date_report'],
                                               'date_suspension'                   => date("Y-m-d H:i:s"),
                                               'date_end_suspension'               => 'NULL',
-                                              'plugin_moreticket_waitingtypes_id' => $item->input['plugin_moreticket_waitingtypes_id']))
-               ) {
+                                              'plugin_moreticket_waitingtypes_id' => $item->input['plugin_moreticket_waitingtypes_id']))) {
 
                   unset($_SESSION['glpi_plugin_moreticket_waiting']);
                }

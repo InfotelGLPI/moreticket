@@ -67,8 +67,7 @@ class PluginMoreticketTicketTask extends CommonITILTask {
       $config = new PluginMoreticketConfig();
 
       if (isset($tickettask->input['_status'])
-          && $config->useWaiting() == true
-      ) {
+          && $config->useWaiting() == true) {
 
          $updates['id'] = $tickettask->input['tickets_id'];
          if (isset($tickettask->input['reason'])) {
