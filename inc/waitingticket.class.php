@@ -434,16 +434,24 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
     * @return array|bool|mixed
     */
    static function getWaitingTicketFromDB($tickets_id, $options = array()) {
+      global $DB;
+
       $dbu = new DbUtils();
       if (sizeof($options) == 0) {
-         $data_WaitingType = $dbu->getAllDataFromTable("glpi_plugin_moreticket_waitingtickets", '`tickets_id` = ' . $tickets_id .
-                                                                                           ' AND `date_suspension` IN (SELECT max(`date_suspension`) 
+         $data_WaitingType = $dbu->getAllDataFromTable("glpi_plugin_moreticket_waitingtickets",
+                                                       '`tickets_id` = ' . $tickets_id .' AND `date_suspension` IN (SELECT max(`date_suspension`) 
                                                 FROM `glpi_plugin_moreticket_waitingtickets` WHERE `tickets_id` = ' . $tickets_id . ')
                  AND (UNIX_TIMESTAMP(`date_end_suspension`) = 0 OR UNIX_TIMESTAMP(`date_end_suspension`) IS NULL)');
       } else {
-         $data_WaitingType = $dbu->getAllDataFromTable("glpi_plugin_moreticket_waitingtickets",
-                                                  'tickets_id = ' . $tickets_id, false,
-                                                  '`date_suspension` DESC LIMIT ' . intval($options['start']) . "," . intval($options['limit']));
+         $iterator = $DB->request("glpi_plugin_moreticket_waitingtickets",
+                   "tickets_id = $tickets_id 
+                   ORDER BY `date_suspension` DESC 
+                   LIMIT " . intval($options['start']) . "," . intval($options['limit']));
+
+         $data_WaitingType = array();
+         while ($row = $iterator->next()) {
+            $data_WaitingType[$row['id']] = $row;
+         }
       }
 
       if (sizeof($data_WaitingType) > 0) {
