@@ -187,7 +187,7 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
          $sopt[3450]['name']          = __('Reason', 'moreticket');
          $sopt[3450]['datatype']      = "text";
          $sopt[3450]['joinparams']    = array('jointype' => 'child',
-                                              'condition' => "AND `date_end_suspension` IS NULL");
+                                              'condition' => "AND `NEWTABLE`.`date_end_suspension` IS NULL");
          $sopt[3450]['massiveaction'] = false;
 
          $sopt[3451]['table']         = 'glpi_plugin_moreticket_waitingtickets';
@@ -195,7 +195,7 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
          $sopt[3451]['name']          = __('Postponement date', 'moreticket');
          $sopt[3451]['datatype']      = "datetime";
          $sopt[3451]['joinparams']    = array('jointype' => 'child',
-                                              'condition' => "AND `date_end_suspension` IS NULL");
+                                              'condition' => "AND `NEWTABLE`.`date_end_suspension` IS NULL");
          $sopt[3451]['massiveaction'] = false;
 
          $sopt[3452]['table']         = 'glpi_plugin_moreticket_waitingtypes';
