@@ -88,6 +88,9 @@ class PluginMoreticketSolution extends CommonITILObject {
             if(!$CFG_GLPI['use_rich_text']) {
                $ticket->input['solution'] = html_entity_decode($ticket->input['solution']);
             }
+            if($ticket->getField('actiontime') == 0) {
+               $ticket->fields['actiontime'] = $ticket->input['duration_solution'];
+            }
 
             $tickettask = new TicketTask();
             $tickettask->add(['tickets_id'    => $ticket->getID(),

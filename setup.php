@@ -64,6 +64,9 @@ function plugin_init_moreticket() {
          }
 
          if (Session::haveRight("plugin_moreticket_justification", READ) || Session::haveRight("plugin_moreticket", UPDATE)) {
+            //allows to avoid conflicts with behaviors for adding the solution with a duration
+            // and the parameter "Mandatory duration to solve/close a ticket" of the behaviors plugin
+            $PLUGIN_HOOKS['pre_item_update'] = array('moreticket' => array()) + $PLUGIN_HOOKS['pre_item_update'];
 
             $PLUGIN_HOOKS['pre_item_update']['moreticket']['Ticket'] = array('PluginMoreticketTicket', 'beforeUpdate');
             $PLUGIN_HOOKS['pre_item_add']['moreticket']['Ticket']    = array('PluginMoreticketTicket', 'beforeAdd');
