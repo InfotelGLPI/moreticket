@@ -39,7 +39,7 @@
                 // only in ticket form
                 if (location.pathname.indexOf('front/ticket.form.php') > 0
                     && (object.params.use_solution || object.params.use_waiting)) {
-                    if(tickets_id == 0 || tickets_id == undefined){
+                    if (tickets_id == 0 || tickets_id == undefined) {
                         object.createTicket(tickets_id);
                     } else {
                         object.updateTicket(tickets_id);
@@ -357,7 +357,68 @@
                     }
                 }
             });
-        }
+        };
+
+        this.moreticket_solution = function () {
+            $(document).ready(function () {
+                // Only in ticket.php
+                if (location.pathname.indexOf('ticket.form.php') > 0) {
+                    // get tickets_id
+                    var tickets_id = object.urlParam(window.location.href, 'id');
+                    //only in edit form
+                    if (tickets_id == undefined || tickets_id == 0) {
+                        return;
+                    }
+
+                    // Launched on each complete Ajax load
+                    $(document).ajaxComplete(function (event, xhr, option) {
+                        setTimeout(function () {
+                            // We execute the code only if the ticket form display request is done
+                            if (option.data != undefined) {
+                                var tid;
+                                // Get the right tab
+                                if (object.urlParam(option.data, 'type') == 'Solution'
+                                    && (option.url.indexOf("ajax/timeline.php") != -1 || option.url.indexOf("ajax/viewsubitem.php") != -1)) {
+
+
+                                    var solId = getUrlParam(option.data, '&id');
+                                    var id = 0;
+                                    if ((solId != undefined)) {
+                                        id = solId;
+                                    }
+
+                                    if (solId == -1) {
+                                        $.ajax({
+                                            url: options.root_doc + '/plugins/moreticket/ajax/ticket.php',
+                                            type: "POST",
+                                            dataType: "html",
+                                            data: {
+                                                'tickets_id': tickets_id,
+                                                'tickettasks_id': tid,
+                                                'action': 'showFormSolution'
+                                            },
+                                            success: function (response, opts) {
+                                                var inputAdd = $("select[name='_sol_to_kb']");
+                                                var solutionForm = inputAdd.closest("tr");
+                                                if ($("div[name='duration_solution_" + tid + "']").length == 0) {
+                                                    $(response).insertAfter(solutionForm);
+                                                }
+
+                                                var scripts, scriptsFinder = /<script[^>]*>([\s\S]+?)<\/script>/gi;
+                                                while (scripts = scriptsFinder.exec(response)) {
+                                                    eval(scripts[1]);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+
+                            }
+                        }, 100);
+                    }, this);
+                }
+            });
+        };
 
         function inarray(value, tab) {
             response = false;

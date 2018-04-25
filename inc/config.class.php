@@ -192,6 +192,12 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</td>";
       echo "</tr>";
 
+      echo "<tr class='tab_bg_1'>
+            <td>" . __("Use the 'Duration' field in the add solution interface", "moreticket") . "</td><td>";
+      Dropdown::showYesNo("use_duration_solution", $this->fields["use_duration_solution"]);
+      echo "</td>";
+      echo "</tr>";
+
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td colspan='2' align='center'>";
       echo "<input type='submit' name='update' value=\"" . _sx("button", "Post") . "\" class='submit' >";
@@ -294,6 +300,13 @@ class PluginMoreticketConfig extends CommonDBTM {
     */
    function getUrgency_ids() {
       return importArrayFromDB($this->fields['urgency_ids']);
+   }
+
+   /**
+    * @return mixed
+    */
+   function useDurationSolution() {
+      return $this->fields['use_duration_solution'];
    }
 
    /**
