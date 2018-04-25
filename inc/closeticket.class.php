@@ -477,7 +477,8 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
                // Add followup on immediate ticket closing
                if ($config->closeFollowup()
                    && $item->input['id'] == 0) {
-                  $item->input['_followup']['content'] = str_replace(array('\r', '\n', '\r\n'), '', Html::clean(Html::entity_decode_deep($item->input['solution'])));
+                  $item->input['_followup']['content'] = str_replace(array('\r', '\n', '\r\n'), '',
+                                                                     Html::clean(Html::entity_decode_deep($item->input['solution'])));
                }
 
                $item->input['solution'] = str_replace(array('\r', '\n', '\r\n'), '', $item->input['solution']);
@@ -486,9 +487,10 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
                $item->input                             = array();
             }
          }
+         return true;
       }
 
-      return true;
+      return false;
    }
 
    static function postAddCloseTicket($item) {
@@ -502,6 +504,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       if (isset($config->fields['use_solution']) && $config->useSolution()) {
          // Get allowed status
          $solution_status = array_keys(json_decode($config->solutionStatus(), true));
+
          // Then we add tickets informations
          if (isset($item->input['id']) && isset($item->input['status']) && in_array($item->input['status'], $solution_status)) {
 
@@ -557,5 +560,22 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
       parent::post_updateItem();
+   }
+
+   /**
+    * Cleaning the information entered in the ticket for adding solution
+    * but not useful so delete to not add solution.
+    *
+    * @param \Ticket $ticket
+    */
+   static function cleanCloseTicket(Ticket $ticket) {
+
+      $fields = array('solutiontemplates_id', 'solution', 'solutiontypes_id');
+      foreach ($fields as $field) {
+         if (isset($ticket->input[$field])) {
+            unset($ticket->input[$field]);
+         }
+      }
+
    }
 }

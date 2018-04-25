@@ -75,13 +75,23 @@ class PluginMoreticketTicket extends CommonITILObject {
          return false;
       }
 
+      $clean_close_ticket   = true;
+
       if (Session::haveRight("plugin_moreticket", UPDATE)) {
          PluginMoreticketWaitingTicket::preAddWaitingTicket($ticket);
-         PluginMoreticketCloseTicket::preAddCloseTicket($ticket);
+         if (PluginMoreticketCloseTicket::preAddCloseTicket($ticket)) {
+            $clean_close_ticket = false;
+         }
+
       }
 
       if (Session::haveRight("plugin_moreticket_justification", READ)) {
          PluginMoreticketUrgencyTicket::preAddUrgencyTicket($ticket);
+      }
+
+      //cleaning the information entered in the ticket for adding solution but not useful so delete to not add solution.
+      if ($clean_close_ticket) {
+         PluginMoreticketCloseTicket::cleanCloseTicket($ticket);
       }
 
    }
@@ -200,5 +210,8 @@ class PluginMoreticketTicket extends CommonITILObject {
                break;
          }
       }
+//      if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
+//         print_r($_SESSION['glpi_plugin_moreticket_close']);
+//      }
    }
 }
