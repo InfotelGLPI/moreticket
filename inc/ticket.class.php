@@ -135,6 +135,7 @@ class PluginMoreticketTicket extends CommonITILObject {
 
       if (Session::haveRight("plugin_moreticket", UPDATE)) {
          PluginMoreticketWaitingTicket::preUpdateWaitingTicket($ticket);
+         PluginMoreticketSolution::preUpdateSolution($ticket);
       }
 
       if (Session::haveRight("plugin_moreticket_justification", READ)) {

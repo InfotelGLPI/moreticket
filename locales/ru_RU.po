@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR MoreTicket Development Team
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the GLPI - MoreTicket plugin package.
 # 
 # Translators:
 # Alexey Petukhov <lexx015@gmail.com>, 2016
@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-18 13:30+0200\n"
-"PO-Revision-Date: 2017-10-18 11:46+0000\n"
+"POT-Creation-Date: 2018-04-25 10:15+0200\n"
+"PO-Revision-Date: 2018-04-25 08:19+0000\n"
 "Last-Translator: Amandine Manceau\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/tsmr/GLPI_moreticket/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -19,26 +19,26 @@ msgstr ""
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: hook.php:187 inc/waitingticket.class.php:138
+#: hook.php:192 inc/waitingticket.class.php:138
 #: inc/waitingticket.class.php:237 inc/waitingticket.class.php:316
 #: inc/waitingticket.class.php:388
 msgid "Reason"
 msgstr "Причина"
 
-#: hook.php:195 inc/waitingticket.class.php:130
+#: hook.php:200 inc/waitingticket.class.php:130
 #: inc/waitingticket.class.php:252 inc/waitingticket.class.php:331
 #: inc/waitingticket.class.php:390
 msgid "Postponement date"
 msgstr "Дата отсрочки"
 
-#: hook.php:215 hook.php:222 hook.php:229 hook.php:236
+#: hook.php:220 hook.php:227 hook.php:234 hook.php:241
 #: inc/closeticket.class.php:74 inc/closeticket.class.php:116
 #: inc/closeticket.class.php:171 inc/closeticket.class.php:299
-#: inc/closeticket.class.php:351 inc/config.class.php:145
+#: inc/closeticket.class.php:351 inc/config.class.php:167
 msgid "Close ticket informations"
 msgstr "Информация о закрытии заявки"
 
-#: setup.php:94 inc/profile.class.php:50 inc/profile.class.php:177
+#: setup.php:89 inc/profile.class.php:50 inc/profile.class.php:177
 msgid "More ticket"
 msgstr "Еще заявка"
 
@@ -69,47 +69,59 @@ msgstr "%1$s обновлена информация при закрытии"
 msgid "%1$s deleted closing informations"
 msgstr "%1$s удалена информация при закрытии"
 
-#: inc/config.class.php:97
-msgid "Plugin configuration"
-msgstr "Настройка плагина"
+#: inc/config.class.php:98
+msgid "Ticket waiting"
+msgstr ""
 
 #: inc/config.class.php:102
 msgid "Use waiting process"
 msgstr "Использовать процесс ожидания"
 
-#: inc/config.class.php:109
+#: inc/config.class.php:120
 msgid "Report date is mandatory"
 msgstr "Дата отчета является обязательным"
 
-#: inc/config.class.php:115
+#: inc/config.class.php:127
 msgid "Waiting type is mandatory"
 msgstr "Тип ожидания является обязательным"
 
-#: inc/config.class.php:121
+#: inc/config.class.php:134
 msgid "Waiting reason is mandatory"
 msgstr "Причина ожидания является обязательной"
 
-#: inc/config.class.php:129
+#: inc/config.class.php:140
+msgid "Ticket resolution and close"
+msgstr ""
+
+#: inc/config.class.php:142
 msgid "Use solution process"
 msgstr "Использовать процесс решения"
 
-#: inc/config.class.php:137
+#: inc/config.class.php:160
 msgid "Solution type is mandatory"
 msgstr "Тип решения является обязательным"
 
-#: inc/config.class.php:151
+#: inc/config.class.php:173
 msgid "Status used to display solution bloc"
 msgstr "Использовать статус для отображения блока решения"
 
-#: inc/config.class.php:164
+#: inc/config.class.php:186
 msgid "Add a followup on immediate ticket closing"
 msgstr "Добавить заметку на немедленное закрытие заявки"
 
-#: inc/config.class.php:170
+#: inc/config.class.php:192
+msgid "Use the 'Duration' field in the add solution interface"
+msgstr ""
+
+#: inc/config.class.php:197
+msgid "Ticket urgency"
+msgstr ""
+
+#: inc/config.class.php:199
 msgid "Use a justification of the urgency field"
 msgstr "Использовать обоснование для поля срочности"
 
-#: inc/config.class.php:186
+#: inc/config.class.php:215
 msgid "Urgency impacted justification for the field"
 msgstr "Обоснование влияния срочности для заявки"
 
@@ -157,7 +169,7 @@ msgstr "Дата приостановки"
 msgid "Suspension end date"
 msgstr "Дата возобновления"
 
-#: inc/waitingticket.class.php:735
+#: inc/waitingticket.class.php:743
 msgid "End of standby ticket"
 msgstr "Конец ожидания заявки"
 

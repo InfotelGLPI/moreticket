@@ -39,33 +39,32 @@ if (isset($_POST['action'])) {
    switch ($_POST['action']) {
       case "load" :
 
-         $config = new PluginMoreticketConfig();
-         $use_waiting = $config->useWaiting();
-         $use_solution = $config->useSolution();
-         $use_urgency = $config->useUrgency();
-         $solution_status = $config->solutionStatus();
-         $urgency_ids = $config->getUrgency_ids();
+         $config                = new PluginMoreticketConfig();
+         $use_waiting           = $config->useWaiting();
+         $use_solution          = $config->useSolution();
+         $use_urgency           = $config->useUrgency();
+         $solution_status       = $config->solutionStatus();
+         $urgency_ids           = $config->getUrgency_ids();
+         $use_duration_solution = $config->useDurationSolution();
 
-         $params = array('root_doc' => $CFG_GLPI['root_doc'],
-            'waiting' => CommonITILObject::WAITING,
-            'closed' => CommonITILObject::CLOSED,
-            'use_waiting' => $use_waiting,
-            'use_solution' => $use_solution,
-            'solution_status' => $solution_status,
-            'glpilayout' => $_SESSION['glpilayout'],
-            'use_urgency' => $use_urgency,
-            'urgency_ids' => $urgency_ids);
+         $params = array('root_doc'        => $CFG_GLPI['root_doc'],
+                         'waiting'         => CommonITILObject::WAITING,
+                         'closed'          => CommonITILObject::CLOSED,
+                         'use_waiting'     => $use_waiting,
+                         'use_solution'    => $use_solution,
+                         'solution_status' => $solution_status,
+                         'glpilayout'      => $_SESSION['glpilayout'],
+                         'use_urgency'     => $use_urgency,
+                         'urgency_ids'     => $urgency_ids);
 
          echo "<script type='text/javascript'>";
          echo "var moreticket = $(document).moreticket(" . json_encode($params) . ");";
 
          if (Session::haveRight("plugin_moreticket", UPDATE)
-            && ($config->useWaiting() == true || $config->useSolution() == true)
-         ) {
+            && ($config->useWaiting() == true || $config->useSolution() == true)) {
             if (isset($_SESSION['glpiactiveprofile']['interface'])
                && $_SESSION['glpiactiveprofile']['interface'] == "central"
-               && (strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false)
-            ) {
+               && (strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false)) {
 
                echo "moreticket.moreticket_injectWaitingTicket();";
             }
@@ -75,13 +74,19 @@ if (isset($_POST['action'])) {
             if ((strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false ||
                   strpos($_SERVER['HTTP_REFERER'], "helpdesk.public.php") !== false ||
                    strpos($_SERVER['HTTP_REFERER'], "tracking.injector.php") !== false)
-               && ($config->useUrgency() == true)
-            ) {
+               && ($config->useUrgency() == true)) {
                echo "moreticket.moreticket_urgency();";
 
             }
          }
+
+         if (($_SESSION['glpiactiveprofile']['interface'] == "central"
+              && strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false)
+             && $config->useDurationSolution()) {
+            echo "moreticket.moreticket_solution();";
+         }
          echo "</script>";
+
          break;
    }
 }

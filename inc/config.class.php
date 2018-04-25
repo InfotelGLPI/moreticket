@@ -94,52 +94,74 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "<div class='center'>";
       echo "<form name='form' method='post' action='" . $this->getFormURL() . "'>";
       echo "<table class='tab_cadre_fixe'>";
-      echo "<tr><th colspan='2'>" . __("Plugin configuration", "moreticket") . "</th></tr>";
-
+      echo "<tr><th colspan='2'>" . __("Setup") . "</th></tr>";
+      echo "<tr><th colspan='2'>" . __("Ticket waiting", "moreticket") . "</th></tr>";
       echo "<input type='hidden' name='id' value='1'>";
 
       echo "<tr class='tab_bg_1'>
             <td>" . __("Use waiting process", "moreticket") . "</td><td>";
-      Dropdown::showYesNo("use_waiting", $this->fields["use_waiting"]);
+      Dropdown::showYesNo("use_waiting", $this->fields["use_waiting"], -1,
+                          array('on_change' => 'hide_show_waiting(this.value);'));
       echo "</td>";
       echo "</tr>";
 
-      if ($this->useWaiting() == true) {
-         echo "<tr class='tab_bg_1'>
-               <td>" . __("Report date is mandatory", "moreticket") . "</td><td>";
-         Dropdown::showYesNo("date_report_mandatory", $this->fields["date_report_mandatory"]);
-         echo "</td>";
-         echo "</tr>";
+      echo Html::scriptBlock("
+         function hide_show_waiting(val) {
+            var display = (val == 0) ? 'none' : '';
+            td = ($(\"td[id='show_waiting']\"));
+            td.each(function (index, value) {
+               td[index].style.display = display;
+            });
+         }");
 
-         echo "<tr class='tab_bg_1'>
-               <td>" . __("Waiting type is mandatory", "moreticket") . "</td><td>";
-         Dropdown::showYesNo("waitingtype_mandatory", $this->fields["waitingtype_mandatory"]);
-         echo "</td>";
-         echo "</tr>";
-
-         echo "<tr class='tab_bg_1'>
-               <td>" . __("Waiting reason is mandatory", "moreticket") . "</td><td>";
-         Dropdown::showYesNo("waitingreason_mandatory", $this->fields["waitingreason_mandatory"]);
-         echo "</td>";
-         echo "</tr>";
-
-      }
+      $style = ($this->useWaiting()) ? "" : "style='display: none '";
 
       echo "<tr class='tab_bg_1'>
-            <td>" . __("Use solution process", "moreticket") . "</td><td>";
-      Dropdown::showYesNo("use_solution", $this->fields["use_solution"]);
+               <td id='show_waiting' $style>" . __("Report date is mandatory", "moreticket") . "</td>";
+      echo "<td id='show_waiting' $style>";
+      Dropdown::showYesNo("date_report_mandatory", $this->fields["date_report_mandatory"]);
       echo "</td>";
       echo "</tr>";
 
-      if ($this->useSolution() == true) {
+      echo "<tr class='tab_bg_1'>
+               <td id='show_waiting' $style>" . __("Waiting type is mandatory", "moreticket") . "</td>";
+      echo "<td id='show_waiting' $style>";
+      Dropdown::showYesNo("waitingtype_mandatory", $this->fields["waitingtype_mandatory"]);
+      echo "</td>";
+      echo "</tr>";
 
-         echo "<tr class='tab_bg_1'>
-               <td>" . __("Solution type is mandatory", "moreticket") . "</td><td>";
-         Dropdown::showYesNo("solutiontype_mandatory", $this->fields["solutiontype_mandatory"]);
-         echo "</td>";
-         echo "</tr>";
+      echo "<tr class='tab_bg_1'>
+               <td id='show_waiting' $style>" . __("Waiting reason is mandatory", "moreticket") . "</td>";
+      echo "<td id='show_waiting' $style>";
+      Dropdown::showYesNo("waitingreason_mandatory", $this->fields["waitingreason_mandatory"]);
+      echo "</td>";
+      echo "</tr>";
 
-      }
+      echo "<tr><th colspan='2'>" . __("Ticket resolution and close", "moreticket") . "</th></tr>";
+      echo "<tr class='tab_bg_1'>
+            <td>" . __("Use solution process", "moreticket") . "</td><td>";
+      Dropdown::showYesNo("use_solution", $this->fields["use_solution"], -1,
+                          array('on_change' => 'hide_show_solution(this.value);'));
+      echo "</td>";
+      echo "</tr>";
+
+      echo Html::scriptBlock("
+         function hide_show_solution(val) {
+                        var display = (val == 0) ? 'none' : '';
+            td = ($(\"td[id='show_solution']\"));
+            td.each(function (index, value) {
+               td[index].style.display = display;
+            });
+         }");
+
+      $style = ($this->useSolution()) ? "" : "style='display: none '";
+
+      echo "<tr class='tab_bg_1'>
+               <td id='show_solution' $style>" . __("Solution type is mandatory", "moreticket") . "</td>";
+      echo "<td id='show_solution' $style>";
+      Dropdown::showYesNo("solutiontype_mandatory", $this->fields["solutiontype_mandatory"]);
+      echo "</td>";
+      echo "</tr>";
 
       echo "<tr class='tab_bg_1'>
             <td>" . __("Close ticket informations", "moreticket") . "</td><td>";
@@ -167,6 +189,13 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>
+            <td>" . __("Use the 'Duration' field in the add solution interface", "moreticket") . "</td><td>";
+      Dropdown::showYesNo("use_duration_solution", $this->fields["use_duration_solution"]);
+      echo "</td>";
+      echo "</tr>";
+
+      echo "<tr><th colspan='2'>" . __("Ticket urgency", "moreticket") . "</th></tr>";
+      echo "<tr class='tab_bg_1'>
             <td>" . __("Use a justification of the urgency field", "moreticket") . "</td><td>";
       Dropdown::showYesNo("urgency_justification", $this->fields["urgency_justification"], -1,
                           array('on_change' => 'hide_show_urgency(this.value);'));
@@ -180,7 +209,7 @@ class PluginMoreticketConfig extends CommonDBTM {
             document.getElementById('show_urgency_td2').style.display = display;
          }");
 
-      $style = ($this->fields["urgency_justification"]) ? "" : "style='display: none '";
+      $style = ($this->useUrgency()) ? "" : "style='display: none '";
       echo "<tr class='tab_bg_1'>";
       echo "<td id='show_urgency_td1' $style>";
       echo __("Urgency impacted justification for the field", "moreticket");
@@ -296,6 +325,13 @@ class PluginMoreticketConfig extends CommonDBTM {
     */
    function getUrgency_ids() {
       return importArrayFromDB($this->fields['urgency_ids']);
+   }
+
+   /**
+    * @return mixed
+    */
+   function useDurationSolution() {
+      return $this->fields['use_duration_solution'];
    }
 
    /**
