@@ -380,14 +380,8 @@
                                 if (object.urlParam(option.data, 'type') == 'Solution'
                                     && (option.url.indexOf("ajax/timeline.php") != -1 || option.url.indexOf("ajax/viewsubitem.php") != -1)) {
 
-
-                                    var solId = getUrlParam(option.data, '&id');
-                                    var id = 0;
-                                    if ((solId != undefined)) {
-                                        id = solId;
-                                    }
-
-                                    if (solId == -1) {
+                                    var solId = object.urlParam(option.data, '&id');
+                                    if (solId == 0 || solId == undefined) {
                                         $.ajax({
                                             url: options.root_doc + '/plugins/moreticket/ajax/ticket.php',
                                             type: "POST",
