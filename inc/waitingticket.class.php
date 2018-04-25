@@ -588,14 +588,12 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
 
       $config = new PluginMoreticketConfig();
       if (isset($config->fields['use_waiting'])
-          && $config->useWaiting()
-      ) {
+          && $config->useWaiting()) {
          // Then we add tickets informations
          if (isset($item->input['id'])
              && isset($item->input['status'])
              && $item->input['status'] == CommonITILObject::WAITING
-             && !self::checkMandatory($item->input, true)
-         ) {
+             && !self::checkMandatory($item->input, true)) {
 
             $_SESSION['saveInput'][$item->getType()] = $item->input;
             $item->input                             = array();
