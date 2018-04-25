@@ -74,6 +74,8 @@ class PluginMoreticketSolution extends CommonITILObject {
     * @return bool
     */
    static function preUpdateSolution(Ticket $ticket) {
+      global $CFG_GLPI;
+
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
          return false;
@@ -82,6 +84,10 @@ class PluginMoreticketSolution extends CommonITILObject {
       if ($config->useDurationSolution()) {
          if (isset($ticket->input['solution'])
              && (isset($ticket->input['duration_solution']) && $ticket->input['duration_solution'] > 0)) {
+
+            if(!$CFG_GLPI['use_rich_text']) {
+               $ticket->input['solution'] = html_entity_decode($ticket->input['solution']);
+            }
 
             $tickettask = new TicketTask();
             $tickettask->add(['tickets_id'    => $ticket->getID(),
