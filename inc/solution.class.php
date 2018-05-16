@@ -99,6 +99,7 @@ class PluginMoreticketSolution extends CommonITILObject {
                               'users_id'      => Session::getLoginUserID(),
                               'users_id_tech' => Session::getLoginUserID(),
                               'content'       => $ticket->input['solution'],
+                              'state'         => Planning::DONE,
                               'actiontime'    => $ticket->input['duration_solution']]);
          }
       }

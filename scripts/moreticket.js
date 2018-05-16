@@ -393,7 +393,11 @@
                                                 'action': 'showFormSolution'
                                             },
                                             success: function (response, opts) {
-                                                var inputAdd = $("select[name='_sol_to_kb']");
+                                                if (object.params.div_kb) {
+                                                    var inputAdd = $("select[name='_sol_to_kb']");
+                                                } else {
+                                                    var inputAdd = $("input[id^='dropdown_solutiontypes_id']");
+                                                }
                                                 var solutionForm = inputAdd.closest("tr");
                                                 if ($("div[name='duration_solution_" + tid + "']").length == 0) {
                                                     $(response).insertAfter(solutionForm);
