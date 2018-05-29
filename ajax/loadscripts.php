@@ -54,7 +54,8 @@ if (isset($_POST['action'])) {
                          'solution_status' => $solution_status,
                          'glpilayout'      => $_SESSION['glpilayout'],
                          'use_urgency'     => $use_urgency,
-                         'urgency_ids'     => $urgency_ids);
+                         'urgency_ids'     => $urgency_ids,
+                         'div_kb'          => Session::haveRight('knowbase', UPDATE));
 
          echo "<script type='text/javascript'>";
          echo "var moreticket = $(document).moreticket(" . json_encode($params) . ");";

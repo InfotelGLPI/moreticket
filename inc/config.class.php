@@ -194,7 +194,21 @@ class PluginMoreticketConfig extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>
             <td>" . __("Use the 'Duration' field in the add solution interface", "moreticket") . "</td><td>";
-      Dropdown::showYesNo("use_duration_solution", $this->fields["use_duration_solution"]);
+      Dropdown::showYesNo("use_duration_solution", $this->fields["use_duration_solution"], -1,
+                          array('on_change' => 'hide_show_solution(this.value);'));
+      echo "</td>";
+      echo "</tr>";
+
+      echo Html::scriptBlock("
+         function hide_show_solution(val) {
+            var display = (val == 0) ? 'none' : '';
+            document.getElementById('mandatory_solution').style.display = display;
+         }");
+
+      $style = ($this->useDurationSolution()) ? "" : "style='display: none '";
+      echo "<tr class='tab_bg_1' id='mandatory_solution' $style>
+            <td>" . __("Mandatory 'Duration' field", "moreticket") . "</td><td>";
+      Dropdown::showYesNo("is_mandatory_solution", $this->fields["is_mandatory_solution"]);
       echo "</td>";
       echo "</tr>";
 
@@ -307,6 +321,13 @@ class PluginMoreticketConfig extends CommonDBTM {
     */
    function useDurationSolution() {
       return $this->fields['use_duration_solution'];
+   }
+
+   /**
+    * @return mixed
+    */
+   function isMandatorysolution() {
+      return $this->fields['is_mandatory_solution'];
    }
 
    /**

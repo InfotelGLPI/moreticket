@@ -46,10 +46,14 @@ class PluginMoreticketSolution extends CommonITILObject {
          return false;
       }
 
+      $config = new PluginMoreticketConfig();
 
       echo '<tr class="tab_bg_2">';
       echo '<td>';
       echo __('Duration');
+      if ($config->isMandatorysolution()) {
+         echo "&nbsp;<span class='red'>*</span>&nbsp;";
+      }
       echo '</td>';
       echo "<td><div id='duration_solution_" . $tickets_id . "'>";
 
@@ -82,23 +86,35 @@ class PluginMoreticketSolution extends CommonITILObject {
          return false;
       }
       $config = new PluginMoreticketConfig();
+
       if ($config->useDurationSolution()) {
-         if (isset($ticket->input['solution'])
-             && (isset($ticket->input['duration_solution']) && $ticket->input['duration_solution'] > 0)) {
 
-            $ticket->input['solution'] = html_entity_decode($ticket->input['solution']);
-            $ticket->input['solution'] = Html::clean($ticket->input['solution']);
+         if (isset($ticket->input['solution'])) {
+            if (isset($ticket->input['duration_solution']) && $ticket->input['duration_solution'] > 0) {
 
-            $tickettask                = new TicketTask();
-            $tickettask->add(['tickets_id'    => $ticket->getID(),
-                              'date'          => date('Y-m-d H:i:s'),
-                              'date_creation' => date('Y-m-d H:i:s'),
-                              'users_id'      => Session::getLoginUserID(),
-                              'users_id_tech' => Session::getLoginUserID(),
-                              'content'       => $ticket->input['solution'],
-                              'actiontime'    => $ticket->input['duration_solution']]);
+               $ticket->input['solution'] = html_entity_decode($ticket->input['solution']);
+               $ticket->input['solution'] = Html::clean($ticket->input['solution']);
+
+               $user = new User();
+               $user->getFromDB(Session::getLoginUserID());
+
+               $tickettask = new TicketTask();
+               $tickettask->add(['tickets_id'    => $ticket->getID(),
+                                 'date'          => date('Y-m-d H:i:s'),
+                                 'date_creation' => date('Y-m-d H:i:s'),
+                                 'users_id'      => Session::getLoginUserID(),
+                                 'users_id_tech' => Session::getLoginUserID(),
+                                 'content'       => $ticket->input['solution'],
+                                 'state'         => Planning::DONE,
+                                 'is_private'    => $user->getField('task_private'),
+                                 'actiontime'    => $ticket->input['duration_solution']]);
+            } else if ($config->isMandatorysolution()) {
+               Session::addMessageAfterRedirect(_n('Mandatory field', 'Mandatory fields', 2) . " : " . __('Duration'), false, ERROR);
+               return false;
+            }
          }
       }
+      return true;
    }
 
 }
