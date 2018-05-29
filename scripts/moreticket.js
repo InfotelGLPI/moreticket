@@ -177,27 +177,21 @@
          * @param tickets_id
          */
         this.updateTicketTask = function (tickets_id) {
-            if (object.params.glpilayout == 'lefttab') {
-                object.injectBlocWaitingTask(tickets_id);
-            } else {
+            // Launched on each complete Ajax load
+            $(document).ajaxComplete(function (event, xhr, option) {
+                setTimeout(function () {
+                    // We execute the code only if the ticket form display request is done
+                    if (option.url != undefined) {
+                        if (option.url.indexOf("ajax/timeline.php") > 0) {
 
-                // Launched on each complete Ajax load
-                $(document).ajaxComplete(function (event, xhr, option) {
-                    setTimeout(function () {
-                        // We execute the code only if the ticket form display request is done
-                        if (option.url != undefined) {
-                            if (option.url.indexOf("ajax/timeline.php") > 0) {
-
-                                object.injectBlocWaitingTask(tickets_id);
-                            }
+                            object.injectBlocWaitingTask(tickets_id);
                         }
-                    })
+                    }
+                })
 
-                });
-            }
+            });
 
-
-        }
+        };
 
         /**
          * injectBlocWaitingTask
