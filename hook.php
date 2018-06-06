@@ -81,7 +81,7 @@ function plugin_moreticket_install() {
    }
 
    //version 1.3.4
-   if (!FieldExists("glpi_plugin_moreticket_configs", "is_mandatory_solution")) {
+   if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "is_mandatory_solution")) {
       $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.3.4.sql");
    }
 
