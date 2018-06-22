@@ -105,7 +105,7 @@ class PluginMoreticketSolution extends CommonITILObject {
                                  'date_creation' => date('Y-m-d H:i:s'),
                                  'users_id'      => Session::getLoginUserID(),
                                  'users_id_tech' => Session::getLoginUserID(),
-                                 'content'       => $ticket->input['solution'],
+                                 'content'       => strip_tags($ticket->input['solution']),
                                  'state'         => Planning::DONE,
                                  'is_private'    => $user->getField('task_private'),
                                  'actiontime'    => $ticket->input['duration_solution']]);
