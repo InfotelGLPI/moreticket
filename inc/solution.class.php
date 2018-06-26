@@ -98,7 +98,7 @@ class PluginMoreticketSolution extends CommonITILObject {
 
                $user = new User();
                $user->getFromDB(Session::getLoginUserID());
-               $conf = new Config();
+               
                $content = $ticket->input['solution'];
                if(!$CFG_GLPI['use_rich_text']){
                   $content = strip_tags($content);
