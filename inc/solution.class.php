@@ -98,14 +98,18 @@ class PluginMoreticketSolution extends CommonITILObject {
 
                $user = new User();
                $user->getFromDB(Session::getLoginUserID());
-
+               $conf = new Config();
+               $content = $ticket->input['solution'];
+               if(!$CFG_GLPI['use_rich_text']){
+                  $content = strip_tags($content);
+               }
                $tickettask = new TicketTask();
                $tickettask->add(['tickets_id'    => $ticket->getID(),
                                  'date'          => date('Y-m-d H:i:s'),
                                  'date_creation' => date('Y-m-d H:i:s'),
                                  'users_id'      => Session::getLoginUserID(),
                                  'users_id_tech' => Session::getLoginUserID(),
-                                 'content'       => strip_tags($ticket->input['solution']),
+                                 'content'       => $content,
                                  'state'         => Planning::DONE,
                                  'is_private'    => $user->getField('task_private'),
                                  'actiontime'    => $ticket->input['duration_solution']]);
