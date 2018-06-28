@@ -89,8 +89,10 @@ class PluginMoreticketSolution extends CommonITILObject {
          if (isset($ticket->input['solution'])) {
             if (isset($ticket->input['duration_solution']) && $ticket->input['duration_solution'] > 0) {
 
+               $content = $ticket->input['solution'];
                if (!$CFG_GLPI['use_rich_text']) {
                   $ticket->input['solution'] = html_entity_decode($ticket->input['solution']);
+                  $content = strip_tags($content);
                }
                if ($ticket->getField('actiontime') == 0) {
                   $ticket->fields['actiontime'] = $ticket->input['duration_solution'];
@@ -98,11 +100,7 @@ class PluginMoreticketSolution extends CommonITILObject {
 
                $user = new User();
                $user->getFromDB(Session::getLoginUserID());
-               
-               $content = $ticket->input['solution'];
-               if(!$CFG_GLPI['use_rich_text']){
-                  $content = strip_tags($content);
-               }
+
                $tickettask = new TicketTask();
                $tickettask->add(['tickets_id'    => $ticket->getID(),
                                  'date'          => date('Y-m-d H:i:s'),
