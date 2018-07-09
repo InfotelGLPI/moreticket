@@ -63,8 +63,7 @@ if (isset($_POST['action'])) {
 
          if (Session::haveRight("plugin_moreticket", UPDATE)
             && ($config->useWaiting() == true || $config->useSolution() == true)) {
-            if (isset($_SESSION['glpiactiveprofile']['interface'])
-               && $_SESSION['glpiactiveprofile']['interface'] == "central"
+            if (Session::getCurrentInterface() == "central"
                && (strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false)) {
 
                echo "moreticket.moreticket_injectWaitingTicket();";
@@ -81,7 +80,7 @@ if (isset($_POST['action'])) {
             }
          }
 
-         if (($_SESSION['glpiactiveprofile']['interface'] == "central"
+         if ((Session::getCurrentInterface() == "central"
               && strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false)
              && $config->useDurationSolution()) {
             echo "moreticket.moreticket_solution();";

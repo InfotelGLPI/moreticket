@@ -226,30 +226,48 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
    }
 
    /**
-    * @return an
-    */
-   function getSearchOptions() {
+    * Provides search options configuration. Do not rely directly
+    * on this, @see CommonDBTM::searchOptions instead.
+    *
+    * @since 9.3
+    *
+    * This should be overloaded in Class
+    *
+    * @return array a *not indexed* array of search options
+    *
+    * @see https://glpi-developer-documentation.rtfd.io/en/master/devapi/search.html
+    **/
+   public function rawSearchOptions() {
 
-      $tab = parent::getSearchOptions();
+      $tab = parent::rawSearchOptions();
 
-      $tab[10]['table']         = $this->getTable();
-      $tab[10]['field']         = 'date';
-      $tab[10]['name']          = __('Date');
-      $tab[10]['datatype']      = 'datetime';
-      $tab[10]['massiveaction'] = false;
+      $tab[] = [
+         'id'                 => '10',
+         'table'              => $this->getTable(),
+         'field'              => 'date',
+         'name'               => __('Date'),
+         'datatype'           => 'datetime',
+         'massiveaction'      => false
+      ];
 
-      $tab[11]['table']         = $this->getTable();
-      $tab[11]['field']         = 'comment';
-      $tab[11]['name']          = __('Comments');
-      $tab[11]['datatype']      = 'text';
-      $tab[11]['massiveaction'] = true;
+      $tab[] = [
+         'id'                 => '11',
+         'table'              => $this->getTable(),
+         'field'              => 'comment',
+         'name'               => __('Comments'),
+         'datatype'           => 'text',
+         'massiveaction'      => true
+      ];
 
-      $tab[12]['table']         = "glpi_users";
-      $tab[12]['field']         = 'name';
-      $tab[12]['name']          = __('Writer');
-      $tab[12]['datatype']      = 'dropdown';
-      $tab[12]['linkfield']     = 'requesters_id';
-      $tab[12]['massiveaction'] = false;
+      $tab[] = [
+         'id'                 => '12',
+         'table'              => 'glpi_users',
+         'field'              => 'name',
+         'name'               => __('Writer'),
+         'datatype'           => 'dropdown',
+         'linkfield'          => 'requesters_id',
+         'massiveaction'      => false
+      ];
 
       return $tab;
    }

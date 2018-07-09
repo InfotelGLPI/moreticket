@@ -37,7 +37,7 @@ function plugin_moreticket_install() {
 
    if (!$DB->tableExists("glpi_plugin_moreticket_configs")) {
       // table sql creation
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/empty-1.3.4.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/empty-1.4.0.sql");
    }
 
    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "solution_status")) {
