@@ -45,7 +45,16 @@
                         object.updateTicket(tickets_id);
                         object.updateTicketTask(tickets_id);
                     }
-
+                    $("#tabspanel + div.ui-tabs").on("tabsload", function() {
+                        setTimeout(function() {
+                            if (tickets_id == 0 || tickets_id == undefined) {
+                                object.createTicket(tickets_id);
+                            } else {
+                                object.updateTicket(tickets_id);
+                                object.updateTicketTask(tickets_id);
+                            }
+                        }, 300);
+                    });
 
                 }
             });
@@ -267,7 +276,15 @@
                     } else {
                         object.updateTicket_urgency(tickets_id);
                     }
-
+                    $("#tabspanel + div.ui-tabs").on("tabsload", function() {
+                        setTimeout(function() {
+                            if (tickets_id == 0 || tickets_id == undefined) {
+                                object.createTicket_urgency(tickets_id);
+                            } else {
+                                object.updateTicket_urgency(tickets_id);
+                            }
+                        }, 300);
+                    });
 
                 }
             });
