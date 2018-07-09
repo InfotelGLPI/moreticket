@@ -24,6 +24,10 @@
     </authors>
     <versions>
         <version>
+            <num>1.4.0</num>
+            <compatibility>9.3</compatibility>
+        </version>
+        <version>
             <num>1.3.3</num>
             <compatibility>9.2</compatibility>
         </version>
@@ -62,12 +66,12 @@
     </versions>
     <langs>
         <lang>cz_CZ</lang>
-        <lang>fr_FR</lang>
         <lang>en_GB</lang>
         <lang>es_AR</lang>
-        <lang>ru_RU</lang>
-        <lang>pt_PT</lang>
+        <lang>fr_FR</lang>
         <lang>pt_BR</lang>
+        <lang>pt_PT</lang>
+        <lang>ru_RU</lang>
     </langs>
     <license><![CDATA[GPL v2+]]></license>
     <tags>

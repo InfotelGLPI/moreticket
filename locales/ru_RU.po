@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-25 10:15+0200\n"
-"PO-Revision-Date: 2018-04-25 08:19+0000\n"
+"POT-Creation-Date: 2018-07-09 09:28+0200\n"
+"PO-Revision-Date: 2018-07-09 07:29+0000\n"
 "Last-Translator: Amandine Manceau\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/tsmr/GLPI_moreticket/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -19,26 +19,26 @@ msgstr ""
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: hook.php:192 inc/waitingticket.class.php:138
+#: hook.php:197 inc/waitingticket.class.php:138
 #: inc/waitingticket.class.php:237 inc/waitingticket.class.php:316
 #: inc/waitingticket.class.php:388
 msgid "Reason"
 msgstr "Причина"
 
-#: hook.php:200 inc/waitingticket.class.php:130
+#: hook.php:205 inc/waitingticket.class.php:130
 #: inc/waitingticket.class.php:252 inc/waitingticket.class.php:331
 #: inc/waitingticket.class.php:390
 msgid "Postponement date"
 msgstr "Дата отсрочки"
 
-#: hook.php:220 hook.php:227 hook.php:234 hook.php:241
+#: hook.php:225 hook.php:232 hook.php:239 hook.php:246
 #: inc/closeticket.class.php:74 inc/closeticket.class.php:116
-#: inc/closeticket.class.php:171 inc/closeticket.class.php:299
-#: inc/closeticket.class.php:351 inc/config.class.php:167
+#: inc/closeticket.class.php:171 inc/closeticket.class.php:317
+#: inc/closeticket.class.php:369 inc/config.class.php:167
 msgid "Close ticket informations"
 msgstr "Информация о закрытии заявки"
 
-#: setup.php:89 inc/profile.class.php:50 inc/profile.class.php:177
+#: setup.php:93 inc/profile.class.php:50 inc/profile.class.php:177
 msgid "More ticket"
 msgstr "Еще заявка"
 
@@ -46,7 +46,7 @@ msgstr "Еще заявка"
 msgid "Please activate the plugin"
 msgstr "Включите плагин"
 
-#: inc/closeticket.class.php:130 inc/closeticket.class.php:447
+#: inc/closeticket.class.php:130 inc/closeticket.class.php:465
 msgid "Solution description"
 msgstr "Описание решения"
 
@@ -54,17 +54,17 @@ msgstr "Описание решения"
 msgid "Ticket cannot be closed"
 msgstr "Заявка не может быть закрыта"
 
-#: inc/closeticket.class.php:524
+#: inc/closeticket.class.php:545
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s добавлена информация при закрытии"
 
-#: inc/closeticket.class.php:540
+#: inc/closeticket.class.php:561
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s обновлена информация при закрытии"
 
-#: inc/closeticket.class.php:556
+#: inc/closeticket.class.php:577
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s удалена информация при закрытии"
@@ -113,15 +113,19 @@ msgstr "Добавить заметку на немедленное закрыт
 msgid "Use the 'Duration' field in the add solution interface"
 msgstr ""
 
-#: inc/config.class.php:197
+#: inc/config.class.php:206
+msgid "Mandatory 'Duration' field"
+msgstr ""
+
+#: inc/config.class.php:211
 msgid "Ticket urgency"
 msgstr ""
 
-#: inc/config.class.php:199
+#: inc/config.class.php:213
 msgid "Use a justification of the urgency field"
 msgstr "Использовать обоснование для поля срочности"
 
-#: inc/config.class.php:215
+#: inc/config.class.php:229
 msgid "Urgency impacted justification for the field"
 msgstr "Обоснование влияния срочности для заявки"
 
@@ -169,7 +173,7 @@ msgstr "Дата приостановки"
 msgid "Suspension end date"
 msgstr "Дата возобновления"
 
-#: inc/waitingticket.class.php:743
+#: inc/waitingticket.class.php:741
 msgid "End of standby ticket"
 msgstr "Конец ожидания заявки"
 

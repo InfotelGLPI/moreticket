@@ -8,36 +8,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-25 10:15+0200\n"
-"PO-Revision-Date: 2018-04-25 08:19+0000\n"
+"POT-Creation-Date: 2018-07-09 09:28+0200\n"
+"PO-Revision-Date: 2018-07-09 07:29+0000\n"
 "Last-Translator: Amandine Manceau\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/tsmr/GLPI_moreticket/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs_CZ\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: hook.php:192 inc/waitingticket.class.php:138
+#: hook.php:197 inc/waitingticket.class.php:138
 #: inc/waitingticket.class.php:237 inc/waitingticket.class.php:316
 #: inc/waitingticket.class.php:388
 msgid "Reason"
 msgstr "Důvod"
 
-#: hook.php:200 inc/waitingticket.class.php:130
+#: hook.php:205 inc/waitingticket.class.php:130
 #: inc/waitingticket.class.php:252 inc/waitingticket.class.php:331
 #: inc/waitingticket.class.php:390
 msgid "Postponement date"
 msgstr "Datum na které odložit"
 
-#: hook.php:220 hook.php:227 hook.php:234 hook.php:241
+#: hook.php:225 hook.php:232 hook.php:239 hook.php:246
 #: inc/closeticket.class.php:74 inc/closeticket.class.php:116
-#: inc/closeticket.class.php:171 inc/closeticket.class.php:299
-#: inc/closeticket.class.php:351 inc/config.class.php:167
+#: inc/closeticket.class.php:171 inc/closeticket.class.php:317
+#: inc/closeticket.class.php:369 inc/config.class.php:167
 msgid "Close ticket informations"
-msgstr "Zavřít informace o požadavku"
+msgstr "Informace o uzavření požadavku"
 
-#: setup.php:89 inc/profile.class.php:50 inc/profile.class.php:177
+#: setup.php:93 inc/profile.class.php:50 inc/profile.class.php:177
 msgid "More ticket"
 msgstr "Více k požadavku"
 
@@ -45,7 +45,7 @@ msgstr "Více k požadavku"
 msgid "Please activate the plugin"
 msgstr "Zapněte zásuvný modul"
 
-#: inc/closeticket.class.php:130 inc/closeticket.class.php:447
+#: inc/closeticket.class.php:130 inc/closeticket.class.php:465
 msgid "Solution description"
 msgstr "Popis řešení"
 
@@ -53,24 +53,24 @@ msgstr "Popis řešení"
 msgid "Ticket cannot be closed"
 msgstr "Požadavek není možné uzavřít"
 
-#: inc/closeticket.class.php:524
+#: inc/closeticket.class.php:545
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s přidal informace o uzavření"
 
-#: inc/closeticket.class.php:540
+#: inc/closeticket.class.php:561
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s aktualizoval informace o uzavření"
 
-#: inc/closeticket.class.php:556
+#: inc/closeticket.class.php:577
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s smazal informace o uzavření"
 
 #: inc/config.class.php:98
 msgid "Ticket waiting"
-msgstr ""
+msgstr "Čekající požadavek"
 
 #: inc/config.class.php:102
 msgid "Use waiting process"
@@ -78,7 +78,7 @@ msgstr "Použít čekající proces"
 
 #: inc/config.class.php:120
 msgid "Report date is mandatory"
-msgstr "Datum hlášení je třeba vyplnit"
+msgstr "Je třeba vyplnit datum odkladu"
 
 #: inc/config.class.php:127
 msgid "Waiting type is mandatory"
@@ -90,7 +90,7 @@ msgstr "Důvod čekání je třeba vyplnit"
 
 #: inc/config.class.php:140
 msgid "Ticket resolution and close"
-msgstr ""
+msgstr "Vyřešení a uzavření požadavku"
 
 #: inc/config.class.php:142
 msgid "Use solution process"
@@ -98,29 +98,33 @@ msgstr "Použít proces řešení"
 
 #: inc/config.class.php:160
 msgid "Solution type is mandatory"
-msgstr "Typ řešení je třeba vyplnit"
+msgstr "Je třeba vyplnit typ řešení"
 
 #: inc/config.class.php:173
 msgid "Status used to display solution bloc"
-msgstr "Stav použitý pro zobrazení bloc řešení"
+msgstr "Stav použitý pro zobrazení bloku řešení"
 
 #: inc/config.class.php:186
 msgid "Add a followup on immediate ticket closing"
-msgstr "Přidat následnou komunikaci při okamžitém uzavření požadavku"
+msgstr "Při uzavírání požadavku přidejte následnou komunikaci"
 
 #: inc/config.class.php:192
 msgid "Use the 'Duration' field in the add solution interface"
+msgstr "V rozhraní pro přidání řešení použijte kolonku „Doba trvání“"
+
+#: inc/config.class.php:206
+msgid "Mandatory 'Duration' field"
 msgstr ""
 
-#: inc/config.class.php:197
+#: inc/config.class.php:211
 msgid "Ticket urgency"
-msgstr ""
+msgstr "Naléhavost požadavku"
 
-#: inc/config.class.php:199
+#: inc/config.class.php:213
 msgid "Use a justification of the urgency field"
 msgstr "Použít zdůvodnění kolonky naléhavost"
 
-#: inc/config.class.php:215
+#: inc/config.class.php:229
 msgid "Urgency impacted justification for the field"
 msgstr "Naléhavostí ovlivněné zdůvodnění pro tuto kolonku"
 
@@ -134,7 +138,7 @@ msgstr "Odůvodnění"
 
 #: inc/urgencyticket.class.php:92
 msgid "Urgency ticket cannot be saved"
-msgstr "Naléhavý požadavek se nedaří uložit"
+msgstr "Naléhavost požadavku se nedaří uložit"
 
 #: inc/urgencyticket.class.php:94 inc/waitingticket.class.php:170
 msgid "Ticket cannot be saved"
@@ -146,6 +150,7 @@ msgid_plural "Waiting tickets"
 msgstr[0] "Čekající požadavek"
 msgstr[1] "Čekající požadavky"
 msgstr[2] "Čekajících požadavků"
+msgstr[3] "Čekající požadavky"
 
 #: inc/waitingticket.class.php:168
 msgid "Waiting ticket cannot be saved"
@@ -153,7 +158,7 @@ msgstr "Čekající požadavek není možné uložit"
 
 #: inc/waitingticket.class.php:174
 msgid "Report date is inferior of today's date"
-msgstr "Datum hlášení je nižší než dnešní"
+msgstr "Datum odkladu je dřívější než to dnešní"
 
 #: inc/waitingticket.class.php:384 inc/waitingticket.class.php:424
 msgid "Ticket suspension history"
@@ -165,9 +170,9 @@ msgstr "Datum suspendování"
 
 #: inc/waitingticket.class.php:391
 msgid "Suspension end date"
-msgstr "Koncové datum suspendování"
+msgstr "Datum konce suspendování"
 
-#: inc/waitingticket.class.php:743
+#: inc/waitingticket.class.php:741
 msgid "End of standby ticket"
 msgstr "Konec pohotovosti požadavku"
 
@@ -177,3 +182,4 @@ msgid_plural "Waiting types"
 msgstr[0] "Typ čekání"
 msgstr[1] "Typy čekání"
 msgstr[2] "Typů čekání"
+msgstr[3] "Typy čekání"

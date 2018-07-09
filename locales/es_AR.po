@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-25 10:15+0200\n"
-"PO-Revision-Date: 2018-04-25 08:19+0000\n"
+"POT-Creation-Date: 2018-07-09 09:28+0200\n"
+"PO-Revision-Date: 2018-07-09 07:29+0000\n"
 "Last-Translator: Amandine Manceau\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/tsmr/GLPI_moreticket/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -18,26 +18,26 @@ msgstr ""
 "Language: es_AR\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: hook.php:192 inc/waitingticket.class.php:138
+#: hook.php:197 inc/waitingticket.class.php:138
 #: inc/waitingticket.class.php:237 inc/waitingticket.class.php:316
 #: inc/waitingticket.class.php:388
 msgid "Reason"
 msgstr "Motivo"
 
-#: hook.php:200 inc/waitingticket.class.php:130
+#: hook.php:205 inc/waitingticket.class.php:130
 #: inc/waitingticket.class.php:252 inc/waitingticket.class.php:331
 #: inc/waitingticket.class.php:390
 msgid "Postponement date"
 msgstr "Posponer hasta"
 
-#: hook.php:220 hook.php:227 hook.php:234 hook.php:241
+#: hook.php:225 hook.php:232 hook.php:239 hook.php:246
 #: inc/closeticket.class.php:74 inc/closeticket.class.php:116
-#: inc/closeticket.class.php:171 inc/closeticket.class.php:299
-#: inc/closeticket.class.php:351 inc/config.class.php:167
+#: inc/closeticket.class.php:171 inc/closeticket.class.php:317
+#: inc/closeticket.class.php:369 inc/config.class.php:167
 msgid "Close ticket informations"
 msgstr "Informaciones del Req. Cerrado"
 
-#: setup.php:89 inc/profile.class.php:50 inc/profile.class.php:177
+#: setup.php:93 inc/profile.class.php:50 inc/profile.class.php:177
 msgid "More ticket"
 msgstr "Más requerimientos"
 
@@ -45,7 +45,7 @@ msgstr "Más requerimientos"
 msgid "Please activate the plugin"
 msgstr "Por favor activar el complemento"
 
-#: inc/closeticket.class.php:130 inc/closeticket.class.php:447
+#: inc/closeticket.class.php:130 inc/closeticket.class.php:465
 msgid "Solution description"
 msgstr "Descripción"
 
@@ -53,17 +53,17 @@ msgstr "Descripción"
 msgid "Ticket cannot be closed"
 msgstr "Requerimiento no se puede cerrar"
 
-#: inc/closeticket.class.php:524
+#: inc/closeticket.class.php:545
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s informaciones de cierres agregada"
 
-#: inc/closeticket.class.php:540
+#: inc/closeticket.class.php:561
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s informaciones de cierres actualizadas"
 
-#: inc/closeticket.class.php:556
+#: inc/closeticket.class.php:577
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s informaciones de cierres borradas"
@@ -112,15 +112,19 @@ msgstr "Agregar un seguimiento en el cierre inmediato del servicio"
 msgid "Use the 'Duration' field in the add solution interface"
 msgstr ""
 
-#: inc/config.class.php:197
+#: inc/config.class.php:206
+msgid "Mandatory 'Duration' field"
+msgstr ""
+
+#: inc/config.class.php:211
 msgid "Ticket urgency"
 msgstr ""
 
-#: inc/config.class.php:199
+#: inc/config.class.php:213
 msgid "Use a justification of the urgency field"
 msgstr ""
 
-#: inc/config.class.php:215
+#: inc/config.class.php:229
 msgid "Urgency impacted justification for the field"
 msgstr ""
 
@@ -166,7 +170,7 @@ msgstr "Fecha de suspención"
 msgid "Suspension end date"
 msgstr "Fecha fin de suspención"
 
-#: inc/waitingticket.class.php:743
+#: inc/waitingticket.class.php:741
 msgid "End of standby ticket"
 msgstr "Fin de servicio en espera"
 
