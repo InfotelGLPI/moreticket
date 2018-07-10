@@ -15,8 +15,8 @@ CREATE TABLE `glpi_plugin_moreticket_waitingtickets` (
   `status`                            int(11) NOT NULL DEFAULT '2', -- ancien statut
   PRIMARY KEY (`id`), -- index
   KEY `date_suspension` (`date_suspension`),
-  FOREIGN KEY (`tickets_id`) REFERENCES glpi_tickets (id),
-  FOREIGN KEY (`plugin_moreticket_waitingtypes_id`) REFERENCES glpi_plugin_moreticket_waitingtypes (id)
+  KEY (`tickets_id`) ,
+  KEY (`plugin_moreticket_waitingtypes_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 
 -- --------------------------------------------------------
