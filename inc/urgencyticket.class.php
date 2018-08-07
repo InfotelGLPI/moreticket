@@ -347,8 +347,9 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
       // Only allowed types
       $types = self::$types;
 
+      $dbu = new DbUtils();
       foreach ($types as $key => $type) {
-         if (!($item = getItemForItemtype($type))) {
+         if (!($item = $dbu->getItemForItemtype($type))) {
             continue;
          }
 

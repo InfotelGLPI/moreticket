@@ -165,6 +165,8 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
 
       $canedit = ($item->canUpdate() && self::canUpdate());
 
+      $dbu = new DbUtils();
+
       echo "<form name='form' method='post' action='" . Toolbox::getItemTypeFormURL(__CLASS__) . "'>";
 
       echo "<div align='center'><table class='tab_cadre_fixe'>";
@@ -176,7 +178,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       echo __('Writer');
       echo "</td>";
       echo "<td>";
-      echo getUserName(Session::getLoginUserID());
+      echo $dbu->getUserName(Session::getLoginUserID());
       echo "<input name='requesters_id' type='hidden' value='" . Session::getLoginUserID() . "'>";
       echo "</td>";
       echo "</tr>";
@@ -335,6 +337,8 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          echo "<th>" . __('Document') . "</th>";
          echo "</tr>";
 
+         $dbu = new DbUtils();
+
          foreach ($data as $closeTicket) {
             echo "<tr class='tab_bg_2'>";
             echo "<td width='10'>";
@@ -349,7 +353,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
             echo $closeTicket['comment'];
             echo "</td>";
             echo "<td>";
-            echo getUserName($closeTicket['requesters_id']);
+            echo $dbu->getUserName($closeTicket['requesters_id']);
             echo "</td>";
             echo "<td>";
             if ($doc->getFromDB($closeTicket['documents_id'])) {
@@ -465,6 +469,9 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       echo __('Solution description', 'moreticket') . "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
       $rand = mt_rand();
       Html::initEditorSystem("solution" . $rand);
+      if (!isset($ticket->fields['solution'])) {
+         $ticket->fields['solution'] = '';
+      }
       echo "<div id='solution$rand_text'>";
       echo "<textarea id='solution$rand' name='solution' rows='3'>" . stripslashes($ticket->fields['solution']) . "</textarea></div>";
       echo "</td></tr>";
@@ -511,7 +518,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       return false;
    }
 
-   static function postAddCloseTicket($item) {
+   static function postAddCloseTicket(Ticket $item) {
 
       if (!is_array($item->input) || !count($item->input)) {
          // Already cancel by another plugin
@@ -524,12 +531,24 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          $solution_status = array_keys(json_decode($config->solutionStatus(), true));
 
          // Then we add tickets informations
-         if (isset($item->input['id']) && isset($item->input['status']) && in_array($item->input['status'], $solution_status)) {
+         if (isset($item->input['id'])
+             && isset($item->input['status'])
+             && in_array($item->input['status'], $solution_status)) {
 
-            $changes[0] = '24';
+            $input = [];
+            $input['itemtype'] = 'Ticket';
+            $input['items_id'] = $item->getID();
+            $input['content'] = $item->input['solution'];
+            $input['date_creation'] = $item->input['date'];
+            $input['solutiontypes_id'] = $item->input['solutiontypes_id'];
+
+            $itilsolution = new ITILSolution();
+            $itilsolution->add($input);
+
+            $changes[0] = '12';
             $changes[1] = '';
-            $changes[2] = $item->fields['solution'];
-            Log::history($item->fields['id'], 'Ticket', $changes, 0, 0);
+            $changes[2] = $item->input['status'];
+            Log::history($item->getID(), 'Ticket', $changes, 0, 0);
          }
       }
 
@@ -540,9 +559,12 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
     */
    public function post_addItem() {
 
+      $dbu = new DbUtils();
+
       $changes[0] = '0';
       $changes[1] = '';
-      $changes[2] = sprintf(__('%1$s added closing informations', 'moreticket'), getUserName(Session::getLoginUserID()));
+      $changes[2] = sprintf(__('%1$s added closing informations', 'moreticket'),
+                            $dbu->getUserName(Session::getLoginUserID()));
       Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
       parent::post_addItem();
@@ -556,9 +578,12 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
     */
    public function post_updateItem($history = 1) {
 
+      $dbu = new DbUtils();
+
       $changes[0] = '0';
       $changes[1] = '';
-      $changes[2] = sprintf(__('%1$s updated closing informations', 'moreticket'), getUserName(Session::getLoginUserID()));
+      $changes[2] = sprintf(__('%1$s updated closing informations', 'moreticket'),
+                            $dbu->getUserName(Session::getLoginUserID()));
       Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
       parent::post_updateItem();
@@ -572,9 +597,12 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
     */
    public function post_purgeItem($history = 1) {
 
+      $dbu = new DbUtils();
+
       $changes[0] = '0';
       $changes[1] = '';
-      $changes[2] = sprintf(__('%1$s deleted closing informations', 'moreticket'), getUserName(Session::getLoginUserID()));
+      $changes[2] = sprintf(__('%1$s deleted closing informations', 'moreticket'),
+                            $dbu->getUserName(Session::getLoginUserID()));
       Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
       parent::post_updateItem();

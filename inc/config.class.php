@@ -228,12 +228,15 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "<td id='show_urgency_td1' $style>";
       echo __("Urgency impacted justification for the field", "moreticket");
       echo "</td>";
+
+      $dbu = new DbUtils();
+
       echo "<td id='show_urgency_td2' $style>";
       $urgency_ids = self::getValuesUrgency();
       Dropdown::showFromArray('urgency_ids',
                               $urgency_ids,
                               array('multiple' => true,
-                                    'values'   => importArrayFromDB($this->fields["urgency_ids"])));
+                                    'values'   => $dbu->importArrayFromDB($this->fields["urgency_ids"])));
       echo "</td>";
       echo "</tr>";
 
@@ -338,7 +341,8 @@ class PluginMoreticketConfig extends CommonDBTM {
     * @return array
     */
    function getUrgency_ids() {
-      return importArrayFromDB($this->fields['urgency_ids']);
+      $dbu = new DbUtils();
+      return $dbu->importArrayFromDB($this->fields['urgency_ids']);
    }
 
    /**

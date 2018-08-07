@@ -80,8 +80,9 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       if (!$withtemplate) {
          if ($item->getType() == 'Ticket' && $config->useWaiting() == true) {
             if ($_SESSION['glpishow_count_on_tabs']) {
+               $dbu = new DbUtils();
                return self::createTabEntry(self::getTypeName(2),
-                                           countElementsInTable($this->getTable(),
+                                           $dbu->countElementsInTable($this->getTable(),
                                                                 "`tickets_id` = '" . $item->getID() . "'"));
             }
             return self::getTypeName(2);
@@ -368,8 +369,9 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       }
 
       // Total Number of events
-      $number = countElementsInTable("glpi_plugin_moreticket_waitingtickets",
-                                     "`tickets_id`='" . $item->getField('id') . "'");
+      $dbu    = new DbUtils();
+      $number = $dbu->countElementsInTable("glpi_plugin_moreticket_waitingtickets",
+                                           "`tickets_id`='" . $item->getField('id') . "'");
 
       if ($number < 1) {
          echo "<div class='center'>";
@@ -658,9 +660,10 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
 
       // Only allowed types
       $types = self::$types;
+      $dbu   = new DbUtils();
 
       foreach ($types as $key => $type) {
-         if (!($item = getItemForItemtype($type))) {
+         if (!($item = $dbu->getItemForItemtype($type))) {
             continue;
          }
 
