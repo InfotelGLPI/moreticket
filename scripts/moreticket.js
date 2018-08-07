@@ -19,7 +19,7 @@
 
             object.countSubmit = 0;
 
-            if (options != undefined) {
+            if (options !== undefined) {
                 $.each(options, function (index, val) {
                     if (val != undefined && val != null) {
                         object.params[index] = val;
@@ -39,16 +39,15 @@
                 // only in ticket form
                 if (location.pathname.indexOf('front/ticket.form.php') > 0
                     && (object.params.use_solution || object.params.use_waiting)) {
+
                     if (tickets_id == 0 || tickets_id == undefined) {
                         object.createTicket(tickets_id);
-                    } else {
-                        object.updateTicket(tickets_id);
-                        object.updateTicketTask(tickets_id);
                     }
                     $("#tabspanel + div.ui-tabs").on("tabsload", function() {
                         setTimeout(function() {
+
                             if (tickets_id == 0 || tickets_id == undefined) {
-                                object.createTicket(tickets_id);
+                                // object.createTicket(tickets_id);
                             } else {
                                 object.updateTicket(tickets_id);
                                 object.updateTicketTask(tickets_id);
@@ -75,13 +74,14 @@
 
                     var status_bloc = $("select[name='status']");
 
-                    if (status_bloc != undefined) {
+                    if (status_bloc !== undefined) {
                         status_bloc.parent().append(requester);
 
                         // ON DISPLAY : Display or hide waiting type
                         if ($("#moreticket_waiting_ticket") != undefined && $("#moreticket_close_ticket") != undefined) {
+
                             // WAITING TICKET
-                            if (status_bloc.val() == object.params.waiting && object.params.use_waiting) {
+                            if (status_bloc.val() === object.params.waiting && object.params.use_waiting) {
                                 $("#moreticket_waiting_ticket").css({'display': 'block'});
                             } else {
                                 $("#moreticket_waiting_ticket").css({'display': 'none'});
@@ -178,7 +178,7 @@
                     }
                 }
             });
-        }
+        };
 
         /**
          * updateTicket
@@ -273,13 +273,14 @@
                     && object.params.use_urgency) {
                     if (tickets_id == 0 || tickets_id == undefined) {
                         object.createTicket_urgency(tickets_id);
-                    } else {
-                        object.updateTicket_urgency(tickets_id);
                     }
+                    //else {
+                    //     object.updateTicket_urgency(tickets_id);
+                    // }
                     $("#tabspanel + div.ui-tabs").on("tabsload", function() {
                         setTimeout(function() {
                             if (tickets_id == 0 || tickets_id == undefined) {
-                                object.createTicket_urgency(tickets_id);
+                                // object.createTicket_urgency(tickets_id);
                             } else {
                                 object.updateTicket_urgency(tickets_id);
                             }
