@@ -94,8 +94,7 @@ class PluginMoreticketSolution extends CommonITILObject {
                }
                $ticket = new Ticket();
                $tickets_id = $solution->input['items_id'];
-               if ($ticket->getFromDBByCrit(['itemtype' => 'Ticket',
-                                             'items_id' => $tickets_id])) {
+               if ($ticket->getFromDB($tickets_id)) {
                   if ($ticket->getField('actiontime') == 0) {
                      $ticket->update(['id' => $tickets_id,
                                       'actiontime' => $solution->input['duration_solution']]);
