@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
  */
 class PluginMoreticketUrgencyTicket extends CommonDBTM {
 
-   static $types     = array('Ticket');
+   static $types     = ['Ticket'];
    var    $dohistory = true;
    static $rightname = "plugin_moreticket_justification";
 
@@ -63,12 +63,12 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
     * @return bool
     */
    static function checkMandatory($values, $add = false) {
-      $checkKo = array();
+      $checkKo = [];
 
-      $mandatory_fields                  = array();
+      $mandatory_fields                  = [];
       $mandatory_fields['justification'] = __('Justification', 'moreticket');
 
-      $msg = array();
+      $msg = [];
 
       foreach ($mandatory_fields as $key => $value) {
          if (!array_key_exists($key, $values) && empty($values[$key])) {
@@ -116,7 +116,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
     *
     * @return Nothing (display)
     * */
-   function showForm($ID, $options = array()) {
+   function showForm($ID, $options = []) {
 
       // validation des droits
       if (!$this->canView()) {
@@ -170,7 +170,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
     *
     * @return array|bool|mixed
     */
-   static function getUrgencyTicketFromDB($tickets_id, $options = array()) {
+   static function getUrgencyTicketFromDB($tickets_id, $options = []) {
       $dbu = new DbUtils();
       if (sizeof($options) == 0) {
          $data_Urgency = $dbu->getAllDataFromTable("glpi_plugin_moreticket_urgencytickets",
@@ -183,8 +183,9 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
       }
 
       if (sizeof($data_Urgency) > 0) {
-         if (sizeof($options) == 0)
+         if (sizeof($options) == 0) {
             $data_Urgency = reset($data_Urgency);
+         }
 
          return $data_Urgency;
       }
@@ -214,14 +215,14 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
                if (self::checkMandatory($item->input)) {
                   if ($urgency_ticket_data = self::getUrgencyTicketFromDB($item->fields['id'])) {
                      // UPDATE
-                     $urgency_ticket->update(array('id'            => $urgency_ticket_data['id'],
-                                                   'justification' => $item->input['justification']));
+                     $urgency_ticket->update(['id'            => $urgency_ticket_data['id'],
+                                                   'justification' => $item->input['justification']]);
 
                   } else {
                      // ADD
                      // Then we add tickets informations
-                     if ($urgency_ticket->add(array('justification' => (isset($item->input['justification'])) ? $item->input['justification'] : "",
-                                                    'tickets_id'    => $item->fields['id']))
+                     if ($urgency_ticket->add(['justification' => (isset($item->input['justification'])) ? $item->input['justification'] : "",
+                                                    'tickets_id'    => $item->fields['id']])
                      ) {
 
                         unset($_SESSION['glpi_plugin_moreticket_urgency']);
@@ -256,8 +257,8 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
                $urgency_ids = $config->getUrgency_ids();
 
                if (!in_array($item->input['urgency'], $urgency_ids)) {
-                  $urgency_ticket->update(array('id'            => $urgency_ticket_data['id'],
-                                                'justification' => ""));
+                  $urgency_ticket->update(['id'            => $urgency_ticket_data['id'],
+                                                'justification' => ""]);
                }
 
                unset($_SESSION['glpi_plugin_moreticket_urgency']);
@@ -286,7 +287,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
          if (isset($item->input['urgency']) && in_array($item->input['urgency'], $urgency_ids)) {
             if (!self::checkMandatory($item->input, true)) {
                $_SESSION['saveInput'][$item->getType()] = $item->input;
-               $item->input                             = array();
+               $item->input                             = [];
             }
 
          }
@@ -315,8 +316,8 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
          if (in_array($item->input['urgency'], $urgency_ids)) {
             if (self::checkMandatory($item->input)) {
                // Then we add tickets informations
-               if ($urgency_ticket->add(array('justification' => $item->input['justification'],
-                                              'tickets_id'    => $item->fields['id']))
+               if ($urgency_ticket->add(['justification' => $item->input['justification'],
+                                              'tickets_id'    => $item->fields['id']])
                ) {
 
                   unset($_SESSION['glpi_plugin_moreticket_urgency']);

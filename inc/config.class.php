@@ -101,7 +101,7 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>
             <td>" . __("Use waiting process", "moreticket") . "</td><td>";
       Dropdown::showYesNo("use_waiting", $this->fields["use_waiting"], -1,
-                          array('on_change' => 'hide_show_waiting(this.value);'));
+                          ['on_change' => 'hide_show_waiting(this.value);']);
       echo "</td>";
       echo "</tr>";
 
@@ -141,7 +141,7 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>
             <td>" . __("Use solution process", "moreticket") . "</td><td>";
       Dropdown::showYesNo("use_solution", $this->fields["use_solution"], -1,
-                          array('on_change' => 'hide_show_solution(this.value);'));
+                          ['on_change' => 'hide_show_solution(this.value);']);
       echo "</td>";
       echo "</tr>";
 
@@ -174,7 +174,7 @@ class PluginMoreticketConfig extends CommonDBTM {
 
       $solution_status = $this->getSolutionStatus($this->fields["solution_status"]);
 
-      foreach (array(Ticket::CLOSED, Ticket::SOLVED) as $status) {
+      foreach ([Ticket::CLOSED, Ticket::SOLVED] as $status) {
          $checked = isset($solution_status[$status]) ? 'checked' : '';
          echo "<input type='checkbox' name='solution_status[" . $status . "]' value='1' $checked>&nbsp;";
          echo Ticket::getStatus($status) . "<br>";
@@ -191,7 +191,7 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>
             <td>" . __("Use the 'Duration' field in the add solution interface", "moreticket") . "</td><td>";
       Dropdown::showYesNo("use_duration_solution", $this->fields["use_duration_solution"], -1,
-                          array('on_change' => 'hide_show_solution(this.value);'));
+                          ['on_change' => 'hide_show_solution(this.value);']);
       echo "</td>";
       echo "</tr>";
 
@@ -212,7 +212,7 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>
             <td>" . __("Use a justification of the urgency field", "moreticket") . "</td><td>";
       Dropdown::showYesNo("urgency_justification", $this->fields["urgency_justification"], -1,
-                          array('on_change' => 'hide_show_urgency(this.value);'));
+                          ['on_change' => 'hide_show_urgency(this.value);']);
       echo "</td>";
       echo "</tr>";
 
@@ -235,8 +235,8 @@ class PluginMoreticketConfig extends CommonDBTM {
       $urgency_ids = self::getValuesUrgency();
       Dropdown::showFromArray('urgency_ids',
                               $urgency_ids,
-                              array('multiple' => true,
-                                    'values'   => $dbu->importArrayFromDB($this->fields["urgency_ids"])));
+                              ['multiple' => true,
+                                    'values'   => $dbu->importArrayFromDB($this->fields["urgency_ids"])]);
       echo "</td>";
       echo "</tr>";
 
@@ -258,7 +258,7 @@ class PluginMoreticketConfig extends CommonDBTM {
     */
    function getSolutionStatus($input) {
 
-      $solution_status = array();
+      $solution_status = [];
 
       if (!empty($input)) {
          $solution_status = json_decode($input, true);
@@ -366,7 +366,7 @@ class PluginMoreticketConfig extends CommonDBTM {
       global $CFG_GLPI;
 
       $URGENCY_MASK_FIELD = 'urgency_mask';
-      $values             = array();
+      $values             = [];
 
       if (isset($CFG_GLPI[$URGENCY_MASK_FIELD])) {
          if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1 << 5)) {

@@ -209,8 +209,8 @@ class PluginMoreticketTicket extends CommonITILObject {
                break;
          }
       }
-//      if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
-//         print_r($_SESSION['glpi_plugin_moreticket_close']);
-//      }
+      //      if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
+      //         print_r($_SESSION['glpi_plugin_moreticket_close']);
+      //      }
    }
 }

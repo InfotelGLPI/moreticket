@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of moreticket.
 
  moreticket is free software; you can redistribute it and/or modify
@@ -40,13 +40,12 @@ if (Session::getCurrentInterface() == "central") {
    $use_solution = $config->useSolution();
    $solution_status = $config->solutionStatus();
 
-   $params = array('root_doc' => $CFG_GLPI['root_doc'],
+   $params = ['root_doc' => $CFG_GLPI['root_doc'],
       'waiting' => CommonITILObject::WAITING,
       'closed' => CommonITILObject::CLOSED,
       'use_waiting' => $use_waiting,
       'use_solution' => $use_solution,
-      'solution_status' => $solution_status);
+      'solution_status' => $solution_status];
 
    echo "moreticket(" . json_encode($params) . ");";
 }
-?>

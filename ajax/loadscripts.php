@@ -47,7 +47,7 @@ if (isset($_POST['action'])) {
          $urgency_ids           = $config->getUrgency_ids();
          $use_duration_solution = $config->useDurationSolution();
 
-         $params = array('root_doc'        => $CFG_GLPI['root_doc'],
+         $params = ['root_doc'        => $CFG_GLPI['root_doc'],
                          'waiting'         => CommonITILObject::WAITING,
                          'closed'          => CommonITILObject::CLOSED,
                          'use_waiting'     => $use_waiting,
@@ -56,7 +56,7 @@ if (isset($_POST['action'])) {
                          'glpilayout'      => $_SESSION['glpilayout'],
                          'use_urgency'     => $use_urgency,
                          'urgency_ids'     => $urgency_ids,
-                         'div_kb'          => Session::haveRight('knowbase', UPDATE));
+                         'div_kb'          => Session::haveRight('knowbase', UPDATE)];
 
          echo "<script type='text/javascript'>";
          echo "var moreticket = $(document).moreticket(" . json_encode($params) . ");";

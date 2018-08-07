@@ -53,11 +53,11 @@ class PluginMoreticketWaitingType extends CommonTreeDropdown {
     */
    function getAdditionalFields() {
 
-      $tab = array(array('name'  => $this->getForeignKeyField(),
+      $tab = [['name'  => $this->getForeignKeyField(),
                          'label' => __('As child of'),
                          'type'  => 'parent',
-                         'list'  => false)
-      );
+                         'list'  => false]
+      ];
 
       return $tab;
 

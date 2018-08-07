@@ -45,7 +45,7 @@ if ($plugin->isActivated("moreticket")) {
       if (isset($_POST['urgency_ids'])) {
          $_POST['urgency_ids'] = $dbu->exportArrayToDB($_POST['urgency_ids']);
       } else {
-         $_POST['urgency_ids'] = $dbu->exportArrayToDB(array());
+         $_POST['urgency_ids'] = $dbu->exportArrayToDB([]);
       }
 
       $config->update($_POST);
