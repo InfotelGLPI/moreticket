@@ -83,7 +83,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
                $dbu = new DbUtils();
                return self::createTabEntry(self::getTypeName(2),
                                            $dbu->countElementsInTable($this->getTable(),
-                                                                "`tickets_id` = '" . $item->getID() . "'"));
+                                                                ["tickets_id" => $item->getID()]));
             }
             return self::getTypeName(2);
          }
@@ -371,7 +371,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       // Total Number of events
       $dbu    = new DbUtils();
       $number = $dbu->countElementsInTable("glpi_plugin_moreticket_waitingtickets",
-                                           "`tickets_id`='" . $item->getField('id') . "'");
+                                           ["tickets_id" =>$item->getField('id')]);
 
       if ($number < 1) {
          echo "<div class='center'>";
@@ -395,7 +395,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
 
          foreach (self::getWaitingTicketFromDB($item->getField('id'),
                                                ['start' => $start,
-                                                     'limit' => $_SESSION['glpilist_limit']]) as $waitingTicket) {
+                                                'limit' => $_SESSION['glpilist_limit']]) as $waitingTicket) {
 
             echo "<tr class='tab_bg_2'>";
             echo "<td>";
@@ -440,10 +440,16 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
 
       $dbu = new DbUtils();
       if (sizeof($options) == 0) {
-         $data_WaitingType = $dbu->getAllDataFromTable("glpi_plugin_moreticket_waitingtickets",
-                                                       '`tickets_id` = ' . $tickets_id .' AND `date_suspension` IN (SELECT max(`date_suspension`) 
-                                                FROM `glpi_plugin_moreticket_waitingtickets` WHERE `tickets_id` = ' . $tickets_id . ')
+         $iterator = $DB->request("glpi_plugin_moreticket_waitingtickets",
+                                                       '`tickets_id` = ' . $tickets_id .' 
+                                                       AND `date_suspension` IN (SELECT max(`date_suspension`) 
+                                                FROM `glpi_plugin_moreticket_waitingtickets` 
+                                                WHERE `tickets_id` = ' . $tickets_id . ')
                  AND (UNIX_TIMESTAMP(`date_end_suspension`) = 0 OR UNIX_TIMESTAMP(`date_end_suspension`) IS NULL)');
+         $data_WaitingType = [];
+         while ($row = $iterator->next()) {
+            $data_WaitingType[$row['id']] = $row;
+         }
       } else {
          $iterator = $DB->request("glpi_plugin_moreticket_waitingtickets",
                    "tickets_id = $tickets_id 

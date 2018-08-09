@@ -174,10 +174,10 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
       $dbu = new DbUtils();
       if (sizeof($options) == 0) {
          $data_Urgency = $dbu->getAllDataFromTable("glpi_plugin_moreticket_urgencytickets",
-                                              '`tickets_id` = ' . $tickets_id);
+                                              ['tickets_id' => $tickets_id]);
       } else {
          $data_Urgency = $dbu->getAllDataFromTable("glpi_plugin_moreticket_urgencytickets",
-                                              'tickets_id = ' . $tickets_id,
+                                                   ['tickets_id' => $tickets_id],
                                               false,
                                               ' LIMIT ' . intval($options['start']) . "," . intval($options['limit']));
       }

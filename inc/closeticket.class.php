@@ -70,7 +70,12 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          if ($item->getType() == 'Ticket'
              && $item->fields['status'] == Ticket::CLOSED
              && $config->closeInformations()) {
-
+            if ($_SESSION['glpishow_count_on_tabs']) {
+               $dbu = new DbUtils();
+               return self::createTabEntry(__('Close ticket informations', 'moreticket'),
+                                           $dbu->countElementsInTable($this->getTable(),
+                                                                      ["tickets_id" => $item->getID()]));
+            }
             return __('Close ticket informations', 'moreticket');
          }
       }
@@ -303,9 +308,11 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
 
       // Get close informations
       $data = self::getCloseTicketFromDB($item->getField('id'), ['start' => $start,
-                                                                      'limit' => $_SESSION['glpilist_limit']]);
-
-      if (!count($data)) {
+                                                                 'limit' => $_SESSION['glpilist_limit']]);
+      $dbu  = new DbUtils();
+      $number = $dbu->countElementsInTable("glpi_plugin_moreticket_closetickets",
+                                           ['tickets_id' => $item->getField('id')]);
+      if ($number == 0) {
          echo "<div class='center'>";
          echo "<table class='tab_cadre_fixe'>";
          echo "<tr><th>" . __('No historical') . "</th></tr>";
@@ -316,7 +323,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          $doc = new Document();
          echo "<div class='center'>";
          // Display the pager
-         Html::printAjaxPager(__('Close ticket informations', 'moreticket'), $start, count($data));
+         Html::printAjaxPager(__('Close ticket informations', 'moreticket'), $start, $number);
 
          if ($canedit) {
             Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
@@ -384,9 +391,12 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
     */
    static function getCloseTicketFromDB($tickets_id, $options = []) {
       $dbu  = new DbUtils();
-      $data = $dbu->getAllDataFromTable("glpi_plugin_moreticket_closetickets", 'tickets_id = ' . $tickets_id,
-                                        false,
-                                        '`date` DESC LIMIT ' . intval($options['start']) . "," . intval($options['limit']));
+      $data = $dbu->getAllDataFromTable("glpi_plugin_moreticket_closetickets",
+                                        ['tickets_id' => $tickets_id]+
+                                        ['ORDER' => 'date DESC']+
+                                        ['START' => (int)$options['start']]+
+                                        ['LIMIT' => (int)$options['limit']],
+                                        false);
 
       return $data;
    }
