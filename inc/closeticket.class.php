@@ -362,10 +362,13 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
     */
    static function getCloseTicketFromDB($tickets_id, $options = array()) {
       $dbu  = new DbUtils();
-      $data = $dbu->getAllDataFromTable("glpi_plugin_moreticket_closetickets", 'tickets_id = ' . $tickets_id,
-                                        false,
-                                        '`date` DESC LIMIT ' . intval($options['start']) . "," . intval($options['limit']));
-
+      Toolbox::logDebug($options);
+      $data = $dbu->getAllDataFromTable("glpi_plugin_moreticket_closetickets",
+                                        ['tickets_id' => $tickets_id]+
+                                        ['ORDER' => 'date DESC']+
+                                        ['START' => (int)$options['start']]+
+                                        ['LIMIT' => (int)$options['limit']],
+                                        false);
       return $data;
    }
 
