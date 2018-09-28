@@ -106,8 +106,9 @@ class PluginMoreticketSolution extends CommonITILObject {
 
                $tickettask = new TicketTask();
                $tickettask->add(['tickets_id'    => $tickets_id,
-                                 'date'          => date('Y-m-d H:i:s'),
                                  'date_creation' => date('Y-m-d H:i:s'),
+                                 'date'          => date('Y-m-d H:i:s',
+                                                         strtotime('- 10 seconds', strtotime(date('Y-m-d H:i:s')))),
                                  'users_id'      => Session::getLoginUserID(),
                                  'users_id_tech' => Session::getLoginUserID(),
                                  'content'       => $solution->input['content'],
