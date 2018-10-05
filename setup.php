@@ -55,10 +55,10 @@ function plugin_init_moreticket() {
             $PLUGIN_HOOKS['config_page']['moreticket'] = 'front/config.form.php';
 
             $PLUGIN_HOOKS['pre_item_update']['moreticket'] = ['TicketTask'     => ['PluginMoreticketTicketTask', 'beforeUpdate'],
-                                                                   'TicketFollowup' => ['PluginMoreticketTicketFollowup', 'beforeUpdate']];
-            $PLUGIN_HOOKS['pre_item_add']['moreticket']    = ['TicketTask'     => ['PluginMoreticketTicketTask', 'beforeAdd'],
-                                                                   'ITILSolution' => ['PluginMoreticketSolution', 'preUpdateSolution'],
-                                                                   'TicketFollowup' => ['PluginMoreticketTicketFollowup', 'beforeAdd']];
+                                                              'TicketFollowup' => ['PluginMoreticketTicketFollowup', 'beforeUpdate']];
+            $PLUGIN_HOOKS['post_prepareadd']['moreticket'] = ['TicketTask'     => ['PluginMoreticketTicketTask', 'beforeAdd'],
+                                                              'ITILSolution'   => ['PluginMoreticketSolution', 'preUpdateSolution'],
+                                                              'TicketFollowup' => ['PluginMoreticketTicketFollowup', 'beforeAdd']];
 
             $PLUGIN_HOOKS['item_empty']['moreticket'] = ['Ticket' => ['PluginMoreticketTicket', 'emptyTicket']];
          }
