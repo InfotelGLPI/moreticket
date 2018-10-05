@@ -76,7 +76,7 @@ class PluginMoreticketSolution extends CommonITILObject {
     *
     * @return bool
     */
-   static function preUpdateSolution(ITILSolution $solution) {
+   static function beforeAdd(ITILSolution $solution) {
       global $CFG_GLPI;
 
       if (!is_array($solution->input) || !count($solution->input)) {

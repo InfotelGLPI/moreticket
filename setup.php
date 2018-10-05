@@ -43,6 +43,11 @@ function plugin_init_moreticket() {
 
          $PLUGIN_HOOKS['add_javascript']['moreticket'] = ["scripts/moreticket.js"];
 
+         if ($config->useDurationSolution() == true) {
+
+            $PLUGIN_HOOKS['pre_item_add']['moreticket'] = ['ITILSolution'   => ['PluginMoreticketSolution', 'beforeAdd']];
+         }
+
          if (Session::haveRight("plugin_moreticket", UPDATE) || Session::haveRight("plugin_moreticket_justification", READ)) {
             if (strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false
                 || strpos($_SERVER['REQUEST_URI'], "helpdesk.public.php") !== false
@@ -57,16 +62,9 @@ function plugin_init_moreticket() {
             $PLUGIN_HOOKS['pre_item_update']['moreticket'] = ['TicketTask'     => ['PluginMoreticketTicketTask', 'beforeUpdate'],
                                                               'TicketFollowup' => ['PluginMoreticketTicketFollowup', 'beforeUpdate']];
             $PLUGIN_HOOKS['post_prepareadd']['moreticket'] = ['TicketTask'     => ['PluginMoreticketTicketTask', 'beforeAdd'],
-                                                              'ITILSolution'   => ['PluginMoreticketSolution', 'preUpdateSolution'],
                                                               'TicketFollowup' => ['PluginMoreticketTicketFollowup', 'beforeAdd']];
 
             $PLUGIN_HOOKS['item_empty']['moreticket'] = ['Ticket' => ['PluginMoreticketTicket', 'emptyTicket']];
-         }
-
-         if (Session::haveRight("plugin_moreticket_justification", READ) || Session::haveRight("plugin_moreticket", UPDATE)) {
-            //allows to avoid conflicts with behaviors for adding the solution with a duration
-            // and the parameter "Mandatory duration to solve/close a ticket" of the behaviors plugin
-            $PLUGIN_HOOKS['pre_item_update'] = ['moreticket' => []] + $PLUGIN_HOOKS['pre_item_update'];
 
             $PLUGIN_HOOKS['pre_item_update']['moreticket']['Ticket'] = ['PluginMoreticketTicket', 'beforeUpdate'];
             $PLUGIN_HOOKS['pre_item_add']['moreticket']['Ticket']    = ['PluginMoreticketTicket', 'beforeAdd'];
