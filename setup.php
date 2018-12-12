@@ -27,6 +27,8 @@
  --------------------------------------------------------------------------
  */
 
+define('PLUGIN_MORETICKET_VERSION', '2.1.0');
+
 // Init the hooks of the plugins -Needed
 function plugin_init_moreticket() {
    global $PLUGIN_HOOKS;
@@ -88,11 +90,16 @@ function plugin_version_moreticket() {
 
    return [
       'name'           => __('More ticket', 'moreticket'),
-      'version'        => "1.4.3",
+      'version'        => PLUGIN_MORETICKET_VERSION,
       'author'         => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>",
       'homepage'       => "https://github.com/InfotelGLPI/moreticket",
       'license'        => 'GPLv2+',
-      'minGlpiVersion' => "9.3"
+      'requirements'   => [
+         'glpi' => [
+            'min' => '9.4',
+            'dev' => false
+         ]
+      ]
    ];
 }
 
@@ -101,8 +108,11 @@ function plugin_version_moreticket() {
  * @return bool
  */
 function plugin_moreticket_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '9.3', 'lt') || version_compare(GLPI_VERSION, '9.4', 'ge')) {
-      echo __('This plugin requires GLPI >= 9.3');
+   if (version_compare(GLPI_VERSION, '9.4', 'lt')
+       || version_compare(GLPI_VERSION, '9.5', 'ge')) {
+      if (method_exists('Plugin', 'messageIncompatible')) {
+         echo Plugin::messageIncompatible('core', '9.4');
+      }
       return false;
    }
    return true;

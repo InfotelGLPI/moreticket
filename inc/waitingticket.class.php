@@ -570,9 +570,18 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
                 && $item->input['status'] != CommonITILObject::WAITING
             ) {
                // Get all waiting with date_suspension < today
-               $lastWaiting = $waiting_ticket->find("`tickets_id` = '" . $item->fields['id'] . "' "
-                                                    . " AND (`date_end_suspension` IS NULL OR `date_end_suspension` = '') "
-                                                    . " AND UNIX_TIMESTAMP(`date_suspension`) <= '" . time() . "'");
+               $condition = ['tickets_id' => $item->fields['id'],
+                             [
+                                'OR' => [
+                                   'date_end_suspension' => NULL,
+                                   'date_end_suspension' => ''
+                                ]
+                             ]];
+            $condition += [new QueryExpression(
+                     'UNIX_TIMESTAMP(date_suspension) <= UNIX_TIMESTAMP(NOW())'
+                  )
+               ];
+               $lastWaiting = $waiting_ticket->find($condition);
 
                foreach ($lastWaiting as $field) {
                   $waiting_ticket->update(['id'                  => $field['id'],
