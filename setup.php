@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_MORETICKET_VERSION', '2.1.0');
+define('PLUGIN_MORETICKET_VERSION', '1.5.0');
 
 // Init the hooks of the plugins -Needed
 function plugin_init_moreticket() {
