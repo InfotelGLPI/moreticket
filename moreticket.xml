@@ -8,10 +8,12 @@
         <short>
             <fr><![CDATA[Ce plugin permet d'ajouter 4 nouvelles options sur un ticket GLPI]]></fr>
             <en><![CDATA[This plugin enables you to add 4 new options into a ticket.]]></en>
+            <cs><![CDATA[Tento zásuvný modul umožňuje do požadavku přidat 4 nové volby.]]></cs>
         </short>
         <long>
             <fr><![CDATA[Ce plugin permet d'ajouter 4 nouvelles options sur un ticket GLPI<br />- A la création d'un ticket, lors de la sélection du statut "Résolu" ou "Clos", le ticket vous proposera de remplir la solution du ticket,<br />- A la création et à la modification d'un ticket, lors de la sélection du statut "En attente", vous pourrez définir des types d'attente, la raison de la mise en attente ainsi qu'une date de report,<br />- Une nouvelle zone sera disponible pour ajouter des informations suite à la clôture du ticket, <br />- A la création et à la modification d'un ticket, lors de la sélection de l'urgence en fonction du paramètrage effectué dans la configuration du plugin, vous pourrez définir une justification.]]></fr>
             <en></en>
+            <cs><![CDATA[Tento zásuvný modul umožňuje do požadavku přidat 4 nové volby.<br />- Při vytváření požadavku při výběru stavu „vyřešeno“ nebo „Uzavřeno“ požadavek nabídne vyplnění jeho řešení,<br />- Při vytváření nebo úpravě požadavku při výběru stavu „čekající“ je možné určit typy čekání, důvod čekání a datum hlášení,<br />- K dispozici bude nová zóna pro přidání informace po uzavření požadavku, <br />- Při vytváření a úpravě požadavku při výběru naléhavosti v závislosti na nastavení zásuvného modulu je možné určit odůvodnění.]]></cs>
         </long>
     </description>
     <homepage>https://github.com/InfotelGLPI/moreticket</homepage>
@@ -23,6 +25,10 @@
         <author>Infotel</author>
     </authors>
     <versions>
+        <version>
+            <num>1.4.4</num>
+            <compatibility>9.3</compatibility>
+        </version>
         <version>
             <num>1.4.3</num>
             <compatibility>9.3</compatibility>
@@ -80,6 +86,8 @@
         <lang>cz_CZ</lang>
         <lang>en_GB</lang>
         <lang>es_AR</lang>
+        <lang>es_ES</lang>
+        <lang>fi_FI</lang>
         <lang>fr_FR</lang>
         <lang>pt_BR</lang>
         <lang>pt_PT</lang>

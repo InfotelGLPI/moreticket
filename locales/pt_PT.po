@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-09 09:28+0200\n"
+"POT-Creation-Date: 2018-07-20 10:19+0200\n"
 "PO-Revision-Date: 2018-07-09 07:29+0000\n"
 "Last-Translator: Amandine Manceau\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/tsmr/GLPI_moreticket/language/pt_PT/)\n"
@@ -31,12 +31,12 @@ msgstr "Data de adiamento"
 
 #: hook.php:225 hook.php:232 hook.php:239 hook.php:246
 #: inc/closeticket.class.php:74 inc/closeticket.class.php:116
-#: inc/closeticket.class.php:171 inc/closeticket.class.php:317
-#: inc/closeticket.class.php:369 inc/config.class.php:167
+#: inc/closeticket.class.php:171 inc/closeticket.class.php:299
+#: inc/closeticket.class.php:351 inc/config.class.php:167
 msgid "Close ticket informations"
 msgstr "Fechar informações do ticket"
 
-#: setup.php:93 inc/profile.class.php:50 inc/profile.class.php:177
+#: setup.php:92 inc/profile.class.php:50 inc/profile.class.php:177
 msgid "More ticket"
 msgstr "Mais incidência"
 
@@ -44,7 +44,7 @@ msgstr "Mais incidência"
 msgid "Please activate the plugin"
 msgstr "Por favor active o plugin"
 
-#: inc/closeticket.class.php:130 inc/closeticket.class.php:465
+#: inc/closeticket.class.php:130 inc/closeticket.class.php:447
 msgid "Solution description"
 msgstr "Descrição da solução"
 
@@ -52,17 +52,17 @@ msgstr "Descrição da solução"
 msgid "Ticket cannot be closed"
 msgstr "Incidência não pode ser fechada"
 
-#: inc/closeticket.class.php:545
+#: inc/closeticket.class.php:527
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s adicionou informações de fecho"
 
-#: inc/closeticket.class.php:561
+#: inc/closeticket.class.php:543
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s actualizou informações de fecho"
 
-#: inc/closeticket.class.php:577
+#: inc/closeticket.class.php:559
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s apagou informações de fecho"

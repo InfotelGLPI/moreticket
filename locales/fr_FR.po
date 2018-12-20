@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-09 09:28+0200\n"
+"POT-Creation-Date: 2018-07-20 10:19+0200\n"
 "PO-Revision-Date: 2018-07-09 07:30+0000\n"
 "Last-Translator: Amandine Manceau\n"
 "Language-Team: French (France) (http://www.transifex.com/tsmr/GLPI_moreticket/language/fr_FR/)\n"
@@ -33,12 +33,12 @@ msgstr "Date de report"
 
 #: hook.php:225 hook.php:232 hook.php:239 hook.php:246
 #: inc/closeticket.class.php:74 inc/closeticket.class.php:116
-#: inc/closeticket.class.php:171 inc/closeticket.class.php:317
-#: inc/closeticket.class.php:369 inc/config.class.php:167
+#: inc/closeticket.class.php:171 inc/closeticket.class.php:299
+#: inc/closeticket.class.php:351 inc/config.class.php:167
 msgid "Close ticket informations"
 msgstr "Informations de clôture des tickets"
 
-#: setup.php:93 inc/profile.class.php:50 inc/profile.class.php:177
+#: setup.php:92 inc/profile.class.php:50 inc/profile.class.php:177
 msgid "More ticket"
 msgstr "More ticket"
 
@@ -46,7 +46,7 @@ msgstr "More ticket"
 msgid "Please activate the plugin"
 msgstr "Merci d'activer le plugin"
 
-#: inc/closeticket.class.php:130 inc/closeticket.class.php:465
+#: inc/closeticket.class.php:130 inc/closeticket.class.php:447
 msgid "Solution description"
 msgstr "Description de la solution"
 
@@ -54,17 +54,17 @@ msgstr "Description de la solution"
 msgid "Ticket cannot be closed"
 msgstr "Impossible de clore le ticket"
 
-#: inc/closeticket.class.php:545
+#: inc/closeticket.class.php:527
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s a ajouté des informations de clôture"
 
-#: inc/closeticket.class.php:561
+#: inc/closeticket.class.php:543
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s a mis à jour des informations de clôture"
 
-#: inc/closeticket.class.php:577
+#: inc/closeticket.class.php:559
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s a supprimé des informations de clôture"
