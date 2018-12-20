@@ -57,7 +57,7 @@ class PluginMoreticketTicketFollowup extends CommonDBTM {
     *
     * @return bool
     */
-   static function beforeAdd(TicketFollowup $ticketfollowup) {
+   static function beforeAdd(ITILFollowup $ticketfollowup) {
 
       if (!is_array($ticketfollowup->input) || !count($ticketfollowup->input)) {
          // Already cancel by another plugin
@@ -83,7 +83,7 @@ class PluginMoreticketTicketFollowup extends CommonDBTM {
     *
     * @return bool
     */
-   static function beforeUpdate(TicketFollowup $ticketfollowup) {
+   static function beforeUpdate(ITILFollowup $ticketfollowup) {
 
       if (!is_array($ticketfollowup->input) || !count($ticketfollowup->input)) {
          // Already cancel by another plugin
