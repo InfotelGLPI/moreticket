@@ -53,54 +53,58 @@ class PluginMoreticketTicketFollowup extends CommonDBTM {
    }
 
    /**
-    * @param TicketFollowup $ticketfollowup
+    * @param $ticketfollowup
     *
     * @return bool
     */
-   static function beforeAdd(ITILFollowup $ticketfollowup) {
+   static function beforeAdd($ticketfollowup) {
 
       if (!is_array($ticketfollowup->input) || !count($ticketfollowup->input)) {
          // Already cancel by another plugin
          return false;
       }
+      if ($ticketfollowup->input['itemtype'] == 'Ticket') {
+         $config = new PluginMoreticketConfig();
 
-      $config = new PluginMoreticketConfig();
+         if (isset($ticketfollowup->input['_status']) && $config->useWaiting() == true) {
+            $updates['id']                                = $ticketfollowup->input['items_id'];
+            $updates['reason']                            = $ticketfollowup->input['reason'];
+            $updates['date_report']                       = $ticketfollowup->input['date_report'];
+            $updates['plugin_moreticket_waitingtypes_id'] = $ticketfollowup->input['plugin_moreticket_waitingtypes_id'];
+            $updates['status']                            = $ticketfollowup->input['_status'];
+            $ticket                                       = new Ticket();
 
-      if (isset($ticketfollowup->input['_status']) && $config->useWaiting() == true) {
-         $updates['id']                                = $ticketfollowup->input['tickets_id'];
-         $updates['reason']                            = $ticketfollowup->input['reason'];
-         $updates['date_report']                       = $ticketfollowup->input['date_report'];
-         $updates['plugin_moreticket_waitingtypes_id'] = $ticketfollowup->input['plugin_moreticket_waitingtypes_id'];
-         $updates['status']                            = $ticketfollowup->input['_status'];
-         $ticket                                       = new Ticket();
-         $ticket->update($updates);
-         unset($ticketfollowup->input['_status']);
+            $ticket->update($updates);
+            unset($ticketfollowup->input['_status']);
+         }
       }
    }
 
    /**
-    * @param TicketFollowup $ticketfollowup
+    * @param $ticketfollowup
     *
     * @return bool
     */
-   static function beforeUpdate(ITILFollowup $ticketfollowup) {
+   static function beforeUpdate($ticketfollowup) {
 
       if (!is_array($ticketfollowup->input) || !count($ticketfollowup->input)) {
          // Already cancel by another plugin
          return false;
       }
 
-      $config = new PluginMoreticketConfig();
+      if ($ticketfollowup->input['itemtype'] == 'Ticket') {
+         $config = new PluginMoreticketConfig();
 
-      if (isset($ticketfollowup->input['_status']) && $config->useWaiting() == true) {
-         $updates['id']                                = $ticketfollowup->input['tickets_id'];
-         $updates['reason']                            = $ticketfollowup->input['reason'];
-         $updates['date_report']                       = $ticketfollowup->input['date_report'];
-         $updates['plugin_moreticket_waitingtypes_id'] = $ticketfollowup->input['plugin_moreticket_waitingtypes_id'];
-         $updates['status']                            = $ticketfollowup->input['_status'];
-         $ticket                                       = new Ticket();
-         $ticket->update($updates);
-         unset($ticketfollowup->input['_status']);
+         if (isset($ticketfollowup->input['_status']) && $config->useWaiting() == true) {
+            $updates['id']                                = $ticketfollowup->input['items_id'];
+            $updates['reason']                            = $ticketfollowup->input['reason'];
+            $updates['date_report']                       = $ticketfollowup->input['date_report'];
+            $updates['plugin_moreticket_waitingtypes_id'] = $ticketfollowup->input['plugin_moreticket_waitingtypes_id'];
+            $updates['status']                            = $ticketfollowup->input['_status'];
+            $ticket                                       = new Ticket();
+            $ticket->update($updates);
+            unset($ticketfollowup->input['_status']);
+         }
       }
    }
 }
