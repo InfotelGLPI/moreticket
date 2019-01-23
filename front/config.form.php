@@ -62,7 +62,7 @@ if ($plugin->isActivated("moreticket")) {
 } else {
    Html::header(__('Setup'), '', "config", "plugins");
    echo "<div align='center'><br><br>";
-   echo "<img src=\"" . $CFG_GLPI["root_doc"] . "/pics/warning.png\" alt='warning'><br><br>";
+   echo "<i class='fas fa-exclamation-triangle fa-4x' style='color:orange'></i><br><br>";
    echo "<b>" . __('Please activate the plugin', 'moreticket') . "</b></div>";
    Html::footer();
 }
