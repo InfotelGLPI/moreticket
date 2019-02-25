@@ -53,7 +53,7 @@ class DbTestCase extends \GLPITestCase {
     * @param string $user_name User name (defaults to TU_USER)
     * @param string $user_pass user password (defaults to TU_PASS)
     *
-    * @return voidd
+    * @return void
     */
    protected function login($user_name = TU_USER, $user_pass = TU_PASS) {
 
