@@ -1,0 +1,15 @@
+.* export-ignore
+
+composer.json export-ignore
+composer.lock export-ignore
+
+tools export-ignore
+wiki export-ignore
+screenshots export-ignore
+tests export-ignore
+ISSUE_TEMPLATE.md export-ignore
+todo.txt export-ignore
+TODO.txt export-ignore
+
+moreticket.xml export-ignore
+
