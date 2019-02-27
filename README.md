@@ -2,10 +2,10 @@
 Plugin moreticket for GLPI
 
 Ce plugin est sur Transifex - Aidez-nous à le traduire :
-https://www.transifex.com/tsmr/GLPI_moreticket/
+https://www.transifex.com/infotelGLPI/GLPI_moreticket/
 
 This plugin is on Transifex - Help us to translate :
-https://www.transifex.com/tsmr/GLPI_moreticket/
+https://www.transifex.com/infotelGLPI/GLPI_moreticket/
 
 Ce plugin permet d'ajouter des nouvelles options sur un ticket GLPI :
 
