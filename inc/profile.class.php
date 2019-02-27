@@ -45,7 +45,6 @@ class PluginMoreticketProfile extends CommonDBTM {
     * @return string|translated
     */
    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-
       if ($item->getType() == 'Profile') {
          return __('More ticket', 'moreticket');
       }
@@ -68,6 +67,11 @@ class PluginMoreticketProfile extends CommonDBTM {
          self::addDefaultProfileInfos($ID,
                                       ['plugin_moreticket'               => 0,
                                             'plugin_moreticket_justification' => 0]);
+
+         self::addDefaultProfileInfos($ID,
+                                       ['plugin_moreticket'               => 0,
+                                             'plugin_moreticket_hide_task_duration' => 0]);
+
          $prof->showForm($ID);
       }
 
@@ -82,6 +86,10 @@ class PluginMoreticketProfile extends CommonDBTM {
       self::addDefaultProfileInfos($ID,
                                    ['plugin_moreticket'               => 127,
                                          'plugin_moreticket_justification' => 1], true);
+
+      self::addDefaultProfileInfos($ID,
+                                   ['plugin_moreticket'               => 127,
+                                          'plugin_moreticket_hide_task_duration' => 1], true);
    }
 
    /**
@@ -152,6 +160,15 @@ class PluginMoreticketProfile extends CommonDBTM {
       Html::showCheckbox(['name'    => '_plugin_moreticket_justification',
                                'checked' => $effective_rights['plugin_moreticket_justification']]);
       echo "</td></tr>\n";
+
+      $effective_rights = ProfileRight::getProfileRights($profiles_id, ['plugin_moreticket_hide_task_duration']);
+      echo "<tr class='tab_bg_2'>";
+      echo "<td width='20%'>" . __('Hide task duration in tickets', 'moreticket') . "</td>";
+      echo "<td colspan='5'>";
+      Html::showCheckbox(['name'    => '_plugin_moreticket_hide_task_duration',
+          'checked' => $effective_rights['plugin_moreticket_hide_task_duration']]);
+      echo "</td></tr>\n";
+
       echo "</table>";
 
       if ($canedit
@@ -231,8 +248,22 @@ class PluginMoreticketProfile extends CommonDBTM {
       foreach ($DB->request('glpi_plugin_moreticket_profiles',
                             "`profiles_id`='$profiles_id'") as $profile_data) {
 
+         // plugin_moreticket_justification
          $matching       = ['moreticket'    => 'plugin_moreticket',
                                  'justification' => 'plugin_moreticket_justification'];
+         $current_rights = ProfileRight::getProfileRights($profiles_id, array_values($matching));
+         foreach ($matching as $old => $new) {
+            if (!isset($current_rights[$old])) {
+               $query = "UPDATE `glpi_profilerights` 
+                         SET `rights`='" . self::translateARight($profile_data[$old]) . "' 
+                         WHERE `name`='$new' AND `profiles_id`='$profiles_id'";
+               $DB->query($query);
+            }
+         }
+
+         // plugin_moreticket_hide_task_duration
+         $matching       = ['moreticket'    => 'plugin_moreticket',
+             'justification' => 'plugin_moreticket_hide_task_duration'];
          $current_rights = ProfileRight::getProfileRights($profiles_id, array_values($matching));
          foreach ($matching as $old => $new) {
             if (!isset($current_rights[$old])) {
