@@ -8,15 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2018-07-20 10:19+0200\n"
-"PO-Revision-Date: 2018-07-09 10:18+0000\n"
-"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
-=======
 "POT-Creation-Date: 2019-02-26 15:54+0100\n"
 "PO-Revision-Date: 2019-02-26 15:09+0000\n"
 "Last-Translator: Mathieu Templier <mathieu.templier@infotel.com>\n"
->>>>>>> hide_time_task_by_profil
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/tsmr/GLPI_moreticket/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,16 +30,6 @@ msgstr "Důvod"
 msgid "Postponement date"
 msgstr "Datum na které odložit"
 
-<<<<<<< HEAD
-#: hook.php:225 hook.php:232 hook.php:239 hook.php:246
-#: inc/closeticket.class.php:74 inc/closeticket.class.php:116
-#: inc/closeticket.class.php:171 inc/closeticket.class.php:299
-#: inc/closeticket.class.php:351 inc/config.class.php:167
-msgid "Close ticket informations"
-msgstr "Informace o uzavření požadavku"
-
-#: setup.php:92 inc/profile.class.php:50 inc/profile.class.php:177
-=======
 #: hook.php:228 hook.php:235 hook.php:242 hook.php:249
 #: inc/closeticket.class.php:75 inc/closeticket.class.php:79
 #: inc/closeticket.class.php:121 inc/closeticket.class.php:178
@@ -55,7 +39,6 @@ msgid "Close ticket informations"
 msgstr "Informace o uzavření požadavku"
 
 #: setup.php:94 inc/profile.class.php:49 inc/profile.class.php:194
->>>>>>> hide_time_task_by_profil
 msgid "More ticket"
 msgstr "Více k požadavku"
 
@@ -63,11 +46,7 @@ msgstr "Více k požadavku"
 msgid "Please activate the plugin"
 msgstr "Zapněte zásuvný modul"
 
-<<<<<<< HEAD
-#: inc/closeticket.class.php:130 inc/closeticket.class.php:447
-=======
 #: inc/closeticket.class.php:135 inc/closeticket.class.php:479
->>>>>>> hide_time_task_by_profil
 msgid "Solution description"
 msgstr "Popis řešení"
 
@@ -75,29 +54,17 @@ msgstr "Popis řešení"
 msgid "Ticket cannot be closed"
 msgstr "Požadavek není možné uzavřít"
 
-<<<<<<< HEAD
-#: inc/closeticket.class.php:527
-=======
 #: inc/closeticket.class.php:576
->>>>>>> hide_time_task_by_profil
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s přidal informace o uzavření"
 
-<<<<<<< HEAD
-#: inc/closeticket.class.php:543
-=======
 #: inc/closeticket.class.php:595
->>>>>>> hide_time_task_by_profil
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s aktualizoval informace o uzavření"
 
-<<<<<<< HEAD
-#: inc/closeticket.class.php:559
-=======
 #: inc/closeticket.class.php:614
->>>>>>> hide_time_task_by_profil
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s smazal informace o uzavření"
