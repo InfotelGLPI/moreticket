@@ -33,7 +33,7 @@ define('PLUGIN_MORETICKET_VERSION', '1.5.0');
 function plugin_init_moreticket() {
    global $PLUGIN_HOOKS;
 
-   $PLUGIN_HOOKS['add_css']['moreticket']        = 'moreticket.css';
+   $PLUGIN_HOOKS['add_css']['moreticket'][]        = 'css/moreticket.css';
    $PLUGIN_HOOKS['csrf_compliant']['moreticket'] = true;
    $PLUGIN_HOOKS['change_profile']['moreticket'] = ['PluginMoreticketProfile', 'initProfile'];
 
@@ -72,6 +72,10 @@ function plugin_init_moreticket() {
             $PLUGIN_HOOKS['pre_item_add']['moreticket']['Ticket']    = ['PluginMoreticketTicket', 'beforeAdd'];
             $PLUGIN_HOOKS['item_add']['moreticket']['Ticket']        = ['PluginMoreticketTicket', 'afterAdd'];
             $PLUGIN_HOOKS['item_update']['moreticket']['Ticket']     = ['PluginMoreticketTicket', 'afterUpdate'];
+         }
+
+         if (Session::haveRight("plugin_moreticket_hide_task_duration", READ)) {
+            $PLUGIN_HOOKS['add_css']['moreticket'][] = 'css/hide_task_duration.css';
          }
 
          if (Session::haveRight('plugin_moreticket', READ)) {

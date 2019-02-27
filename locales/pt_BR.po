@@ -11,9 +11,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2018-07-20 10:19+0200\n"
 "PO-Revision-Date: 2018-12-10 13:18+0000\n"
 "Last-Translator: Gustavo Plottier Pilotto <gplottier@gmail.com>\n"
+=======
+"POT-Creation-Date: 2019-02-26 15:54+0100\n"
+"PO-Revision-Date: 2019-02-26 15:09+0000\n"
+"Last-Translator: Mathieu Templier <mathieu.templier@infotel.com>\n"
+>>>>>>> hide_time_task_by_profil
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/tsmr/GLPI_moreticket/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,18 +27,19 @@ msgstr ""
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: hook.php:197 inc/waitingticket.class.php:138
-#: inc/waitingticket.class.php:237 inc/waitingticket.class.php:316
-#: inc/waitingticket.class.php:388
+#: hook.php:200 inc/waitingticket.class.php:139
+#: inc/waitingticket.class.php:238 inc/waitingticket.class.php:317
+#: inc/waitingticket.class.php:390
 msgid "Reason"
 msgstr "Motivo"
 
-#: hook.php:205 inc/waitingticket.class.php:130
-#: inc/waitingticket.class.php:252 inc/waitingticket.class.php:331
-#: inc/waitingticket.class.php:390
+#: hook.php:208 inc/waitingticket.class.php:131
+#: inc/waitingticket.class.php:253 inc/waitingticket.class.php:332
+#: inc/waitingticket.class.php:392
 msgid "Postponement date"
 msgstr "Data de adiamento"
 
+<<<<<<< HEAD
 #: hook.php:225 hook.php:232 hook.php:239 hook.php:246
 #: inc/closeticket.class.php:74 inc/closeticket.class.php:116
 #: inc/closeticket.class.php:171 inc/closeticket.class.php:299
@@ -41,32 +48,59 @@ msgid "Close ticket informations"
 msgstr "Encerrar informações do ticket"
 
 #: setup.php:92 inc/profile.class.php:50 inc/profile.class.php:177
+=======
+#: hook.php:228 hook.php:235 hook.php:242 hook.php:249
+#: inc/closeticket.class.php:75 inc/closeticket.class.php:79
+#: inc/closeticket.class.php:121 inc/closeticket.class.php:178
+#: inc/closeticket.class.php:326 inc/closeticket.class.php:380
+#: inc/config.class.php:167
+msgid "Close ticket informations"
+msgstr "Encerrar informações do ticket"
+
+#: setup.php:94 inc/profile.class.php:49 inc/profile.class.php:194
+>>>>>>> hide_time_task_by_profil
 msgid "More ticket"
 msgstr "More ticket"
 
-#: front/config.form.php:65
+#: front/config.form.php:66
 msgid "Please activate the plugin"
 msgstr "Por favor ative o plugin"
 
+<<<<<<< HEAD
 #: inc/closeticket.class.php:130 inc/closeticket.class.php:447
+=======
+#: inc/closeticket.class.php:135 inc/closeticket.class.php:479
+>>>>>>> hide_time_task_by_profil
 msgid "Solution description"
 msgstr "Descrição da solução"
 
-#: inc/closeticket.class.php:149
+#: inc/closeticket.class.php:154
 msgid "Ticket cannot be closed"
 msgstr "Chamado não pode ser fechado"
 
+<<<<<<< HEAD
 #: inc/closeticket.class.php:527
+=======
+#: inc/closeticket.class.php:576
+>>>>>>> hide_time_task_by_profil
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s adicionadas informações de fechamento"
 
+<<<<<<< HEAD
 #: inc/closeticket.class.php:543
+=======
+#: inc/closeticket.class.php:595
+>>>>>>> hide_time_task_by_profil
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s atualizadas informações de fechamento"
 
+<<<<<<< HEAD
 #: inc/closeticket.class.php:559
+=======
+#: inc/closeticket.class.php:614
+>>>>>>> hide_time_task_by_profil
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s apagadas às informações de fechamento"
@@ -131,9 +165,13 @@ msgstr "Use a justificativa no campo de urgência"
 msgid "Urgency impacted justification for the field"
 msgstr "Use a justificativa no campo de urgência"
 
-#: inc/profile.class.php:150
+#: inc/profile.class.php:158
 msgid "Adding a justification of urgency"
 msgstr "A adicionar uma justificativa de urgência."
+
+#: inc/profile.class.php:166
+msgid "Hide task duration in tickets"
+msgstr ""
 
 #: inc/urgencyticket.class.php:69 inc/urgencyticket.class.php:155
 msgid "Justification"
@@ -143,7 +181,7 @@ msgstr "Justificativa"
 msgid "Urgency ticket cannot be saved"
 msgstr "Chamado de urgência não pode ser salvo"
 
-#: inc/urgencyticket.class.php:94 inc/waitingticket.class.php:170
+#: inc/urgencyticket.class.php:94 inc/waitingticket.class.php:171
 msgid "Ticket cannot be saved"
 msgstr "Chamado não pode ser salvo"
 
@@ -153,27 +191,27 @@ msgid_plural "Waiting tickets"
 msgstr[0] "Chamado em espera"
 msgstr[1] "Chamados em espera"
 
-#: inc/waitingticket.class.php:168
+#: inc/waitingticket.class.php:169
 msgid "Waiting ticket cannot be saved"
 msgstr "Chamado em espera não podem ser salvos"
 
-#: inc/waitingticket.class.php:174
+#: inc/waitingticket.class.php:175
 msgid "Report date is inferior of today's date"
 msgstr "Data do relatório é inferior a data de hoje"
 
-#: inc/waitingticket.class.php:384 inc/waitingticket.class.php:424
+#: inc/waitingticket.class.php:386 inc/waitingticket.class.php:426
 msgid "Ticket suspension history"
 msgstr "Histórico da suspensão do chamado"
 
-#: inc/waitingticket.class.php:387
+#: inc/waitingticket.class.php:389
 msgid "Suspension date"
 msgstr "Data da suspensão"
 
-#: inc/waitingticket.class.php:391
+#: inc/waitingticket.class.php:393
 msgid "Suspension end date"
 msgstr "Data fim da suspensão"
 
-#: inc/waitingticket.class.php:741
+#: inc/waitingticket.class.php:751
 msgid "End of standby ticket"
 msgstr "Fim do chamado pendente"
 
