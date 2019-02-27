@@ -2,12 +2,6 @@
     "name": "infotel/moreticket",
     "type": "project",
     "license": "LGPL2",
-    "authors": [
-        {
-            "name": "Mathieu Templier",
-            "email": "mathieu.templier@infotel.com"
-        }
-    ],
     "require": {
         "atoum/atoum": "^3.3"
     }
