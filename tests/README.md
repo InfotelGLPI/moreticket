@@ -3,6 +3,7 @@
 To run the moreticket test suite you need
 
 * [atoum](http://atoum.org/)
+* moreticket in the plugin folder of GLPI 9.3
 
 Installing composer development dependencies
 ----------------------
@@ -56,9 +57,8 @@ There are two directories for tests:
 You can choose to run tests on a whole directory, on any file, or on any \<class::method>. You have to specify a bootstrap file each time:
 
 ```bash
-$ atoum -bf tests/bootstrap.php -mcn 1 -d tests/units/
+$ vendor/atoum/atoum/bin/atoum -bf tests/bootstrap.php -mcn 1 -d tests/units/
 [...]
-$ atoum -bf tests/bootstrap.php -f tests/units/Html.php
+$ vendor/atoum/atoum/bin/atoum -bf tests/bootstrap.php -f tests/units/Html.php
 [...]
-$ atoum -bf tests/bootstrap.php -f tests/units/Html.php -m tests\units\Html::testConvDateTime
 ```
