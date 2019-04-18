@@ -512,8 +512,8 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
                // Add followup on immediate ticket closing
                if ($config->closeFollowup()
                    && $item->input['id'] == 0) {
-                  $item->input['_followup']['content'] = str_replace(['\r', '\n', '\r\n'], '',
-                                                                     Html::clean(Html::entity_decode_deep($item->input['solution'])));
+                  $item->input['statusold'] = $item->input['status'];
+                  $item->input['status'] = 0;
                }
 
                $item->input['solution'] = str_replace(['\r', '\n', '\r\n'], '', $item->input['solution']);
@@ -543,7 +543,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          // Then we add tickets informations
          if (isset($item->input['id'])
              && isset($item->input['status'])
-             && in_array($item->input['status'], $solution_status)) {
+             && $item->input['status'] ==0) {
 
             $input = [];
             $input['itemtype'] = 'Ticket';
@@ -553,12 +553,16 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
             $input['solutiontypes_id'] = $item->input['solutiontypes_id'];
 
             $itilsolution = new ITILSolution();
-            $itilsolution->add($input);
+            $id = $itilsolution->add($input);
 
-            $changes[0] = '12';
-            $changes[1] = '';
-            $changes[2] = $item->input['status'];
-            Log::history($item->getID(), 'Ticket', $changes, 0, 0);
+            //Validate solution if ticket closed
+            if(in_array($item->input['status'], $solution_status)){
+               $inputUpd['status'] = 3;
+               $inputUpd['id'] = $id;
+               $itilsolution->update($inputUpd);
+            }
+
+            $item->update(['id'=>$item->fields['id'],'status' => $item->input['statusold']]);
          }
       }
 
