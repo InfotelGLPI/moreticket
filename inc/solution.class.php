@@ -88,8 +88,8 @@ class PluginMoreticketSolution extends CommonITILObject {
          if ($solution->input['itemtype'] == 'Ticket') {
             if (isset($solution->input['duration_solution']) && $solution->input['duration_solution'] > 0) {
 
-               $solution->input['content'] = html_entity_decode($solution->input['content']);
-               $solution->input['content'] = strip_tags($solution->input['content']);
+//               $solution->input['content'] = html_entity_decode($solution->input['content']);
+//               $solution->input['content'] = strip_tags($solution->input['content']);
                $ticket = new Ticket();
                $tickets_id = $solution->input['items_id'];
                if ($ticket->getFromDB($tickets_id)) {
