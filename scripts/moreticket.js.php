@@ -38,6 +38,7 @@ if (Session::getCurrentInterface() == "central") {
    $config = new PluginMoreticketConfig();
    $use_waiting = $config->useWaiting();
    $use_solution = $config->useSolution();
+   $use_question = $config->useQuestion();
    $solution_status = $config->solutionStatus();
 
    $params = ['root_doc' => $CFG_GLPI['root_doc'],
@@ -45,6 +46,7 @@ if (Session::getCurrentInterface() == "central") {
       'closed' => CommonITILObject::CLOSED,
       'use_waiting' => $use_waiting,
       'use_solution' => $use_solution,
+      'use_solution' => $use_question,
       'solution_status' => $solution_status];
 
    echo "moreticket(" . json_encode($params) . ");";

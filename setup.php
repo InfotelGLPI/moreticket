@@ -54,7 +54,7 @@ function plugin_init_moreticket() {
             if (strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false
                 || strpos($_SERVER['REQUEST_URI'], "helpdesk.public.php") !== false
                 || strpos($_SERVER['REQUEST_URI'], "tracking.injector.php") !== false
-                   && ($config->useWaiting() == true || $config->useSolution() == true
+                   && ($config->useWaiting() == true || $config->useSolution() == true || $config->useQuestion() == true
                        || $config->useUrgency() == true || $config->useDurationSolution() == true)) {
                   $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_load_scripts.js';
             }

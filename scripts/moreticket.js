@@ -38,7 +38,7 @@
                 var tickets_id = object.urlParam(window.location.href, 'id');
                 // only in ticket form
                if (location.pathname.indexOf('front/ticket.form.php') > 0
-                    && (object.params.use_solution || object.params.use_waiting)) {
+                    && (object.params.use_solution || object.params.use_waiting ||object.params.use_question)) {
 
                   if (tickets_id == 0 || tickets_id == undefined) {
                       object.createTicket(tickets_id);
@@ -58,6 +58,9 @@
                }
             });
         };
+
+
+
 
          //################## On ADD side ################################################################
          /**
