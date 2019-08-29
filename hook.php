@@ -37,7 +37,7 @@ function plugin_moreticket_install() {
 
    if (!$DB->tableExists("glpi_plugin_moreticket_configs")) {
       // table sql creation
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/empty-1.4.0.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/empty-1.5.1.sql");
    }
 
    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "solution_status")) {
@@ -83,6 +83,10 @@ function plugin_moreticket_install() {
    //version 1.3.4
    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "is_mandatory_solution")) {
       $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.3.4.sql");
+   }
+
+   if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "use_question")) {
+      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.5.1.sql");
    }
 
    CronTask::Register('PluginMoreticketWaitingTicket', 'MoreticketWaitingTicket', DAY_TIMESTAMP, ['state' => 0]);
