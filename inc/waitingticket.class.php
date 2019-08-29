@@ -802,7 +802,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
              margin-left: -50px;
          \">";
       echo "</br>";
-      echo "<table class='moreticket_waiting_ticket' id='cl_menu'>";
+      echo "<table class='moreticket_waiting_ticket' id='c2_menu'>";
       echo "<tr><td>";
       echo __('Ticket waiting',"moreticket");
 //      if ($config->mandatoryWaitingReason() == true) {
