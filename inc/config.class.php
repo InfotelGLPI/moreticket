@@ -240,6 +240,13 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</td>";
       echo "</tr>";
 
+      echo "<tr><th colspan='2'>" . __('Ticket waiting',"moreticket") . "</th></tr>";
+      echo "<tr class='tab_bg_1'>
+            <td>" . __("Use the option ticket waiting in ticket followup", "moreticket") . "</td><td>";
+      Dropdown::showYesNo("use_question", $this->fields["use_question"]);
+      echo "</td>";
+      echo "</tr>";
+
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td colspan='2' align='center'>";
       echo "<input type='submit' name='update' value=\"" . _sx("button", "Post") . "\" class='submit' >";
@@ -357,6 +364,9 @@ class PluginMoreticketConfig extends CommonDBTM {
     */
    function isMandatorysolution() {
       return $this->fields['is_mandatory_solution'];
+   }
+   function useQuestion(){
+      return $this->fields['use_question'];
    }
 
    /**

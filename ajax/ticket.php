@@ -60,6 +60,10 @@ if (isset($_POST['action'])) {
       case 'showFormTicketTask':
          $config = new PluginMoreticketConfig();
 
+         if($config->useQuestion()){
+            $waiting_ticket = new PluginMoreticketWaitingTicket();
+            $waiting_ticket->showQuestionSign($_POST['tickets_id']);
+         }
          // Ticket is waiting
          if ($config->useWaiting()) {
             $waiting_ticket = new PluginMoreticketWaitingTicket();
@@ -69,6 +73,7 @@ if (isset($_POST['action'])) {
          break;
       case 'showFormUrgency':
          $config = new PluginMoreticketConfig();
+
 
          // Ticket is waiting
          if ($config->useUrgency()) {
