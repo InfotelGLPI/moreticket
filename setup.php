@@ -52,7 +52,7 @@ function plugin_init_moreticket() {
             if (strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false
                 || strpos($_SERVER['REQUEST_URI'], "helpdesk.public.php") !== false
                 || strpos($_SERVER['REQUEST_URI'], "tracking.injector.php") !== false
-                   && ($config->useWaiting() == true || $config->useSolution() == true
+                   && ($config->useWaiting() == true || $config->useSolution() == true || $config->useQuestion() == true
                        || $config->useUrgency() == true || $config->useDurationSolution() == true)) {
                   $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_load_scripts.js';
             }
@@ -92,7 +92,7 @@ function plugin_version_moreticket() {
 
    return [
       'name'           => __('More ticket', 'moreticket'),
-      'version'        => "1.4.5",
+      'version'        => "1.4.6",
       'author'         => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>",
       'homepage'       => "https://github.com/InfotelGLPI/moreticket",
       'license'        => 'GPLv2+',

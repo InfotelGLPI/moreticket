@@ -42,6 +42,7 @@ if (isset($_POST['action'])) {
          $config                = new PluginMoreticketConfig();
          $use_waiting           = $config->useWaiting();
          $use_solution          = $config->useSolution();
+         $use_question          = $config->useQuestion();
          $use_urgency           = $config->useUrgency();
          $solution_status       = $config->solutionStatus();
          $urgency_ids           = $config->getUrgency_ids();
@@ -52,6 +53,7 @@ if (isset($_POST['action'])) {
                          'closed'          => CommonITILObject::CLOSED,
                          'use_waiting'     => $use_waiting,
                          'use_solution'    => $use_solution,
+                         'use_question'    => $use_question,
                          'solution_status' => $solution_status,
                          'glpilayout'      => $_SESSION['glpilayout'],
                          'use_urgency'     => $use_urgency,
@@ -62,7 +64,7 @@ if (isset($_POST['action'])) {
          echo "var moreticket = $(document).moreticket(" . json_encode($params) . ");";
 
          if (Session::haveRight("plugin_moreticket", UPDATE)
-            && ($config->useWaiting() == true || $config->useSolution() == true)) {
+            && ($config->useWaiting() == true || $config->useSolution() == true || $config->useQuestion() == true )) {
             if (Session::getCurrentInterface() == "central"
                && (strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false)) {
 

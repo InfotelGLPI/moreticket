@@ -484,17 +484,14 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
          // Then we add tickets informations
          if (isset($item->fields['id'])
              && isset($item->fields['status'])
-             && isset($item->input['status'])
-         ) {
+             && isset($item->input['status'])) {
             // ADD
             if ($item->fields['status'] != CommonITILObject::WAITING
-                && $item->input['status'] == CommonITILObject::WAITING
-            ) {
+                && $item->input['status'] == CommonITILObject::WAITING) {
 
                if (self::checkMandatory($item->input)) {
                   if (isset($item->input['date_report'])
-                      && ($item->input['date_report'] == "0000-00-00 00:00:00" || empty($item->input['date_report']))
-                  ) {
+                      && ($item->input['date_report'] == "0000-00-00 00:00:00" || empty($item->input['date_report']))) {
                      $item->input['date_report'] = 'NULL';
                   }
 
@@ -520,15 +517,13 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
 
                // UPDATE
             } else if ($item->fields['status'] == CommonITILObject::WAITING
-                       && $item->input['status'] == CommonITILObject::WAITING
-            ) {
+                       && $item->input['status'] == CommonITILObject::WAITING) {
 
                $waiting_ticket_data = self::getWaitingTicketFromDB($item->fields['id']);
                if (($waiting_ticket_data === false)) {
                   if (self::checkMandatory($item->input)) {
                      if (isset($item->input['date_report'])
-                         && $item->input['date_report'] == "0000-00-00 00:00:00"
-                     ) {
+                         && $item->input['date_report'] == "0000-00-00 00:00:00") {
                         $item->input['date_report'] = 'NULL';
                      }
                      $input = ['reason'                            => (isset($item->input['reason'])) ? $item->input['reason'] : "",
@@ -560,15 +555,14 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
     * @param $item
     */
    static function postUpdateWaitingTicket($item) {
+
       $waiting_ticket = new self();
       // Then we add tickets informations
       if (isset($item->fields['id'])) {
          if (isset($item->oldvalues['status'])
-             && $item->oldvalues['status'] == CommonITILObject::WAITING
-         ) {
+             && $item->oldvalues['status'] == CommonITILObject::WAITING) {
             if (isset($item->input['status'])
-                && $item->input['status'] != CommonITILObject::WAITING
-            ) {
+                && $item->input['status'] != CommonITILObject::WAITING) {
                // Get all waiting with date_suspension < today
                $lastWaiting = $waiting_ticket->find("`tickets_id` = '" . $item->fields['id'] . "' "
                                                     . " AND (`date_end_suspension` IS NULL OR `date_end_suspension` = '') "
@@ -576,7 +570,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
 
                foreach ($lastWaiting as $field) {
                   $waiting_ticket->update(['id'                  => $field['id'],
-                                                'date_end_suspension' => date("Y-m-d H:i:s")]);
+                                           'date_end_suspension' => date("Y-m-d H:i:s")]);
                }
                unset($_SESSION['glpi_plugin_moreticket_waiting']);
             }
@@ -752,6 +746,102 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
             break;
       }
       return [];
+   }
+
+
+   /**
+    * Print the waiting ticket form
+    *
+    * @param $ID integer ID of the item
+    * @param $options array
+    *     - target filename : where to go when done.
+    *     - withtemplate boolean : template or basic item
+    *
+    * @return Nothing (display)
+    * */
+   function showQuestionSign($ID, $options = []) {
+
+      global $CFG_GLPI;
+      // validation des droits
+      if (!$this->canView()) {
+         return false;
+      }
+      $ticket = new Ticket();
+      if ($ID > 0) {
+
+         $ticket->getFromDB($ID);
+         if (!$this->fields = self::getWaitingTicketFromDB($ID)) {
+            $this->getEmpty();
+         }
+      } else {
+         // Create item
+         $ticket->getEmpty();
+         $this->getEmpty();
+      }
+
+
+
+
+      $config = new PluginMoreticketConfig();
+
+      echo "<div class='spaced' id='isQuestion' style=\"
+             word-wrap: normal;
+             white-space: normal;
+             display: block;
+             clear: both;
+             text-align: center;
+             margin-left: -50px;
+         \">";
+      echo "</br>";
+      echo "<table class='moreticket_waiting_ticket' id='c2_menu'>";
+      echo "<tr><td>";
+      echo __('Ticket waiting',"moreticket");
+//      if ($config->mandatoryWaitingReason() == true) {
+//         echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+//      }
+      self::showSwitchField("question", 1);
+
+      Ajax::updateItemOnEvent("question","fakeupdate",$CFG_GLPI["root_doc"]."/plugins/moreticket/ajax/updatestatus.php",["question"=>'__VALUE__',"status"=>$ticket->getField("status")]);
+      Ajax::updateItem("fakeupdate",$CFG_GLPI["root_doc"]."/plugins/moreticket/ajax/updatestatus.php",["question"=>'1',"status"=>$ticket->getField("status")]);
+
+      echo "</td></tr>";
+
+      echo "</table>";
+      echo "<div id='fakeupdate'></div>";
+      echo "</div>";
+   }
+
+   function showSwitchField($name, $value) {
+
+      echo Html::hidden($name, ['id'    => $name,
+         'value' => $value]);
+      echo Html::scriptBlock("(function(){
+                             var toggleButton = $('.$name');
+                             toggleButton.click(function() {
+                             if ($(this).hasClass('fa-toggle-on')) {
+                                   toggleButton.removeClass('fa-toggle-on');
+                                   toggleButton.addClass('fa-toggle-off');
+                                   toggleButton.removeClass('enabled');
+                                   toggleButton.addClass('disabled');
+                                   document.getElementById('$name').value = '0';
+                                   var event = new Event('change');
+                                   document.getElementById('$name').dispatchEvent(event);
+                                 } else {
+                                   toggleButton.removeClass('fa-toggle-off');
+                                   toggleButton.addClass('fa-toggle-on');
+                                   toggleButton.removeClass('disabled');
+                                   toggleButton.addClass('enabled');
+                                   document.getElementById('$name').value = '1';
+                                   var event = new Event('change');
+                                   document.getElementById('$name').dispatchEvent(event);
+                                 }
+                             });
+                           })();");
+      if ($value == 1) {
+         echo "<a class=\"button\"><i class=\"$name fa-fw fa fa-2x fa-toggle-on enabled\"></i></a>";
+      } else {
+         echo "<a class=\"button\"><i class=\"$name fa-fw fa fa-2x fa-toggle-off disabled\"></i></a>";
+      }
    }
 
 }
