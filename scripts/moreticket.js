@@ -37,25 +37,22 @@
             $(document).ready(function () {
                 var tickets_id = object.urlParam(window.location.href, 'id');
                 // only in ticket form
-               if (location.pathname.indexOf('front/ticket.form.php') > 0
-                    && (object.params.use_solution || object.params.use_waiting ||object.params.use_question)) {
-
-                  if (tickets_id == 0 || tickets_id == undefined) {
-                      object.createTicket(tickets_id);
-                  }
-                     $("#tabspanel + div.ui-tabs").on("tabsload", function() {
-                        setTimeout(function() {
-
-                           if (tickets_id == 0 || tickets_id == undefined) {
-                               // object.createTicket(tickets_id);
-                           } else {
-                               object.updateTicket(tickets_id);
-                               object.updateTicketTask(tickets_id);
-                           }
-                        }, 300);
-                     });
-
-               }
+                if (location.pathname.indexOf('front/ticket.form.php') > 0
+                    && (object.params.use_solution || object.params.use_waiting || object.params.use_question)) {
+                    setTimeout(function () {
+                        if (tickets_id == 0 || tickets_id == undefined) {
+                            object.createTicket(tickets_id);
+                        }
+                        $("#tabspanel + div.ui-tabs").on("tabsload", function () {
+                            if (tickets_id == 0 || tickets_id == undefined) {
+                                // object.createTicket(tickets_id);
+                            } else {
+                                object.updateTicket(tickets_id);
+                                object.updateTicketTask(tickets_id);
+                            }
+                        });
+                    }, 500);
+                }
             });
         };
 

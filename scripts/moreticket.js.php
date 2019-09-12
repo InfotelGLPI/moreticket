@@ -46,7 +46,7 @@ if (Session::getCurrentInterface() == "central") {
       'closed' => CommonITILObject::CLOSED,
       'use_waiting' => $use_waiting,
       'use_solution' => $use_solution,
-      'use_solution' => $use_question,
+      'use_question' => $use_question,
       'solution_status' => $solution_status];
 
    echo "moreticket(" . json_encode($params) . ");";
