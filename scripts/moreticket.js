@@ -39,19 +39,23 @@
                 // only in ticket form
                 if (location.pathname.indexOf('front/ticket.form.php') > 0
                     && (object.params.use_solution || object.params.use_waiting || object.params.use_question)) {
-                    setTimeout(function () {
+
                         if (tickets_id == 0 || tickets_id == undefined) {
-                            object.createTicket(tickets_id);
+                            setTimeout(function () {
+                                object.createTicket(tickets_id);
+                            }, 100);
                         }
                         $("#tabspanel + div.ui-tabs").on("tabsload", function () {
                             if (tickets_id == 0 || tickets_id == undefined) {
                                 // object.createTicket(tickets_id);
                             } else {
-                                object.updateTicket(tickets_id);
-                                object.updateTicketTask(tickets_id);
+                                setTimeout(function () {
+                                    object.updateTicket(tickets_id);
+                                    object.updateTicketTask(tickets_id);
+                                }, 100);
                             }
                         });
-                    }, 500);
+
                 }
             });
         };
