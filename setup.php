@@ -95,7 +95,7 @@ function plugin_version_moreticket() {
    return [
       'name'           => __('More ticket', 'moreticket'),
       'version'        => PLUGIN_MORETICKET_VERSION,
-      'author'         => "<a href='http://infotel.com/services/expertise-technique/glpi/'>Infotel</a>",
+      'author'         => "<a href='http://blogglpi.infotel.com'>Infotel</a>",
       'homepage'       => "https://github.com/InfotelGLPI/moreticket",
       'license'        => 'GPLv2+',
       'requirements'   => [

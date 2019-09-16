@@ -37,25 +37,26 @@
             $(document).ready(function () {
                 var tickets_id = object.urlParam(window.location.href, 'id');
                 // only in ticket form
-               if (location.pathname.indexOf('front/ticket.form.php') > 0
-                    && (object.params.use_solution || object.params.use_waiting ||object.params.use_question)) {
+                if (location.pathname.indexOf('front/ticket.form.php') > 0
+                    && (object.params.use_solution || object.params.use_waiting || object.params.use_question)) {
 
-                  if (tickets_id == 0 || tickets_id == undefined) {
-                      object.createTicket(tickets_id);
-                  }
-                     $("#tabspanel + div.ui-tabs").on("tabsload", function() {
-                        setTimeout(function() {
+                        if (tickets_id == 0 || tickets_id == undefined) {
+                            setTimeout(function () {
+                                object.createTicket(tickets_id);
+                            }, 100);
+                        }
+                        $("#tabspanel + div.ui-tabs").on("tabsload", function () {
+                            if (tickets_id == 0 || tickets_id == undefined) {
+                                // object.createTicket(tickets_id);
+                            } else {
+                                setTimeout(function () {
+                                    object.updateTicket(tickets_id);
+                                    object.updateTicketTask(tickets_id);
+                                }, 100);
+                            }
+                        });
 
-                           if (tickets_id == 0 || tickets_id == undefined) {
-                               // object.createTicket(tickets_id);
-                           } else {
-                               object.updateTicket(tickets_id);
-                               object.updateTicketTask(tickets_id);
-                           }
-                        }, 300);
-                     });
-
-               }
+                }
             });
         };
 
