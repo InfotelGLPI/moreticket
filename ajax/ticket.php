@@ -41,10 +41,7 @@ if (isset($_POST['action'])) {
    switch ($_POST['action']) {
       case 'showForm':
          $config = new PluginMoreticketConfig();
-         if($config->useQuestion()){
-            $waiting_ticket = new PluginMoreticketWaitingTicket();
-            $waiting_ticket->showQuestionSign($_POST['tickets_id']);
-         }
+       
          // Ticket is waiting
          if ($config->useWaiting()) {
             $waiting_ticket = new PluginMoreticketWaitingTicket();
