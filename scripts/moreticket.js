@@ -222,6 +222,9 @@
                   if ($("#moreticket_waiting_ticket_task").length != 0) {
                       $("#moreticket_waiting_ticket_task").remove();
                   }
+                   if ($("#isQuestion").length != 0) {
+                       $("#isQuestion").remove();
+                   }
                      var requester = response;
 
                      var status_bloc_task = $("#x-split-button");
@@ -230,6 +233,9 @@
                      if ($("#moreticket_waiting_ticket_task").length != 0) {
                          $("#moreticket_waiting_ticket_task").remove();
                      }
+                      if ($("#isQuestion").length != 0) {
+                          $("#isQuestion").remove();
+                      }
                      status_bloc_task.parent().append(requester);
                      $("#x-split-button input[type='radio']").each(function (index, value) {
                         if ($(this).is(':checked')) {
