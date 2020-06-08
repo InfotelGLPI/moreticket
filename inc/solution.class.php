@@ -123,4 +123,7 @@ class PluginMoreticketSolution extends CommonITILObject {
       return true;
    }
 
+   static function getDefaultValues($entity = 0) {
+      // TODO: Implement getDefaultValues() method.
+   }
 }

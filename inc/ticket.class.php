@@ -213,4 +213,8 @@ class PluginMoreticketTicket extends CommonITILObject {
       //         print_r($_SESSION['glpi_plugin_moreticket_close']);
       //      }
    }
+
+   static function getDefaultValues($entity = 0) {
+      // TODO: Implement getDefaultValues() method.
+   }
 }

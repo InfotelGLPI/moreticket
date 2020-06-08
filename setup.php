@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_MORETICKET_VERSION', '1.5.1');
+define('PLUGIN_MORETICKET_VERSION', '1.6.0');
 
 // Init the hooks of the plugins -Needed
 function plugin_init_moreticket() {
@@ -113,7 +113,7 @@ function plugin_version_moreticket() {
  */
 function plugin_moreticket_check_prerequisites() {
    if (version_compare(GLPI_VERSION, '9.4', 'lt')
-       || version_compare(GLPI_VERSION, '9.5', 'ge')) {
+       || version_compare(GLPI_VERSION, '9.6', 'ge')) {
       if (method_exists('Plugin', 'messageIncompatible')) {
          echo Plugin::messageIncompatible('core', '9.4');
       }

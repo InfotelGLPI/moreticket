@@ -847,9 +847,9 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
                              });
                            })();");
       if ($value == 1) {
-         echo "<a class=\"button\"><i class=\"$name fa-fw fa fa-2x fa-toggle-on enabled\"></i></a>";
+         echo "<a class=\"button\"><i class=\"$name fa-fw fas fa-2x fa-toggle-on enabled\"></i></a>";
       } else {
-         echo "<a class=\"button\"><i class=\"$name fa-fw fa fa-2x fa-toggle-off disabled\"></i></a>";
+         echo "<a class=\"button\"><i class=\"$name fa-fw fas fa-2x fa-toggle-off disabled\"></i></a>";
       }
    }
 
