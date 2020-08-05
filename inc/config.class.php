@@ -356,7 +356,10 @@ class PluginMoreticketConfig extends CommonDBTM {
     * @return mixed
     */
    function useDurationSolution() {
-      return $this->fields['use_duration_solution'];
+      if(isset($this->fields['use_duration_solution'])){
+         return $this->fields['use_duration_solution'];
+      }
+      return false;
    }
 
    /**
