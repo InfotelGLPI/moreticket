@@ -42,7 +42,7 @@ function moreticket_urgency(params) {
 
                             //Inject Urgency ticket data
                             $.ajax({
-                                url: root_doc + '/plugins/moreticket/ajax/ticket.php',
+                                url: root_doc + '/ajax/ticket.php',
                                 data: {'tickets_id': tickets_id, 'action': 'showFormUrgency', 'type': 'add'},
                                 type: "POST",
                                 dataType: "html",
@@ -84,7 +84,7 @@ function moreticket_urgency(params) {
             && use_urgency) {
             //Inject Urgency ticket data
             $.ajax({
-                url: root_doc + '/plugins/moreticket/ajax/ticket.php',
+                url: root_doc + '/ajax/ticket.php',
                 data: {'tickets_id': tickets_id, 'action': 'showFormUrgency', 'type': 'add'},
                 type: "POST",
                 dataType: "html",
@@ -159,7 +159,7 @@ function moreticket_urgency(params) {
                         && (ajaxTab_param[1] == "Ticket$main" || ajaxTab_param[1] == "-1")) {
                         //Inject Urgency ticket data
                         $.ajax({
-                            url: root_doc + '/plugins/moreticket/ajax/ticket.php',
+                            url: root_doc + '/ajax/ticket.php',
                             data: {'tickets_id': tickets_id, 'action': 'showFormUrgency', 'type': 'update'},
                             type: "POST",
                             dataType: "html",

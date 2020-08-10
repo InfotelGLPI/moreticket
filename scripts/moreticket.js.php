@@ -41,7 +41,7 @@ if (Session::getCurrentInterface() == "central") {
    $use_question = $config->useQuestion();
    $solution_status = $config->solutionStatus();
 
-   $params = ['root_doc' => $CFG_GLPI['root_doc'],
+   $params = ['root_doc' => $CFG_GLPI["root_doc"].PLUGIN_MORETICKET_DIR_NOFULL,
       'waiting' => CommonITILObject::WAITING,
       'closed' => CommonITILObject::CLOSED,
       'use_waiting' => $use_waiting,

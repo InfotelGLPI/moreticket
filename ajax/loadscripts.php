@@ -48,7 +48,7 @@ if (isset($_POST['action'])) {
          $urgency_ids           = $config->getUrgency_ids();
          $use_duration_solution = $config->useDurationSolution();
 
-         $params = ['root_doc'        => $CFG_GLPI['root_doc'],
+         $params = ['root_doc'        => $CFG_GLPI["root_doc"].PLUGIN_MORETICKET_DIR_NOFULL,
                          'waiting'         => CommonITILObject::WAITING,
                          'closed'          => CommonITILObject::CLOSED,
                          'use_waiting'     => $use_waiting,

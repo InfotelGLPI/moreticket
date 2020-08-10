@@ -29,6 +29,10 @@
 
 define('PLUGIN_MORETICKET_VERSION', '1.6.0');
 
+if (!defined("PLUGIN_MORETICKET_DIR")) {
+   define("PLUGIN_MORETICKET_DIR", Plugin::getPhpDir("moreticket"));
+   define("PLUGIN_MORETICKET_DIR_NOFULL", Plugin::getPhpDir("moreticket",false));
+}
 // Init the hooks of the plugins -Needed
 function plugin_init_moreticket() {
    global $PLUGIN_HOOKS;

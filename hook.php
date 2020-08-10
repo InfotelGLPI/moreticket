@@ -31,62 +31,62 @@
  * @return bool
  */
 function plugin_moreticket_install() {
-   global $DB;
+   global $DB,$CFG_GLPI;
 
-   include_once(GLPI_ROOT . "/plugins/moreticket/inc/profile.class.php");
+   include_once(PLUGIN_MORETICKET_DIR . "/inc/profile.class.php");
 
    if (!$DB->tableExists("glpi_plugin_moreticket_configs")) {
       // table sql creation
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/empty-1.5.1.sql");
+      $DB->runFile(PLUGIN_MORETICKET_DIR. "/sql/empty-1.5.1.sql");
    }
 
    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "solution_status")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.1.1.sql");
+      $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.1.1.sql");
    }
 
    if ($DB->fieldExists("glpi_plugin_moreticket_waitingtypes", "is_helpdeskvisible")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.1.2.sql");
+      $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.1.2.sql");
    }
 
    if (!$DB->fieldExists("glpi_plugin_moreticket_closetickets", "documents_id")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.1.3.sql");
+      $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.1.3.sql");
    }
 
    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "date_report_mandatory")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.2.0.sql");
+      $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.2.0.sql");
    }
 
    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "close_followup")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.2.2.sql");
+      $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.2.2.sql");
    }
 
    //version 1.2.3
    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "waitingreason_mandatory")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.2.3.sql");
+      $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.2.3.sql");
    }
 
    //version 1.2.4
    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "urgency_justification")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.2.4.sql");
+      $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.2.4.sql");
    }
 
    //version 1.2.5
    if (!$DB->fieldExists("glpi_plugin_moreticket_waitingtickets", "status")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.2.5.sql");
+      $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.2.5.sql");
    }
 
    //version 1.3.2
    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "use_duration_solution")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.3.2.sql");
+      $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.3.2.sql");
    }
 
    //version 1.3.4
    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "is_mandatory_solution")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.3.4.sql");
+      $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.3.4.sql");
    }
 
    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "use_question")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/moreticket/sql/update-1.5.1.sql");
+      $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.5.1.sql");
    }
 
    CronTask::Register('PluginMoreticketWaitingTicket', 'MoreticketWaitingTicket', DAY_TIMESTAMP, ['state' => 0]);
@@ -105,7 +105,7 @@ function plugin_moreticket_install() {
 function plugin_moreticket_uninstall() {
    global $DB;
 
-   include_once(GLPI_ROOT . "/plugins/moreticket/inc/profile.class.php");
+   include_once(PLUGIN_MORETICKET_DIR . "/inc/profile.class.php");
 
    // Plugin tables deletion
    $tables = ["glpi_plugin_moreticket_configs",

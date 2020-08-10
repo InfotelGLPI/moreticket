@@ -69,7 +69,7 @@
          */
          this.createTicket = function (tickets_id) {
             $.ajax({
-               url: object.params.root_doc + '/plugins/moreticket/ajax/ticket.php',
+               url: object.params.root_doc + '/ajax/ticket.php',
                data: {'tickets_id': tickets_id, 'action': 'showForm', 'type': 'add'},
                type: "POST",
                dataType: "html",
@@ -145,7 +145,7 @@
          this.updateTicket = function (tickets_id) {
             //Inject Waiting ticket data
             $.ajax({
-               url: object.params.root_doc + '/plugins/moreticket/ajax/ticket.php',
+               url: object.params.root_doc + '/ajax/ticket.php',
                data: {'tickets_id': tickets_id, 'action': 'showForm', 'type': 'update'},
                type: "POST",
                dataType: "html",
@@ -214,7 +214,7 @@
          this.injectBlocWaitingTask = function (tickets_id) {
             //Inject Waiting ticket data
             $.ajax({
-               url: object.params.root_doc + '/plugins/moreticket/ajax/ticket.php',
+               url: object.params.root_doc + '/ajax/ticket.php',
                data: {'tickets_id': tickets_id, 'action': 'showFormTicketTask', 'type': 'update'},
                type: "POST",
                dataType: "html",
@@ -302,7 +302,7 @@
 
          this.createTicket_urgency = function (tickets_id) {
             $.ajax({
-               url: object.params.root_doc + '/plugins/moreticket/ajax/ticket.php',
+               url: object.params.root_doc + '/ajax/ticket.php',
                data: {'tickets_id': tickets_id, 'action': 'showFormUrgency', 'type': 'add'},
                type: "POST",
                dataType: "html",
@@ -341,7 +341,7 @@
 
          this.updateTicket_urgency = function (tickets_id) {
             $.ajax({
-               url: object.params.root_doc + '/plugins/moreticket/ajax/ticket.php',
+               url: object.params.root_doc + '/ajax/ticket.php',
                data: {'tickets_id': tickets_id, 'action': 'showFormUrgency', 'type': 'update'},
                type: "POST",
                dataType: "html",
@@ -405,7 +405,7 @@
 
                                  if (solId == 0 || solId == undefined) {
                                      $.ajax({
-                                          url: options.root_doc + '/plugins/moreticket/ajax/ticket.php',
+                                          url: options.root_doc + '/ajax/ticket.php',
                                           type: "POST",
                                           dataType: "html",
                                           data: {
