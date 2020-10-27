@@ -810,8 +810,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
 //      }
       self::showSwitchField("question", 1);
 
-      Ajax::updateItemOnEvent("question","fakeupdate",$CFG_GLPI["root_doc"]."/plugins/moreticket/ajax/updatestatus.php",["question"=>'__VALUE__',"status"=>$ticket->getField("status")]);
-      Ajax::updateItem("fakeupdate",$CFG_GLPI["root_doc"]."/plugins/moreticket/ajax/updatestatus.php",["question"=>'1',"status"=>$ticket->getField("status")]);
+      Ajax::updateItemOnEvent("question","fakeupdate",$CFG_GLPI["root_doc"].PLUGIN_MORETICKET_DIR_NOFULL."/ajax/updatestatus.php",["question"=>'__VALUE__',"status"=>$ticket->getField("status")]);
+      Ajax::updateItem("fakeupdate",$CFG_GLPI["root_doc"].PLUGIN_MORETICKET_DIR_NOFULL."/ajax/updatestatus.php",["question"=>'1',"status"=>$ticket->getField("status")]);
 
       echo "</td></tr>";
 
