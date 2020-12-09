@@ -92,7 +92,8 @@ class PluginMoreticketTicketFollowup extends CommonDBTM {
          return false;
       }
 
-      if ($ticketfollowup->input['itemtype'] == 'Ticket') {
+      if (isset($ticketfollowup->input['itemtype'])
+          && $ticketfollowup->input['itemtype'] == 'Ticket') {
          $config = new PluginMoreticketConfig();
 
          if (isset($ticketfollowup->input['_status']) && $config->useWaiting() == true) {
