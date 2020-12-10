@@ -47,8 +47,10 @@ function plugin_init_moreticket() {
       if (class_exists('PluginMoreticketProfile')) { // only if plugin activated
          $config = new PluginMoreticketConfig();
 
-         $PLUGIN_HOOKS['add_javascript']['moreticket'] = ["scripts/moreticket.js"];
-
+         if (isset($_SESSION['glpiactiveprofile']['interface'])
+             && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
+            $PLUGIN_HOOKS['add_javascript']['moreticket'] = ["scripts/moreticket.js"];
+         }
          if ($config->useDurationSolution() == true) {
 
             $PLUGIN_HOOKS['pre_item_add']['moreticket'] = ['ITILSolution'   => ['PluginMoreticketSolution', 'beforeAdd']];
@@ -78,8 +80,11 @@ function plugin_init_moreticket() {
             $PLUGIN_HOOKS['item_update']['moreticket']['Ticket']     = ['PluginMoreticketTicket', 'afterUpdate'];
          }
 
-         if (Session::haveRight("plugin_moreticket_hide_task_duration", READ)) {
-            $PLUGIN_HOOKS['add_css']['moreticket'][] = 'css/hide_task_duration.css';
+         if (isset($_SESSION['glpiactiveprofile']['interface'])
+             && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
+            if (Session::haveRight("plugin_moreticket_hide_task_duration", READ)) {
+               $PLUGIN_HOOKS['add_css']['moreticket'][] = 'css/hide_task_duration.css';
+            }
          }
 
          if (Session::haveRight('plugin_moreticket', READ)) {
