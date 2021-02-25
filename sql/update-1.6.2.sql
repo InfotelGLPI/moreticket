@@ -1,0 +1,1 @@
+ALTER TABLE glpi_plugin_moreticket_configs ADD `add_save_button` TINYINT(1) NOT NULL          DEFAULT '0';
