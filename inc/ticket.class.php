@@ -108,6 +108,9 @@ class PluginMoreticketTicket extends CommonITILObject {
          // Already cancel by another plugin
          return false;
       }
+
+      PluginMoreticketNotificationTicket::afterAddTicket($ticket);
+
       if (Session::haveRight("plugin_moreticket", UPDATE)) {
          PluginMoreticketWaitingTicket::postAddWaitingTicket($ticket);
          PluginMoreticketCloseTicket::postAddCloseTicket($ticket);
@@ -157,6 +160,9 @@ class PluginMoreticketTicket extends CommonITILObject {
     * @param Ticket $ticket
     */
    static function afterUpdate(Ticket $ticket) {
+
+      PluginMoreticketNotificationTicket::afterUpdateTicket($ticket);
+
       if (Session::haveRight("plugin_moreticket", UPDATE)) {
          PluginMoreticketWaitingTicket::postUpdateWaitingTicket($ticket);
 

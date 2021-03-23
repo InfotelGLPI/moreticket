@@ -37,7 +37,7 @@ function plugin_moreticket_install() {
 
    if (!$DB->tableExists("glpi_plugin_moreticket_configs")) {
       // table sql creation
-      $DB->runFile(PLUGIN_MORETICKET_DIR. "/sql/empty-1.6.2.sql");
+      $DB->runFile(PLUGIN_MORETICKET_DIR. "/sql/empty-1.6.3.sql");
    }
 
    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "solution_status")) {
@@ -91,6 +91,9 @@ function plugin_moreticket_install() {
    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", "add_save_button")) {
       $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.6.2.sql");
    }
+   if (!$DB->tableExists("glpi_plugin_moreticket_notificationtickets")) {
+      $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.6.3.sql");
+   }
 
    CronTask::Register('PluginMoreticketWaitingTicket', 'MoreticketWaitingTicket', DAY_TIMESTAMP, ['state' => 0]);
 
@@ -115,7 +118,8 @@ function plugin_moreticket_uninstall() {
                    "glpi_plugin_moreticket_waitingtickets",
                    "glpi_plugin_moreticket_waitingtypes",
                    "glpi_plugin_moreticket_closetickets",
-                   "glpi_plugin_moreticket_urgencytickets"];
+                   "glpi_plugin_moreticket_urgencytickets",
+                   "glpi_plugin_moreticket_notificationtickets"];
 
    foreach ($tables as $table) {
       $DB->query("DROP TABLE IF EXISTS `$table`;");
@@ -264,6 +268,14 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
                                                                                              'beforejoin'        => ['table'      => 'glpi_plugin_moreticket_closetickets',
                                                                                                                           'joinparams' => []]]]];
          }
+
+         $sopt[3487]['table']            = 'glpi_plugin_moreticket_notificationtickets';
+         $sopt[3487]['field']            = 'users_id_lastupdater';
+         $sopt[3487]['name']             = __('Suivi', 'moreticket');
+         $sopt[3487]['massiveaction']    = false;
+         $sopt[3487]['datatype']         = 'specific';
+         $sopt[3487]['joinparams']    = ['jointype' => 'child'];
+         $sopt[3487]['additionalfields'] = ['tickets_id'];
       }
    }
    return $sopt;

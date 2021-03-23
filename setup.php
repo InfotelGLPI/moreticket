@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_MORETICKET_VERSION', '1.6.2');
+define('PLUGIN_MORETICKET_VERSION', '1.6.3');
 
 if (!defined("PLUGIN_MORETICKET_DIR")) {
    define("PLUGIN_MORETICKET_DIR", Plugin::getPhpDir("moreticket"));
@@ -62,7 +62,7 @@ function plugin_init_moreticket() {
                 || strpos($_SERVER['REQUEST_URI'], "tracking.injector.php") !== false
                    && ($config->useWaiting() == true || $config->useSolution() == true || $config->useQuestion() == true
                        || $config->useUrgency() == true || $config->useDurationSolution() == true)) {
-                  $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_load_scripts.js';
+               $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_load_scripts.js';
             }
 
             $PLUGIN_HOOKS['config_page']['moreticket'] = 'front/config.form.php';
@@ -79,6 +79,8 @@ function plugin_init_moreticket() {
             $PLUGIN_HOOKS['item_add']['moreticket']['Ticket']        = ['PluginMoreticketTicket', 'afterAdd'];
             $PLUGIN_HOOKS['item_update']['moreticket']['Ticket']     = ['PluginMoreticketTicket', 'afterUpdate'];
          }
+
+         $PLUGIN_HOOKS['item_add']['moreticket']['ITILFollowup'] = ['PluginMoreticketNotificationTicket', 'afterAddFollowup'];
 
          if (isset($_SESSION['glpiactiveprofile']['interface'])
              && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
