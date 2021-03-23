@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-25 15:19+0000\n"
+"POT-Creation-Date: 2021-03-23 17:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,17 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:207 inc/waitingticket.class.php:139 inc/waitingticket.class.php:238
+#: hook.php:211 inc/waitingticket.class.php:139 inc/waitingticket.class.php:238
 #: inc/waitingticket.class.php:317 inc/waitingticket.class.php:390
 msgid "Reason"
 msgstr ""
 
-#: hook.php:215 inc/waitingticket.class.php:131 inc/waitingticket.class.php:253
+#: hook.php:219 inc/waitingticket.class.php:131 inc/waitingticket.class.php:253
 #: inc/waitingticket.class.php:332 inc/waitingticket.class.php:392
 msgid "Postponement date"
 msgstr ""
 
-#: hook.php:235 hook.php:242 hook.php:249 hook.php:256
+#: hook.php:239 hook.php:246 hook.php:253 hook.php:260
 #: inc/closeticket.class.php:75 inc/closeticket.class.php:79
 #: inc/closeticket.class.php:121 inc/closeticket.class.php:178
 #: inc/closeticket.class.php:326 inc/closeticket.class.php:380
@@ -36,7 +36,11 @@ msgstr ""
 msgid "Close ticket informations"
 msgstr ""
 
-#: setup.php:106 inc/profile.class.php:49 inc/profile.class.php:194
+#: hook.php:274
+msgid "Suivi"
+msgstr ""
+
+#: setup.php:108 inc/profile.class.php:49 inc/profile.class.php:194
 msgid "More ticket"
 msgstr ""
 
