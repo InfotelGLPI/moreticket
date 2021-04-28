@@ -1,49 +1,54 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR MoreTicket Development Team
 # This file is distributed under the same license as the GLPI - MoreTicket plugin package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Eduardo Spinola <eduardo.spinola@gmail.com>, 2017
-# Gustavo Plottier Pilotto <gplottier@gmail.com>, 2018
-# Luciano <lucianoes10@gmail.com>, 2016
-# Eskiso <wiSe_gdr@hotmail.com>, 2017
+# Xavier CAILLAUD <thetsmr@gmail.com>, 2020
+# Andre Cardoso <hsbs.andrecv@gmail.com>, 2021
+# 
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: GLPI Project - moreticket plugin\n"
+"Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-26 15:54+0100\n"
-"PO-Revision-Date: 2019-02-26 15:09+0000\n"
-"Last-Translator: Mathieu Templier <mathieu.templier@infotel.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/tsmr/GLPI_moreticket/language/pt_BR/)\n"
+"POT-Creation-Date: 2021-03-23 17:15+0000\n"
+"PO-Revision-Date: 2020-11-02 16:11+0000\n"
+"Last-Translator: Andre Cardoso <hsbs.andrecv@gmail.com>, 2021\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/infotelGLPI/teams/50826/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: hook.php:200 inc/waitingticket.class.php:139
+#: hook.php:211 inc/waitingticket.class.php:139
 #: inc/waitingticket.class.php:238 inc/waitingticket.class.php:317
 #: inc/waitingticket.class.php:390
 msgid "Reason"
 msgstr "Motivo"
 
-#: hook.php:208 inc/waitingticket.class.php:131
+#: hook.php:219 inc/waitingticket.class.php:131
 #: inc/waitingticket.class.php:253 inc/waitingticket.class.php:332
 #: inc/waitingticket.class.php:392
 msgid "Postponement date"
 msgstr "Data de adiamento"
 
-#: hook.php:228 hook.php:235 hook.php:242 hook.php:249
+#: hook.php:239 hook.php:246 hook.php:253 hook.php:260
 #: inc/closeticket.class.php:75 inc/closeticket.class.php:79
 #: inc/closeticket.class.php:121 inc/closeticket.class.php:178
 #: inc/closeticket.class.php:326 inc/closeticket.class.php:380
 #: inc/config.class.php:167
 msgid "Close ticket informations"
-msgstr "Encerrar informações do ticket"
+msgstr "Encerrar informações do Chamado"
 
-#: setup.php:94 inc/profile.class.php:49 inc/profile.class.php:194
+#: hook.php:274
+msgid "Suivi"
+msgstr "Monitorar"
+
+#: setup.php:108 inc/profile.class.php:49 inc/profile.class.php:194
 msgid "More ticket"
-msgstr "More ticket"
+msgstr "Mais Chamados"
 
 #: front/config.form.php:66
 msgid "Please activate the plugin"
@@ -57,22 +62,23 @@ msgstr "Descrição da solução"
 msgid "Ticket cannot be closed"
 msgstr "Chamado não pode ser fechado"
 
-#: inc/closeticket.class.php:576
+#: inc/closeticket.class.php:580
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s adicionadas informações de fechamento"
 
-#: inc/closeticket.class.php:595
+#: inc/closeticket.class.php:599
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s atualizadas informações de fechamento"
 
-#: inc/closeticket.class.php:614
+#: inc/closeticket.class.php:618
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s apagadas às informações de fechamento"
 
-#: inc/config.class.php:98
+#: inc/config.class.php:98 inc/config.class.php:243
+#: inc/waitingticket.class.php:807
 msgid "Ticket waiting"
 msgstr "Chamado em espera"
 
@@ -132,13 +138,25 @@ msgstr "Use a justificativa no campo de urgência"
 msgid "Urgency impacted justification for the field"
 msgstr "Use a justificativa no campo de urgência"
 
+#: inc/config.class.php:245
+msgid "Use the option ticket waiting in ticket followup"
+msgstr "Use a opção de Chamado em Espera no acompanhamento do chamado"
+
+#: inc/config.class.php:250
+msgid "Display save button"
+msgstr "Mostrar o botão Salvar"
+
+#: inc/config.class.php:252
+msgid "Add a save button on top ticket form"
+msgstr "Adicionar um botão de Salvar no topo do formulário do Chamado"
+
 #: inc/profile.class.php:158
 msgid "Adding a justification of urgency"
 msgstr "A adicionar uma justificativa de urgência."
 
 #: inc/profile.class.php:166
 msgid "Hide task duration in tickets"
-msgstr ""
+msgstr "Ocultar a duração de Tarefas nos Tickets"
 
 #: inc/urgencyticket.class.php:69 inc/urgencyticket.class.php:155
 msgid "Justification"
@@ -178,7 +196,7 @@ msgstr "Data da suspensão"
 msgid "Suspension end date"
 msgstr "Data fim da suspensão"
 
-#: inc/waitingticket.class.php:751
+#: inc/waitingticket.class.php:754
 msgid "End of standby ticket"
 msgstr "Fim do chamado pendente"
 
