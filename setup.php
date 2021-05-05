@@ -94,7 +94,10 @@ function plugin_init_moreticket() {
             Plugin::registerClass('PluginMoreticketCloseTicket', ['addtabon' => 'Ticket']);
          }
       }
-      $PLUGIN_HOOKS['pre_item_form']['moreticket'] = [PluginMoreticketTicket::class, 'displaySaveButton'];
+      if (isset($_SESSION['glpiactiveprofile']['interface'])
+          && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
+         $PLUGIN_HOOKS['pre_item_form']['moreticket'] = [PluginMoreticketTicket::class, 'displaySaveButton'];
+      }
    }
 }
 
