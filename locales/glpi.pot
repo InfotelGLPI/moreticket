@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-05 06:29+0000\n"
+"POT-Creation-Date: 2021-06-02 15:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,17 +18,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:211 inc/waitingticket.class.php:139 inc/waitingticket.class.php:238
+#: hook.php:101 inc/crontask.class.php:118
+msgid "Moreticket - Send a followup to waiting ticket"
+msgstr ""
+
+#: hook.php:106 inc/crontask.class.php:122
+msgid "Moreticket - Closed the tickets that did not respond to the follow-up"
+msgstr ""
+
+#: hook.php:222 inc/waitingticket.class.php:139 inc/waitingticket.class.php:238
 #: inc/waitingticket.class.php:317 inc/waitingticket.class.php:390
 msgid "Reason"
 msgstr ""
 
-#: hook.php:219 inc/waitingticket.class.php:131 inc/waitingticket.class.php:253
+#: hook.php:230 inc/waitingticket.class.php:131 inc/waitingticket.class.php:253
 #: inc/waitingticket.class.php:332 inc/waitingticket.class.php:392
 msgid "Postponement date"
 msgstr ""
 
-#: hook.php:239 hook.php:246 hook.php:253 hook.php:260
+#: hook.php:250 hook.php:257 hook.php:264 hook.php:271
 #: inc/closeticket.class.php:75 inc/closeticket.class.php:79
 #: inc/closeticket.class.php:121 inc/closeticket.class.php:178
 #: inc/closeticket.class.php:326 inc/closeticket.class.php:380
@@ -36,11 +44,12 @@ msgstr ""
 msgid "Close ticket informations"
 msgstr ""
 
-#: hook.php:274
+#: hook.php:285
 msgid "Suivi"
 msgstr ""
 
-#: setup.php:111 inc/profile.class.php:49 inc/profile.class.php:194
+#: setup.php:114 inc/crontask.class.php:30 inc/profile.class.php:49
+#: inc/profile.class.php:194
 msgid "More ticket"
 msgstr ""
 
@@ -142,6 +151,30 @@ msgstr ""
 
 #: inc/config.class.php:252
 msgid "Add a save button on top ticket form"
+msgstr ""
+
+#: inc/config.class.php:257
+msgid "Update ticket status"
+msgstr ""
+
+#: inc/config.class.php:260
+msgid "Update ticket status to processing after add document"
+msgstr ""
+
+#: inc/config.class.php:266
+msgid "Update ticket status to processing after approval"
+msgstr ""
+
+#: inc/config.class.php:273
+msgid "Automatic sending a followup after x days of waiting"
+msgstr ""
+
+#: inc/config.class.php:278
+msgid "Automatic closing ticket after x days after followup"
+msgstr ""
+
+#: inc/config.class.php:283
+msgid "Content of followup"
 msgstr ""
 
 #: inc/profile.class.php:158
