@@ -254,6 +254,37 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</td>";
       echo "</tr>";
 
+      echo "<tr><th colspan='2'>" . __('Update ticket status', 'moreticket')  . "</th></tr>";
+
+      echo "<tr class='tab_bg_1'>
+            <td>" . __("Update ticket status to processing after add document", "moreticket") . "</td><td>";
+      Dropdown::showYesNo("update_after_document", $this->fields["update_after_document"]);
+      echo "</td>";
+      echo "</tr>";
+
+      echo "<tr class='tab_bg_1'>
+            <td>" . __("Update ticket status to processing after approval", "moreticket") . "</td><td>";
+      Dropdown::showYesNo("update_after_approval", $this->fields["update_after_approval"]);
+      echo "</td>";
+      echo "</tr>";
+
+      echo "<tr><th colspan='2'>" . _n('Automatic action', 'Automatic actions', Session::getPluralNumber())  . "</th></tr>";
+      echo "<tr class='tab_bg_1'>
+            <td>" . __("Automatic sending a followup after x days of waiting", "moreticket") . "</td><td>";
+      Dropdown::showNumber("day_sending",["value"=>$this->fields["day_sending"]]);
+      echo "</td>";
+      echo "</tr>";
+      echo "<tr>";
+      echo "<td>" . __("Automatic closing ticket after x days after followup", "moreticket") . "</td><td>";
+      Dropdown::showNumber("day_closing",["value"=>$this->fields["day_closing"]]);
+      echo "</td>";
+      echo "</tr>";
+      echo "<tr>";
+      echo "<td>" . __("Content of followup", "moreticket") . "</td><td>";
+      Html::textarea(["name"=>"followup_text","value"=>$this->fields["followup_text"]]);
+      echo "</td>";
+      echo "</tr>";
+
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td colspan='2' align='center'>";
       echo "<input type='submit' name='update' value=\"" . _sx("button", "Post") . "\" class='submit' >";

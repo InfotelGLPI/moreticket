@@ -74,10 +74,13 @@ function plugin_init_moreticket() {
 
             $PLUGIN_HOOKS['item_empty']['moreticket'] = ['Ticket' => ['PluginMoreticketTicket', 'emptyTicket']];
 
-            $PLUGIN_HOOKS['pre_item_update']['moreticket']['Ticket'] = ['PluginMoreticketTicket', 'beforeUpdate'];
-            $PLUGIN_HOOKS['pre_item_add']['moreticket']['Ticket']    = ['PluginMoreticketTicket', 'beforeAdd'];
-            $PLUGIN_HOOKS['item_add']['moreticket']['Ticket']        = ['PluginMoreticketTicket', 'afterAdd'];
-            $PLUGIN_HOOKS['item_update']['moreticket']['Ticket']     = ['PluginMoreticketTicket', 'afterUpdate'];
+            $PLUGIN_HOOKS['pre_item_update']['moreticket']['Ticket']       = ['PluginMoreticketTicket', 'beforeUpdate'];
+            $PLUGIN_HOOKS['pre_item_add']['moreticket']['Ticket']          = ['PluginMoreticketTicket', 'beforeAdd'];
+            $PLUGIN_HOOKS['item_add']['moreticket']['Ticket']              = ['PluginMoreticketTicket', 'afterAdd'];
+            $PLUGIN_HOOKS['item_update']['moreticket']['Ticket']           = ['PluginMoreticketTicket', 'afterUpdate'];
+            $PLUGIN_HOOKS['item_add']['moreticket']['Document']            = ['PluginMoreticketTicket', 'afterAddDocument'];
+            $PLUGIN_HOOKS['item_update']['moreticket']['TicketValidation'] = ['PluginMoreticketTicket', 'afterUpdateValidation'];
+
          }
 
          $PLUGIN_HOOKS['item_add']['moreticket']['ITILFollowup'] = ['PluginMoreticketNotificationTicket', 'afterAddFollowup'];

@@ -282,4 +282,101 @@ class PluginMoreticketTicket extends CommonITILObject {
          }
       }
    }
+
+   /**
+    * @param Ticket $ticket
+    */
+   static function afterAddDocument(Document $document) {
+
+      $config = new PluginMoreticketConfig();
+      if($config->getField('update_after_document') == 1) {
+         if (isset($document->input['itemtype'])) {
+            if ($document->input['itemtype'] == Ticket::getType()) {
+               $ticket = new Ticket();
+               $ticket->getFromDB($document->input['items_id']);
+               if (in_array($ticket->fields["status"], Ticket::getReopenableStatusArray())) {
+
+                  if (($ticket->countUsers(CommonITILActor::ASSIGN) > 0)
+                      || ($ticket->countGroups(CommonITILActor::ASSIGN) > 0)
+                      || ($ticket->countSuppliers(CommonITILActor::ASSIGN) > 0)) {
+                     $update['status'] = CommonITILObject::ASSIGNED;
+                  } else {
+                     $update['status'] = CommonITILObject::INCOMING;
+                  }
+
+                  $update['id'] = $ticket->fields['id'];
+
+                  // Use update method for history
+                  $ticket->update($update);
+                  $reopened = true;
+               }
+            }
+         }
+      }
+      $doc = $document;
+   }
+
+   static function afterUpdateValidation(TicketValidation $validation) {
+      $config = new PluginMoreticketConfig();
+      if($config->getField('update_after_approval') == 1) {
+         //         if($validation->itemtype == Ticket::getType()) {
+         $ticket = new Ticket();
+         $ticket->getFromDB($validation->input['tickets_id']);
+         $validation_status  = CommonITILValidation::WAITING;
+
+         // Percent of validation
+         $validation_percent = $ticket->fields['validation_percent'];
+
+         $statuses           = [CommonITILValidation::ACCEPTED => 0,
+                                CommonITILValidation::WAITING  => 0,
+                                CommonITILValidation::REFUSED  => 0];
+         $validations        = getAllDataFromTable(
+            TicketValidation::getTable(), [
+                                           'tickets_id' => $ticket->getID()
+                                        ]
+         );
+
+         if ($total = count($validations)) {
+            foreach ($validations as $validation) {
+               $statuses[$validation['status']] ++;
+            }
+         }
+
+         if ($validation_percent > 0) {
+            if (($statuses[CommonITILValidation::ACCEPTED]*100/$total) >= $validation_percent) {
+               $validation_status = CommonITILValidation::ACCEPTED;
+            } else if (($statuses[CommonITILValidation::REFUSED]*100/$total) >= $validation_percent) {
+               $validation_status = CommonITILValidation::REFUSED;
+            }
+         } else {
+            if ($statuses[CommonITILValidation::ACCEPTED]) {
+               $validation_status = CommonITILValidation::ACCEPTED;
+            } else if ($statuses[CommonITILValidation::REFUSED]) {
+               $validation_status = CommonITILValidation::REFUSED;
+            }
+         }
+
+         $global_validation = $validation_status;
+         if (in_array($ticket->fields["status"], Ticket::getReopenableStatusArray()) && $global_validation != CommonITILValidation::WAITING) {
+
+            if (($ticket->countUsers(CommonITILActor::ASSIGN) > 0)
+                || ($ticket->countGroups(CommonITILActor::ASSIGN) > 0)
+                || ($ticket->countSuppliers(CommonITILActor::ASSIGN) > 0)) {
+               $update['status'] = CommonITILObject::ASSIGNED;
+            } else {
+               $update['status'] = CommonITILObject::INCOMING;
+            }
+
+            $update['id'] = $ticket->fields['id'];
+
+            // Use update method for history
+            $ticket->update($update);
+            $reopened     = true;
+         }
+         //         }
+      }
+      $doc = $validation;
+   }
+
+
 }

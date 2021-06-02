@@ -97,6 +97,17 @@ function plugin_moreticket_install() {
 
    CronTask::Register('PluginMoreticketWaitingTicket', 'MoreticketWaitingTicket', DAY_TIMESTAMP, ['state' => 0]);
 
+   CronTask::Register('PluginMoreticketCrontask', 'MoreticketFollowup', HOUR_TIMESTAMP,[
+      'comment'   => __('Moreticket - Send a followup to waiting ticket','moreticket'),
+      'hourmin'      => 0,
+      'hourmax'      => 24
+   ]);
+   CronTask::Register('PluginMoreticketCrontask', 'MoreticketClosing', HOUR_TIMESTAMP,[
+      'comment'   => __('Moreticket - Closed the tickets that did not respond to the follow-up','moreticket'),
+      'hourmin'      => 0,
+      'hourmax'      => 24
+   ]);
+
    PluginMoreticketProfile::initProfile();
    PluginMoreticketProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
    $migration = new Migration("2.0.0");
