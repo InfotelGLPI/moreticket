@@ -91,7 +91,12 @@ class PluginMoreticketCrontask extends CommonDBTM {
             }
 
             $today = strtotime(date('Y-m-d H:i:s'));
-            if($enddate < $today && strtotime($t["date_mod"])>strtotime($t["begin_waiting_date"]) && (strtotime($t["date_mod"])+(DAY_TIMESTAMP*$dayClose))< $today){
+            $problemTicket = new Problem_Ticket();
+            if($enddate < $today && strtotime($t["date_mod"])>strtotime($t["begin_waiting_date"])
+                  && (strtotime($t["date_mod"])+(DAY_TIMESTAMP*$dayClose))< $today
+                  && ($conf->getField('closing_with_problem') == 1
+                      || ($conf->getField('closing_with_problem') == 0
+                          && count($problemTicket->find(['tickets_id' => $t['id']])) > 0))){
                $input = [];
                $input['id'] = $t['id'];
                $input['status'] = Ticket::CLOSED;

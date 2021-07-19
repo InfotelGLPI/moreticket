@@ -12,4 +12,5 @@ ALTER TABLE glpi_plugin_moreticket_configs ADD `day_closing` INT(1) NOT NULL    
 ALTER TABLE glpi_plugin_moreticket_configs ADD `update_after_document` INT(1) NOT NULL          DEFAULT '0';
 ALTER TABLE glpi_plugin_moreticket_configs ADD `update_after_approval` INT(1) NOT NULL          DEFAULT '0';
 ALTER TABLE glpi_plugin_moreticket_configs ADD `followup_text` TEXT;
+ALTER TABLE glpi_plugin_moreticket_configs ADD `closing_with_problem` INT(1) NOT NULL          DEFAULT '1';
 

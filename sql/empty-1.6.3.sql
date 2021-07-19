@@ -62,11 +62,12 @@ CREATE TABLE `glpi_plugin_moreticket_configs` (
   `is_mandatory_solution`   TINYINT(1) NOT NULL          DEFAULT '0',
   `use_question`            TINYINT(1) NOT NULL          DEFAULT '0',
   `add_save_button`         TINYINT(1) NOT NULL          DEFAULT '0',
-  `day_sending`         INT(1) NOT NULL          DEFAULT '0',
-  `day_closing`         INT(1) NOT NULL          DEFAULT '0',
-  `update_after_document`         TINYINT(1) NOT NULL          DEFAULT '0',
-  `update_after_approval`         TINYINT(1) NOT NULL          DEFAULT '0',
-  `followup_text`         TEXT,
+  `day_sending`             INT(1) NOT NULL              DEFAULT '0',
+  `day_closing`             INT(1) NOT NULL              DEFAULT '0',
+  `update_after_document`   TINYINT(1) NOT NULL          DEFAULT '0',
+  `update_after_approval`   TINYINT(1) NOT NULL          DEFAULT '0',
+  `followup_text`           TEXT,
+  `closing_with_problem`    INT(1) NOT NULL              DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 

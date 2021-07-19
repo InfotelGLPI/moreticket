@@ -284,6 +284,11 @@ class PluginMoreticketConfig extends CommonDBTM {
       Html::textarea(["name"=>"followup_text","value"=>$this->fields["followup_text"]]);
       echo "</td>";
       echo "</tr>";
+      echo "<tr class='tab_bg_1'>
+            <td>" . __("Close if a", "moreticket") . " " .  __("Problem") . " " . __("is linked", "moreticket") ."</td><td>";
+      Dropdown::showYesNo("closing_with_problem", $this->fields["closing_with_problem"]);
+      echo "</td>";
+      echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td colspan='2' align='center'>";
