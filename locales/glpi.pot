@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-02 15:24+0000\n"
+"POT-Creation-Date: 2021-07-19 09:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:101 inc/crontask.class.php:118
+#: hook.php:101 inc/crontask.class.php:123
 msgid "Moreticket - Send a followup to waiting ticket"
 msgstr ""
 
-#: hook.php:106 inc/crontask.class.php:122
+#: hook.php:106 inc/crontask.class.php:127
 msgid "Moreticket - Closed the tickets that did not respond to the follow-up"
 msgstr ""
 
@@ -175,6 +175,14 @@ msgstr ""
 
 #: inc/config.class.php:283
 msgid "Content of followup"
+msgstr ""
+
+#: inc/config.class.php:288
+msgid "Close if a"
+msgstr ""
+
+#: inc/config.class.php:288
+msgid "is linked"
 msgstr ""
 
 #: inc/profile.class.php:158
