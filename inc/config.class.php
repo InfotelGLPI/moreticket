@@ -274,12 +274,12 @@ class PluginMoreticketConfig extends CommonDBTM {
       Dropdown::showNumber("day_sending",["value"=>$this->fields["day_sending"]]);
       echo "</td>";
       echo "</tr>";
-      echo "<tr>";
+      echo "<tr class='tab_bg_1'>";
       echo "<td>" . __("Automatic closing ticket after x days after followup", "moreticket") . "</td><td>";
       Dropdown::showNumber("day_closing",["value"=>$this->fields["day_closing"]]);
       echo "</td>";
       echo "</tr>";
-      echo "<tr>";
+      echo "<tr class='tab_bg_1'>";
       echo "<td>" . __("Content of followup", "moreticket") . "</td><td>";
       Html::textarea(["name"=>"followup_text","value"=>$this->fields["followup_text"]]);
       echo "</td>";

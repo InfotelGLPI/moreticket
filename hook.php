@@ -282,7 +282,7 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
 
          $sopt[3487]['table']            = 'glpi_plugin_moreticket_notificationtickets';
          $sopt[3487]['field']            = 'users_id_lastupdater';
-         $sopt[3487]['name']             = __('Suivi', 'moreticket');
+         $sopt[3487]['name']             = __('Followup');
          $sopt[3487]['massiveaction']    = false;
          $sopt[3487]['datatype']         = 'specific';
          $sopt[3487]['joinparams']    = ['jointype' => 'child'];

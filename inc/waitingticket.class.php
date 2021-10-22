@@ -313,14 +313,14 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       echo "<div class='spaced' id='moreticket_waiting_ticket_task'>";
       echo "</br>";
       echo "<table class='moreticket_waiting_ticket' id='cl_menu'>";
-      echo "<tr><td>";
+      echo "<tr class='tab_bg_1'><td>";
       echo __('Reason', 'moreticket');
       if ($config->mandatoryWaitingReason() == true) {
          echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
       }
       Html::autocompletionTextField($this, "reason");
       echo "</td></tr>";
-      echo "<tr><td>";
+      echo "<tr class='tab_bg_1'><td>";
       echo PluginMoreticketWaitingType::getTypeName(1);
       if ($config->mandatoryWaitingType() == true) {
          echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
@@ -328,7 +328,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
       $opt = ['value' => $this->fields['plugin_moreticket_waitingtypes_id']];
       Dropdown::show('PluginMoreticketWaitingType', $opt);
       echo "</td></tr>";
-      echo "<tr><td>";
+      echo "<tr class='tab_bg_1'><td>";
       echo __('Postponement date', 'moreticket');
 
       if ($config->mandatoryReportDate() == true) {
@@ -567,8 +567,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
                $condition = ['tickets_id' => $item->fields['id'],
                              [
                                 'OR' => [
-                                   ['date_end_suspension' => NULL],
-                                   ['date_end_suspension' => '']
+                                   ['date_end_suspension' => NULL]
                                 ]
                              ]] + [new QueryExpression(
                      'UNIX_TIMESTAMP(date_suspension) <= UNIX_TIMESTAMP(NOW())'
