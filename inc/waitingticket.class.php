@@ -715,7 +715,10 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
 
       $waiting_ticket = new self();
       $ticket         = new Ticket();
+      $ticketTask         = new TicketTask();
       $log            = new Log();
+      $config = new PluginMoreticketConfig();
+      $content = __("Waiting ticket exceedeed",'moreticket');
 
       $query_ticket_waiting = self::queryTicketWaiting();
       foreach ($DB->request($query_ticket_waiting) as $data) {
@@ -729,6 +732,9 @@ class PluginMoreticketWaitingTicket extends CommonDBTM {
                                   'status' => $waiting['status']]);
             $waiting_ticket->update(['id'                  => $waiting['id'],
                                           'date_end_suspension' => date("Y-m-d H:i:s")]);
+            if($config->addFollowupStopWaiting()){
+               $ticketTask->add(['tickets_id' => $ticket->getID(),'content'=> $content,'state' => 2]);
+            }
             $cron_status = 1;
             $task->addVolume(1);
             if (Session::isCron()) {

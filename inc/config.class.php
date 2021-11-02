@@ -137,6 +137,13 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</td>";
       echo "</tr>";
 
+      echo "<tr class='tab_bg_1'>
+               <td id='show_waiting' $style>" . __("Add followup when waiting date is reached", "moreticket") . "</td>";
+      echo "<td id='show_waiting' $style>";
+      Dropdown::showYesNo("add_followup_stop_waiting", $this->fields["add_followup_stop_waiting"]);
+      echo "</td>";
+      echo "</tr>";
+
       echo "<tr><th colspan='2'>" . __("Ticket resolution and close", "moreticket") . "</th></tr>";
       echo "<tr class='tab_bg_1'>
             <td>" . __("Use solution process", "moreticket") . "</td><td>";
@@ -445,4 +452,9 @@ class PluginMoreticketConfig extends CommonDBTM {
       }
       return $values;
    }
+
+   function addFollowupStopWaiting() {
+      return $this->fields['add_followup_stop_waiting'];
+   }
+
 }
