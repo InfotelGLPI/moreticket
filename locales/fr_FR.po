@@ -5,15 +5,16 @@
 # 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
+# Kevin HAINRY <kevin.hainry@infotel.com>, 2021
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: GLPI - MoreTicket plugin 1.3.0\n"
+"Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-29 10:28+0200\n"
+"POT-Creation-Date: 2021-11-02 10:28+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
-"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2020\n"
+"Last-Translator: Kevin HAINRY <kevin.hainry@infotel.com>, 2021\n"
 "Language-Team: French (France) (https://www.transifex.com/infotelGLPI/teams/50826/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,27 +22,36 @@ msgstr ""
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: hook.php:204 inc/waitingticket.class.php:139
+#: hook.php:101 inc/crontask.class.php:129
+msgid "Moreticket - Send a followup to waiting ticket"
+msgstr "Moreticket - Envoyer un suivi au ticket en attente"
+
+#: hook.php:106 inc/crontask.class.php:133
+msgid "Moreticket - Closed the tickets that did not respond to the follow-up"
+msgstr "Moreticket - Clôture des tickets n'ayant pas répondu au suivi"
+
+#: hook.php:222 inc/waitingticket.class.php:139
 #: inc/waitingticket.class.php:238 inc/waitingticket.class.php:317
 #: inc/waitingticket.class.php:390
 msgid "Reason"
 msgstr "Raison"
 
-#: hook.php:212 inc/waitingticket.class.php:131
+#: hook.php:230 inc/waitingticket.class.php:131
 #: inc/waitingticket.class.php:253 inc/waitingticket.class.php:332
 #: inc/waitingticket.class.php:392
 msgid "Postponement date"
 msgstr "Date de report"
 
-#: hook.php:232 hook.php:239 hook.php:246 hook.php:253
+#: hook.php:250 hook.php:257 hook.php:264 hook.php:271
 #: inc/closeticket.class.php:75 inc/closeticket.class.php:79
 #: inc/closeticket.class.php:121 inc/closeticket.class.php:178
 #: inc/closeticket.class.php:326 inc/closeticket.class.php:380
-#: inc/config.class.php:167
+#: inc/config.class.php:174
 msgid "Close ticket informations"
 msgstr "Informations de clôture des tickets"
 
-#: setup.php:96 inc/profile.class.php:49 inc/profile.class.php:194
+#: setup.php:114 inc/crontask.class.php:32 inc/profile.class.php:49
+#: inc/profile.class.php:194
 msgid "More ticket"
 msgstr "More ticket"
 
@@ -72,8 +82,8 @@ msgstr "%1$s a mis à jour des informations de clôture"
 msgid "%1$s deleted closing informations"
 msgstr "%1$s a supprimé des informations de clôture"
 
-#: inc/config.class.php:98 inc/config.class.php:243
-#: inc/waitingticket.class.php:807
+#: inc/config.class.php:98 inc/config.class.php:250
+#: inc/waitingticket.class.php:812
 msgid "Ticket waiting"
 msgstr "Ticket en attente"
 
@@ -93,49 +103,93 @@ msgstr "Le type d'attente est obligatoire"
 msgid "Waiting reason is mandatory"
 msgstr "La raison de l'attente est obligatoire"
 
-#: inc/config.class.php:140
+#: inc/config.class.php:141
+msgid "Add followup when waiting date is reached"
+msgstr "Ajout d'un suivi lorsque le temps d'attente est atteint"
+
+#: inc/config.class.php:147
 msgid "Ticket resolution and close"
 msgstr "Résolution et clôture du ticket"
 
-#: inc/config.class.php:142
+#: inc/config.class.php:149
 msgid "Use solution process"
 msgstr "Utiliser le bloc solution à la création du ticket"
 
-#: inc/config.class.php:160
+#: inc/config.class.php:167
 msgid "Solution type is mandatory"
 msgstr "Le type de solution est obligatoire"
 
-#: inc/config.class.php:173
+#: inc/config.class.php:180
 msgid "Status used to display solution bloc"
 msgstr "Statuts utilisés pour afficher le bloc solution"
 
-#: inc/config.class.php:186
+#: inc/config.class.php:193
 msgid "Add a followup on immediate ticket closing"
 msgstr "Ajouter un suivi lors de la clôture à la création du ticket"
 
-#: inc/config.class.php:192
+#: inc/config.class.php:199
 msgid "Use the 'Duration' field in the add solution interface"
 msgstr "Utilisez le champ 'Durée' dans l'interface d'ajout de solution."
 
-#: inc/config.class.php:206
+#: inc/config.class.php:213
 msgid "Mandatory 'Duration' field"
 msgstr "Champ 'Durée' obligatoire"
 
-#: inc/config.class.php:211
+#: inc/config.class.php:218
 msgid "Ticket urgency"
 msgstr "Urgence de ticket"
 
-#: inc/config.class.php:213
+#: inc/config.class.php:220
 msgid "Use a justification of the urgency field"
 msgstr "Utiliser une zone de justification sur l'urgence"
 
-#: inc/config.class.php:229
+#: inc/config.class.php:236
 msgid "Urgency impacted justification for the field"
 msgstr "Urgences impactées pour la zone de justification"
 
-#: inc/config.class.php:245
+#: inc/config.class.php:252
 msgid "Use the option ticket waiting in ticket followup"
 msgstr "Utiliser l'option ticket en attente dans un suivi de ticket"
+
+#: inc/config.class.php:257
+msgid "Display save button"
+msgstr "Affichage du bouton de sauvegarde"
+
+#: inc/config.class.php:259
+msgid "Add a save button on top ticket form"
+msgstr "Ajout d'un bouton de sauvegarde en haut du formulaire de ticket"
+
+#: inc/config.class.php:264
+msgid "Update ticket status"
+msgstr "Mise à jour des statuts de tickets"
+
+#: inc/config.class.php:267
+msgid "Update ticket status to processing after add document"
+msgstr "Mise à jour du statut du ticket à en cours après ajout d'un document"
+
+#: inc/config.class.php:273
+msgid "Update ticket status to processing after approval"
+msgstr "Mise à jour du statut du ticket à en cours après approbation"
+
+#: inc/config.class.php:280
+msgid "Automatic sending a followup after x days of waiting"
+msgstr "Envoi automatique d'un suivi après x jours d'attente"
+
+#: inc/config.class.php:285
+msgid "Automatic closing ticket after x days after followup"
+msgstr "Clôture automatique du ticket après x jours après le suivi"
+
+#: inc/config.class.php:290
+msgid "Content of followup"
+msgstr "Contenu du suivi"
+
+#: inc/config.class.php:295
+msgid "Close if a"
+msgstr "Fermer si un"
+
+#: inc/config.class.php:295
+msgid "is linked"
+msgstr "Est lié"
 
 #: inc/profile.class.php:158
 msgid "Adding a justification of urgency"
@@ -183,7 +237,11 @@ msgstr "Date de suspension"
 msgid "Suspension end date"
 msgstr "Date de fin de suspension"
 
-#: inc/waitingticket.class.php:754
+#: inc/waitingticket.class.php:721
+msgid "Waiting ticket exceedeed"
+msgstr "Temps d'attente dépassé"
+
+#: inc/waitingticket.class.php:759
 msgid "End of standby ticket"
 msgstr "Fin des mises en attente"
 
