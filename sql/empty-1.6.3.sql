@@ -68,6 +68,7 @@ CREATE TABLE `glpi_plugin_moreticket_configs` (
   `update_after_approval`   TINYINT(1) NOT NULL          DEFAULT '0',
   `followup_text`           TEXT,
   `closing_with_problem`    INT(1) NOT NULL              DEFAULT '1',
+  `add_followup_stop_waiting` INT(1) NOT NULL              DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 

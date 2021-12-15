@@ -35,7 +35,7 @@ if (!defined('GLPI_ROOT')) {
  * Class PluginMoreticketWaitingType
  */
 class PluginMoreticketWaitingType extends CommonTreeDropdown {
-
+   var    $can_be_translated = true;
    static $rightname = "dropdown";
 
    /**
