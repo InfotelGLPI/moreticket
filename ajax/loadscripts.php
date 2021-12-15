@@ -55,7 +55,7 @@ if (isset($_POST['action'])) {
                          'use_solution'    => $use_solution,
                          'use_question'    => $use_question,
                          'solution_status' => $solution_status,
-                         'glpilayout'      => $_SESSION['glpilayout'],
+//                         'glpilayout'      => $_SESSION['glpilayout'],
                          'use_urgency'     => $use_urgency,
                          'urgency_ids'     => $urgency_ids,
                          'div_kb'          => Session::haveRight('knowbase', UPDATE)];

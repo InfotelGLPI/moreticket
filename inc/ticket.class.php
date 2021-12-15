@@ -266,10 +266,7 @@ class PluginMoreticketTicket extends CommonITILObject {
                         $colsize2 = '29';
                         echo "<tr class='tab_bg_1'>";
                         echo "<th width='$colsize1%'>";
-                        echo "<input type='submit' class='submit' name='update' value='" .
-                             _sx('button', 'Save') . "'>";
-
-
+                        echo Html::submit(_sx('button', 'Save'), ['name' => 'update', 'class' => 'btn btn-primary']);
                         echo "</th>";
                         echo "<td width='$colsize2%'></td>";
                         echo "<td width='$colsize1%'></td>";
@@ -379,4 +376,11 @@ class PluginMoreticketTicket extends CommonITILObject {
    }
 
 
+   public static function getTaskClass() {
+      // TODO: Implement getTaskClass() method.
+   }
+
+   public static function getContentTemplatesParametersClass(): string {
+      // TODO: Implement getContentTemplatesParametersClass() method.
+   }
 }

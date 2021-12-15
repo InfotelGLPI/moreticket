@@ -38,7 +38,7 @@ $config = new PluginMoreticketConfig();
 $use_urgency = $config->useUrgency();
 $urgency_ids = $config->getUrgency_ids();
 
-$params = array('root_doc' => $CFG_GLPI["root_doc"].PLUGIN_MORETICKET_DIR_NOFULL,
+$params = array('root_doc' => PLUGIN_MORETICKET_WEBDIR,
    'use_urgency' => $use_urgency,
    'urgency_ids' => $urgency_ids);
 

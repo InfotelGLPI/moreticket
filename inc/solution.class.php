@@ -50,7 +50,7 @@ class PluginMoreticketSolution extends CommonITILObject {
       echo '<td>';
       echo __('Duration');
       if ($config->isMandatorysolution()) {
-         echo "&nbsp;<span class='red'>*</span>&nbsp;";
+         echo "&nbsp;<span style='color:red'>*</span>&nbsp;";
       }
       echo '</td>';
       echo "<td><div id='duration_solution_" . $tickets_id . "'>";

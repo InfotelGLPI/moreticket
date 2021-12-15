@@ -184,7 +184,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       echo "</td>";
       echo "<td>";
       echo $dbu->getUserName(Session::getLoginUserID());
-      echo "<input name='requesters_id' type='hidden' value='" . Session::getLoginUserID() . "'>";
+      echo Html::hidden('requesters_id', ['value' => Session::getLoginUserID()]);
       echo "</td>";
       echo "</tr>";
 
@@ -203,7 +203,10 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       echo __('Comments');
       echo "</td>";
       echo "<td>";
-      echo "<textarea cols='80' rows='8' name='comment'></textarea>";
+      Html::textarea(['name'            => 'comment',
+                      'cols'       => 80,
+                      'rows'       => 8,
+                      'enable_richtext' => false]);
       echo "</td>";
       echo "</tr>";
 
@@ -218,10 +221,10 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       if ($canedit) {
          echo "<tr>";
          echo "<td class='tab_bg_2 center' colspan='6'>";
-         echo "<input type='submit' name='add' class='submit' value='" . _sx('button', 'Add') . "' >";
-         echo "<input type='hidden' name='tickets_id' class='submit' value='" . $item->fields['id'] . "' >";
-         echo "<input type='hidden' name='items_id' class='submit' value='" . $item->fields['id'] . "' >";
-         echo "<input type='hidden' name='itemtype' class='submit' value='Ticket' >";
+         echo Html::hidden('tickets_id', ['value' => $item->fields['id']]);
+         echo Html::hidden('items_id', ['value' => $item->fields['id']]);
+         echo Html::hidden('itemtype', ['value' => 'Ticket']);
+         echo Html::submit(_sx('button', 'Add'), ['name' => 'add', 'class' => 'btn btn-primary']);
          echo "</td>";
          echo "</tr>";
       }
@@ -468,7 +471,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       echo _n('Solution type', 'Solution types', 1);
       $config = new PluginMoreticketConfig();
       if ($config->mandatorySolutionType() == true) {
-         echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+         echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
       }
       Dropdown::show('SolutionType',
                      ['value'  => $ticket->getField('solutiontypes_id'),
@@ -476,14 +479,20 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
                            'entity' => $ticket->getEntityID()]);
       echo "</td></tr>";
       echo "<tr><td>";
-      echo __('Solution description', 'moreticket') . "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+      echo __('Solution description', 'moreticket') . "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
       $rand = mt_rand();
       Html::initEditorSystem("solution" . $rand);
       if (!isset($ticket->fields['solution'])) {
          $ticket->fields['solution'] = '';
       }
       echo "<div id='solution$rand_text'>";
-      echo "<textarea id='solution$rand' name='solution' rows='3'>" . stripslashes($ticket->fields['solution']) . "</textarea></div>";
+      Html::textarea(['name'            => 'solution',
+                      'value' => stripslashes($ticket->fields['solution']),
+                      'editor_id' => 'solution'.$rand,
+                      'cols'       => 80,
+                      'rows'       => 3,
+                      'enable_richtext' => false]);
+      echo "</div>";
       echo "</td></tr>";
       echo "</table>";
       echo "</div>";

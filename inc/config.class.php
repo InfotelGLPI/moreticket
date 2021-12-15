@@ -88,7 +88,7 @@ class PluginMoreticketConfig extends CommonDBTM {
       return $values;
    }
 
-   function showForm() {
+   function showConfigForm() {
 
       $this->getFromDB(1);
       echo "<div class='center'>";
@@ -96,7 +96,7 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "<table class='tab_cadre_fixe'>";
       echo "<tr><th colspan='2'>" . __("Setup") . "</th></tr>";
       echo "<tr><th colspan='2'>" . __("Ticket waiting", "moreticket") . "</th></tr>";
-      echo "<input type='hidden' name='id' value='1'>";
+      echo Html::hidden('id', ['value' => 1]);
 
       echo "<tr class='tab_bg_1'>
             <td>" . __("Use waiting process", "moreticket") . "</td><td>";
@@ -285,14 +285,14 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</td>";
       echo "</tr>";
       echo "<tr class='tab_bg_1'>
-            <td>" . __("Close if a", "moreticket") . " " .  __("Problem") . " " . __("is linked", "moreticket") ."</td><td>";
+            <td>" . __("Close if a problem is linked", "moreticket") ."</td><td>";
       Dropdown::showYesNo("closing_with_problem", $this->fields["closing_with_problem"]);
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td colspan='2' align='center'>";
-      echo "<input type='submit' name='update' value=\"" . _sx("button", "Post") . "\" class='submit' >";
+      echo Html::submit(_sx('button', 'Post'), ['name' => 'update', 'class' => 'btn btn-primary']);
       echo "</td>";
       echo "</tr>";
 

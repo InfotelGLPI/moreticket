@@ -26,28 +26,3 @@
  along with moreticket. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
-
-include('../../../inc/includes.php');
-
-//change mimetype
-header("Content-type: application/javascript");
-
-//not executed in self-service interface & right verification
-if (Session::getCurrentInterface() == "central") {
-
-   $config = new PluginMoreticketConfig();
-   $use_waiting = $config->useWaiting();
-   $use_solution = $config->useSolution();
-   $use_question = $config->useQuestion();
-   $solution_status = $config->solutionStatus();
-
-   $params = ['root_doc' => PLUGIN_MORETICKET_WEBDIR,
-      'waiting' => CommonITILObject::WAITING,
-      'closed' => CommonITILObject::CLOSED,
-      'use_waiting' => $use_waiting,
-      'use_solution' => $use_solution,
-      'use_question' => $use_question,
-      'solution_status' => $solution_status];
-
-   echo "moreticket(" . json_encode($params) . ");";
-}

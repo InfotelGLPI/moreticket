@@ -153,10 +153,14 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
       echo "<table align='left' class='moreticket_waiting_ticket' id='cl_menu'>";
       echo "<tr><td>";
       echo __('Justification', 'moreticket');
-      echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;</br>";
+      echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;</br>";
       echo "</td></tr>";
       echo "<tr><td>";
-      echo "<textarea cols='30' rows='5' name='justification'>" . $this->fields['justification'] . "</textarea>";
+      Html::textarea(['name'            => 'justification',
+                      'value' => $this->fields['justification'],
+                      'cols'       => 30,
+                      'rows'       => 5,
+                      'enable_richtext' => false]);
       echo "</td></tr>";
       echo "</table>";
       echo "</div>";
