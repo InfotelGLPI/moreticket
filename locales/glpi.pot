@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-22 12:35+0000\n"
+"POT-Creation-Date: 2022-02-05 15:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:222 changes/waitingticket.class.php:141
+#: hook.php:224 changes/waitingticket.class.php:141
 #: changes/waitingticket.class.php:240 changes/waitingticket.class.php:324
 #: changes/waitingticket.class.php:334 changes/waitingticket.class.php:429
 #: inc/waitingticket.class.php:139 inc/waitingticket.class.php:238
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Reason"
 msgstr ""
 
-#: hook.php:230 changes/waitingticket.class.php:133
+#: hook.php:232 changes/waitingticket.class.php:133
 #: changes/waitingticket.class.php:256 changes/waitingticket.class.php:361
 #: changes/waitingticket.class.php:376 changes/waitingticket.class.php:431
 #: inc/waitingticket.class.php:131 inc/waitingticket.class.php:253
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Postponement date"
 msgstr ""
 
-#: hook.php:250 hook.php:257 hook.php:264 hook.php:271
+#: hook.php:252 hook.php:259 hook.php:266 hook.php:273
 #: inc/closeticket.class.php:75 inc/closeticket.class.php:79
 #: inc/closeticket.class.php:121 inc/closeticket.class.php:178
 #: inc/closeticket.class.php:329 inc/closeticket.class.php:383
@@ -42,7 +42,7 @@ msgstr ""
 msgid "Close ticket informations"
 msgstr ""
 
-#: setup.php:116 changes/setup.php:96 inc/crontask.class.php:32
+#: setup.php:115 changes/setup.php:96 inc/crontask.class.php:32
 #: inc/profile.class.php:49 inc/profile.class.php:194
 msgid "More ticket"
 msgstr ""
@@ -87,7 +87,7 @@ msgstr ""
 msgid "Please activate the plugin"
 msgstr ""
 
-#: inc/closeticket.class.php:135 inc/closeticket.class.php:482
+#: inc/closeticket.class.php:135 inc/closeticket.class.php:495
 msgid "Solution description"
 msgstr ""
 
@@ -95,17 +95,17 @@ msgstr ""
 msgid "Ticket cannot be closed"
 msgstr ""
 
-#: inc/closeticket.class.php:589
+#: inc/closeticket.class.php:614
 #, php-format
 msgid "%1$s added closing informations"
 msgstr ""
 
-#: inc/closeticket.class.php:608
+#: inc/closeticket.class.php:633
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr ""
 
-#: inc/closeticket.class.php:627
+#: inc/closeticket.class.php:652
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr ""
@@ -177,14 +177,6 @@ msgstr ""
 
 #: inc/config.class.php:252
 msgid "Use the option ticket waiting in ticket followup"
-msgstr ""
-
-#: inc/config.class.php:257
-msgid "Display save button"
-msgstr ""
-
-#: inc/config.class.php:259
-msgid "Add a save button on top ticket form"
 msgstr ""
 
 #: inc/config.class.php:264
