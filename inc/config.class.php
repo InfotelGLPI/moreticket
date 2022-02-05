@@ -254,12 +254,12 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</td>";
       echo "</tr>";
 
-      echo "<tr><th colspan='2'>" . __('Display save button',"moreticket") . "</th></tr>";
-      echo "<tr class='tab_bg_1'>
-            <td>" . __("Add a save button on top ticket form", "moreticket") . "</td><td>";
-      Dropdown::showYesNo("add_save_button", $this->fields["add_save_button"]);
-      echo "</td>";
-      echo "</tr>";
+//      echo "<tr><th colspan='2'>" . __('Display save button',"moreticket") . "</th></tr>";
+//      echo "<tr class='tab_bg_1'>
+//            <td>" . __("Add a save button on top ticket form", "moreticket") . "</td><td>";
+//      Dropdown::showYesNo("add_save_button", $this->fields["add_save_button"]);
+//      echo "</td>";
+//      echo "</tr>";
 
       echo "<tr><th colspan='2'>" . __('Update ticket status', 'moreticket')  . "</th></tr>";
 

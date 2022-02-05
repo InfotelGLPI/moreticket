@@ -82,11 +82,11 @@ if (isset($_POST['action'])) {
             }
          }
 
-         if ((Session::getCurrentInterface() == "central"
-              && strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false)
-             && $config->useDurationSolution()) {
-            echo "moreticket.moreticket_solution();";
-         }
+//         if ((Session::getCurrentInterface() == "central"
+//              && strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false)
+//             && $config->useDurationSolution()) {
+//            echo "moreticket.moreticket_solution();";
+//         }
          echo "</script>";
 
          break;

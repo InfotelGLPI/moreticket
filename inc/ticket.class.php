@@ -228,57 +228,57 @@ class PluginMoreticketTicket extends CommonITILObject {
       return false;
    }
 
-   static function displaySaveButton($params) {
-
-
-      $config = new PluginMoreticketConfig();
-      if($config->fields["add_save_button"] == 1) {
-
-
-         if (isset($params['item'])) {
-            $item    = $params['item'];
-            $options = $params['options'];
-
-
-            if ($item->getType() == 'Ticket') {
-
-
-               $canupdate     = !$item->getID()
-                                || (Session::getCurrentInterface() == "central"
-                                    && $item->canUpdateItem());
-               $can_requester = $item->canRequesterUpdateItem();
-               $canpriority   = Session::haveRight(Ticket::$rightname, Ticket::CHANGEPRIORITY);
-               $canassign     = $item->canAssign();
-               $canassigntome = $item->canAssignTome();
-
-
-               $display_save_btn = (!array_key_exists('locked', $options) || !$options['locked'])
-                                   && ($canupdate || $can_requester || $canpriority || $canassign || $canassigntome);
-
-
-               if ($display_save_btn
-                   && !$options['template_preview']) {
-                  if ($item->getID()) {
-
-
-                     if ($display_save_btn) {
-                        $colsize1 = '13';
-                        $colsize2 = '29';
-                        echo "<tr class='tab_bg_1'>";
-                        echo "<th width='$colsize1%'>";
-                        echo Html::submit(_sx('button', 'Save'), ['name' => 'update', 'class' => 'btn btn-primary']);
-                        echo "</th>";
-                        echo "<td width='$colsize2%'></td>";
-                        echo "<td width='$colsize1%'></td>";
-                        echo "<td width='$colsize2%'></td>";
-                        echo "</tr>";
-                     }
-                  }
-               }
-            }
-         }
-      }
-   }
+//   static function displaySaveButton($params) {
+//
+//
+//      $config = new PluginMoreticketConfig();
+//      if($config->fields["add_save_button"] == 1) {
+//
+//
+//         if (isset($params['item'])) {
+//            $item    = $params['item'];
+//            $options = $params['options'];
+//
+//
+//            if ($item->getType() == 'Ticket') {
+//
+//
+//               $canupdate     = !$item->getID()
+//                                || (Session::getCurrentInterface() == "central"
+//                                    && $item->canUpdateItem());
+//               $can_requester = $item->canRequesterUpdateItem();
+//               $canpriority   = Session::haveRight(Ticket::$rightname, Ticket::CHANGEPRIORITY);
+//               $canassign     = $item->canAssign();
+//               $canassigntome = $item->canAssignTome();
+//
+//
+//               $display_save_btn = (!array_key_exists('locked', $options) || !$options['locked'])
+//                                   && ($canupdate || $can_requester || $canpriority || $canassign || $canassigntome);
+//
+//
+//               if ($display_save_btn
+//                   && !$options['template_preview']) {
+//                  if ($item->getID()) {
+//
+//
+//                     if ($display_save_btn) {
+//                        $colsize1 = '13';
+//                        $colsize2 = '29';
+//                        echo "<tr class='tab_bg_1'>";
+//                        echo "<th width='$colsize1%'>";
+//                        echo Html::submit(_sx('button', 'Save'), ['name' => 'update', 'class' => 'btn btn-primary']);
+//                        echo "</th>";
+//                        echo "<td width='$colsize2%'></td>";
+//                        echo "<td width='$colsize1%'></td>";
+//                        echo "<td width='$colsize2%'></td>";
+//                        echo "</tr>";
+//                     }
+//                  }
+//               }
+//            }
+//         }
+//      }
+//   }
 
    /**
     * @param Ticket $ticket

@@ -1,0 +1,1 @@
+ALTER TABLE `glpi_plugin_moreticket_notificationtickets` DROP FOREIGN KEY glpi_plugin_moreticket_notificationtickets_ibfk_1;

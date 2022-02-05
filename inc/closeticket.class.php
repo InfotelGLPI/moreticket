@@ -444,26 +444,39 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
 
       echo "<div class='spaced' id='moreticket_close_ticket'>";
       echo "</br>";
-      echo "<table class='moreticket_close_ticket' id='cl_menu'>";
+      echo "<table>";
       echo "<tr><td>";
       echo _n('Solution template', 'Solution templates', 1) . "&nbsp;:&nbsp;&nbsp;";
-      $rand_template = mt_rand();
-      $rand_text     = mt_rand();
-      $rand_type     = mt_rand();
-      SolutionTemplate::dropdown(['value'  => 0,
-                                       'entity' => $ticket->getEntityID(),
-                                       'rand'   => $rand_template,
-                                       // Load type and solution from bookmark
-                                       'toupdate'
-                                                => ['value_fieldname'
-                                                                     => 'value',
-                                                         'to_update' => 'solution' . $rand_text,
-                                                         'url'       => $CFG_GLPI["root_doc"] .
-                                                                        "/ajax/solution.php",
-                                                         'moreparams'
-                                                                     => ['type_id'
-                                                                              => 'dropdown_solutiontypes_id' .
-                                                                                 $rand_type]]]);
+      $rand = mt_rand();
+      $content_id = "solution$rand";
+
+      SolutionTemplate::dropdown([
+                                    'name'     => "solution_template",
+                                    'value'    => 0,
+                                    'rand'     => $rand,
+                                    'on_change' => "solutiontemplate_update{$rand}(this.value)"
+                                 ]);
+      echo Html::hidden("_render_twig", ['value' => true]);
+
+      $JS = <<<JAVASCRIPT
+               function solutiontemplate_update{$rand}(value) {
+                  $.ajax({
+                     url: '{$CFG_GLPI['root_doc']}/ajax/solution.php',
+                     type: 'POST',
+                     data: {
+                        solutiontemplates_id: value
+                     }
+                  }).done(function(data) {
+                     tinymce.get("{$content_id}").setContent(data.content);
+
+                     var solutiontypes_id = isNaN(parseInt(data.solutiontypes_id))
+                        ? 0
+                        : parseInt(data.solutiontypes_id);
+                     $("#dropdown_solutiontypes_id{$rand}").trigger("setValue", solutiontypes_id);
+                  });
+               }
+JAVASCRIPT;
+      echo Html::scriptBlock($JS);
 
       echo "</td></tr>";
 
@@ -475,7 +488,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       }
       Dropdown::show('SolutionType',
                      ['value'  => $ticket->getField('solutiontypes_id'),
-                           'rand'   => $rand_type,
+                           'rand'   => $rand,
                            'entity' => $ticket->getEntityID()]);
       echo "</td></tr>";
       echo "<tr><td>";
@@ -485,14 +498,26 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       if (!isset($ticket->fields['solution'])) {
          $ticket->fields['solution'] = '';
       }
-      echo "<div id='solution$rand_text'>";
-      Html::textarea(['name'            => 'solution',
-                      'value' => stripslashes($ticket->fields['solution']),
-                      'editor_id' => 'solution'.$rand,
-                      'cols'       => 80,
-                      'rows'       => 3,
-                      'enable_richtext' => false]);
-      echo "</div>";
+      Html::textarea(['name'              => 'solution',
+                      'value'             =>  stripslashes($ticket->fields['solution']),
+                      'rand'              => $rand,
+                      'editor_id'         => $content_id,
+                      'enable_fileupload' => false,
+                      'enable_richtext'   => true,
+                      // Uploaded images processing is not able to handle multiple use of same uploaded file, so until this is fixed,
+                      // it is preferable to disable image pasting in rich text inside massive actions.
+                      'enable_images'     => false,
+                      'cols'              => 12,
+                      'rows'              => 80
+                     ]);
+//      echo "<div id='solution$rand'>";
+//      Html::textarea(['name'            => 'solution',
+//                      'value' => stripslashes($ticket->fields['solution']),
+//                      'editor_id' => 'solution'.$rand,
+//                      'cols'       => 80,
+//                      'rows'       => 3,
+//                      'enable_richtext' => false]);
+//      echo "</div>";
       echo "</td></tr>";
       echo "</table>";
       echo "</div>";

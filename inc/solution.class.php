@@ -38,37 +38,52 @@ class PluginMoreticketSolution extends CommonITILObject {
 
    static $rightname = "plugin_moreticket";
 
-   function showFormSolution($tickets_id) {
+   public static function getTaskClass() {
+      // TODO: Implement getTaskClass() method.
+   }
 
-      // validation des droits
-      if (!$this->canView()) {
-         return false;
+   public static function getDefaultValues($entity = 0) {
+      // TODO: Implement getDefaultValues() method.
+   }
+
+   public static function getItemLinkClass(): string {
+      // TODO: Implement getItemLinkClass() method.
+   }
+
+   public static function getContentTemplatesParametersClass(): string {
+      // TODO: Implement getContentTemplatesParametersClass() method.
+   }
+
+   static function showFormSolution($params) {
+
+      if (isset($params['item'])) {
+         $item    = $params['item'];
+         $options = $params['options'];
+
+         if ($item->getType() == 'ITILSolution') {
+
+            $ticket = $options['item'];
+            $config = new PluginMoreticketConfig();
+
+            echo "<div class='row'><div class='col-12 col-md-9'>";
+            echo __('Duration');
+            if ($config->isMandatorysolution()) {
+               echo "&nbsp;<span style='color:red'>*</span>&nbsp;";
+            }
+            echo "<span id='duration_solution_" . $ticket->fields['id'] . "'>";
+            $toadd = [];
+            for ($i = 9; $i <= 100; $i++) {
+               $toadd[] = $i * HOUR_TIMESTAMP;
+            }
+            Dropdown::showTimeStamp("duration_solution", ['min'             => 0,
+                                                          'max'             => 8 * HOUR_TIMESTAMP,
+                                                          'addfirstminutes' => true,
+                                                          'inhours'         => true,
+                                                          'toadd'           => $toadd]);
+            echo "</span>";
+            echo "</div></div>";
+         }
       }
-      $config = new PluginMoreticketConfig();
-
-      echo '<tr class="tab_bg_2">';
-      echo '<td>';
-      echo __('Duration');
-      if ($config->isMandatorysolution()) {
-         echo "&nbsp;<span style='color:red'>*</span>&nbsp;";
-      }
-      echo '</td>';
-      echo "<td><div id='duration_solution_" . $tickets_id . "'>";
-
-      $toadd = [];
-      for ($i=9; $i<=100; $i++) {
-         $toadd[] = $i*HOUR_TIMESTAMP;
-      }
-
-      Dropdown::showTimeStamp("duration_solution", ['min'             => 0,
-                                                    'max'             => 8 * HOUR_TIMESTAMP,
-                                                    'addfirstminutes' => true,
-                                                    'inhours'         => true,
-                                                    'toadd'           => $toadd]);
-      echo '</div></td>';
-      echo '<td colspan="2"></td>';
-      echo '</tr>';
-
    }
 
    /**
@@ -88,13 +103,13 @@ class PluginMoreticketSolution extends CommonITILObject {
          if ($solution->input['itemtype'] == 'Ticket') {
             if (isset($solution->input['duration_solution']) && $solution->input['duration_solution'] > 0) {
 
-//               $solution->input['content'] = html_entity_decode($solution->input['content']);
-//               $solution->input['content'] = strip_tags($solution->input['content']);
-               $ticket = new Ticket();
+               //               $solution->input['content'] = html_entity_decode($solution->input['content']);
+               //               $solution->input['content'] = strip_tags($solution->input['content']);
+               $ticket     = new Ticket();
                $tickets_id = $solution->input['items_id'];
                if ($ticket->getFromDB($tickets_id)) {
                   if ($ticket->getField('actiontime') == 0) {
-                     $ticket->update(['id' => $tickets_id,
+                     $ticket->update(['id'         => $tickets_id,
                                       'actiontime' => $solution->input['duration_solution']]);
                   }
                }
@@ -121,12 +136,5 @@ class PluginMoreticketSolution extends CommonITILObject {
          }
       }
       return true;
-   }
-
-   static function getDefaultValues($entity = 0) {
-      // TODO: Implement getDefaultValues() method.
-   }
-   public static function getItemLinkClass(): string {
-      return false;
    }
 }

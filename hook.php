@@ -95,6 +95,8 @@ function plugin_moreticket_install() {
       $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.6.3.sql");
    }
 
+   $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.7.0.sql");
+
    CronTask::Register('PluginMoreticketWaitingTicket', 'MoreticketWaitingTicket', DAY_TIMESTAMP, ['state' => 0]);
 
    CronTask::Register('PluginMoreticketCrontask', 'MoreticketFollowup', HOUR_TIMESTAMP,[

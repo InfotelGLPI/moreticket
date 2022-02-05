@@ -42,7 +42,7 @@ class PluginMoreticketCrontask extends CommonDBTM
       if (intval($day) > 0) {
          foreach ($tickets as $t) {
             $calendar = new Calendar();
-            $calendars_id = Entity::getUsedConfig('calendars_id', $t['entities_id']);
+            $calendars_id = Entity::getUsedConfig('calendars_strategy', $t['entities_id'], 'calendars_id', 0);
             if ($calendars_id > 0 && $calendar->getFromDB($calendars_id)) {
                $cache_duration = $calendar->getDurationsCache();
                $day_time = $cache_duration[1] * intval($day);
@@ -82,7 +82,7 @@ class PluginMoreticketCrontask extends CommonDBTM
       if ($dayClose > 0) {
          foreach ($tickets as $t) {
             $calendar = new Calendar();
-            $calendars_id = Entity::getUsedConfig('calendars_id', $t['entities_id']);
+            $calendars_id = Entity::getUsedConfig('calendars_strategy', $t['entities_id'], 'calendars_id', 0);
 
             if ($calendars_id > 0 && $calendar->getFromDB($calendars_id)) {
                $cache_duration = $calendar->getDurationsCache();

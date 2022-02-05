@@ -280,6 +280,8 @@
                     || location.pathname.indexOf('helpdesk.public.php') > 0
                     || location.pathname.indexOf('tracking.injector.php') > 0)
                     && object.params.use_urgency) {
+
+                  console.log('la');
                   if (tickets_id == 0 || tickets_id == undefined) {
                       object.createTicket_urgency(tickets_id);
                   }
@@ -380,65 +382,65 @@
              });
          };
 
-         this.moreticket_solution = function () {
-            $(document).ready(function () {
-                // Only in ticket.php
-               if (location.pathname.indexOf('ticket.form.php') > 0) {
-                   // get tickets_id
-                   var tickets_id = object.urlParam(window.location.href, 'id');
-                   //only in edit form
-                  if (tickets_id == undefined || tickets_id == 0) {
-                      return;
-                  }
-
-                     // Launched on each complete Ajax load
-                     $(document).ajaxComplete(function (event, xhr, option) {
-                        setTimeout(function () {
-                            // We execute the code only if the ticket form display request is done
-                           if (option.data != undefined) {
-                               var tid;
-                               // Get the right tab
-                              if (object.urlParam(option.data, 'type') == 'Solution'
-                                   && (option.url.indexOf("ajax/timeline.php") != -1 || option.url.indexOf("ajax/viewsubitem.php") != -1)) {
-
-                                  var solId = object.urlParam(option.data, '&id');
-
-                                 if (solId == 0 || solId == undefined) {
-                                     $.ajax({
-                                          url: options.root_doc + '/ajax/ticket.php',
-                                          type: "POST",
-                                          dataType: "html",
-                                          data: {
-                                             'tickets_id': tickets_id,
-                                             'tickettasks_id': tid,
-                                             'action': 'showFormSolution'
-                                          },
-                                          success: function (response, opts) {
-                                             if (object.params.div_kb) {
-                                                 var inputAdd = $("select[name='_sol_to_kb']");
-                                             } else {
-                                                 var inputAdd = $("select[id^='dropdown_solutiontypes_id']");
-                                             }
-                                                var solutionForm = inputAdd.closest("tr");
-                                             if ($("div[name='duration_solution_" + tid + "']").length == 0) {
-                                                 $(response).insertAfter(solutionForm);
-                                             }
-
-                                                var scripts, scriptsFinder = /<script[^>]*>([\s\S]+?)<\/script>/gi;
-                                             while (scripts = scriptsFinder.exec(response)) {
-                                                 eval(scripts[1]);
-                                             }
-                                          }
-                                        });
-                                 }
-                              }
-
-                           }
-                        }, 100);
-                     }, this);
-               }
-            });
-         };
+         // this.moreticket_solution = function () {
+         //    $(document).ready(function () {
+         //        // Only in ticket.php
+         //       if (location.pathname.indexOf('ticket.form.php') > 0) {
+         //           // get tickets_id
+         //           var tickets_id = object.urlParam(window.location.href, 'id');
+         //           //only in edit form
+         //          if (tickets_id == undefined || tickets_id == 0) {
+         //              return;
+         //          }
+         //
+         //             // Launched on each complete Ajax load
+         //             $(document).ajaxComplete(function (event, xhr, option) {
+         //                setTimeout(function () {
+         //                    // We execute the code only if the ticket form display request is done
+         //                   if (option.data != undefined) {
+         //                       var tid;
+         //                       // Get the right tab
+         //                      if (object.urlParam(option.data, 'type') == 'Solution'
+         //                           && (option.url.indexOf("ajax/timeline.php") != -1 || option.url.indexOf("ajax/viewsubitem.php") != -1)) {
+         //
+         //                          var solId = object.urlParam(option.data, '&id');
+         //
+         //                         if (solId == 0 || solId == undefined) {
+         //                             $.ajax({
+         //                                  url: options.root_doc + '/ajax/ticket.php',
+         //                                  type: "POST",
+         //                                  dataType: "html",
+         //                                  data: {
+         //                                     'tickets_id': tickets_id,
+         //                                     'tickettasks_id': tid,
+         //                                     'action': 'showFormSolution'
+         //                                  },
+         //                                  success: function (response, opts) {
+         //                                     if (object.params.div_kb) {
+         //                                         var inputAdd = $("select[name='_sol_to_kb']");
+         //                                     } else {
+         //                                         var inputAdd = $("select[id^='dropdown_solutiontypes_id']");
+         //                                     }
+         //                                        var solutionForm = inputAdd.closest("tr");
+         //                                     if ($("div[name='duration_solution_" + tid + "']").length == 0) {
+         //                                         $(response).insertAfter(solutionForm);
+         //                                     }
+         //
+         //                                        var scripts, scriptsFinder = /<script[^>]*>([\s\S]+?)<\/script>/gi;
+         //                                     while (scripts = scriptsFinder.exec(response)) {
+         //                                         eval(scripts[1]);
+         //                                     }
+         //                                  }
+         //                                });
+         //                         }
+         //                      }
+         //
+         //                   }
+         //                }, 100);
+         //             }, this);
+         //       }
+         //    });
+         // };
 
          function inarray(value, tab) {
             response = false;
