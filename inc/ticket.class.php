@@ -75,10 +75,10 @@ class PluginMoreticketTicket extends CommonITILObject {
          return false;
       }
 
-      $clean_close_ticket   = true;
+      $clean_close_ticket = true;
 
       if (Session::haveRight("plugin_moreticket", UPDATE)) {
-         PluginMoreticketWaitingTicket::preAddWaitingTicket($ticket);
+//         PluginMoreticketWaitingTicket::preAddWaitingTicket($ticket);
          if (PluginMoreticketCloseTicket::preAddCloseTicket($ticket)) {
             $clean_close_ticket = false;
          }
@@ -112,15 +112,15 @@ class PluginMoreticketTicket extends CommonITILObject {
       PluginMoreticketNotificationTicket::afterAddTicket($ticket);
 
       if (Session::haveRight("plugin_moreticket", UPDATE)) {
-         PluginMoreticketWaitingTicket::postAddWaitingTicket($ticket);
+//         PluginMoreticketWaitingTicket::postAddWaitingTicket($ticket);
          PluginMoreticketCloseTicket::postAddCloseTicket($ticket);
          if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
             unset($_SESSION['glpi_plugin_moreticket_close']);
          }
 
-         if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-            unset($_SESSION['glpi_plugin_moreticket_waiting']);
-         }
+//         if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
+//            unset($_SESSION['glpi_plugin_moreticket_waiting']);
+//         }
       }
 
       if (Session::haveRight("plugin_moreticket_justification", READ)) {
@@ -146,9 +146,9 @@ class PluginMoreticketTicket extends CommonITILObject {
          return false;
       }
 
-      if (Session::haveRight("plugin_moreticket", UPDATE)) {
-         PluginMoreticketWaitingTicket::preUpdateWaitingTicket($ticket);
-      }
+//      if (Session::haveRight("plugin_moreticket", UPDATE)) {
+//         PluginMoreticketWaitingTicket::preUpdateWaitingTicket($ticket);
+//      }
 
       if (Session::haveRight("plugin_moreticket_justification", READ)) {
          PluginMoreticketUrgencyTicket::preUpdateUrgencyTicket($ticket);
@@ -164,15 +164,15 @@ class PluginMoreticketTicket extends CommonITILObject {
       PluginMoreticketNotificationTicket::afterUpdateTicket($ticket);
 
       if (Session::haveRight("plugin_moreticket", UPDATE)) {
-         PluginMoreticketWaitingTicket::postUpdateWaitingTicket($ticket);
+//         PluginMoreticketWaitingTicket::postUpdateWaitingTicket($ticket);
 
          if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
             unset($_SESSION['glpi_plugin_moreticket_close']);
          }
 
-         if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-            unset($_SESSION['glpi_plugin_moreticket_waiting']);
-         }
+//         if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
+//            unset($_SESSION['glpi_plugin_moreticket_waiting']);
+//         }
       }
 
       if (Session::haveRight("plugin_moreticket_justification", READ)) {
@@ -192,22 +192,14 @@ class PluginMoreticketTicket extends CommonITILObject {
 
       foreach ($input as $key => $values) {
          switch ($key) {
-            case 'reason':
-               $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $values;
-               break;
-            case 'plugin_moreticket_waitingtypes_id':
-               $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $values;
-               break;
-            case 'date_report':
-               $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $values;
-               break;
-            case 'solutiontemplates_id':
-               $_SESSION['glpi_plugin_moreticket_close'][$key] = $values;
-               break;
+//            case 'plugin_moreticket_waitingtypes_id':
+//            case 'date_report':
+//            case 'reason':
+//               $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $values;
+//               break;
             case 'solutiontypes_id':
-               $_SESSION['glpi_plugin_moreticket_close'][$key] = $values;
-               break;
             case 'solution':
+            case 'solutiontemplates_id':
                $_SESSION['glpi_plugin_moreticket_close'][$key] = $values;
                break;
             case 'justification':
@@ -223,62 +215,62 @@ class PluginMoreticketTicket extends CommonITILObject {
    static function getDefaultValues($entity = 0) {
       // TODO: Implement getDefaultValues() method.
    }
-   
+
    public static function getItemLinkClass(): string {
       return false;
    }
 
-//   static function displaySaveButton($params) {
-//
-//
-//      $config = new PluginMoreticketConfig();
-//      if($config->fields["add_save_button"] == 1) {
-//
-//
-//         if (isset($params['item'])) {
-//            $item    = $params['item'];
-//            $options = $params['options'];
-//
-//
-//            if ($item->getType() == 'Ticket') {
-//
-//
-//               $canupdate     = !$item->getID()
-//                                || (Session::getCurrentInterface() == "central"
-//                                    && $item->canUpdateItem());
-//               $can_requester = $item->canRequesterUpdateItem();
-//               $canpriority   = Session::haveRight(Ticket::$rightname, Ticket::CHANGEPRIORITY);
-//               $canassign     = $item->canAssign();
-//               $canassigntome = $item->canAssignTome();
-//
-//
-//               $display_save_btn = (!array_key_exists('locked', $options) || !$options['locked'])
-//                                   && ($canupdate || $can_requester || $canpriority || $canassign || $canassigntome);
-//
-//
-//               if ($display_save_btn
-//                   && !$options['template_preview']) {
-//                  if ($item->getID()) {
-//
-//
-//                     if ($display_save_btn) {
-//                        $colsize1 = '13';
-//                        $colsize2 = '29';
-//                        echo "<tr class='tab_bg_1'>";
-//                        echo "<th width='$colsize1%'>";
-//                        echo Html::submit(_sx('button', 'Save'), ['name' => 'update', 'class' => 'btn btn-primary']);
-//                        echo "</th>";
-//                        echo "<td width='$colsize2%'></td>";
-//                        echo "<td width='$colsize1%'></td>";
-//                        echo "<td width='$colsize2%'></td>";
-//                        echo "</tr>";
-//                     }
-//                  }
-//               }
-//            }
-//         }
-//      }
-//   }
+   //   static function displaySaveButton($params) {
+   //
+   //
+   //      $config = new PluginMoreticketConfig();
+   //      if($config->fields["add_save_button"] == 1) {
+   //
+   //
+   //         if (isset($params['item'])) {
+   //            $item    = $params['item'];
+   //            $options = $params['options'];
+   //
+   //
+   //            if ($item->getType() == 'Ticket') {
+   //
+   //
+   //               $canupdate     = !$item->getID()
+   //                                || (Session::getCurrentInterface() == "central"
+   //                                    && $item->canUpdateItem());
+   //               $can_requester = $item->canRequesterUpdateItem();
+   //               $canpriority   = Session::haveRight(Ticket::$rightname, Ticket::CHANGEPRIORITY);
+   //               $canassign     = $item->canAssign();
+   //               $canassigntome = $item->canAssignTome();
+   //
+   //
+   //               $display_save_btn = (!array_key_exists('locked', $options) || !$options['locked'])
+   //                                   && ($canupdate || $can_requester || $canpriority || $canassign || $canassigntome);
+   //
+   //
+   //               if ($display_save_btn
+   //                   && !$options['template_preview']) {
+   //                  if ($item->getID()) {
+   //
+   //
+   //                     if ($display_save_btn) {
+   //                        $colsize1 = '13';
+   //                        $colsize2 = '29';
+   //                        echo "<tr class='tab_bg_1'>";
+   //                        echo "<th width='$colsize1%'>";
+   //                        echo Html::submit(_sx('button', 'Save'), ['name' => 'update', 'class' => 'btn btn-primary']);
+   //                        echo "</th>";
+   //                        echo "<td width='$colsize2%'></td>";
+   //                        echo "<td width='$colsize1%'></td>";
+   //                        echo "<td width='$colsize2%'></td>";
+   //                        echo "</tr>";
+   //                     }
+   //                  }
+   //               }
+   //            }
+   //         }
+   //      }
+   //   }
 
    /**
     * @param Ticket $ticket
@@ -286,7 +278,7 @@ class PluginMoreticketTicket extends CommonITILObject {
    static function afterAddDocument(Document $document) {
 
       $config = new PluginMoreticketConfig();
-      if($config->getField('update_after_document') == 1) {
+      if ($config->getField('update_after_document') == 1) {
          if (isset($document->input['itemtype'])) {
             if ($document->input['itemtype'] == Ticket::getType()) {
                $ticket = new Ticket();
@@ -314,20 +306,21 @@ class PluginMoreticketTicket extends CommonITILObject {
    }
 
    static function afterUpdateValidation(TicketValidation $validation) {
+
       $config = new PluginMoreticketConfig();
-      if($config->getField('update_after_approval') == 1) {
+      if ($config->getField('update_after_approval') == 1) {
          //         if($validation->itemtype == Ticket::getType()) {
          $ticket = new Ticket();
-         $ticket->getFromDB($validation->input['tickets_id']);
-         $validation_status  = CommonITILValidation::WAITING;
+         $ticket->getFromDB($validation->fields['tickets_id']);
+         $validation_status = CommonITILValidation::WAITING;
 
          // Percent of validation
          $validation_percent = $ticket->fields['validation_percent'];
 
-         $statuses           = [CommonITILValidation::ACCEPTED => 0,
-                                CommonITILValidation::WAITING  => 0,
-                                CommonITILValidation::REFUSED  => 0];
-         $validations        = getAllDataFromTable(
+         $statuses    = [CommonITILValidation::ACCEPTED => 0,
+                         CommonITILValidation::WAITING  => 0,
+                         CommonITILValidation::REFUSED  => 0];
+         $validations = getAllDataFromTable(
             TicketValidation::getTable(), [
                                            'tickets_id' => $ticket->getID()
                                         ]
@@ -335,14 +328,14 @@ class PluginMoreticketTicket extends CommonITILObject {
 
          if ($total = count($validations)) {
             foreach ($validations as $validation) {
-               $statuses[$validation['status']] ++;
+               $statuses[$validation['status']]++;
             }
          }
 
          if ($validation_percent > 0) {
-            if (($statuses[CommonITILValidation::ACCEPTED]*100/$total) >= $validation_percent) {
+            if (($statuses[CommonITILValidation::ACCEPTED] * 100 / $total) >= $validation_percent) {
                $validation_status = CommonITILValidation::ACCEPTED;
-            } else if (($statuses[CommonITILValidation::REFUSED]*100/$total) >= $validation_percent) {
+            } else if (($statuses[CommonITILValidation::REFUSED] * 100 / $total) >= $validation_percent) {
                $validation_status = CommonITILValidation::REFUSED;
             }
          } else {
@@ -368,7 +361,7 @@ class PluginMoreticketTicket extends CommonITILObject {
 
             // Use update method for history
             $ticket->update($update);
-            $reopened     = true;
+            $reopened = true;
          }
          //         }
       }

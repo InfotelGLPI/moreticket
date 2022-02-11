@@ -94,55 +94,55 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "<div class='center'>";
       echo "<form name='form' method='post' action='" . $this->getFormURL() . "'>";
       echo "<table class='tab_cadre_fixe'>";
-      echo "<tr><th colspan='2'>" . __("Setup") . "</th></tr>";
-      echo "<tr><th colspan='2'>" . __("Ticket waiting", "moreticket") . "</th></tr>";
-      echo Html::hidden('id', ['value' => 1]);
-
-      echo "<tr class='tab_bg_1'>
-            <td>" . __("Use waiting process", "moreticket") . "</td><td>";
-      Dropdown::showYesNo("use_waiting", $this->fields["use_waiting"], -1,
-                          ['on_change' => 'hide_show_waiting(this.value);']);
-      echo "</td>";
-      echo "</tr>";
-
-      echo Html::scriptBlock("
-         function hide_show_waiting(val) {
-            var display = (val == 0) ? 'none' : '';
-            td = ($(\"td[id='show_waiting']\"));
-            td.each(function (index, value) {
-               td[index].style.display = display;
-            });
-         }");
-
-      $style = ($this->useWaiting()) ? "" : "style='display: none '";
-
-      echo "<tr class='tab_bg_1'>
-               <td id='show_waiting' $style>" . __("Report date is mandatory", "moreticket") . "</td>";
-      echo "<td id='show_waiting' $style>";
-      Dropdown::showYesNo("date_report_mandatory", $this->fields["date_report_mandatory"]);
-      echo "</td>";
-      echo "</tr>";
-
-      echo "<tr class='tab_bg_1'>
-               <td id='show_waiting' $style>" . __("Waiting type is mandatory", "moreticket") . "</td>";
-      echo "<td id='show_waiting' $style>";
-      Dropdown::showYesNo("waitingtype_mandatory", $this->fields["waitingtype_mandatory"]);
-      echo "</td>";
-      echo "</tr>";
-
-      echo "<tr class='tab_bg_1'>
-               <td id='show_waiting' $style>" . __("Waiting reason is mandatory", "moreticket") . "</td>";
-      echo "<td id='show_waiting' $style>";
-      Dropdown::showYesNo("waitingreason_mandatory", $this->fields["waitingreason_mandatory"]);
-      echo "</td>";
-      echo "</tr>";
-
-      echo "<tr class='tab_bg_1'>
-               <td id='show_waiting' $style>" . __("Add followup when waiting date is reached", "moreticket") . "</td>";
-      echo "<td id='show_waiting' $style>";
-      Dropdown::showYesNo("add_followup_stop_waiting", $this->fields["add_followup_stop_waiting"]);
-      echo "</td>";
-      echo "</tr>";
+//      echo "<tr><th colspan='2'>" . __("Setup") . "</th></tr>";
+//      echo "<tr><th colspan='2'>" . __("Ticket waiting", "moreticket") . "</th></tr>";
+//      echo Html::hidden('id', ['value' => 1]);
+//
+//      echo "<tr class='tab_bg_1'>
+//            <td>" . __("Use waiting process", "moreticket") . "</td><td>";
+//      Dropdown::showYesNo("use_waiting", $this->fields["use_waiting"], -1,
+//                          ['on_change' => 'hide_show_waiting(this.value);']);
+//      echo "</td>";
+//      echo "</tr>";
+//
+//      echo Html::scriptBlock("
+//         function hide_show_waiting(val) {
+//            var display = (val == 0) ? 'none' : '';
+//            td = ($(\"td[id='show_waiting']\"));
+//            td.each(function (index, value) {
+//               td[index].style.display = display;
+//            });
+//         }");
+//
+//      $style = ($this->useWaiting()) ? "" : "style='display: none '";
+//
+//      echo "<tr class='tab_bg_1'>
+//               <td id='show_waiting' $style>" . __("Report date is mandatory", "moreticket") . "</td>";
+//      echo "<td id='show_waiting' $style>";
+//      Dropdown::showYesNo("date_report_mandatory", $this->fields["date_report_mandatory"]);
+//      echo "</td>";
+//      echo "</tr>";
+//
+//      echo "<tr class='tab_bg_1'>
+//               <td id='show_waiting' $style>" . __("Waiting type is mandatory", "moreticket") . "</td>";
+//      echo "<td id='show_waiting' $style>";
+//      Dropdown::showYesNo("waitingtype_mandatory", $this->fields["waitingtype_mandatory"]);
+//      echo "</td>";
+//      echo "</tr>";
+//
+//      echo "<tr class='tab_bg_1'>
+//               <td id='show_waiting' $style>" . __("Waiting reason is mandatory", "moreticket") . "</td>";
+//      echo "<td id='show_waiting' $style>";
+//      Dropdown::showYesNo("waitingreason_mandatory", $this->fields["waitingreason_mandatory"]);
+//      echo "</td>";
+//      echo "</tr>";
+//
+//      echo "<tr class='tab_bg_1'>
+//               <td id='show_waiting' $style>" . __("Add followup when waiting date is reached", "moreticket") . "</td>";
+//      echo "<td id='show_waiting' $style>";
+//      Dropdown::showYesNo("add_followup_stop_waiting", $this->fields["add_followup_stop_waiting"]);
+//      echo "</td>";
+//      echo "</tr>";
 
       echo "<tr><th colspan='2'>" . __("Ticket resolution and close", "moreticket") . "</th></tr>";
       echo "<tr class='tab_bg_1'>
@@ -177,7 +177,7 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>
-            <td>" . __("Status used to display solution bloc", "moreticket") . "</td><td>";
+            <td>" . __("Status used to display solution block", "moreticket") . "</td><td>";
 
       $solution_status = $this->getSolutionStatus($this->fields["solution_status"]);
 
@@ -243,25 +243,25 @@ class PluginMoreticketConfig extends CommonDBTM {
       Dropdown::showFromArray('urgency_ids',
                               $urgency_ids,
                               ['multiple' => true,
-                                    'values'   => $dbu->importArrayFromDB($this->fields["urgency_ids"])]);
+                               'values'   => $dbu->importArrayFromDB($this->fields["urgency_ids"])]);
       echo "</td>";
       echo "</tr>";
 
-      echo "<tr><th colspan='2'>" . __('Ticket waiting',"moreticket") . "</th></tr>";
-      echo "<tr class='tab_bg_1'>
-            <td>" . __("Use the option ticket waiting in ticket followup", "moreticket") . "</td><td>";
-      Dropdown::showYesNo("use_question", $this->fields["use_question"]);
-      echo "</td>";
-      echo "</tr>";
-
-//      echo "<tr><th colspan='2'>" . __('Display save button',"moreticket") . "</th></tr>";
+//      echo "<tr><th colspan='2'>" . __('Ticket waiting', "moreticket") . "</th></tr>";
 //      echo "<tr class='tab_bg_1'>
-//            <td>" . __("Add a save button on top ticket form", "moreticket") . "</td><td>";
-//      Dropdown::showYesNo("add_save_button", $this->fields["add_save_button"]);
+//            <td>" . __("Use the option ticket waiting in ticket followup", "moreticket") . "</td><td>";
+//      Dropdown::showYesNo("use_question", $this->fields["use_question"]);
 //      echo "</td>";
 //      echo "</tr>";
 
-      echo "<tr><th colspan='2'>" . __('Update ticket status', 'moreticket')  . "</th></tr>";
+      //      echo "<tr><th colspan='2'>" . __('Display save button',"moreticket") . "</th></tr>";
+      //      echo "<tr class='tab_bg_1'>
+      //            <td>" . __("Add a save button on top ticket form", "moreticket") . "</td><td>";
+      //      Dropdown::showYesNo("add_save_button", $this->fields["add_save_button"]);
+      //      echo "</td>";
+      //      echo "</tr>";
+
+      echo "<tr><th colspan='2'>" . __('Update ticket status', 'moreticket') . "</th></tr>";
 
       echo "<tr class='tab_bg_1'>
             <td>" . __("Update ticket status to processing after add document", "moreticket") . "</td><td>";
@@ -274,28 +274,32 @@ class PluginMoreticketConfig extends CommonDBTM {
       Dropdown::showYesNo("update_after_approval", $this->fields["update_after_approval"]);
       echo "</td>";
       echo "</tr>";
-
-      echo "<tr><th colspan='2'>" . _n('Automatic action', 'Automatic actions', Session::getPluralNumber())  . "</th></tr>";
-      echo "<tr class='tab_bg_1'>
-            <td>" . __("Automatic sending a followup after x days of waiting", "moreticket") . "</td><td>";
-      Dropdown::showNumber("day_sending",["value"=>$this->fields["day_sending"]]);
-      echo "</td>";
-      echo "</tr>";
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>" . __("Automatic closing ticket after x days after followup", "moreticket") . "</td><td>";
-      Dropdown::showNumber("day_closing",["value"=>$this->fields["day_closing"]]);
-      echo "</td>";
-      echo "</tr>";
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>" . __("Content of followup", "moreticket") . "</td><td>";
-      Html::textarea(["name"=>"followup_text","value"=>$this->fields["followup_text"]]);
-      echo "</td>";
-      echo "</tr>";
-      echo "<tr class='tab_bg_1'>
-            <td>" . __("Close if a problem is linked", "moreticket") ."</td><td>";
-      Dropdown::showYesNo("closing_with_problem", $this->fields["closing_with_problem"]);
-      echo "</td>";
-      echo "</tr>";
+//
+//      echo "<tr><th colspan='2'>" . _n('Automatic action', 'Automatic actions', Session::getPluralNumber()) . "</th></tr>";
+//      echo "<tr class='tab_bg_1'>
+//            <td>" . __("Automatic sending a followup after x days of waiting", "moreticket") . "</td><td>";
+//      Dropdown::showNumber("day_sending", ["value" => $this->fields["day_sending"]]);
+//      echo "</td>";
+//      echo "</tr>";
+//      echo "<tr class='tab_bg_1'>";
+//      echo "<td>" . __("Automatic closing ticket after x days after followup", "moreticket") . "</td><td>";
+//      Dropdown::showNumber("day_closing", ["value" => $this->fields["day_closing"]]);
+//      echo "</td>";
+//      echo "</tr>";
+//      echo "<tr class='tab_bg_1'>";
+//      echo "<td>" . __("Content of followup", "moreticket") . "</td><td>";
+//      Html::textarea(["name" => "followup_text",
+//                      "value" => $this->fields["followup_text"],
+//                      "enable_richtext" => true,
+//                      "cols"       => 100,
+//                      "rows"       => 5,]);
+//      echo "</td>";
+//      echo "</tr>";
+//      echo "<tr class='tab_bg_1'>
+//            <td>" . __("Close if a problem is linked", "moreticket") . "</td><td>";
+//      Dropdown::showYesNo("closing_with_problem", $this->fields["closing_with_problem"]);
+//      echo "</td>";
+//      echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td colspan='2' align='center'>";
@@ -406,7 +410,7 @@ class PluginMoreticketConfig extends CommonDBTM {
     * @return mixed
     */
    function useDurationSolution() {
-      if(isset($this->fields['use_duration_solution'])){
+      if (isset($this->fields['use_duration_solution'])) {
          return $this->fields['use_duration_solution'];
       }
       return false;
@@ -418,7 +422,8 @@ class PluginMoreticketConfig extends CommonDBTM {
    function isMandatorysolution() {
       return $this->fields['is_mandatory_solution'];
    }
-   function useQuestion(){
+
+   function useQuestion() {
       return $this->fields['use_question'];
    }
 

@@ -54,6 +54,7 @@ if ($plugin->isActivated("moreticket")) {
       Html::redirect($_SERVER['HTTP_REFERER']);
 
    } else {
+
       Html::header(PluginMoreticketConfig::getTypeName(), '', "plugins", "moreticket");
       $config->showConfigForm();
       Html::footer();

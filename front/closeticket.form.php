@@ -39,9 +39,9 @@ if (isset($_POST["add"])) {
    $DocId = $doc->add($_POST);
 
    $test = $closeTicket->add(['requesters_id' => $_POST['requesters_id'],
-      'tickets_id' => $_POST['tickets_id'],
-      'date' => $_POST['date'],
-      'comment' => $_POST['comment'],
-      'documents_id' => $DocId]);
+                              'tickets_id'    => $_POST['tickets_id'],
+                              'date'          => $_POST['date'],
+                              'comment'       => $_POST['comment'],
+                              'documents_id'  => $DocId]);
    Html::back();
 }

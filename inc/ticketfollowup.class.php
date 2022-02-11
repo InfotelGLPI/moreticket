@@ -28,16 +28,17 @@
  */
 
 if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
+    die("Sorry. You can't access directly to this file");
 }
 
 
 /**
  * Class PluginMoreticketTicketFollowup
  */
-class PluginMoreticketTicketFollowup extends CommonDBTM {
+class PluginMoreticketTicketFollowup extends CommonDBTM
+{
 
-   static $rightname = "plugin_moreticket";
+    static $rightname = "plugin_moreticket";
 
    /**
     * functions mandatory
@@ -47,65 +48,68 @@ class PluginMoreticketTicketFollowup extends CommonDBTM {
     *
     * @return string|translated
     */
-   public static function getTypeName($nb = 0) {
+    public static function getTypeName($nb = 0)
+    {
 
-      return _n('Ticket', 'Tickets', $nb);
-   }
-
-   /**
-    * @param $ticketfollowup
-    *
-    * @return bool
-    */
-   static function beforeAdd($ticketfollowup) {
-
-      if (!is_array($ticketfollowup->input) || !count($ticketfollowup->input)) {
-         // Already cancel by another plugin
-         return false;
-      }
-      if ($ticketfollowup->input['itemtype'] == 'Ticket') {
-         $config = new PluginMoreticketConfig();
-
-         if (isset($ticketfollowup->input['_status']) && $config->useWaiting() == true) {
-            $updates['id']                                = $ticketfollowup->input['items_id'];
-            $updates['reason']                            = $ticketfollowup->input['reason'];
-            $updates['date_report']                       = $ticketfollowup->input['date_report'];
-            $updates['plugin_moreticket_waitingtypes_id'] = $ticketfollowup->input['plugin_moreticket_waitingtypes_id'];
-            $updates['status']                            = $ticketfollowup->input['_status'];
-            $ticket                                       = new Ticket();
-
-            $ticket->update($updates);
-            unset($ticketfollowup->input['_status']);
-         }
-      }
-   }
+        return _n('Ticket', 'Tickets', $nb);
+    }
 
    /**
     * @param $ticketfollowup
     *
     * @return bool
     */
-   static function beforeUpdate($ticketfollowup) {
+    static function beforeAdd($ticketfollowup)
+    {
 
-      if (!is_array($ticketfollowup->input) || !count($ticketfollowup->input)) {
-         // Already cancel by another plugin
-         return false;
-      }
+//      if (!is_array($ticketfollowup->input) || !count($ticketfollowup->input)) {
+//         // Already cancel by another plugin
+//         return false;
+//      }
+//      if ($ticketfollowup->input['itemtype'] == 'Ticket') {
+//         $config = new PluginMoreticketConfig();
+//
+//         if (isset($ticketfollowup->input['_status']) && $config->useWaiting() == true) {
+//            $updates['id']                                = $ticketfollowup->input['items_id'];
+//            $updates['reason']                            = $ticketfollowup->input['reason'];
+//            $updates['date_report']                       = $ticketfollowup->input['date_report'];
+//            $updates['plugin_moreticket_waitingtypes_id'] = $ticketfollowup->input['plugin_moreticket_waitingtypes_id'];
+//            $updates['status']                            = $ticketfollowup->input['_status'];
+//            $ticket                                       = new Ticket();
+//
+//            $ticket->update($updates);
+//            unset($ticketfollowup->input['_status']);
+//         }
+//      }
+    }
 
-      if (isset($ticketfollowup->input['itemtype'])
-          && $ticketfollowup->input['itemtype'] == 'Ticket') {
-         $config = new PluginMoreticketConfig();
+   /**
+    * @param $ticketfollowup
+    *
+    * @return bool
+    */
+    static function beforeUpdate($ticketfollowup)
+    {
 
-         if (isset($ticketfollowup->input['_status']) && $config->useWaiting() == true) {
-            $updates['id']                                = $ticketfollowup->input['items_id'];
-            $updates['reason']                            = $ticketfollowup->input['reason'];
-            $updates['date_report']                       = $ticketfollowup->input['date_report'];
-            $updates['plugin_moreticket_waitingtypes_id'] = $ticketfollowup->input['plugin_moreticket_waitingtypes_id'];
-            $updates['status']                            = $ticketfollowup->input['_status'];
-            $ticket                                       = new Ticket();
-            $ticket->update($updates);
-            unset($ticketfollowup->input['_status']);
-         }
-      }
-   }
+//      if (!is_array($ticketfollowup->input) || !count($ticketfollowup->input)) {
+//         // Already cancel by another plugin
+//         return false;
+//      }
+//
+//      if (isset($ticketfollowup->input['itemtype'])
+//          && $ticketfollowup->input['itemtype'] == 'Ticket') {
+//         $config = new PluginMoreticketConfig();
+//
+//         if (isset($ticketfollowup->input['_status']) && $config->useWaiting() == true) {
+//            $updates['id']                                = $ticketfollowup->input['items_id'];
+//            $updates['reason']                            = $ticketfollowup->input['reason'];
+//            $updates['date_report']                       = $ticketfollowup->input['date_report'];
+//            $updates['plugin_moreticket_waitingtypes_id'] = $ticketfollowup->input['plugin_moreticket_waitingtypes_id'];
+//            $updates['status']                            = $ticketfollowup->input['_status'];
+//            $ticket                                       = new Ticket();
+//            $ticket->update($updates);
+//            unset($ticketfollowup->input['_status']);
+//         }
+//      }
+    }
 }

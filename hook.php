@@ -97,18 +97,20 @@ function plugin_moreticket_install() {
 
    $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.7.0.sql");
 
-   CronTask::Register('PluginMoreticketWaitingTicket', 'MoreticketWaitingTicket', DAY_TIMESTAMP, ['state' => 0]);
+   CronTask::Unregister('moreticket');
+//   CronTask::Register('PluginMoreticketWaitingTicket', 'MoreticketWaitingTicket', DAY_TIMESTAMP, ['state' => 0]);
 
-   CronTask::Register('PluginMoreticketCrontask', 'MoreticketFollowup', HOUR_TIMESTAMP,[
-//      'comment'   => __('Moreticket - Send a followup to waiting ticket','moreticket'),
-      'hourmin'      => 0,
-      'hourmax'      => 24
-   ]);
-   CronTask::Register('PluginMoreticketCrontask', 'MoreticketClosing', HOUR_TIMESTAMP,[
-//      'comment'   => __('Moreticket - Closed the tickets that did not respond to the follow-up','moreticket'),
-      'hourmin'      => 0,
-      'hourmax'      => 24
-   ]);
+//
+//   CronTask::Register('PluginMoreticketCrontask', 'MoreticketFollowup', HOUR_TIMESTAMP,[
+////      'comment'   => __('Moreticket - Send a followup to waiting ticket','moreticket'),
+//      'hourmin'      => 0,
+//      'hourmax'      => 24
+//   ]);
+//   CronTask::Register('PluginMoreticketCrontask', 'MoreticketClosing', HOUR_TIMESTAMP,[
+////      'comment'   => __('Moreticket - Closed the tickets that did not respond to the follow-up','moreticket'),
+//      'hourmin'      => 0,
+//      'hourmax'      => 24
+//   ]);
 
    PluginMoreticketProfile::initProfile();
    PluginMoreticketProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
@@ -219,32 +221,32 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
 
          $config = new PluginMoreticketConfig();
 
-         $sopt[3450]['table']         = 'glpi_plugin_moreticket_waitingtickets';
-         $sopt[3450]['field']         = 'reason';
-         $sopt[3450]['name']          = __('Reason', 'moreticket');
-         $sopt[3450]['datatype']      = "text";
-         $sopt[3450]['joinparams']    = ['jointype' => 'child',
-                                              'condition' => "AND `NEWTABLE`.`date_end_suspension` IS NULL"];
-         $sopt[3450]['massiveaction'] = false;
-
-         $sopt[3451]['table']         = 'glpi_plugin_moreticket_waitingtickets';
-         $sopt[3451]['field']         = 'date_report';
-         $sopt[3451]['name']          = __('Postponement date', 'moreticket');
-         $sopt[3451]['datatype']      = "datetime";
-         $sopt[3451]['joinparams']    = ['jointype' => 'child',
-                                              'condition' => "AND `NEWTABLE`.`date_end_suspension` IS NULL"];
-         $sopt[3451]['massiveaction'] = false;
-
-         $sopt[3452]['table']         = 'glpi_plugin_moreticket_waitingtypes';
-         $sopt[3452]['field']         = 'name';
-         $sopt[3452]['name']          = PluginMoreticketWaitingType::getTypeName(1);
-         $sopt[3452]['datatype']      = "dropdown";
-         $condition                   = "AND (`NEWTABLE`.`date_end_suspension` IS NULL)";
-         $sopt[3452]['joinparams']    = ['beforejoin'
-                                              => ['table'      => 'glpi_plugin_moreticket_waitingtickets',
-                                                       'joinparams' => ['jointype'  => 'child',
-                                                                             'condition' => $condition]]];
-         $sopt[3452]['massiveaction'] = false;
+//         $sopt[3450]['table']         = 'glpi_plugin_moreticket_waitingtickets';
+//         $sopt[3450]['field']         = 'reason';
+//         $sopt[3450]['name']          = __('Reason', 'moreticket');
+//         $sopt[3450]['datatype']      = "text";
+//         $sopt[3450]['joinparams']    = ['jointype' => 'child',
+//                                              'condition' => "AND `NEWTABLE`.`date_end_suspension` IS NULL"];
+//         $sopt[3450]['massiveaction'] = false;
+//
+//         $sopt[3451]['table']         = 'glpi_plugin_moreticket_waitingtickets';
+//         $sopt[3451]['field']         = 'date_report';
+//         $sopt[3451]['name']          = __('Postponement date', 'moreticket');
+//         $sopt[3451]['datatype']      = "datetime";
+//         $sopt[3451]['joinparams']    = ['jointype' => 'child',
+//                                              'condition' => "AND `NEWTABLE`.`date_end_suspension` IS NULL"];
+//         $sopt[3451]['massiveaction'] = false;
+//
+//         $sopt[3452]['table']         = 'glpi_plugin_moreticket_waitingtypes';
+//         $sopt[3452]['field']         = 'name';
+//         $sopt[3452]['name']          = PluginMoreticketWaitingType::getTypeName(1);
+//         $sopt[3452]['datatype']      = "dropdown";
+//         $condition                   = "AND (`NEWTABLE`.`date_end_suspension` IS NULL)";
+//         $sopt[3452]['joinparams']    = ['beforejoin'
+//                                              => ['table'      => 'glpi_plugin_moreticket_waitingtickets',
+//                                                       'joinparams' => ['jointype'  => 'child',
+//                                                                             'condition' => $condition]]];
+//         $sopt[3452]['massiveaction'] = false;
 
          if ($config->closeInformations()) {
             $sopt[3453]['table']         = 'glpi_plugin_moreticket_closetickets';
@@ -284,7 +286,7 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
 
          $sopt[3487]['table']            = 'glpi_plugin_moreticket_notificationtickets';
          $sopt[3487]['field']            = 'users_id_lastupdater';
-         $sopt[3487]['name']             = __('Followup');
+         $sopt[3487]['name']             = __('Updated by a user', 'moreticket');
          $sopt[3487]['massiveaction']    = false;
          $sopt[3487]['datatype']         = 'specific';
          $sopt[3487]['joinparams']    = ['jointype' => 'child'];
@@ -304,53 +306,53 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
  *
  * @return string
  */
-function plugin_moreticket_addWhere($link, $nott, $type, $ID, $val, $searchtype) {
-
-   $searchopt = &Search::getOptions($type);
-   $table     = $searchopt[$ID]["table"];
-   $field     = $searchopt[$ID]["field"];
-
-   switch ($table . "." . $field) {
-      case "glpi_plugin_moreticket_waitingtickets.date_report" :
-         $query = "";
-         if (isset($_GET['criteria'])) {
-            foreach ($_GET['criteria'] as $key => $search_item) {
-               if (in_array($search_item['field'], array_keys($searchopt)) && $search_item['field'] == $ID) {
-                  $NOT = $nott ? "NOT" : "";
-
-                  $SEARCH = "";
-                  switch ($search_item['searchtype']) {
-                     case 'morethan':
-                        $SEARCH = "> '" . $val . "'";
-                        break;
-                     case 'lessthan':
-                        $SEARCH = "< '" . $val . "'";
-                        break;
-                     case 'equals':
-                        $SEARCH = "= '" . $val . "'";
-                        break;
-                     case 'notequals':
-                        $SEARCH = "!= '" . $val . "'";
-                        break;
-                     case 'contains':
-                        $SEARCH = "LIKE '%" . $val . "%'";
-                        if ($val == 'NULL') {
-                           $SEARCH = "IS NULL";
-                        }
-                        break;
-                  }
-
-                  $query = " " . $link . " " . $NOT . " ((SELECT max(`" . $table . "`.`" . $field . "`) FROM `" . $table . "` WHERE `tickets_id` = `glpi_tickets`.`id`) " . $SEARCH;
-                  //               if ($search_item['searchtype'] != 'contains') {
-                  //                  $query .= " OR `".$table."`.`".$field."` IS NULL";
-                  //               }
-                  $query .= ")";
-               }
-            }
-         }
-
-         return $query;
-   }
-
-   return "";
-}
+//function plugin_moreticket_addWhere($link, $nott, $type, $ID, $val, $searchtype) {
+//
+//   $searchopt = &Search::getOptions($type);
+//   $table     = $searchopt[$ID]["table"];
+//   $field     = $searchopt[$ID]["field"];
+//
+//   switch ($table . "." . $field) {
+//      case "glpi_plugin_moreticket_waitingtickets.date_report" :
+//         $query = "";
+//         if (isset($_GET['criteria'])) {
+//            foreach ($_GET['criteria'] as $key => $search_item) {
+//               if (in_array($search_item['field'], array_keys($searchopt)) && $search_item['field'] == $ID) {
+//                  $NOT = $nott ? "NOT" : "";
+//
+//                  $SEARCH = "";
+//                  switch ($search_item['searchtype']) {
+//                     case 'morethan':
+//                        $SEARCH = "> '" . $val . "'";
+//                        break;
+//                     case 'lessthan':
+//                        $SEARCH = "< '" . $val . "'";
+//                        break;
+//                     case 'equals':
+//                        $SEARCH = "= '" . $val . "'";
+//                        break;
+//                     case 'notequals':
+//                        $SEARCH = "!= '" . $val . "'";
+//                        break;
+//                     case 'contains':
+//                        $SEARCH = "LIKE '%" . $val . "%'";
+//                        if ($val == 'NULL') {
+//                           $SEARCH = "IS NULL";
+//                        }
+//                        break;
+//                  }
+//
+//                  $query = " " . $link . " " . $NOT . " ((SELECT max(`" . $table . "`.`" . $field . "`) FROM `" . $table . "` WHERE `tickets_id` = `glpi_tickets`.`id`) " . $SEARCH;
+//                  //               if ($search_item['searchtype'] != 'contains') {
+//                  //                  $query .= " OR `".$table."`.`".$field."` IS NULL";
+//                  //               }
+//                  $query .= ")";
+//               }
+//            }
+//         }
+//
+//         return $query;
+//   }
+//
+//   return "";
+//}

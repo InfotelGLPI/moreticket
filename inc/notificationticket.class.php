@@ -32,7 +32,7 @@ if (!defined('GLPI_ROOT')) {
 }
 
 /**
- * Class PluginMoreticketUrgencyTicket
+ * Class PluginMoreticketNotificationTicket
  */
 class PluginMoreticketNotificationTicket extends CommonDBTM {
 
@@ -88,12 +88,12 @@ class PluginMoreticketNotificationTicket extends CommonDBTM {
     * @return bool
     */
    static function afterAddFollowup(ITILFollowup $followup) {
-      if(!$followup->getField('itemtype') == 'Ticket'){
+      if (!$followup->getField('itemtype') == 'Ticket') {
          return false;
       }
 
       $notification = new PluginMoreticketNotificationTicket();
-      $ticket = new Ticket();
+      $ticket       = new Ticket();
       $ticket->getFromDB($followup->getField('items_id'));
       if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
          $notification->add(
@@ -112,7 +112,6 @@ class PluginMoreticketNotificationTicket extends CommonDBTM {
    }
 
 
-
    static function getSpecificValueToDisplay($field, $values, array $options = []) {
 
       if (!is_array($values)) {
@@ -122,19 +121,21 @@ class PluginMoreticketNotificationTicket extends CommonDBTM {
          case 'users_id_lastupdater':
             $res         = " ";
             $ticketUsers = new Ticket_User();
-            if ($values['users_id_lastupdater'] != Session::getLoginUserID()) {
-               if ($ticketUsers->getFromDBByCrit(['tickets_id' => $values['tickets_id'], 'users_id' => $values['users_id_lastupdater'], 'type' => 1])) {
-                  if (!$ticketUsers->getFromDBByCrit(['tickets_id' => $values['tickets_id'], 'users_id' => $values['users_id_lastupdater'], 'type' => 2])) {
-                     $res = "<i class='itilstatus fas fa-circle waiting'></i>";
-                  }
-               }
-            }
+//            if ($values['users_id_lastupdater'] != Session::getLoginUserID()) {
+//               if ($ticketUsers->getFromDBByCrit(['tickets_id' => $values['tickets_id'],
+//                                                  'users_id' => $values['users_id_lastupdater'],
+//                                                  'type' => Ticket_User::REQUESTER])) {
+//                  if (!$ticketUsers->getFromDBByCrit(['tickets_id' => $values['tickets_id'],
+//                                                      'users_id' => $values['users_id_lastupdater'],
+//                                                      'type' => Ticket_User::ASSIGN])) {
+                     $res = "<i class='itilstatus fas fa-bell waiting'></i>";
+//                  }
+//               }
+//            }
 
             return $res;
             break;
       }
       return parent::getSpecificValueToDisplay($field, $values, $options);
    }
-
-
 }
