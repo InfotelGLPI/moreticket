@@ -69,6 +69,8 @@ if (isset($_POST['action'])) {
 //         break;
       case 'showFormUrgency':
          $config = new PluginMoreticketConfig();
+
+
          // Ticket is waiting
          if ($config->useUrgency()) {
             $urgency_ticket = new PluginMoreticketUrgencyTicket();

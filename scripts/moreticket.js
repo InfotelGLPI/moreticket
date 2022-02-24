@@ -301,7 +301,6 @@
 
                if (tickets_id == 0 || tickets_id == undefined) {
                   object.createSCTicket_urgency(tickets_id);
-
                }
             }
          });
@@ -319,7 +318,7 @@
                var urgency_bloc = $("input[type='radio'][name='urgency']");
 
                if (urgency_bloc != undefined) {
-
+                  // console.log(urgency_bloc.val());
                   var radio_urgency = document.getElementsByName("urgency");
                   for (var i = 0; i < radio_urgency.length; i++) {
                      if (inarray(radio_urgency[i].value, object.params.urgency_ids)

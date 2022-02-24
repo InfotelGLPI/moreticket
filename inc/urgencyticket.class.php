@@ -150,7 +150,16 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
 
       echo "<div class='spaced' id='moreticket_urgency_ticket'>";
       echo "</br>";
-      echo "<table align='center' id='cl_menu'>";
+      $align = "center";
+      $plugin = new Plugin();
+      if ($plugin->isActivated('servicecatalog')) {
+         $config      = new PluginServicecatalogConfig();
+         $use_as_step = $config->getFormDisplayAsStep();
+         if ($use_as_step != 1) {
+            $align = "left";
+         }
+      }
+      echo "<table align='$align' id='cl_menu'>";
       echo "<tr><td>";
       echo __('Justification', 'moreticket');
       echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;</br>";
