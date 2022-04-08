@@ -3,7 +3,7 @@ CREATE TABLE `glpi_plugin_moreticket_notificationtickets` (
   `tickets_id`    int unsigned NOT NULL, -- id du ticket GLPI
   `users_id_lastupdater`    int unsigned NOT NULL,
   PRIMARY KEY (`id`), -- index
-  FOREIGN KEY (`tickets_id`) REFERENCES glpi_tickets (id)
+  KEY (`tickets_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 

@@ -96,7 +96,7 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "<table class='tab_cadre_fixe'>";
 //      echo "<tr><th colspan='2'>" . __("Setup") . "</th></tr>";
 //      echo "<tr><th colspan='2'>" . __("Ticket waiting", "moreticket") . "</th></tr>";
-//      echo Html::hidden('id', ['value' => 1]);
+      echo Html::hidden('id', ['value' => 1]);
 //
 //      echo "<tr class='tab_bg_1'>
 //            <td>" . __("Use waiting process", "moreticket") . "</td><td>";

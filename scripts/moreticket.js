@@ -271,8 +271,10 @@
        */
       this.moreticket_urgency = function () {
          // On UPDATE/ADD side
+
          $(document).ready(function () {
             var tickets_id = object.urlParam(window.location.href, 'id');
+
             // only in ticket form
             if ((location.pathname.indexOf('front/ticket.form.php') > 0
                   || location.pathname.indexOf('helpdesk.public.php') > 0
@@ -281,19 +283,19 @@
 
                if (tickets_id == 0 || tickets_id == undefined) {
                   object.createTicket_urgency(tickets_id);
+               } else {
+                  object.updateTicket_urgency(tickets_id);
                }
                //else {
                //     object.updateTicket_urgency(tickets_id);
                // }
-               $("#tabspanel + div.ui-tabs").on("tabsload", function () {
-                  setTimeout(function () {
-                     if (tickets_id == 0 || tickets_id == undefined) {
+               // $("#tabspanel + div.ui-tabs").on("tabsload", function () {
+               //    setTimeout(function () {
+               //       if (tickets_id == 0 || tickets_id == undefined) {
                         // object.createTicket_urgency(tickets_id);
-                     } else {
-                        object.updateTicket_urgency(tickets_id);
-                     }
-                  }, 300);
-               });
+                     // }
+                  // }, 300);
+               // });
             }
 
             if ((location.pathname.indexOf('front/newticket.form.php') > 0)
@@ -320,10 +322,14 @@
                if (urgency_bloc != undefined) {
                   // console.log(urgency_bloc.val());
                   var radio_urgency = document.getElementsByName("urgency");
+                  var display = 0;
                   for (var i = 0; i < radio_urgency.length; i++) {
                      if (inarray(radio_urgency[i].value, object.params.urgency_ids)
                         && object.params.use_urgency) {
-                        $("#justification" + radio_urgency[i].value).after(blocktoadd);
+                        if (display === 0) {
+                           $("#justification").after(blocktoadd);
+                           display++;
+                        }
                      }
                   }
                   // ON DISPLAY : Display or hide urgency type
@@ -400,7 +406,7 @@
                var requester = response;
 
                var urgency_bloc = $("select[name='urgency']");
-
+               console.log(urgency_bloc);
                if (urgency_bloc != undefined) {
                   urgency_bloc.parent().append(requester);
 
