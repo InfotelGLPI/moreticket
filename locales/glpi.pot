@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-11 13:01+0000\n"
+"POT-Creation-Date: 2022-02-24 08:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr ""
 msgid "Updated by a user"
 msgstr ""
 
-#: setup.php:114 inc/profile.class.php:49 inc/profile.class.php:194
+#: setup.php:117 inc/profile.class.php:49 inc/profile.class.php:194
 msgid "More ticket"
 msgstr ""
 
@@ -121,7 +121,7 @@ msgstr ""
 msgid "Hide task duration in tickets"
 msgstr ""
 
-#: inc/urgencyticket.class.php:69 inc/urgencyticket.class.php:155
+#: inc/urgencyticket.class.php:69 inc/urgencyticket.class.php:164
 msgid "Justification"
 msgstr ""
 
