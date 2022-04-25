@@ -269,7 +269,8 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
 
                $urgency_ids = $config->getUrgency_ids();
 
-               if (!in_array($item->input['urgency'], $urgency_ids)) {
+               if (isset($urgency_ticket_data['id'])
+                   && !in_array($item->input['urgency'], $urgency_ids)) {
                   $urgency_ticket->update(['id'            => $urgency_ticket_data['id'],
                                                 'justification' => ""]);
                }
