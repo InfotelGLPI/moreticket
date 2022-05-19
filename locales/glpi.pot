@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-13 11:13+0000\n"
+"POT-Creation-Date: 2022-05-19 06:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:254 hook.php:261 hook.php:268 hook.php:275
+#: hook.php:255 hook.php:262 hook.php:269 hook.php:276
 #: inc/closeticket.class.php:75 inc/closeticket.class.php:79
 #: inc/closeticket.class.php:121 inc/closeticket.class.php:179
 #: inc/closeticket.class.php:330 inc/closeticket.class.php:384
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Close ticket informations"
 msgstr ""
 
-#: hook.php:289
+#: hook.php:290
 msgid "Updated by a user"
 msgstr ""
 
