@@ -64,24 +64,26 @@ class PluginMoreticketSolution extends CommonITILObject {
 
             $ticket = $options['item'];
             $config = new PluginMoreticketConfig();
-
-            echo "<div class='row'><div class='col-12 col-md-9'>";
-            echo __('Duration');
-            if ($config->isMandatorysolution()) {
-               echo "&nbsp;<span style='color:red'>*</span>&nbsp;";
+            $dur     = (isset($ticket->fields['actiontime']) ? $ticket->fields['actiontime'] : 0);
+            if ($dur == 0) {
+               echo "<div class='row'><div class='col-12 col-md-9'>";
+               echo __('Duration');
+               if ($config->isMandatorysolution()) {
+                  echo "&nbsp;<span style='color:red'>*</span>&nbsp;";
+               }
+               echo "<span id='duration_solution_" . $ticket->fields['id'] . "'>";
+               $toadd = [];
+               for ($i = 9; $i <= 100; $i++) {
+                  $toadd[] = $i * HOUR_TIMESTAMP;
+               }
+               Dropdown::showTimeStamp("duration_solution", ['min'             => 0,
+                                                             'max'             => 8 * HOUR_TIMESTAMP,
+                                                             'addfirstminutes' => true,
+                                                             'inhours'         => true,
+                                                             'toadd'           => $toadd]);
+               echo "</span>";
+               echo "</div></div>";
             }
-            echo "<span id='duration_solution_" . $ticket->fields['id'] . "'>";
-            $toadd = [];
-            for ($i = 9; $i <= 100; $i++) {
-               $toadd[] = $i * HOUR_TIMESTAMP;
-            }
-            Dropdown::showTimeStamp("duration_solution", ['min'             => 0,
-                                                          'max'             => 8 * HOUR_TIMESTAMP,
-                                                          'addfirstminutes' => true,
-                                                          'inhours'         => true,
-                                                          'toadd'           => $toadd]);
-            echo "</span>";
-            echo "</div></div>";
          }
       }
    }
