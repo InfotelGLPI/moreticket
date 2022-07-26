@@ -131,8 +131,14 @@ class PluginMoreticketSolution extends CommonITILObject {
                                  'is_private'    => $user->getField('task_private'),
                                  'actiontime'    => $solution->input['duration_solution']]);
             } else if ($config->isMandatorysolution()) {
-               Session::addMessageAfterRedirect(_n('Mandatory field', 'Mandatory fields', 2) . " : " . __('Duration'), false, ERROR);
-               $solution->input = [];
+                $ticket     = new Ticket();
+                $tickets_id = $solution->input['items_id'];
+                $ticket->getFromDB($tickets_id);
+                $dur     = (isset($ticket->fields['actiontime']) ? $ticket->fields['actiontime'] : 0);
+                if ($dur == 0) {
+                    Session::addMessageAfterRedirect(_n('Mandatory field', 'Mandatory fields', 2) . " : " . __('Duration'), false, ERROR);
+                    $solution->input = [];
+                }
                return false;
             }
          }

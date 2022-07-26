@@ -29,8 +29,7 @@
 
 include('../../../inc/includes.php');
 
-$plugin = new Plugin();
-if ($plugin->isActivated("moreticket")) {
+if (Plugin::isPluginActive("moreticket")) {
 
    $config = new PluginMoreticketConfig();
 

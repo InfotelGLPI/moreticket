@@ -164,8 +164,7 @@ function plugin_moreticket_postinit() {
  */
 function plugin_moreticket_getDatabaseRelations() {
 
-   $plugin = new Plugin();
-   if ($plugin->isActivated("moreticket")) {
+   if (Plugin::isPluginActive("moreticket")) {
       return [
 //         "glpi_tickets"                        => ["glpi_plugin_moreticket_waitingtickets" => "tickets_id"],
 //                   "glpi_plugin_moreticket_waitingtypes" => ["glpi_plugin_moreticket_waitingtickets" => "plugin_moreticket_waitingtypes_id"],
@@ -181,9 +180,8 @@ function plugin_moreticket_getDatabaseRelations() {
  */
 //function plugin_moreticket_getDropdown() {
 //
-//   $plugin = new Plugin();
 //
-//   if ($plugin->isActivated("moreticket")) {
+//   if (Plugin::isPluginActive("moreticket")) {
 //      return ['PluginMoreticketWaitingType' => PluginMoreticketWaitingType::getTypeName(2)];
 //   } else {
 //      return [];
