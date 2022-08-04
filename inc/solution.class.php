@@ -78,7 +78,7 @@ class PluginMoreticketSolution extends CommonITILObject {
                }
                Dropdown::showTimeStamp("duration_solution", ['min'             => 0,
                                                              'max'             => 8 * HOUR_TIMESTAMP,
-                                                             'addfirstminutes' => true,
+//                                                             'addfirstminutes' => true,
                                                              'inhours'         => true,
                                                              'toadd'           => $toadd]);
                echo "</span>";
