@@ -1,0 +1,144 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR MoreTicket Development Team
+# This file is distributed under the same license as the GLPI - MoreTicket plugin package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Michael Schieferer, 2022
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GLPI - MoreTicket plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-04 06:32+0000\n"
+"PO-Revision-Date: 2020-11-02 16:11+0000\n"
+"Last-Translator: Michael Schieferer, 2022\n"
+"Language-Team: German (Germany) (https://www.transifex.com/infotelGLPI/teams/50826/de_DE/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: hook.php:253 hook.php:260 hook.php:267 hook.php:274
+#: inc/closeticket.class.php:75 inc/closeticket.class.php:79
+#: inc/closeticket.class.php:121 inc/closeticket.class.php:179
+#: inc/closeticket.class.php:330 inc/closeticket.class.php:384
+#: inc/config.class.php:174
+msgid "Close ticket informations"
+msgstr "Ticket-Infos schließen"
+
+#: hook.php:288
+msgid "Updated by a user"
+msgstr "Von Anwender aktualisiert"
+
+#: setup.php:117 inc/profile.class.php:49 inc/profile.class.php:194
+msgid "More ticket"
+msgstr "More Ticket"
+
+#: front/config.form.php:65
+msgid "Please activate the plugin"
+msgstr "Bitte das Plugin aktivieren"
+
+#: inc/closeticket.class.php:136 inc/closeticket.class.php:496
+msgid "Solution description"
+msgstr "Beschreibung der Lösung"
+
+#: inc/closeticket.class.php:155
+msgid "Ticket cannot be closed"
+msgstr "Ticket kann nicht geschlossen werden"
+
+#: inc/closeticket.class.php:620
+#, php-format
+msgid "%1$s added closing informations"
+msgstr "%1$s ergänzte Infos zum Schließen"
+
+#: inc/closeticket.class.php:639
+#, php-format
+msgid "%1$s updated closing informations"
+msgstr "%1$s aktualisierte Infos zum Schließen"
+
+#: inc/closeticket.class.php:658
+#, php-format
+msgid "%1$s deleted closing informations"
+msgstr "%1$s löschte Infos zum Schließen"
+
+#: inc/config.class.php:147
+msgid "Ticket resolution and close"
+msgstr "Ticketlösung und schließen"
+
+#: inc/config.class.php:149
+msgid "Use solution process"
+msgstr "Verwende Lösungs-Prozess"
+
+#: inc/config.class.php:167
+msgid "Solution type is mandatory"
+msgstr "Lösungstyp ist verpflichtend"
+
+#: inc/config.class.php:180
+msgid "Status used to display solution block"
+msgstr "Verwendeter Status zur Anzeige im Lösungsblock"
+
+#: inc/config.class.php:193
+msgid "Add a followup on immediate ticket closing"
+msgstr "Ein Followup erstellen bei unmittelbarem Ticketabschluss"
+
+#: inc/config.class.php:199
+msgid "Use the 'Duration' field in the add solution interface"
+msgstr "Verwende das Feld 'Dauer' beim Eintragen einer Lösung"
+
+#: inc/config.class.php:213
+msgid "Mandatory 'Duration' field"
+msgstr "Feld 'Dauer' als Pflichtfeld"
+
+#: inc/config.class.php:218
+msgid "Ticket urgency"
+msgstr "Ticket-Dringlichkeit"
+
+#: inc/config.class.php:220
+msgid "Use a justification of the urgency field"
+msgstr "Verwendete eine Erläuterung für die Dringlichkeit"
+
+#: inc/config.class.php:236
+msgid "Urgency impacted justification for the field"
+msgstr "Dringlichkeit beeinflusst die Begründung für das Feld"
+
+#: inc/config.class.php:264
+msgid "Update ticket status"
+msgstr "Ticket-Status aktualisieren"
+
+#: inc/config.class.php:267
+msgid "Update ticket status to processing after add document"
+msgstr ""
+"Ticket-Status auf 'in Arbeit' setzen, wenn ein Dokument angehängt wurde"
+
+#: inc/config.class.php:273
+msgid "Update ticket status to processing after approval"
+msgstr "Ticket-Status nach Freigabe auf 'in Arbeit' setzen"
+
+#: inc/profile.class.php:158
+msgid "Adding a justification of urgency"
+msgstr "Begründung der Dringlichkeit hinzufügen"
+
+#: inc/profile.class.php:166
+msgid "Hide task duration in tickets"
+msgstr "Aufgabendauer in Tickets nicht anzeigen"
+
+#: inc/urgencyticket.class.php:69 inc/urgencyticket.class.php:164
+msgid "Justification"
+msgstr "Begründung"
+
+#: inc/urgencyticket.class.php:92
+msgid "Urgency ticket cannot be saved"
+msgstr "Dringliches Ticket kann nicht gespeichert werden"
+
+#: inc/urgencyticket.class.php:94
+msgid "Ticket cannot be saved"
+msgstr "Ticket kann nicht gespeichert werden"
+
+#: inc/waitingtype.class.php:48
+msgid "Waiting type"
+msgid_plural "Waiting types"
+msgstr[0] "Wartetyp"
+msgstr[1] "Wartetypen"
