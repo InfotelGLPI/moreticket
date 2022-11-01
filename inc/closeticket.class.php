@@ -539,7 +539,8 @@ JAVASCRIPT;
 
       $config = new PluginMoreticketConfig();
       if (isset($config->fields['use_solution'])
-          && $config->useSolution()) {
+          && $config->useSolution()
+             && $config->solutionStatus()) {
          // Get allowed status
          $solution_status = array_keys(json_decode($config->solutionStatus(), true));
 
@@ -575,7 +576,9 @@ JAVASCRIPT;
       }
 
       $config = new PluginMoreticketConfig();
-      if (isset($config->fields['use_solution']) && $config->useSolution()) {
+      if (isset($config->fields['use_solution'])
+          && $config->useSolution()
+          && $config->solutionStatus()) {
          // Get allowed status
          $solution_status = array_keys(json_decode($config->solutionStatus(), true));
 
