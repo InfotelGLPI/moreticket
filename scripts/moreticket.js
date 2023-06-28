@@ -93,7 +93,8 @@
                             // CLOSE TICKET
                             var show_solution = false;
                             if (object.params.solution_status != null && object.params.solution_status != '') {
-                                $.each($.parseJSON(object.params.solution_status), function (index, val) {
+                                var solutionstatus = object.params.solution_status.replace(/&quot;/g,'"');
+                                $.each($.parseJSON(solutionstatus), function (index, val) {
                                     if (index == status_bloc.val()) {
                                         show_solution = true;
                                     }
@@ -117,7 +118,8 @@
                                 // CLOSE TICKET
                                 var show_solution = false;
                                 if (object.params.solution_status != null && object.params.solution_status != '') {
-                                    $.each($.parseJSON(object.params.solution_status), function (index, val) {
+                                    var solutionstatus = object.params.solution_status.replace(/&quot;/g,'"');
+                                    $.each($.parseJSON(solutionstatus), function (index, val) {
                                         if (index == status_bloc.val()) {
                                             show_solution = true;
                                         }
