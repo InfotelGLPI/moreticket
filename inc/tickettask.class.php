@@ -59,64 +59,40 @@ class PluginMoreticketTicketTask extends CommonITILTask {
     */
    static function beforeAdd(TicketTask $tickettask) {
 
-//      if (!is_array($tickettask->input) || !count($tickettask->input)) {
-//         // Already cancel by another plugin
-//         return false;
-//      }
-//
-//      $config = new PluginMoreticketConfig();
-//
-//      if (isset($tickettask->input['_status'])
-//          && $config->useWaiting() == true) {
-//
-//         $updates['id'] = $tickettask->input['tickets_id'];
-//         if (isset($tickettask->input['reason'])) {
-//            $updates['reason'] = $tickettask->input['reason'];
-//         }
-//         if (isset($tickettask->input['date_report'])) {
-//            $updates['date_report'] = $tickettask->input['date_report'];
-//         }
-//         if (isset($tickettask->input['plugin_moreticket_waitingtypes_id'])) {
-//            $updates['plugin_moreticket_waitingtypes_id'] = $tickettask->input['plugin_moreticket_waitingtypes_id'];
-//         }
-//         $updates['status'] = $tickettask->input['_status'];
-//         $ticket            = new Ticket();
-//         $ticket->update($updates);
-//         unset($tickettask->input['_status']);
-//      }
-   }
+      if (!is_array($tickettask->input) || !count($tickettask->input)) {
+         // Already cancel by another plugin
+         return false;
+      }
 
-   /**
-    * @param TicketTask $tickettask
-    *
-    * @return bool
-    */
-   static function beforeUpdate(TicketTask $tickettask) {
+      $config = new PluginMoreticketConfig();
 
-//      if (!is_array($tickettask->input) || !count($tickettask->input)) {
-//         // Already cancel by another plugin
-//         return false;
-//      }
-//
-//      $config = new PluginMoreticketConfig();
-//
-//      if (isset($tickettask->input['_status']) && $config->useWaiting() == true) {
-//         $updates['id'] = $tickettask->input['tickets_id'];
-//
-//         if (isset($tickettask->input['reason'])) {
-//            $updates['reason'] = $tickettask->input['reason'];
-//         }
-//         if (isset($tickettask->input['date_report'])) {
-//            $updates['date_report'] = $tickettask->input['date_report'];
-//         }
-//         if (isset($tickettask->input['plugin_moreticket_waitingtypes_id'])) {
-//            $updates['plugin_moreticket_waitingtypes_id'] = $tickettask->input['plugin_moreticket_waitingtypes_id'];
-//         }
-//
-//         $updates['status'] = $tickettask->input['_status'];
-//         $ticket            = new Ticket();
-//         $ticket->update($updates);
-//         unset($tickettask->input['_status']);
-//      }
+      if (isset($tickettask->input['pending'])
+          && $config->useWaiting() == true) {
+
+          $waiting_ticket = new PluginMoreticketWaitingTicket();
+          if (PluginMoreticketWaitingTicket::checkMandatory($tickettask->input)) {
+              if (isset($tickettask->input['date_report'])
+                  && ($tickettask->input['date_report'] == "0000-00-00 00:00:00"
+                      || empty($tickettask->input['date_report']))) {
+                  $tickettask->input['date_report'] = 'NULL';
+              }
+
+              $status = (in_array($tickettask->input['_job']->fields['status'],
+                                  [CommonITILObject::SOLVED, CommonITILObject::CLOSED]))
+                  ? CommonITILObject::ASSIGNED : $tickettask->input['_job']->fields['status'];
+
+              // Then we add tickets informations
+              $input = ['reason'                            => (isset($tickettask->input['reason'])) ? $tickettask->input['reason'] : "",
+                        'tickets_id'                        => $tickettask->input['tickets_id'],
+                        'date_report'                       => (isset($tickettask->input['date_report'])) ? $tickettask->input['date_report'] : "NULL",
+                        'date_suspension'                   => date("Y-m-d H:i:s"),
+                        'date_end_suspension'               => 'NULL',
+                        'status'                            => $status,
+                        'plugin_moreticket_waitingtypes_id' => (isset($item->input['plugin_moreticket_waitingtypes_id'])) ?? 0];
+              if ($waiting_ticket->add($input)) {
+                  unset($_SESSION['glpi_plugin_moreticket_waiting']);
+              }
+          }
+      }
    }
 }

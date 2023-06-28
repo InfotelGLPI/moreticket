@@ -27,122 +27,134 @@
  */
 
 if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
+    die("Sorry. You can't access directly to this file");
 }
 
 
 /**
  * Class PluginMoreticketSolution
  */
-class PluginMoreticketSolution extends CommonITILObject {
+class PluginMoreticketSolution extends CommonITILObject
+{
 
-   static $rightname = "plugin_moreticket";
+    static $rightname = "plugin_moreticket";
 
-   public static function getTaskClass() {
-      // TODO: Implement getTaskClass() method.
-   }
+    public static function getTaskClass()
+    {
+        // TODO: Implement getTaskClass() method.
+    }
 
-   public static function getDefaultValues($entity = 0) {
-      // TODO: Implement getDefaultValues() method.
-   }
+    public static function getDefaultValues($entity = 0)
+    {
+        // TODO: Implement getDefaultValues() method.
+    }
 
-   public static function getItemLinkClass(): string {
-      // TODO: Implement getItemLinkClass() method.
-   }
+    public static function getItemLinkClass(): string
+    {
+        // TODO: Implement getItemLinkClass() method.
+    }
 
-   public static function getContentTemplatesParametersClass(): string {
-      // TODO: Implement getContentTemplatesParametersClass() method.
-   }
+    public static function getContentTemplatesParametersClass(): string
+    {
+        // TODO: Implement getContentTemplatesParametersClass() method.
+    }
 
-   static function showFormSolution($params) {
+    static function showFormSolution($params)
+    {
 
-      if (isset($params['item'])) {
-         $item    = $params['item'];
-         $options = $params['options'];
+        if (isset($params['item'])) {
+            $item = $params['item'];
+            $options = $params['options'];
 
-         if ($item->getType() == 'ITILSolution') {
+            if ($item->getType() == 'ITILSolution') {
 
-            $ticket = $options['item'];
-            $config = new PluginMoreticketConfig();
-            $dur     = (isset($ticket->fields['actiontime']) ? $ticket->fields['actiontime'] : 0);
-            if ($dur == 0) {
-               echo "<div class='row'><div class='col-12 col-md-9'>";
-               echo __('Duration');
-               if ($config->isMandatorysolution()) {
-                  echo "&nbsp;<span style='color:red'>*</span>&nbsp;";
-               }
-               echo "<span id='duration_solution_" . $ticket->fields['id'] . "'>";
-               $toadd = [];
-               for ($i = 9; $i <= 100; $i++) {
-                  $toadd[] = $i * HOUR_TIMESTAMP;
-               }
-               Dropdown::showTimeStamp("duration_solution", ['min'             => 0,
-                                                             'max'             => 8 * HOUR_TIMESTAMP,
+                $ticket = $options['item'];
+                $config = new PluginMoreticketConfig();
+                $use_duration_solution = $config->useDurationSolution();
+                if ($use_duration_solution == 1) {
+                    echo "<div class='row'><div class='col-12 col-md-9'>";
+                    echo __('Duration');
+                    if ($config->isMandatorysolution()) {
+                        echo "&nbsp;<span style='color:red'>*</span>&nbsp;";
+                    }
+                    $rand = mt_rand();
+                    echo "<span id='duration_solution_" . $rand . $ticket->fields['id'] . "'>";
+                    $toadd = [];
+                    for ($i = 9; $i <= 100; $i++) {
+                        $toadd[] = $i * HOUR_TIMESTAMP;
+                    }
+                    Dropdown::showTimeStamp("duration_solution", ['min' => 0,
+                        'max' => 8 * HOUR_TIMESTAMP,
 //                                                             'addfirstminutes' => true,
-                                                             'inhours'         => true,
-                                                             'toadd'           => $toadd]);
-               echo "</span>";
-               echo "</div></div>";
-            }
-         }
-      }
-   }
-
-   /**
-    * @param \Ticket $item
-    *
-    * @return bool
-    */
-   static function beforeAdd(ITILSolution $solution) {
-      global $CFG_GLPI;
-
-      if (!is_array($solution->input) || !count($solution->input)) {
-         // Already cancel by another plugin
-         return false;
-      }
-      $config = new PluginMoreticketConfig();
-      if ($config->useDurationSolution()) {
-         if ($solution->input['itemtype'] == 'Ticket') {
-            if (isset($solution->input['duration_solution']) && $solution->input['duration_solution'] > 0) {
-
-               //               $solution->input['content'] = html_entity_decode($solution->input['content']);
-               //               $solution->input['content'] = strip_tags($solution->input['content']);
-               $ticket     = new Ticket();
-               $tickets_id = $solution->input['items_id'];
-               if ($ticket->getFromDB($tickets_id)) {
-                  if ($ticket->getField('actiontime') == 0) {
-                     $ticket->update(['id'         => $tickets_id,
-                                      'actiontime' => $solution->input['duration_solution']]);
-                  }
-               }
-
-               $user = new User();
-               $user->getFromDB(Session::getLoginUserID());
-
-               $tickettask = new TicketTask();
-               $tickettask->add(['tickets_id'    => $tickets_id,
-                                 'date_creation' => date('Y-m-d H:i:s'),
-                                 'date'          => date('Y-m-d H:i:s',
-                                                         strtotime('- 10 seconds', strtotime(date('Y-m-d H:i:s')))),
-                                 'users_id'      => Session::getLoginUserID(),
-                                 'users_id_tech' => Session::getLoginUserID(),
-                                 'content'       => $solution->input['content'],
-                                 'state'         => Planning::DONE,
-                                 'is_private'    => $user->getField('task_private'),
-                                 'actiontime'    => $solution->input['duration_solution']]);
-            } else if ($config->isMandatorysolution()) {
-                $ticket     = new Ticket();
-                $tickets_id = $solution->input['items_id'];
-                $ticket->getFromDB($tickets_id);
-                $dur     = (isset($ticket->fields['actiontime']) ? $ticket->fields['actiontime'] : 0);
-                if ($dur == 0) {
-                    Session::addMessageAfterRedirect(_n('Mandatory field', 'Mandatory fields', 2) . " : " . __('Duration'), false, ERROR);
-                    $solution->input = [];
+                        'inhours' => true,
+                        'toadd' => $toadd]);
+                    echo "</span>";
+                    echo "</div></div>";
                 }
-               return false;
             }
-         }
-      }
-      return true;
-   }
+        }
+    }
+
+    /**
+     * @param \Ticket $item
+     *
+     * @return bool
+     */
+    static function beforeAdd(ITILSolution $solution)
+    {
+        global $CFG_GLPI;
+
+        if (!is_array($solution->input) || !count($solution->input)) {
+            // Already cancel by another plugin
+            return false;
+        }
+        $config = new PluginMoreticketConfig();
+        if ($config->useDurationSolution()) {
+            if ($solution->input['itemtype'] == 'Ticket') {
+                if (isset($solution->input['duration_solution']) && $solution->input['duration_solution'] > 0) {
+
+                    //               $solution->input['content'] = html_entity_decode($solution->input['content']);
+                    //               $solution->input['content'] = strip_tags($solution->input['content']);
+                    $ticket = new Ticket();
+                    $tickets_id = $solution->input['items_id'];
+                    if ($ticket->getFromDB($tickets_id)) {
+                        if ($ticket->getField('actiontime') == 0) {
+                            $ticket->update(['id' => $tickets_id,
+                                'actiontime' => $solution->input['duration_solution']]);
+                        }
+                    }
+
+                    $user = new User();
+                    $user->getFromDB(Session::getLoginUserID());
+
+                    $tickettask = new TicketTask();
+                    $tickettask->add(['tickets_id' => $tickets_id,
+                        'date_creation' => date('Y-m-d H:i:s'),
+                        'date' => date('Y-m-d H:i:s',
+                            strtotime('- 10 seconds', strtotime(date('Y-m-d H:i:s')))),
+                        'users_id' => Session::getLoginUserID(),
+                        'users_id_tech' => Session::getLoginUserID(),
+                        'content' => $solution->input['content'],
+                        'state' => Planning::DONE,
+                        'is_private' => $user->getField('task_private'),
+                        'actiontime' => $solution->input['duration_solution']]);
+                } else if ($config->isMandatorysolution()) {
+                    if (Plugin::isPluginActive('servicecatalog')
+                        && Session::getCurrentInterface() != "central") {
+                        return true;
+                    }
+                    $ticket = new Ticket();
+                    $tickets_id = $solution->input['items_id'];
+                    $ticket->getFromDB($tickets_id);
+                    $dur = (isset($ticket->fields['actiontime']) ? $ticket->fields['actiontime'] : 0);
+                    if ($dur == 0) {
+                        Session::addMessageAfterRedirect(_n('Mandatory field', 'Mandatory fields', 2) . " : " . __('Duration'), false, ERROR);
+                        $solution->input = [];
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

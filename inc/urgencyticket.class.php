@@ -28,351 +28,354 @@
  */
 
 if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
+    die("Sorry. You can't access directly to this file");
 }
 
 /**
  * Class PluginMoreticketUrgencyTicket
  */
-class PluginMoreticketUrgencyTicket extends CommonDBTM {
+class PluginMoreticketUrgencyTicket extends CommonDBTM
+{
+    public static $types     = ['Ticket'];
+    public $dohistory = true;
+    public static $rightname = "plugin_moreticket_justification";
 
-   static $types     = ['Ticket'];
-   var    $dohistory = true;
-   static $rightname = "plugin_moreticket_justification";
+    /**
+     * Have I the global right to "create" the Object
+     * May be overloaded if needed (ex KnowbaseItem)
+     *
+     * @return booleen
+     **/
+    public static function canCreate()
+    {
+        if (static::$rightname) {
+            return Session::haveRight(static::$rightname, UPDATE);
+        }
+        return false;
+    }
 
-   /**
-    * Have I the global right to "create" the Object
-    * May be overloaded if needed (ex KnowbaseItem)
-    *
-    * @return booleen
-    **/
-   static function canCreate() {
+    /**
+     * Check the mandatory values of forms
+     *
+     * @param      $values
+     * @param bool $add
+     *
+     * @return bool
+     */
+    public static function checkMandatory($values, $add = false)
+    {
+        $checkKo = [];
 
-      if (static::$rightname) {
-         return Session::haveRight(static::$rightname, UPDATE);
-      }
-      return false;
-   }
+        $mandatory_fields                  = [];
+        $mandatory_fields['justification'] = __('Justification', 'moreticket');
 
-   /**
-    * Check the mandatory values of forms
-    *
-    * @param      $values
-    * @param bool $add
-    *
-    * @return bool
-    */
-   static function checkMandatory($values, $add = false) {
-      $checkKo = [];
+        $msg = [];
 
-      $mandatory_fields                  = [];
-      $mandatory_fields['justification'] = __('Justification', 'moreticket');
-
-      $msg = [];
-
-      foreach ($mandatory_fields as $key => $value) {
-         if (!array_key_exists($key, $values) && empty($values[$key])) {
-            $msg[]     = $value;
-            $checkKo[] = 1;
-         }
-      }
-
-      foreach ($values as $key => $value) {
-         if (array_key_exists($key, $mandatory_fields)) {
-            if (empty($value)) {
-               $msg[]     = $mandatory_fields[$key];
-               $checkKo[] = 1;
+        foreach ($mandatory_fields as $key => $value) {
+            if (!array_key_exists($key, $values) && empty($values[$key])) {
+                $msg[]     = $value;
+                $checkKo[] = 1;
             }
-         }
-         $_SESSION['glpi_plugin_moreticket_urgency'][$key] = $value;
-      }
+        }
 
-      if (in_array(1, $checkKo)) {
-         if (!$add) {
-            $errorMessage = __('Urgency ticket cannot be saved', 'moreticket') . "<br>";
-         } else {
-            $errorMessage = __('Ticket cannot be saved', 'moreticket') . "<br>";
-         }
-
-         if (count($msg)) {
-            $errorMessage .= _n('Mandatory field', 'Mandatory fields', 2) . " : " . implode(', ', $msg);
-         }
-
-         Session::addMessageAfterRedirect($errorMessage, false, ERROR);
-
-         return false;
-      }
-
-      return true;
-   }
-
-   /**
-    * Print the urgency ticket form
-    *
-    * @param $ID integer ID of the item
-    * @param $options array
-    *     - target filename : where to go when done.
-    *     - withtemplate boolean : template or basic item
-    *
-    * @return Nothing (display)
-    * */
-   function showForm($ID, $options = []) {
-
-      // validation des droits
-      if (!$this->canView()) {
-         return false;
-      }
-
-      if ($ID > 0) {
-         if (!$this->fields = self::getUrgencyTicketFromDB($ID)) {
-            $this->getEmpty();
-         }
-      } else {
-         // Create item
-         $this->getEmpty();
-      }
-
-      // If values are saved in session we retrieve it
-      if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
-         foreach ($_SESSION['glpi_plugin_moreticket_urgency'] as $key => $value) {
-            switch ($key) {
-               case 'justification':
-                  $this->fields[$key] = stripslashes($value);
-                  break;
-               default :
-                  $this->fields[$key] = $value;
-                  break;
+        foreach ($values as $key => $value) {
+            if (array_key_exists($key, $mandatory_fields)) {
+                if (empty($value)) {
+                    $msg[]     = $mandatory_fields[$key];
+                    $checkKo[] = 1;
+                }
             }
-         }
-      }
+            $_SESSION['glpi_plugin_moreticket_urgency'][$key] = $value;
+        }
 
-      unset($_SESSION['glpi_plugin_moreticket_urgency']);
-
-      echo "<div class='spaced' id='moreticket_urgency_ticket'>";
-      echo "</br>";
-      $align = "center";
-
-      if (Plugin::isPluginActive('servicecatalog')) {
-         $config      = new PluginServicecatalogConfig();
-         $use_as_step = $config->getFormDisplayAsStep();
-         if ($use_as_step != 1) {
-            $align = "left";
-         }
-      }
-      echo "<table align='$align' id='cl_menu'>";
-      echo "<tr><td>";
-      echo __('Justification', 'moreticket');
-      echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;</br>";
-      echo "</td></tr>";
-      echo "<tr><td>";
-      Html::textarea(['name'            => 'justification',
-                      'value' => $this->fields['justification'],
-                      'cols'       => 30,
-                      'rows'       => 5,
-                      'enable_richtext' => false]);
-      echo "</td></tr>";
-      echo "</table>";
-      echo "</div>";
-   }
-
-   /**
-    * Get last urgencyTicket
-    *
-    * @param       $tickets_id
-    * @param array $options
-    *
-    * @return array|bool|mixed
-    */
-   static function getUrgencyTicketFromDB($tickets_id, $options = []) {
-      $dbu = new DbUtils();
-      if (sizeof($options) == 0) {
-         $data_Urgency = $dbu->getAllDataFromTable("glpi_plugin_moreticket_urgencytickets",
-                                              ['tickets_id' => $tickets_id]);
-      } else {
-         $data_Urgency = $dbu->getAllDataFromTable("glpi_plugin_moreticket_urgencytickets",
-                                                   ['tickets_id' => $tickets_id],
-                                              false,
-                                              ' LIMIT ' . intval($options['start']) . "," . intval($options['limit']));
-      }
-
-      if (sizeof($data_Urgency) > 0) {
-         if (sizeof($options) == 0) {
-            $data_Urgency = reset($data_Urgency);
-         }
-
-         return $data_Urgency;
-      }
-
-      return false;
-   }
-
-   /**
-    * @param $item
-    */
-   static function preUpdateUrgencyTicket($item) {
-      $config = new PluginMoreticketConfig();
-      if ($config->useUrgency()) {
-         $urgency_ticket = new self();
-
-         // Then we add tickets informations
-         if (isset($item->fields['id'])
-             && isset($item->fields['urgency'])
-             && isset($item->input['urgency'])
-             && isset($item->input['justification'])
-         ) {
-
-            $urgency_ids = $config->getUrgency_ids();
-
-            if (in_array($item->input['urgency'], $urgency_ids)) {
-
-               if (self::checkMandatory($item->input)) {
-                  if ($urgency_ticket_data = self::getUrgencyTicketFromDB($item->fields['id'])) {
-                     // UPDATE
-                     $urgency_ticket->update(['id'            => $urgency_ticket_data['id'],
-                                                   'justification' => $item->input['justification']]);
-
-                  } else {
-                     // ADD
-                     // Then we add tickets informations
-                     if ($urgency_ticket->add(['justification' => (isset($item->input['justification'])) ? $item->input['justification'] : "",
-                                                    'tickets_id'    => $item->fields['id']])
-                     ) {
-
-                        unset($_SESSION['glpi_plugin_moreticket_urgency']);
-                     }
-                  }
-
-               } else {
-                  unset($item->input['urgency']);
-               }
-
-            }
-         }
-      }
-   }
-
-   /**
-    * @param $item
-    */
-   static function postUpdateUrgencyTicket($item) {
-      $config = new PluginMoreticketConfig();
-
-      if ($config->useUrgency()) {
-         $urgency_ticket = new self();
-         // Then we add tickets informations
-         if (isset($item->fields['id'])) {
-            if (isset($item->oldvalues['urgency']) && (isset($item->input['urgency']))
-                && $item->input['urgency'] != $item->oldvalues['urgency']
-            ) {
-
-               $urgency_ticket_data = self::getUrgencyTicketFromDB($item->fields['id']);
-
-               $urgency_ids = $config->getUrgency_ids();
-
-               if (isset($urgency_ticket_data['id'])
-                   && !in_array($item->input['urgency'], $urgency_ids)) {
-                  $urgency_ticket->update(['id'            => $urgency_ticket_data['id'],
-                                                'justification' => ""]);
-               }
-
-               unset($_SESSION['glpi_plugin_moreticket_urgency']);
-            }
-         }
-      }
-   }
-
-   /**
-    * Hook done on before add ticket - checkMandatory
-    *
-    * @param $item
-    *
-    * @return bool
-    */
-   static function preAddUrgencyTicket($item) {
-      if (!is_array($item->input) || !count($item->input)) {
-         // Already cancel by another plugin
-         return false;
-      }
-
-      $config = new PluginMoreticketConfig();
-      if ($config->useUrgency()) {
-         $urgency_ids = $config->getUrgency_ids();
-         // Then we add tickets informations
-         if (isset($item->input['urgency']) && in_array($item->input['urgency'], $urgency_ids)) {
-            if (!self::checkMandatory($item->input, true)) {
-               $_SESSION['saveInput'][$item->getType()] = $item->input;
-               $item->input                             = [];
-            }
-
-         }
-      }
-      return true;
-   }
-
-   /**
-    * Hook done on after add ticket - add urgencytickets
-    *
-    * @param $item
-    *
-    * @return bool
-    */
-   static function postAddUrgencyTicket($item) {
-      if (!is_array($item->input) || !count($item->input)) {
-         // Already cancel by another plugin
-         return false;
-      }
-
-      $config = new PluginMoreticketConfig();
-      if ($config->useUrgency()) {
-         $urgency_ticket = new self();
-         $urgency_ids    = $config->getUrgency_ids();
-         // Then we add tickets informations
-         if (in_array($item->input['urgency'], $urgency_ids)) {
-            if (self::checkMandatory($item->input)) {
-               // Then we add tickets informations
-               if ($urgency_ticket->add(['justification' => $item->input['justification'],
-                                              'tickets_id'    => $item->fields['id']])
-               ) {
-
-                  unset($_SESSION['glpi_plugin_moreticket_urgency']);
-               }
+        if (in_array(1, $checkKo)) {
+            if (!$add) {
+                $errorMessage = __('Urgency ticket cannot be saved', 'moreticket') . "<br>";
             } else {
-               $item->input['id']                       = $item->fields['id'];
-               $_SESSION['saveInput'][$item->getType()] = $item->input;
-               unset($item->input['urgency']);
+                $errorMessage = __('Ticket cannot be saved', 'moreticket') . "<br>";
             }
-         }
-      }
-      return true;
-   }
 
-   /**
-    * Type than could be linked to a typo
-    *
-    * @param $all boolean, all type, or only allowed ones
-    *
-    * @return array of types
-    * */
-   static function getTypes($all = false) {
+            if (count($msg)) {
+                $errorMessage .= _n('Mandatory field', 'Mandatory fields', 2) . " : " . implode(', ', $msg);
+            }
 
-      if ($all) {
-         return self::$types;
-      }
+            Session::addMessageAfterRedirect($errorMessage, false, ERROR);
 
-      // Only allowed types
-      $types = self::$types;
+            return false;
+        }
 
-      $dbu = new DbUtils();
-      foreach ($types as $key => $type) {
-         if (!($item = $dbu->getItemForItemtype($type))) {
-            continue;
-         }
+        return true;
+    }
 
-         if (!$item->canView()) {
-            unset($types[$key]);
-         }
-      }
-      return $types;
-   }
+    /**
+     * Print the urgency ticket form
+     *
+     * @param $ID integer ID of the item
+     * @param $options array
+     *     - target filename : where to go when done.
+     *     - withtemplate boolean : template or basic item
+     *
+     * @return Nothing (display)
+     * */
+    public function showForm($ID, $options = [])
+    {
+        // validation des droits
+        if (!$this->canView()) {
+            return false;
+        }
 
+        if ($ID > 0) {
+            if (self::getUrgencyTicketFromDB($ID) == false) {
+                $this->getEmpty();
+            }  else {
+                $this->fields = self::getUrgencyTicketFromDB($ID);
+            }
+        } else {
+            // Create item
+            $this->getEmpty();
+        }
+
+        // If values are saved in session we retrieve it
+        if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
+            foreach ($_SESSION['glpi_plugin_moreticket_urgency'] as $key => $value) {
+                switch ($key) {
+                    case 'justification':
+                        $this->fields[$key] = stripslashes($value);
+                        break;
+                    default:
+                        $this->fields[$key] = $value;
+                        break;
+                }
+            }
+        }
+
+        unset($_SESSION['glpi_plugin_moreticket_urgency']);
+
+        echo "<div class='spaced' id='moreticket_urgency_ticket'>";
+        echo "</br>";
+        $align = "center";
+
+        if (Plugin::isPluginActive('servicecatalog')) {
+            $config      = new PluginServicecatalogConfig();
+            $use_as_step = $config->getFormDisplayAsStep();
+            if ($use_as_step != 1) {
+                $align = "left";
+            }
+        }
+        echo "<table align='$align' id='cl_menu'>";
+        echo "<tr><td>";
+        echo __('Justification', 'moreticket');
+        echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;</br>";
+        echo "</td></tr>";
+        echo "<tr><td>";
+        Html::textarea(['name'            => 'justification',
+                        'value'           => $this->fields['justification'],
+                        'cols'            => 30,
+                        'rows'            => 5,
+                        'enable_richtext' => false]);
+        echo "</td></tr>";
+        echo "</table>";
+        echo "</div>";
+    }
+
+    /**
+     * Get last urgencyTicket
+     *
+     * @param       $tickets_id
+     * @param array $options
+     *
+     * @return array|bool|mixed
+     */
+    public static function getUrgencyTicketFromDB($tickets_id, $options = [])
+    {
+        $dbu = new DbUtils();
+        if (sizeof($options) == 0) {
+            $data_Urgency = $dbu->getAllDataFromTable(
+                "glpi_plugin_moreticket_urgencytickets",
+                ['tickets_id' => $tickets_id]
+            );
+        } else {
+            $data_Urgency = $dbu->getAllDataFromTable(
+                "glpi_plugin_moreticket_urgencytickets",
+                ['tickets_id' => $tickets_id],
+                false,
+                ' LIMIT ' . intval($options['start']) . "," . intval($options['limit'])
+            );
+        }
+
+        if (sizeof($data_Urgency) > 0) {
+            if (sizeof($options) == 0) {
+                $data_Urgency = reset($data_Urgency);
+            }
+
+            return $data_Urgency;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $item
+     */
+    public static function preUpdateUrgencyTicket($item)
+    {
+        $config = new PluginMoreticketConfig();
+        if ($config->useUrgency()) {
+            $urgency_ticket = new self();
+
+            // Then we add tickets informations
+            if (isset($item->fields['id'])
+                && isset($item->fields['urgency'])
+                && isset($item->input['urgency'])
+                && isset($item->input['justification'])
+            ) {
+                $urgency_ids = $config->getUrgency_ids();
+
+                if (in_array($item->input['urgency'], $urgency_ids)) {
+                    if (self::checkMandatory($item->input)) {
+                        if ($urgency_ticket_data = self::getUrgencyTicketFromDB($item->fields['id'])) {
+                            // UPDATE
+                            $urgency_ticket->update(['id'            => $urgency_ticket_data['id'],
+                                                     'justification' => $item->input['justification']]);
+                        } else {
+                            // ADD
+                            // Then we add tickets informations
+                            if ($urgency_ticket->add(['justification' => (isset($item->input['justification'])) ? $item->input['justification'] : "",
+                                                      'tickets_id'    => $item->fields['id']])
+                            ) {
+                                unset($_SESSION['glpi_plugin_moreticket_urgency']);
+                            }
+                        }
+                    } else {
+                        unset($item->input['urgency']);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @param $item
+     */
+    public static function postUpdateUrgencyTicket($item)
+    {
+        $config = new PluginMoreticketConfig();
+
+        if ($config->useUrgency()) {
+            $urgency_ticket = new self();
+            // Then we add tickets informations
+            if (isset($item->fields['id'])) {
+                if (isset($item->oldvalues['urgency']) && (isset($item->input['urgency']))
+                    && $item->input['urgency'] != $item->oldvalues['urgency']
+                ) {
+                    $urgency_ticket_data = self::getUrgencyTicketFromDB($item->fields['id']);
+
+                    $urgency_ids = $config->getUrgency_ids();
+
+                    if (isset($urgency_ticket_data['id'])
+                        && !in_array($item->input['urgency'], $urgency_ids)) {
+                        $urgency_ticket->update(['id'            => $urgency_ticket_data['id'],
+                                                 'justification' => ""]);
+                    }
+
+                    unset($_SESSION['glpi_plugin_moreticket_urgency']);
+                }
+            }
+        }
+    }
+
+    /**
+     * Hook done on before add ticket - checkMandatory
+     *
+     * @param $item
+     *
+     * @return bool
+     */
+    public static function preAddUrgencyTicket($item)
+    {
+        if (!is_array($item->input) || !count($item->input)) {
+            // Already cancel by another plugin
+            return false;
+        }
+
+        $config = new PluginMoreticketConfig();
+        if ($config->useUrgency()) {
+            $urgency_ids = $config->getUrgency_ids();
+            // Then we add tickets informations
+            if (isset($item->input['urgency']) && in_array($item->input['urgency'], $urgency_ids)) {
+                if (!self::checkMandatory($item->input, true)) {
+                    $_SESSION['saveInput'][$item->getType()] = $item->input;
+                    $item->input                             = [];
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Hook done on after add ticket - add urgencytickets
+     *
+     * @param $item
+     *
+     * @return bool
+     */
+    public static function postAddUrgencyTicket($item)
+    {
+        if (!is_array($item->input) || !count($item->input)) {
+            // Already cancel by another plugin
+            return false;
+        }
+
+        $config = new PluginMoreticketConfig();
+        if ($config->useUrgency()) {
+            $urgency_ticket = new self();
+            $urgency_ids    = $config->getUrgency_ids();
+            // Then we add tickets informations
+            if (isset($item->input['urgency'])
+                && in_array($item->input['urgency'], $urgency_ids)) {
+                if (self::checkMandatory($item->input)) {
+                    // Then we add tickets informations
+                    if ($urgency_ticket->add(['justification' => $item->input['justification'],
+                                              'tickets_id'    => $item->fields['id']])
+                    ) {
+                        unset($_SESSION['glpi_plugin_moreticket_urgency']);
+                    }
+                } else {
+                    $item->input['id']                       = $item->fields['id'];
+                    $_SESSION['saveInput'][$item->getType()] = $item->input;
+                    unset($item->input['urgency']);
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Type than could be linked to a typo
+     *
+     * @param $all boolean, all type, or only allowed ones
+     *
+     * @return array of types
+     * */
+    public static function getTypes($all = false)
+    {
+        if ($all) {
+            return self::$types;
+        }
+
+        // Only allowed types
+        $types = self::$types;
+
+        $dbu = new DbUtils();
+        foreach ($types as $key => $type) {
+            if (!($item = $dbu->getItemForItemtype($type))) {
+                continue;
+            }
+
+            if (!$item->canView()) {
+                unset($types[$key]);
+            }
+        }
+        return $types;
+    }
 }

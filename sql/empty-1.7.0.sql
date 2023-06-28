@@ -68,6 +68,7 @@ CREATE TABLE `glpi_plugin_moreticket_configs` (
   `update_after_approval`   tinyint NOT NULL          DEFAULT '0',
   `followup_text`           TEXT,
   `closing_with_problem`    INT(1) NOT NULL              DEFAULT '1',
+  `add_followup_stop_waiting` INT(1) NOT NULL              DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
@@ -103,8 +104,7 @@ CREATE TABLE `glpi_plugin_moreticket_urgencytickets` (
   `id`            int unsigned NOT NULL AUTO_INCREMENT, -- id ...
   `tickets_id`    int unsigned NOT NULL, -- id du ticket GLPI
   `justification` VARCHAR(255)     DEFAULT NULL, -- justification
-  PRIMARY KEY (`id`), -- index
-  FOREIGN KEY (`tickets_id`) REFERENCES glpi_tickets (id)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------

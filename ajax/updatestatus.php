@@ -7,11 +7,11 @@ Session::checkLoginUser();
 header("Content-Type: text/html; charset=UTF-8");
 
 if (isset($_POST['question'])) {
-   if($_POST['question']==1){
-      echo Html::scriptBlock("
+    if ($_POST['question'] == 1) {
+        echo Html::scriptBlock("
       var allInput = document.getElementsByName(\"_status\");
       
-      var pending = ".CommonITILObject::WAITING.";
+      var pending = " . CommonITILObject::WAITING . ";
       allInput.forEach(function(element){
       
       var event = new Event('change');
@@ -31,21 +31,16 @@ if (isset($_POST['question'])) {
 
          //add status to dropdown button
          xBtnDrop.addClass(cstatus);
-         
- 
       }
-      
-      
-      
       });
       
       ");
-   }else{
-      if($_POST['status'] == ""){
-         echo Html::scriptBlock("
+    } else {
+        if ($_POST['status'] == "") {
+            echo Html::scriptBlock("
             var allInput = document.getElementsByName(\"_status\");
             
-            var newStatus = ".CommonITILObject::INCOMING.";
+            var newStatus = " . CommonITILObject::INCOMING . ";
             allInput.forEach(function(element){
            
             var event = new Event('change');
@@ -65,19 +60,16 @@ if (isset($_POST['question'])) {
                   //add status to dropdown button
                   xBtnDrop.addClass(cstatus);
             }
-            
             });
-      
       ");
-      }else{
-         echo Html::scriptBlock("
+        } else {
+            echo Html::scriptBlock("
             var allInput = document.getElementsByName(\"_status\");
-            
           
             allInput.forEach(function(element){
            
             var event = new Event('change');
-            if(element.value == ".$_POST['status']."){
+            if(element.value == " . $_POST['status'] . "){
                element.checked = true;
                element.dispatchEvent(event);
                
@@ -95,10 +87,9 @@ if (isset($_POST['question'])) {
                xBtnDrop.addClass(cstatus);
             }     
             });
-      
       ");
-      }
-   }
+        }
+    }
 
 
 }

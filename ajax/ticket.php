@@ -34,57 +34,64 @@ Session::checkLoginUser();
 header("Content-Type: text/html; charset=UTF-8");
 
 if (!isset($_POST['tickets_id']) || empty($_POST['tickets_id'])) {
-   $_POST['tickets_id'] = 0;
+    $_POST['tickets_id'] = 0;
 }
 
 if (isset($_POST['action'])) {
-   switch ($_POST['action']) {
-      case 'showForm':
-         $config = new PluginMoreticketConfig();
+    switch ($_POST['action']) {
+        case 'showForm':
+            $config = new PluginMoreticketConfig();
 
-         // Ticket is waiting
-//         if ($config->useWaiting()) {
-//            $waiting_ticket = new PluginMoreticketWaitingTicket();
-//            $waiting_ticket->showForm($_POST['tickets_id']);
-//         }
-
-         // Ticket is closed
-         if ($config->useSolution()) {
-            if (isset($_POST['type']) && $_POST['type'] == 'add') {
-               $close_ticket = new PluginMoreticketCloseTicket();
-               $close_ticket->showForm($_POST['tickets_id']);
+            // Ticket is waiting
+            if ($config->useWaiting()) {
+                $waiting_ticket = new PluginMoreticketWaitingTicket();
+                $waiting_ticket->showForm($_POST['tickets_id']);
             }
-         }
-         break;
 
-//      case 'showFormTicketTask':
-//         $config = new PluginMoreticketConfig();
-//
-//         // Ticket is waiting
-//         if ($config->useWaiting()) {
-//            $waiting_ticket = new PluginMoreticketWaitingTicket();
-//            PluginMoreticketWaitingTicket::showFormTicketTask($_POST['tickets_id']);
-//         }
-//
-//         break;
-      case 'showFormUrgency':
-         $config = new PluginMoreticketConfig();
+            // Ticket is closed
+            if ($config->useSolution()) {
+                if (isset($_POST['type']) && $_POST['type'] == 'add') {
+                    $close_ticket = new PluginMoreticketCloseTicket();
+                    $close_ticket->showForm($_POST['tickets_id']);
+                }
+            }
+            break;
 
+        case 'showFormTicketFollowup':
+            $config = new PluginMoreticketConfig();
+            // Ticket is waiting
+            if ($config->useWaiting()) {
+                $waiting_ticket = new PluginMoreticketWaitingTicket();
+                $waiting_ticket->showFormTicketFollowup($_POST['tickets_id']);
+            }
 
-         // Ticket is waiting
-         if ($config->useUrgency()) {
-            $urgency_ticket = new PluginMoreticketUrgencyTicket();
-            $urgency_ticket->showForm($_POST['tickets_id']);
-         }
-         break;
+            break;
 
-      //      case 'showFormSolution':
-      //         $config = new PluginMoreticketConfig();
-      //
-      //         if ($config->useDurationSolution()) {
-      //            $solution = new PluginMoreticketSolution();
-      //            $solution->showFormSolution($_POST['tickets_id']);
-      //         }
-      //         break;
-   }
+        case 'showFormTicketTask':
+            $config = new PluginMoreticketConfig();
+            // Ticket is waiting
+            if ($config->useWaiting()) {
+                $waiting_ticket = new PluginMoreticketWaitingTicket();
+                $waiting_ticket->showFormTicketTask($_POST['tickets_id']);
+            }
+
+            break;
+        case 'showFormUrgency':
+            $config = new PluginMoreticketConfig();
+            // Ticket is waiting
+            if ($config->useUrgency()) {
+                $urgency_ticket = new PluginMoreticketUrgencyTicket();
+                $urgency_ticket->showForm($_POST['tickets_id']);
+            }
+            break;
+
+        //      case 'showFormSolution':
+        //         $config = new PluginMoreticketConfig();
+        //
+        //         if ($config->useDurationSolution()) {
+        //            $solution = new PluginMoreticketSolution();
+        //            $solution->showFormSolution($_POST['tickets_id']);
+        //         }
+        //         break;
+    }
 }

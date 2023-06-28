@@ -78,7 +78,7 @@ class PluginMoreticketTicket extends CommonITILObject {
       $clean_close_ticket = true;
 
       if (Session::haveRight("plugin_moreticket", UPDATE)) {
-//         PluginMoreticketWaitingTicket::preAddWaitingTicket($ticket);
+         PluginMoreticketWaitingTicket::preAddWaitingTicket($ticket);
          if (PluginMoreticketCloseTicket::preAddCloseTicket($ticket)) {
             $clean_close_ticket = false;
          }
@@ -112,7 +112,7 @@ class PluginMoreticketTicket extends CommonITILObject {
       PluginMoreticketNotificationTicket::afterAddTicket($ticket);
 
       if (Session::haveRight("plugin_moreticket", UPDATE)) {
-//         PluginMoreticketWaitingTicket::postAddWaitingTicket($ticket);
+         PluginMoreticketWaitingTicket::postAddWaitingTicket($ticket);
          PluginMoreticketCloseTicket::postAddCloseTicket($ticket);
          if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
             unset($_SESSION['glpi_plugin_moreticket_close']);
@@ -146,9 +146,9 @@ class PluginMoreticketTicket extends CommonITILObject {
          return false;
       }
 
-//      if (Session::haveRight("plugin_moreticket", UPDATE)) {
-//         PluginMoreticketWaitingTicket::preUpdateWaitingTicket($ticket);
-//      }
+      if (Session::haveRight("plugin_moreticket", UPDATE)) {
+         PluginMoreticketWaitingTicket::preUpdateWaitingTicket($ticket);
+      }
 
       if (Session::haveRight("plugin_moreticket_justification", READ)) {
          PluginMoreticketUrgencyTicket::preUpdateUrgencyTicket($ticket);
@@ -164,15 +164,15 @@ class PluginMoreticketTicket extends CommonITILObject {
       PluginMoreticketNotificationTicket::afterUpdateTicket($ticket);
 
       if (Session::haveRight("plugin_moreticket", UPDATE)) {
-//         PluginMoreticketWaitingTicket::postUpdateWaitingTicket($ticket);
+         PluginMoreticketWaitingTicket::postUpdateWaitingTicket($ticket);
 
          if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
             unset($_SESSION['glpi_plugin_moreticket_close']);
          }
 
-//         if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-//            unset($_SESSION['glpi_plugin_moreticket_waiting']);
-//         }
+         if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
+            unset($_SESSION['glpi_plugin_moreticket_waiting']);
+         }
       }
 
       if (Session::haveRight("plugin_moreticket_justification", READ)) {

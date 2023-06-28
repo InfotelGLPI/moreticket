@@ -97,8 +97,8 @@ function plugin_moreticket_install() {
 
    $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.7.0.sql");
 
-   CronTask::Unregister('moreticket');
-//   CronTask::Register('PluginMoreticketWaitingTicket', 'MoreticketWaitingTicket', DAY_TIMESTAMP, ['state' => 0]);
+//   CronTask::Unregister('moreticket');
+   CronTask::Register('PluginMoreticketWaitingTicket', 'MoreticketWaitingTicket', DAY_TIMESTAMP, ['state' => 0]);
 
 //
 //   CronTask::Register('PluginMoreticketCrontask', 'MoreticketFollowup', HOUR_TIMESTAMP,[
@@ -192,15 +192,15 @@ function plugin_moreticket_getDatabaseRelations() {
 /**
  * @param $item
  */
-//function plugin_pre_item_purge_moreticket($item) {
-//
-//   switch (get_class($item)) {
-//      case 'Ticket' :
-//         $temp = new PluginMoreticketWaitingTicket();
-//         $temp->deleteByCriteria(['tickets_id' => $item->getField('id')]);
-//         break;
-//   }
-//}
+function plugin_pre_item_purge_moreticket($item) {
+
+   switch (get_class($item)) {
+      case 'Ticket' :
+         $temp = new PluginMoreticketWaitingTicket();
+         $temp->deleteByCriteria(['tickets_id' => $item->getField('id')]);
+         break;
+   }
+}
 
 
 ////// SEARCH FUNCTIONS ///////() {

@@ -33,11 +33,6 @@
     border: solid 1px #CCCCCC;
 }
 
-#cl_menu {
-    text-align: left;
-    background-color: #ffffff;
-}
-
 .moreticket_waiting_ticket {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
