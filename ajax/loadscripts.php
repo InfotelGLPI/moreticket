@@ -64,7 +64,7 @@ if (isset($_POST['action'])) {
          echo "var moreticket = $(document).moreticket(" . json_encode($params) . ");";
 
          if (Session::haveRight("plugin_moreticket", UPDATE)
-            && ($config->useWaiting() == true)) {
+            && ($config->useWaiting() == true || $config->useSolution() == true)) {
             if (Session::getCurrentInterface() == "central"
                && (strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false)) {
 

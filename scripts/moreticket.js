@@ -39,7 +39,7 @@
 
                 // only in ticket form
                 if (location.pathname.indexOf('front/ticket.form.php') > 0
-                    && object.params.use_waiting) {
+                    && (object.params.use_waiting ||object.params.use_solution)) {
                     if (tickets_id == 0 || tickets_id == undefined) {
                         object.createTicket(tickets_id);
                     } else {
@@ -75,64 +75,68 @@
                 type: "POST",
                 dataType: "html",
                 success: function (response, opts) {
-                    var requester = response;
+                    $(document).ready(function () {
+                        setTimeout(function () {
+                            var requester = response;
 
-                    var status_bloc = $("select[name='status']");
+                            var status_bloc = $("select[name='status']");
 
-                    if (status_bloc !== undefined) {
-                        status_bloc.parent().append(requester);
+                            if (status_bloc !== undefined) {
+                                status_bloc.parent().append(requester);
 
-                        // ON DISPLAY : Display or hide waiting type
-                        if ($("#moreticket_waiting_ticket") != undefined && $("#moreticket_close_ticket") != undefined) {
-                            // WAITING TICKET
-                            if (status_bloc.val() === object.params.waiting && object.params.use_waiting) {
-                                $("#moreticket_waiting_ticket").css({'display': 'block'});
-                            } else {
-                                $("#moreticket_waiting_ticket").css({'display': 'none'});
-                            }
-                            // CLOSE TICKET
-                            var show_solution = false;
-                            if (object.params.solution_status != null && object.params.solution_status != '') {
-                                var solutionstatus = object.params.solution_status.replace(/&quot;/g,'"');
-                                $.each($.parseJSON(solutionstatus), function (index, val) {
-                                    if (index == status_bloc.val()) {
-                                        show_solution = true;
+                                // ON DISPLAY : Display or hide waiting type
+                                if ($("#moreticket_waiting_ticket") != undefined && $("#moreticket_close_ticket") != undefined) {
+                                    // WAITING TICKET
+                                    if (status_bloc.val() === object.params.waiting && object.params.use_waiting) {
+                                        $("#moreticket_waiting_ticket").css({'display': 'block'});
+                                    } else {
+                                        $("#moreticket_waiting_ticket").css({'display': 'none'});
                                     }
-                                });
-                            }
-                            if (show_solution && object.params.use_solution) {
-                                $("#moreticket_close_ticket").css({'display': 'block'});
-                            } else {
-                                $("#moreticket_close_ticket").css({'display': 'none'});
-                            }
+                                    // CLOSE TICKET
+                                    var show_solution = false;
+                                    if (object.params.solution_status != null && object.params.solution_status != '') {
+                                        var solutionstatus = object.params.solution_status.replace(/&quot;/g,'"');
+                                        $.each($.parseJSON(solutionstatus), function (index, val) {
+                                            if (index == status_bloc.val()) {
+                                                show_solution = true;
+                                            }
+                                        });
+                                    }
+                                    if (show_solution && object.params.use_solution) {
+                                        $("#moreticket_close_ticket").css({'display': 'block'});
+                                    } else {
+                                        $("#moreticket_close_ticket").css({'display': 'none'});
+                                    }
 
-                            // ONCLICK : Display or hide waiting type
-                            status_bloc.change(function () {
-                                // WAITING TICKET
-                                if (status_bloc.val() == object.params.waiting && object.params.use_waiting) {
-                                    $("#moreticket_waiting_ticket").css({'display': 'block'});
-                                } else {
-                                    $("#moreticket_waiting_ticket").css({'display': 'none'});
-                                }
+                                    // ONCLICK : Display or hide waiting type
+                                    status_bloc.change(function () {
+                                        // WAITING TICKET
+                                        if (status_bloc.val() == object.params.waiting && object.params.use_waiting) {
+                                            $("#moreticket_waiting_ticket").css({'display': 'block'});
+                                        } else {
+                                            $("#moreticket_waiting_ticket").css({'display': 'none'});
+                                        }
 
-                                // CLOSE TICKET
-                                var show_solution = false;
-                                if (object.params.solution_status != null && object.params.solution_status != '') {
-                                    var solutionstatus = object.params.solution_status.replace(/&quot;/g,'"');
-                                    $.each($.parseJSON(solutionstatus), function (index, val) {
-                                        if (index == status_bloc.val()) {
-                                            show_solution = true;
+                                        // CLOSE TICKET
+                                        var show_solution = false;
+                                        if (object.params.solution_status != null && object.params.solution_status != '') {
+                                            var solutionstatus = object.params.solution_status.replace(/&quot;/g,'"');
+                                            $.each($.parseJSON(solutionstatus), function (index, val) {
+                                                if (index == status_bloc.val()) {
+                                                    show_solution = true;
+                                                }
+                                            });
+                                        }
+                                        if (show_solution && object.params.use_solution) {
+                                            $("#moreticket_close_ticket").css({'display': 'block'});
+                                        } else {
+                                            $("#moreticket_close_ticket").css({'display': 'none'});
                                         }
                                     });
                                 }
-                                if (show_solution && object.params.use_solution) {
-                                    $("#moreticket_close_ticket").css({'display': 'block'});
-                                } else {
-                                    $("#moreticket_close_ticket").css({'display': 'none'});
-                                }
-                            });
-                        }
-                    }
+                            }
+                        }, 500);
+                    });
                 }
             });
         };
@@ -154,38 +158,41 @@
                 type: "POST",
                 dataType: "html",
                 success: function (response, opts) {
-
-                    // console.log(response);
-                    if ($("#moreticket_waiting_ticket").length != 0) {
-                        $("#moreticket_waiting_ticket").remove();
-                    }
-                    var requester = response;
-
-                    var status_bloc = $("select[name='status']");
-
-                    if (status_bloc != undefined && status_bloc.length != 0) {
-                        status_bloc.parent().append(requester);
-
-                        // ON DISPLAY : Display or hide waiting type
-                        if ($("#moreticket_waiting_ticket") != undefined) {
-                            // WAITING TICKET
-                            if (status_bloc.val() == object.params.waiting) {
-                                $("#moreticket_waiting_ticket").css({'display': 'block'});
-                            } else {
-                                $("#moreticket_waiting_ticket").css({'display': 'none'});
+                    $(document).ready(function () {
+                        setTimeout(function () {
+                            // console.log(response);
+                            if ($("#moreticket_waiting_ticket").length != 0) {
+                                $("#moreticket_waiting_ticket").remove();
                             }
+                            var requester = response;
 
-                            // ONCHANGE : Display or hide waiting type
-                            status_bloc.change(function () {
-                                // WAITING TICKET
-                                if (status_bloc.val() == object.params.waiting) {
-                                    $("#moreticket_waiting_ticket").css({'display': 'block'});
-                                } else {
-                                    $("#moreticket_waiting_ticket").css({'display': 'none'});
+                            var status_bloc = $("select[name='status']");
+
+                            if (status_bloc != undefined && status_bloc.length != 0) {
+                                status_bloc.parent().append(requester);
+
+                                // ON DISPLAY : Display or hide waiting type
+                                if ($("#moreticket_waiting_ticket") != undefined) {
+                                    // WAITING TICKET
+                                    if (status_bloc.val() == object.params.waiting) {
+                                        $("#moreticket_waiting_ticket").css({'display': 'block'});
+                                    } else {
+                                        $("#moreticket_waiting_ticket").css({'display': 'none'});
+                                    }
+
+                                    // ONCHANGE : Display or hide waiting type
+                                    status_bloc.change(function () {
+                                        // WAITING TICKET
+                                        if (status_bloc.val() == object.params.waiting) {
+                                            $("#moreticket_waiting_ticket").css({'display': 'block'});
+                                        } else {
+                                            $("#moreticket_waiting_ticket").css({'display': 'none'});
+                                        }
+                                    });
                                 }
-                            });
-                        }
-                    }
+                            }
+                        }, 500);
+                    });
                 }
             });
         };
