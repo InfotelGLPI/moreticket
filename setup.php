@@ -49,9 +49,9 @@ function plugin_init_moreticket() {
         if (class_exists('PluginMoreticketProfile')) { // only if plugin activated
             $config = new PluginMoreticketConfig();
 
-            if (Session::haveRight("plugin_moreticket_justification", READ)) {
+//            if (Session::haveRight("plugin_moreticket_justification", READ)) {
                 $PLUGIN_HOOKS['add_javascript']['moreticket'] = ["scripts/moreticket.js"];
-            }
+//            }
             if ($config->useDurationSolution() == true) {
                 $PLUGIN_HOOKS['post_item_form']['moreticket'] = ['PluginMoreticketSolution', 'showFormSolution'];
                 $PLUGIN_HOOKS['pre_item_add']['moreticket']   =
