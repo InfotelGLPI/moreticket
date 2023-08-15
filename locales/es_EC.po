@@ -1,0 +1,213 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR MoreTicket Development Team
+# This file is distributed under the same license as the GLPI - MoreTicket plugin package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Soporte Infraestructura Standby, 2023
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GLPI - MoreTicket plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-06-29 13:20+0000\n"
+"PO-Revision-Date: 2020-11-02 16:11+0000\n"
+"Last-Translator: Soporte Infraestructura Standby, 2023\n"
+"Language-Team: Spanish (Ecuador) (https://app.transifex.com/infotelGLPI/teams/50826/es_EC/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es_EC\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+
+#: hook.php:253 hook.php:260 hook.php:267 hook.php:274
+#: inc/closeticket.class.php:78 inc/closeticket.class.php:82
+#: inc/closeticket.class.php:126 inc/closeticket.class.php:186
+#: inc/closeticket.class.php:339 inc/closeticket.class.php:393
+#: inc/config.class.php:181
+msgid "Close ticket informations"
+msgstr "Cerrar información de tickets"
+
+#: hook.php:288
+msgid "Updated by a user"
+msgstr "Actualizado por un usuario"
+
+#: setup.php:117 inc/profile.class.php:50 inc/profile.class.php:212
+msgid "More ticket"
+msgstr "Mas ticket"
+
+#: front/config.form.php:65
+msgid "Please activate the plugin"
+msgstr "Por favor, active el plugin"
+
+#: inc/closeticket.class.php:142 inc/closeticket.class.php:507
+msgid "Solution description"
+msgstr "Descripción de la solución"
+
+#: inc/closeticket.class.php:161
+msgid "Ticket cannot be closed"
+msgstr "El ticket no se puede cerrar"
+
+#: inc/closeticket.class.php:643
+#, php-format
+msgid "%1$s added closing informations"
+msgstr "%1$s información de cierre añadida"
+
+#: inc/closeticket.class.php:663
+#, php-format
+msgid "%1$s updated closing informations"
+msgstr "%1$s información de cierre actualizada"
+
+#: inc/closeticket.class.php:683
+#, php-format
+msgid "%1$s deleted closing informations"
+msgstr "%1$s información de cierre suprimida"
+
+#: inc/config.class.php:98 inc/waitingticket.class.php:905
+msgid "Ticket waiting"
+msgstr "ticket en espera"
+
+#: inc/config.class.php:102
+msgid "Use waiting process"
+msgstr "Usar el proceso de espera"
+
+#: inc/config.class.php:120
+msgid "Postponement date is mandatory"
+msgstr "La fecha de aplazamiento es obligatoria"
+
+#: inc/config.class.php:135
+msgid "Waiting reason is mandatory"
+msgstr "La razón de la espera es obligatoria"
+
+#: inc/config.class.php:142
+msgid "Add followup when waiting date is reached"
+msgstr "Agregar seguimiento cuando se alcance la fecha de espera"
+
+#: inc/config.class.php:154
+msgid "Ticket resolution and close"
+msgstr "Resolución y cierre de tickets"
+
+#: inc/config.class.php:156
+msgid "Use solution process"
+msgstr "Usar proceso de solución"
+
+#: inc/config.class.php:174
+msgid "Solution type is mandatory"
+msgstr "El tipo de solución es obligatorio"
+
+#: inc/config.class.php:187
+msgid "Status used to display solution block"
+msgstr "Estado utilizado para mostrar el bloque de soluciones"
+
+#: inc/config.class.php:200
+msgid "Add a followup on immediate ticket closing"
+msgstr "Agregar un seguimiento sobre el cierre inmediato de tickets"
+
+#: inc/config.class.php:206
+msgid "Use the 'Duration' field in the add solution interface"
+msgstr "Usar el campo 'Duración' en la interfaz de agregar solución"
+
+#: inc/config.class.php:220
+msgid "Mandatory 'Duration' field"
+msgstr "Campo obligatorio 'Duración'"
+
+#: inc/config.class.php:225
+msgid "Ticket urgency"
+msgstr "Urgencia del ticket"
+
+#: inc/config.class.php:227
+msgid "Use a justification of the urgency field"
+msgstr "Utilizar una justificación del campo de urgencia"
+
+#: inc/config.class.php:243
+msgid "Urgency impacted justification for the field"
+msgstr "La urgencia impactó en la justificación del campo"
+
+#: inc/config.class.php:265
+msgid "Update ticket status"
+msgstr "Actualizar el estado del ticket"
+
+#: inc/config.class.php:268
+msgid "Update ticket status to processing after add document"
+msgstr ""
+"Actualizar el estado del ticket al procesamiento después de agregar "
+"documento"
+
+#: inc/config.class.php:274
+msgid "Update ticket status to processing after approval"
+msgstr "Actualizar el estado del ticket a tramitación tras su aprobación"
+
+#: inc/profile.class.php:175
+msgid "Adding a justification of urgency"
+msgstr "Añadir una justificación de urgencia"
+
+#: inc/profile.class.php:183
+msgid "Hide task duration in tickets"
+msgstr "Ocultar la duración de la tarea en los tickets"
+
+#: inc/urgencyticket.class.php:70 inc/urgencyticket.class.php:167
+msgid "Justification"
+msgstr "Justificación"
+
+#: inc/urgencyticket.class.php:93
+msgid "Urgency ticket cannot be saved"
+msgstr "No se puede guardar el ticket de urgencia"
+
+#: inc/urgencyticket.class.php:95 inc/waitingticket.class.php:169
+msgid "Ticket cannot be saved"
+msgstr "No se puede guardar el ticket"
+
+#: inc/waitingticket.class.php:65
+msgid "Waiting ticket"
+msgid_plural "Waiting tickets"
+msgstr[0] "Tickets de espera"
+msgstr[1] "Tickets de espera"
+msgstr[2] "Tickets de espera"
+
+#: inc/waitingticket.class.php:133 inc/waitingticket.class.php:252
+#: inc/waitingticket.class.php:332 inc/waitingticket.class.php:412
+#: inc/waitingticket.class.php:475
+msgid "Postponement date"
+msgstr "Fecha de aplazamiento"
+
+#: inc/waitingticket.class.php:137 inc/waitingticket.class.php:236
+#: inc/waitingticket.class.php:317 inc/waitingticket.class.php:397
+#: inc/waitingticket.class.php:473
+msgid "Reason"
+msgstr "Razón"
+
+#: inc/waitingticket.class.php:167
+msgid "Waiting ticket cannot be saved"
+msgstr "El ticket de espera no se puede guardar"
+
+#: inc/waitingticket.class.php:173
+msgid "Postponement date is inferior of today's date"
+msgstr "La fecha de aplazamiento es inferior a la fecha de hoy"
+
+#: inc/waitingticket.class.php:469 inc/waitingticket.class.php:512
+msgid "Ticket suspension history"
+msgstr "Historial de suspensión de tickets"
+
+#: inc/waitingticket.class.php:472
+msgid "Suspension date"
+msgstr "Fecha de suspensión"
+
+#: inc/waitingticket.class.php:476
+msgid "Suspension end date"
+msgstr "Fecha de fin de la suspensión"
+
+#: inc/waitingticket.class.php:818
+msgid "Waiting ticket exceedeed"
+msgstr "Ticket de espera superado"
+
+#: inc/waitingticket.class.php:857
+msgid "End of standby ticket"
+msgstr "Fin del ticket de espera"
+
+#: inc/waitingtype.class.php:48
+msgid "Waiting type"
+msgid_plural "Waiting types"
+msgstr[0] "Tipos de espera"
+msgstr[1] "Tipos de espera"
+msgstr[2] "Tipos de espera"
