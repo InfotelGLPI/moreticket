@@ -83,7 +83,7 @@ msgstr "La raison de mise en attente est obligatoire"
 
 #: inc/config.class.php:142
 msgid "Add followup when waiting date is reached"
-msgstr "Ajout d'un suivi lors que la date de report est atteinte"
+msgstr "Ajout d'un suivi lorsque la date de report est atteinte"
 
 #: inc/config.class.php:154
 msgid "Ticket resolution and close"
