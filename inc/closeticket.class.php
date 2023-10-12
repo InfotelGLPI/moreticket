@@ -448,7 +448,9 @@ class PluginMoreticketCloseTicket extends CommonDBTM
         // If values are saved in session we retrieve it
         if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
             foreach ($_SESSION['glpi_plugin_moreticket_close'] as $key => $value) {
-                $ticket->fields[$key] = str_replace(['\r\n', '\r', '\n'], '', $value);
+                if (!is_array($value)) {
+                    $ticket->fields[$key] = str_replace(['\r\n', '\r', '\n'], '', $value);
+                }
             }
         }
 
@@ -564,8 +566,7 @@ JAVASCRIPT;
                     && in_array($item->input['status'], $solution_status)) {
                     if (self::checkMandatory($item->input)) {
                         // Add followup on immediate ticket closing
-                        if ($config->closeFollowup()
-                            && $item->input['id'] == 0) {
+                        if ($item->input['id'] == 0) {
                             $item->input['statusold'] = $item->input['status'];
                             $item->input['status'] = 0;
                         }

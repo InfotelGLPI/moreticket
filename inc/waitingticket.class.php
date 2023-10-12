@@ -829,8 +829,9 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                                  'status' => $waiting['status']]);
                 $waiting_ticket->update(['id'                  => $waiting['id'],
                                          'date_end_suspension' => date("Y-m-d H:i:s")]);
-                if ($config->addFollowupStopWaiting()) {
+                if ($config->addTaskStopWaiting()) {
                     $ticketTask->add(['tickets_id' => $ticket->getID(),
+                                      'is_private' => 1,
                                       'content'    => Toolbox::addslashes_deep($content), 'state' => 2]);
                 }
                 $cron_status = 1;

@@ -459,7 +459,7 @@ class PluginMoreticketConfig extends CommonDBTM {
       return $values;
    }
 
-   function addFollowupStopWaiting() {
+   function addTaskStopWaiting() {
       return $this->fields['add_followup_stop_waiting'];
    }
 
