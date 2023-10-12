@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-29 13:20+0000\n"
+"POT-Creation-Date: 2023-10-12 13:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,7 @@ msgstr ""
 msgid "Please activate the plugin"
 msgstr ""
 
-#: inc/closeticket.class.php:142 inc/closeticket.class.php:507
+#: inc/closeticket.class.php:142 inc/closeticket.class.php:509
 msgid "Solution description"
 msgstr ""
 
@@ -46,22 +46,22 @@ msgstr ""
 msgid "Ticket cannot be closed"
 msgstr ""
 
-#: inc/closeticket.class.php:643
+#: inc/closeticket.class.php:644
 #, php-format
 msgid "%1$s added closing informations"
 msgstr ""
 
-#: inc/closeticket.class.php:663
+#: inc/closeticket.class.php:664
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr ""
 
-#: inc/closeticket.class.php:683
+#: inc/closeticket.class.php:684
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr ""
 
-#: inc/config.class.php:98 inc/waitingticket.class.php:905
+#: inc/config.class.php:98 inc/waitingticket.class.php:906
 msgid "Ticket waiting"
 msgstr ""
 
@@ -195,7 +195,7 @@ msgstr ""
 msgid "Waiting ticket exceedeed"
 msgstr ""
 
-#: inc/waitingticket.class.php:857
+#: inc/waitingticket.class.php:858
 msgid "End of standby ticket"
 msgstr ""
 
