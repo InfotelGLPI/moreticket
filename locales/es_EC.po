@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-29 13:20+0000\n"
+"POT-Creation-Date: 2023-10-12 13:03+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Soporte Infraestructura Standby, 2023\n"
 "Language-Team: Spanish (Ecuador) (https://app.transifex.com/infotelGLPI/teams/50826/es_EC/)\n"
@@ -27,7 +27,7 @@ msgstr ""
 #: inc/closeticket.class.php:339 inc/closeticket.class.php:393
 #: inc/config.class.php:181
 msgid "Close ticket informations"
-msgstr "Cerrar información de tickets"
+msgstr "Cerrar información de Casos"
 
 #: hook.php:288
 msgid "Updated by a user"
@@ -35,38 +35,38 @@ msgstr "Actualizado por un usuario"
 
 #: setup.php:117 inc/profile.class.php:50 inc/profile.class.php:212
 msgid "More ticket"
-msgstr "Mas ticket"
+msgstr "Más Casos"
 
 #: front/config.form.php:65
 msgid "Please activate the plugin"
-msgstr "Por favor, active el plugin"
+msgstr "Por favor, active el complemento"
 
-#: inc/closeticket.class.php:142 inc/closeticket.class.php:507
+#: inc/closeticket.class.php:142 inc/closeticket.class.php:509
 msgid "Solution description"
 msgstr "Descripción de la solución"
 
 #: inc/closeticket.class.php:161
 msgid "Ticket cannot be closed"
-msgstr "El ticket no se puede cerrar"
+msgstr "El Caso no se puede cerrar"
 
-#: inc/closeticket.class.php:643
+#: inc/closeticket.class.php:644
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s información de cierre añadida"
 
-#: inc/closeticket.class.php:663
+#: inc/closeticket.class.php:664
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s información de cierre actualizada"
 
-#: inc/closeticket.class.php:683
+#: inc/closeticket.class.php:684
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s información de cierre suprimida"
 
-#: inc/config.class.php:98 inc/waitingticket.class.php:905
+#: inc/config.class.php:98 inc/waitingticket.class.php:906
 msgid "Ticket waiting"
-msgstr "ticket en espera"
+msgstr "Caso en espera"
 
 #: inc/config.class.php:102
 msgid "Use waiting process"
@@ -86,7 +86,7 @@ msgstr "Agregar seguimiento cuando se alcance la fecha de espera"
 
 #: inc/config.class.php:154
 msgid "Ticket resolution and close"
-msgstr "Resolución y cierre de tickets"
+msgstr "Resolución y cierre de Casos"
 
 #: inc/config.class.php:156
 msgid "Use solution process"
@@ -102,7 +102,7 @@ msgstr "Estado utilizado para mostrar el bloque de soluciones"
 
 #: inc/config.class.php:200
 msgid "Add a followup on immediate ticket closing"
-msgstr "Agregar un seguimiento sobre el cierre inmediato de tickets"
+msgstr "Agregar un seguimiento sobre el cierre inmediato de Casos"
 
 #: inc/config.class.php:206
 msgid "Use the 'Duration' field in the add solution interface"
@@ -114,7 +114,7 @@ msgstr "Campo obligatorio 'Duración'"
 
 #: inc/config.class.php:225
 msgid "Ticket urgency"
-msgstr "Urgencia del ticket"
+msgstr "Urgencia del Caso"
 
 #: inc/config.class.php:227
 msgid "Use a justification of the urgency field"
@@ -126,17 +126,16 @@ msgstr "La urgencia impactó en la justificación del campo"
 
 #: inc/config.class.php:265
 msgid "Update ticket status"
-msgstr "Actualizar el estado del ticket"
+msgstr "Actualizar el estado del Caso"
 
 #: inc/config.class.php:268
 msgid "Update ticket status to processing after add document"
 msgstr ""
-"Actualizar el estado del ticket al procesamiento después de agregar "
-"documento"
+"Actualizar el estado del Caso al procesamiento después de agregar documento"
 
 #: inc/config.class.php:274
 msgid "Update ticket status to processing after approval"
-msgstr "Actualizar el estado del ticket a tramitación tras su aprobación"
+msgstr "Actualizar el estado del Caso a tramitación tras su aprobación"
 
 #: inc/profile.class.php:175
 msgid "Adding a justification of urgency"
@@ -144,7 +143,7 @@ msgstr "Añadir una justificación de urgencia"
 
 #: inc/profile.class.php:183
 msgid "Hide task duration in tickets"
-msgstr "Ocultar la duración de la tarea en los tickets"
+msgstr "Ocultar la duración de la tarea en los Casos"
 
 #: inc/urgencyticket.class.php:70 inc/urgencyticket.class.php:167
 msgid "Justification"
@@ -152,18 +151,18 @@ msgstr "Justificación"
 
 #: inc/urgencyticket.class.php:93
 msgid "Urgency ticket cannot be saved"
-msgstr "No se puede guardar el ticket de urgencia"
+msgstr "No se puede guardar la Urgencia del Caso"
 
 #: inc/urgencyticket.class.php:95 inc/waitingticket.class.php:169
 msgid "Ticket cannot be saved"
-msgstr "No se puede guardar el ticket"
+msgstr "No se puede guardar el Caso"
 
 #: inc/waitingticket.class.php:65
 msgid "Waiting ticket"
 msgid_plural "Waiting tickets"
-msgstr[0] "Tickets de espera"
-msgstr[1] "Tickets de espera"
-msgstr[2] "Tickets de espera"
+msgstr[0] "Caso en espera"
+msgstr[1] "Casos en espera"
+msgstr[2] "Casos en espera"
 
 #: inc/waitingticket.class.php:133 inc/waitingticket.class.php:252
 #: inc/waitingticket.class.php:332 inc/waitingticket.class.php:412
@@ -179,7 +178,7 @@ msgstr "Razón"
 
 #: inc/waitingticket.class.php:167
 msgid "Waiting ticket cannot be saved"
-msgstr "El ticket de espera no se puede guardar"
+msgstr "El Caso en espera no se puede guardar"
 
 #: inc/waitingticket.class.php:173
 msgid "Postponement date is inferior of today's date"
@@ -187,7 +186,7 @@ msgstr "La fecha de aplazamiento es inferior a la fecha de hoy"
 
 #: inc/waitingticket.class.php:469 inc/waitingticket.class.php:512
 msgid "Ticket suspension history"
-msgstr "Historial de suspensión de tickets"
+msgstr "Historial de suspensión de Casos"
 
 #: inc/waitingticket.class.php:472
 msgid "Suspension date"
@@ -199,15 +198,15 @@ msgstr "Fecha de fin de la suspensión"
 
 #: inc/waitingticket.class.php:818
 msgid "Waiting ticket exceedeed"
-msgstr "Ticket de espera superado"
+msgstr "Caso en espera excedido"
 
-#: inc/waitingticket.class.php:857
+#: inc/waitingticket.class.php:858
 msgid "End of standby ticket"
-msgstr "Fin del ticket de espera"
+msgstr "Fin del Caso en espera"
 
 #: inc/waitingtype.class.php:48
 msgid "Waiting type"
 msgid_plural "Waiting types"
-msgstr[0] "Tipos de espera"
+msgstr[0] "Tipo de espera"
 msgstr[1] "Tipos de espera"
 msgstr[2] "Tipos de espera"
