@@ -4,91 +4,67 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Davide <spam@habilitas.it>, 2021
+# Davide <spam@habilitas.it>, 2024
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-19 09:41+0000\n"
+"POT-Creation-Date: 2023-10-12 13:03+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
-"Last-Translator: Davide <spam@habilitas.it>, 2021\n"
-"Language-Team: Italian (Italy) (https://www.transifex.com/infotelGLPI/teams/50826/it_IT/)\n"
+"Last-Translator: Davide <spam@habilitas.it>, 2024\n"
+"Language-Team: Italian (Italy) (https://app.transifex.com/infotelGLPI/teams/50826/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it_IT\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
-#: hook.php:101 inc/crontask.class.php:123
-msgid "Moreticket - Send a followup to waiting ticket"
-msgstr "Moreticket - Invia un commento alla chiamata in attesa"
-
-#: hook.php:106 inc/crontask.class.php:127
-msgid "Moreticket - Closed the tickets that did not respond to the follow-up"
-msgstr ""
-"Moreticket - Chiudi le chiamate per cui non c'è stata una risposta al "
-"commento"
-
-#: hook.php:222 inc/waitingticket.class.php:139
-#: inc/waitingticket.class.php:238 inc/waitingticket.class.php:317
-#: inc/waitingticket.class.php:390
-msgid "Reason"
-msgstr "Motivazione"
-
-#: hook.php:230 inc/waitingticket.class.php:131
-#: inc/waitingticket.class.php:253 inc/waitingticket.class.php:332
-#: inc/waitingticket.class.php:392
-msgid "Postponement date"
-msgstr "Data posticipata"
-
-#: hook.php:250 hook.php:257 hook.php:264 hook.php:271
-#: inc/closeticket.class.php:75 inc/closeticket.class.php:79
-#: inc/closeticket.class.php:121 inc/closeticket.class.php:178
-#: inc/closeticket.class.php:326 inc/closeticket.class.php:380
-#: inc/config.class.php:167
+#: hook.php:253 hook.php:260 hook.php:267 hook.php:274
+#: inc/closeticket.class.php:78 inc/closeticket.class.php:82
+#: inc/closeticket.class.php:126 inc/closeticket.class.php:186
+#: inc/closeticket.class.php:339 inc/closeticket.class.php:393
+#: inc/config.class.php:181
 msgid "Close ticket informations"
 msgstr "Informazioni sulla chiusura della chiamata"
 
-#: hook.php:285
-msgid "Suivi"
-msgstr "Commento"
+#: hook.php:288
+msgid "Updated by a user"
+msgstr "Aggiornato da un utente"
 
-#: setup.php:114 inc/crontask.class.php:30 inc/profile.class.php:49
-#: inc/profile.class.php:194
+#: setup.php:117 inc/profile.class.php:50 inc/profile.class.php:212
 msgid "More ticket"
 msgstr "Altre chiamate"
 
-#: front/config.form.php:66
+#: front/config.form.php:65
 msgid "Please activate the plugin"
 msgstr "Si prega di attivare il plugin"
 
-#: inc/closeticket.class.php:135 inc/closeticket.class.php:479
+#: inc/closeticket.class.php:142 inc/closeticket.class.php:509
 msgid "Solution description"
 msgstr "Descrizione della soluzione"
 
-#: inc/closeticket.class.php:154
+#: inc/closeticket.class.php:161
 msgid "Ticket cannot be closed"
 msgstr "La Chiamata non può essere chiusa"
 
-#: inc/closeticket.class.php:580
+#: inc/closeticket.class.php:644
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s aggiunte informazioni sulla chiusura"
 
-#: inc/closeticket.class.php:599
+#: inc/closeticket.class.php:664
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s aggiornate le informazioni sulla chiusura"
 
-#: inc/closeticket.class.php:618
+#: inc/closeticket.class.php:684
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s cancellate le informazioni sulla chiusura"
 
-#: inc/config.class.php:98 inc/config.class.php:243
-#: inc/waitingticket.class.php:807
+#: inc/config.class.php:98 inc/waitingticket.class.php:906
 msgid "Ticket waiting"
 msgstr "Chiamate in attesa"
 
@@ -97,149 +73,134 @@ msgid "Use waiting process"
 msgstr "Utilizza il processo di attesa"
 
 #: inc/config.class.php:120
-msgid "Report date is mandatory"
-msgstr "La data di segnalazione è obbligatoria"
+msgid "Postponement date is mandatory"
+msgstr "La data di rinvio è obbligatoria"
 
-#: inc/config.class.php:127
-msgid "Waiting type is mandatory"
-msgstr "Il tipo di attesa è obbligatoria"
-
-#: inc/config.class.php:134
+#: inc/config.class.php:135
 msgid "Waiting reason is mandatory"
 msgstr "La motivazione per l'attesa è obbligatoria"
 
-#: inc/config.class.php:140
+#: inc/config.class.php:142
+msgid "Add followup when waiting date is reached"
+msgstr "Aggiungere una risposta al raggiungimento della data di sospensione"
+
+#: inc/config.class.php:154
 msgid "Ticket resolution and close"
 msgstr "Chiamata risolta e chiusa"
 
-#: inc/config.class.php:142
+#: inc/config.class.php:156
 msgid "Use solution process"
 msgstr "Usa il processo di risoluzione"
 
-#: inc/config.class.php:160
+#: inc/config.class.php:174
 msgid "Solution type is mandatory"
 msgstr "Il tipo di soluzione è obbligatorio"
 
-#: inc/config.class.php:173
-msgid "Status used to display solution bloc"
-msgstr "Stato utilizzato permostrare il blocco della soluzione"
+#: inc/config.class.php:187
+msgid "Status used to display solution block"
+msgstr "Stato utilizzato per mostrare il blocco della soluzione"
 
-#: inc/config.class.php:186
+#: inc/config.class.php:200
 msgid "Add a followup on immediate ticket closing"
 msgstr "Aggiungi un commento alla chiusura immediata delle chiamate"
 
-#: inc/config.class.php:192
+#: inc/config.class.php:206
 msgid "Use the 'Duration' field in the add solution interface"
 msgstr "Usa il campo Durata nell'interfaccia per aggiungere una soluzione"
 
-#: inc/config.class.php:206
+#: inc/config.class.php:220
 msgid "Mandatory 'Duration' field"
 msgstr "Il campo Durata è obbligatorio"
 
-#: inc/config.class.php:211
+#: inc/config.class.php:225
 msgid "Ticket urgency"
 msgstr "Urgenza della Chiamata"
 
-#: inc/config.class.php:213
+#: inc/config.class.php:227
 msgid "Use a justification of the urgency field"
 msgstr "Usa il campo 'motivazione dell'urgenza'"
 
-#: inc/config.class.php:229
+#: inc/config.class.php:243
 msgid "Urgency impacted justification for the field"
 msgstr "Motivazione per il campo Urgenza"
 
-#: inc/config.class.php:245
-msgid "Use the option ticket waiting in ticket followup"
-msgstr "Usa l'opzione Chiamata in attesa nei commenti alla chiamata"
-
-#: inc/config.class.php:250
-msgid "Display save button"
-msgstr "Mostra il bottone Salva"
-
-#: inc/config.class.php:252
-msgid "Add a save button on top ticket form"
-msgstr "Aggiungi il bottone Salva in testa alla pagina della chiamata"
-
-#: inc/config.class.php:257
+#: inc/config.class.php:265
 msgid "Update ticket status"
 msgstr "Aggiorna lo stato della chiamata"
 
-#: inc/config.class.php:260
+#: inc/config.class.php:268
 msgid "Update ticket status to processing after add document"
 msgstr ""
 "Aggiorna lo stato della chiamata da lavorare dopo l'aggiunta di un allegato"
 
-#: inc/config.class.php:266
+#: inc/config.class.php:274
 msgid "Update ticket status to processing after approval"
 msgstr "Aggiorna lo stato della chiamata da lavorare dopo l'approvazione"
 
-#: inc/config.class.php:273
-msgid "Automatic sending a followup after x days of waiting"
-msgstr "Invia automaticamente un commento dopo x giorni di sospensione"
-
-#: inc/config.class.php:278
-msgid "Automatic closing ticket after x days after followup"
-msgstr "Chiudi automaticamente la chiamata dopo x giorni dall'ultimo commento"
-
-#: inc/config.class.php:283
-msgid "Content of followup"
-msgstr "Contenuto del commento"
-
-#: inc/config.class.php:288
-msgid "Close if a"
-msgstr "Chiudi se un"
-
-#: inc/config.class.php:288
-msgid "is linked"
-msgstr "è collegato"
-
-#: inc/profile.class.php:158
+#: inc/profile.class.php:175
 msgid "Adding a justification of urgency"
 msgstr "Aggiungendo la motivazione all'urgenza"
 
-#: inc/profile.class.php:166
+#: inc/profile.class.php:183
 msgid "Hide task duration in tickets"
 msgstr "Nascondi la durata dell'attività nella Chiamata"
 
-#: inc/urgencyticket.class.php:69 inc/urgencyticket.class.php:155
+#: inc/urgencyticket.class.php:70 inc/urgencyticket.class.php:167
 msgid "Justification"
 msgstr "Motivazione"
 
-#: inc/urgencyticket.class.php:92
+#: inc/urgencyticket.class.php:93
 msgid "Urgency ticket cannot be saved"
 msgstr "L'Urgenza della Chiamata non può essere salvata"
 
-#: inc/urgencyticket.class.php:94 inc/waitingticket.class.php:171
+#: inc/urgencyticket.class.php:95 inc/waitingticket.class.php:169
 msgid "Ticket cannot be saved"
 msgstr "La Chiamata non può essere salvata"
 
 #: inc/waitingticket.class.php:65
 msgid "Waiting ticket"
 msgid_plural "Waiting tickets"
-msgstr[0] "Chiamata in attesa"
+msgstr[0] "Chiamate in attesa"
 msgstr[1] "Chiamate in attesa"
+msgstr[2] "Chiamate in attesa"
 
-#: inc/waitingticket.class.php:169
+#: inc/waitingticket.class.php:133 inc/waitingticket.class.php:252
+#: inc/waitingticket.class.php:332 inc/waitingticket.class.php:412
+#: inc/waitingticket.class.php:475
+msgid "Postponement date"
+msgstr "Data di rinvio"
+
+#: inc/waitingticket.class.php:137 inc/waitingticket.class.php:236
+#: inc/waitingticket.class.php:317 inc/waitingticket.class.php:397
+#: inc/waitingticket.class.php:473
+msgid "Reason"
+msgstr "Motivazione"
+
+#: inc/waitingticket.class.php:167
 msgid "Waiting ticket cannot be saved"
 msgstr "La chiamata in attesa non può essere salvata"
 
-#: inc/waitingticket.class.php:175
-msgid "Report date is inferior of today's date"
-msgstr "La data di segnalazione è precedente alla data odierna"
+#: inc/waitingticket.class.php:173
+msgid "Postponement date is inferior of today's date"
+msgstr "La data di rinvio è precedente alla data odierna"
 
-#: inc/waitingticket.class.php:386 inc/waitingticket.class.php:426
+#: inc/waitingticket.class.php:469 inc/waitingticket.class.php:512
 msgid "Ticket suspension history"
-msgstr "Cronologia delle sospensioni della Chiamata"
+msgstr "Cronologia delle sospensioni della chiamata"
 
-#: inc/waitingticket.class.php:389
+#: inc/waitingticket.class.php:472
 msgid "Suspension date"
 msgstr "Data della sospensione"
 
-#: inc/waitingticket.class.php:393
+#: inc/waitingticket.class.php:476
 msgid "Suspension end date"
 msgstr "Data di fine sospensione"
 
-#: inc/waitingticket.class.php:754
+#: inc/waitingticket.class.php:818
+msgid "Waiting ticket exceedeed"
+msgstr "Chiamate in attesa oltre i limiti"
+
+#: inc/waitingticket.class.php:858
 msgid "End of standby ticket"
 msgstr "Fine dell'attesa della Chiamata"
 
@@ -248,3 +209,4 @@ msgid "Waiting type"
 msgid_plural "Waiting types"
 msgstr[0] "Tipologia di attesa"
 msgstr[1] "Tipologie di attesa"
+msgstr[2] "Tipologie di attesa"
