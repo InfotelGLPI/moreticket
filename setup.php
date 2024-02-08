@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_MORETICKET_VERSION', '1.7.3');
+define('PLUGIN_MORETICKET_VERSION', '1.7.4');
 
 if (!defined("PLUGIN_MORETICKET_DIR")) {
     define("PLUGIN_MORETICKET_DIR", Plugin::getPhpDir("moreticket"));
@@ -87,6 +87,8 @@ function plugin_init_moreticket() {
 
                 $PLUGIN_HOOKS['item_add']['moreticket']['Document']            = ['PluginMoreticketTicket', 'afterAddDocument'];
                 $PLUGIN_HOOKS['item_update']['moreticket']['TicketValidation'] = ['PluginMoreticketTicket', 'afterUpdateValidation'];
+                $PLUGIN_HOOKS['item_add']['moreticket'] ['TicketTask'] = ['PluginMoreticketTicket', 'afterAddTask'];
+                $PLUGIN_HOOKS['item_add']['moreticket']['ITILFollowup'] = ['PluginMoreticketTicket', 'afterAddFollowupTech'];
             }
 
             $PLUGIN_HOOKS['item_add']['moreticket']['ITILFollowup'] = ['PluginMoreticketNotificationTicket', 'afterAddFollowup'];
