@@ -309,7 +309,19 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         unset($_SESSION['glpi_plugin_moreticket_waiting']);
 
         $config = new PluginMoreticketConfig();
-
+        $condition = [
+            'tickets_id' => $ID,
+            'users_id' => Session::getLoginUserID(),
+            'type' => CommonITILActor::ASSIGN
+        ];
+        $is_tech = countElementsInTable("glpi_tickets_users", $condition);
+        if($config->fields['waiting_by_default_task'] && $is_tech){
+            echo "<script>
+                $(document).ready(function (){              
+                 document.getElementById('new-itilobject-form').querySelector('[id^=\"enable-pending-reasons\"]').click();
+                });
+                 </script>";
+        }
         echo "<div class='spaced' id='moreticket_waiting_ticket_task'>";
         echo "</br>";
         echo "<table id='cl_menu'>";
@@ -343,6 +355,9 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         echo "</td></tr>";
         echo "</table>";
         echo "</div>";
+        if($config->fields['waiting_by_default_task']){
+            echo Html::scriptBlock("$('#new-itilobject-form [id^=enable-pending-reasons]').click()");
+        }
     }
 
     /**
@@ -389,7 +404,19 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         unset($_SESSION['glpi_plugin_moreticket_waiting']);
 
         $config = new PluginMoreticketConfig();
-
+        $condition = [
+            'tickets_id' => $ID,
+            'users_id' => Session::getLoginUserID(),
+            'type' => CommonITILActor::ASSIGN
+        ];
+        $is_tech = countElementsInTable("glpi_tickets_users", $condition);
+        if($config->fields['waiting_by_default_followup'] && $is_tech){
+            echo "<script>
+                $(document).ready(function (){              
+                 document.getElementById('new-itilobject-form').querySelector('[id^=\"enable-pending-reasons\"]').click();
+                });
+                 </script>";
+        }
         echo "<div class='spaced' id='moreticket_waiting_ticket_followup'>";
         echo "</br>";
         echo "<table id='cl_menu'>";
@@ -423,6 +450,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         echo "</td></tr>";
         echo "</table>";
         echo "</div>";
+
     }
 
     /**
@@ -829,9 +857,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                                  'status' => $waiting['status']]);
                 $waiting_ticket->update(['id'                  => $waiting['id'],
                                          'date_end_suspension' => date("Y-m-d H:i:s")]);
-                if ($config->addTaskStopWaiting()) {
+                if ($config->addFollowupStopWaiting()) {
                     $ticketTask->add(['tickets_id' => $ticket->getID(),
-                                      'is_private' => 1,
                                       'content'    => Toolbox::addslashes_deep($content), 'state' => 2]);
                 }
                 $cron_status = 1;
