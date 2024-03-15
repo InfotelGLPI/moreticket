@@ -565,12 +565,6 @@ JAVASCRIPT;
                     && isset($item->input['status'])
                     && in_array($item->input['status'], $solution_status)) {
                     if (self::checkMandatory($item->input)) {
-                        // Add followup on immediate ticket closing
-                        if ($item->input['id'] == 0) {
-                            $item->input['statusold'] = $item->input['status'];
-                            $item->input['status'] = 0;
-                        }
-
                         $item->input['solution'] = str_replace(['\r', '\n', '\r\n'], '', $item->input['solution']);
                     } else {
                         $_SESSION['saveInput'][$item->getType()] = $item->input;
@@ -600,35 +594,26 @@ JAVASCRIPT;
             $array = json_decode($config->solutionStatus(), true);
             if (is_array($array)) {
                 $solution_status = array_keys($array);
-
                 // Then we add tickets informations
-                if (isset($item->input['id'])
+                if (isset($item->fields['id'])
                     && isset($item->input['status'])
-                    && $item->input['status'] == 0) {
-
+                    && in_array($item->input['status'], $solution_status)) {
                     $input = [];
                     $input['itemtype'] = 'Ticket';
                     $input['items_id'] = $item->getID();
                     $input['content'] = $item->input['solution'];
                     $input['date_creation'] = $item->input['date'];
                     $input['solutiontypes_id'] = $item->input['solutiontypes_id'];
+                    //Validate solution if ticket closed
+                    $input['status'] = $item->input['status'] == 6 ? 3 : 2;
+                    //Will cause error when trying to save solution for ticket with solved status without this
+                    $input['_do_not_compute_status'] = 1;
 
                     $itilsolution = new ITILSolution();
-                    $id = $itilsolution->add($input);
-
-                    //Validate solution if ticket closed
-                    if (in_array($item->input['status'], $solution_status)) {
-                        $inputUpd['status'] = 3;
-                        $inputUpd['id'] = $id;
-                        $itilsolution->update($inputUpd);
-                    }
-
-                    $item->update(['id' => $item->fields['id'],
-                        'status' => $item->input['statusold']]);
+                    $itilsolution->add($input);
                 }
             }
         }
-
     }
 
     /**
