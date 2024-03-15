@@ -371,7 +371,7 @@
                         var display = 0;
                         for (var i = 0; i < radio_urgency.length; i++) {
                             if (inarray(radio_urgency[i].value, object.params.urgency_ids)
-                                && object.params.use_urgency) {
+                                & object.params.use_urgency) {
                                 if (display === 0) {
                                     $("#justification").after(blocktoadd);
                                     display++;
@@ -381,7 +381,7 @@
                         // ON DISPLAY : Display or hide urgency type
                         // URGENCY TICKET
                         if (inarray($('input[name=urgency]:checked').val(), object.params.urgency_ids)
-                            && object.params.use_urgency) {
+                            & object.params.use_urgency) {
                             $("div#moreticket_urgency_ticket").css({'display': 'flex'});
                         } else {
                             $("div#moreticket_urgency_ticket").css({'display': 'none'});
@@ -389,7 +389,7 @@
                         // ONCLICK : Display urgency type
                         $("input[name=urgency]:radio").click(function () {
                             if (inarray($('input[name=urgency]:checked').val(), object.params.urgency_ids)
-                                && object.params.use_urgency) {
+                                & object.params.use_urgency) {
                                 $("div#moreticket_urgency_ticket").css({'display': 'flex'});
                             } else {
                                 $("div#moreticket_urgency_ticket").css({'display': 'none'});

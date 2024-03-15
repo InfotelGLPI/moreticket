@@ -95,19 +95,21 @@ class PluginMoreticketNotificationTicket extends CommonDBTM {
       $notification = new PluginMoreticketNotificationTicket();
       $ticket       = new Ticket();
       $ticket->getFromDB($followup->getField('items_id'));
-      if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
-         $notification->add(
-            [
-               'tickets_id'           => $ticket->getID(),
-               'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-            ]);
-      } else {
-         $notification->update(
-            [
-               'id'                   => $notification->getID(),
-               'tickets_id'           => $ticket->getID(),
-               'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-            ]);
+      if ($ticket->getID() > 0) {
+          if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
+              $notification->add(
+                  [
+                      'tickets_id'           => $ticket->getID(),
+                      'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
+                  ]);
+          } else {
+              $notification->update(
+                  [
+                      'id'                   => $notification->getID(),
+                      'tickets_id'           => $ticket->getID(),
+                      'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
+                  ]);
+          }
       }
    }
 
