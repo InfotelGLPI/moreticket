@@ -54,10 +54,14 @@ if (Plugin::isPluginActive("moreticket")) {
       PluginMoreticketConfig::getConfig(true);
       Html::redirect($_SERVER['HTTP_REFERER']);
 
-   } else {
+   } else if (isset($_POST["tickets_migrate"])) {
 
+       $config->executeMigration();
+       Html::redirect($_SERVER['HTTP_REFERER']);
+
+   } else {
       Html::header(PluginMoreticketConfig::getTypeName(), '', "plugins", "moreticket");
-      $config->showConfigForm();
+      $config->display();
       Html::footer();
    }
 

@@ -75,6 +75,38 @@ class PluginMoreticketConfig extends CommonDBTM {
       return __("Setup");
    }
 
+    /**
+     * Définition du nom de l'onglet
+     **/
+    function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+        switch ($item->getType()) {
+            case __CLASS__:
+                $ong = [1 => __('Tools')];
+                return $ong;
+        }
+    }
+
+    public function defineTabs($options = [])
+    {
+        $ong = [];
+        $this->addDefaultFormTab($ong);
+        // add tabs defined in getTabNameForItem
+        $this->addStandardTab(__CLASS__, $ong, $options);
+        return $ong;
+    }
+
+    // handle display of tabs defined in getTabNameForItem (default tab call showForm)
+    static function displayTabContentForItem(CommonGLPI $item, $tabnum=0, $withtemplate=0) {
+        if ($item instanceof self) {
+            switch ($tabnum) {
+                case 1 : //"My second tab""
+                    $item->showToolsForm();
+                    break;
+            }
+        }
+        return true;
+    }
+
    /**
     * @param string $interface
     *
@@ -88,8 +120,7 @@ class PluginMoreticketConfig extends CommonDBTM {
       return $values;
    }
 
-   function showConfigForm() {
-
+   function showForm($ID, $options = []) {
       $this->getFromDB(1);
       echo "<div class='center'>";
       echo "<form name='form' method='post' action='" . $this->getFormURL() . "'>";
@@ -463,4 +494,166 @@ class PluginMoreticketConfig extends CommonDBTM {
       return $this->fields['add_followup_stop_waiting'];
    }
 
+    /**
+     * Get record of all tickets not marked as waiting ticket in core, but marked as waiting ticket in moreticket
+     * @return array rows of glpi_plugin_moreticket_waitingtickets
+     */
+   static function getTicketsToMigrate() {
+       $waitingTicket = new PluginMoreticketWaitingTicket();
+       $ticket = new Ticket();
+       $coreStatusWaiting = $ticket->find(['status' => ['!=', CommonITILObject::WAITING]]);
+       $idsNotWaiting = array_map(fn($e) => $e['id'], $coreStatusWaiting);
+
+       return $waitingTicket->find([
+           ['tickets_id' => $idsNotWaiting],
+           ['date_end_suspension' => 'null']
+       ]);
+   }
+
+    /**
+     * Generate HTML for Tools tab
+     * @return void
+     */
+    function showToolsForm() {
+        $count = count(self::getTicketsToMigrate());
+        echo "<div class='center'>";
+        echo "<form name='form' method='post' action='" . $this->getFormURL() . "'>";
+        echo "<table class='tab_cadre_fixe'>";
+        echo "<tr>
+                <th>" . __("Waiting tickets to migrate") . "</th>
+                <th>$count</th>
+              </tr>";
+
+        echo "<tr class='tab_bg_1' align='center'>";
+        echo "<td colspan='2' align='center'>";
+        echo Html::submit(__('Execute the migration', 'moreticket'), ['name' => 'tickets_migrate', 'class' => 'btn btn-primary']);
+        echo "</td>";
+        echo "</tr>";
+
+        echo "</table>";
+        Html::closeForm();
+        echo "</div>";
+    }
+
+    function executeMigration() {
+        global $DB;
+        $mappingFile = PLUGIN_MORETICKET_DIR.'/mapping_file.csv';
+        if (!file_exists($mappingFile)) {
+            die("The CSV file doesn't exist.");
+        }
+        $content = file_get_contents($mappingFile);
+        $rows = explode("\n", $content);
+        $data = [];
+        foreach ($rows as $index => $row) {
+            if (!empty($row) && $index > 0) {
+                $value = str_getcsv($row, ';');
+                // see if this is necessary
+                $value[2] = trim(str_replace('"', '', $value[2]));
+                $data[$value[2]] = [
+                    'core' => $value[0],
+                    'entity' => $value[1],
+                    'moreticket' => $value[2]
+                ];
+            }
+        }
+        $toMigrate = self::getTicketsToMigrate();
+        if (count($toMigrate)) {
+            // add pending reasons ids (core values) to data
+            $pendingReasonsName = array_map(fn($e) => $e['core'], $data);
+            $pendingReasons = $DB->request([
+                'SELECT' => ['name', 'id'],
+                'FROM' => 'glpi_pendingreasons',
+                //'WHERE' => [
+                //    'name' => $pendingReasonsName
+                //]
+            ]);
+            foreach ($pendingReasons as $pendingReason) {
+                $data = array_map(function($d) use ($pendingReason) {
+                    if ($d['core'] == $pendingReason['name']) {
+                        $d['pendingreasons_id'] = $pendingReason['id'];
+                    }
+                    return $d;
+                }, $data);
+            }
+
+            // add waiting types ids (moreticket 9.5 values) to data
+            $waitingTypesName = array_map(fn($e) => $e['moreticket'], $data);
+            $waitingTypes = $DB->request([
+                'SELECT' => ['name', 'id'],
+                'FROM' => 'glpi_plugin_moreticket_waitingtypes',
+                //'WHERE' => [
+                //    'name' => $waitingTypesName
+                //]
+            ]);
+            foreach ($waitingTypes as $waitingType) {
+                $data = array_map(function($d) use ($waitingType) {
+                    if ($d['moreticket'] == $waitingType['name']) {
+                        $d['plugin_moreticket_waitingtypes_id'] = $waitingType['id'];
+                    }
+                    return $d;
+                }, $data);
+            }
+
+            $formattedData = [];
+            foreach($data as $d) {
+                if (isset($d['plugin_moreticket_waitingtypes_id'])) {
+                    $formattedData[$d['plugin_moreticket_waitingtypes_id']] = $d;
+                }
+            }
+
+            /*
+            // add entities ids to data
+            $entitiesName = array_map(fn($e) => $e['entity'], $data);
+            $entities = $DB->request([
+                'SELECT' => ['completename', 'id'],
+                'FROM' => 'glpi_entities',
+                'WHERE' => [
+                    'completename' => $entitiesName
+                ]
+            ]);
+            foreach ($entities as $entity) {
+                $data = array_map($data, function($d) use ($entity) {
+                    if ($d['entity'] == $entity['completename']) {
+                        $d['entities_id'] = $entity['id'];
+                    }
+                    return $d;
+                });
+            }
+            */
+
+            foreach($toMigrate as $waitingTicket) {
+                $ticket = new Ticket();
+                // TODO : replace by getFromDBByCrit and add entities_id ? (and uncomment part above)
+                if ($ticket->getFromDB($waitingTicket['tickets_id'])) {
+                    // add relation between pending reason and ticket
+                    $DB->insert(
+                        'glpi_pendingreasons_items',
+                        [
+                            'pendingreasons_id' => $formattedData[$waitingTicket['plugin_moreticket_waitingtypes_id']]['pendingreasons_id'],
+                            'items_id' => $waitingTicket['tickets_id'],
+                            'itemtype' => 'Ticket',
+                            'followup_frequency' => 0,
+                            'followups_before_resolution' => 0,
+                            'bump_count' => 0,
+                            'last_bump_date' => date('Y-m-d H:i:s'),
+                            'previous_status' => $ticket->fields['status']
+                        ]
+                    );
+                    // update ticket status to Waiting
+                    $ticket->update([
+                        'id' => $ticket->getID(),
+                        'status' => CommonITILObject::WAITING
+                    ]);
+                }
+            }
+
+            Session::addMessageAfterRedirect(
+                __("Migration done", 'moreticket')
+            );
+        } else {
+            Session::addMessageAfterRedirect(
+                __("Nothing to migrate", 'moreticket')
+            );
+        }
+    }
 }
