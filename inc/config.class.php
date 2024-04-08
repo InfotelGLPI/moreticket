@@ -553,7 +553,13 @@ class PluginMoreticketConfig extends CommonDBTM
     {
         $waitingTicket = new PluginMoreticketWaitingTicket();
         $ticket = new Ticket();
-        $coreStatusNotWaiting = $ticket->find(['status' => ['!=', CommonITILObject::WAITING]]);
+        // can't directly search for not waiting because tickets can be closed without a date of suspension end
+        $coreStatusNotWaiting = $ticket->find(['status' => [
+                CommonITILObject::INCOMING,
+                CommonITILObject::ASSIGNED,
+                CommonITILObject::PLANNED,
+            ]
+        ]);
         $idsNotWaiting = array_map(fn($e) => $e['id'], $coreStatusNotWaiting);
 
         return $waitingTicket->find([
