@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-15 08:10+0000\n"
+"POT-Creation-Date: 2024-04-09 08:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,17 +46,17 @@ msgstr ""
 msgid "Ticket cannot be closed"
 msgstr ""
 
-#: inc/closeticket.class.php:644
+#: inc/closeticket.class.php:643
 #, php-format
 msgid "%1$s added closing informations"
 msgstr ""
 
-#: inc/closeticket.class.php:664
+#: inc/closeticket.class.php:663
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr ""
 
-#: inc/closeticket.class.php:684
+#: inc/closeticket.class.php:683
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr ""
