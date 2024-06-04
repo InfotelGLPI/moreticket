@@ -317,9 +317,12 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         $is_tech = countElementsInTable("glpi_tickets_users", $condition);
         if($config->fields['waiting_by_default_task'] && $is_tech){
             echo "<script>
-                $(document).ready(function (){              
-                 document.getElementById('new-itilobject-form').querySelector('[id^=\"enable-pending-reasons\"]').click();
-                });
+                $(document).ready(function (){    
+                document.getElementById('itil-footer').querySelector('a[data-bs-target=\"#new-TicketTask-block\"]').addEventListener('click', (e) => {
+                        let inputs = document.getElementById('new-itilobject-form').querySelectorAll('[id^=\"enable-pending-reasons\"]');
+                         inputs[1].click();
+                    })
+                 }); 
                  </script>";
         }
         echo "<div class='spaced' id='moreticket_waiting_ticket_task'>";
@@ -356,7 +359,14 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         echo "</table>";
         echo "</div>";
         if($config->fields['waiting_by_default_task']){
-            echo Html::scriptBlock("$('#new-itilobject-form [id^=enable-pending-reasons]').click()");
+            echo "<script>
+                $(document).ready(function (){    
+                    document.getElementById('itil-footer').querySelector('a[data-bs-target=\"#new-TicketTask-block\"]').addEventListener('click', (e) => {
+                         let inputs = document.getElementById('new-itilobject-form').querySelectorAll('[id^=\"enable-pending-reasons\"]');
+                         inputs[1].click();
+                    })
+                });
+                 </script>";
         }
     }
 
@@ -412,8 +422,10 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         $is_tech = countElementsInTable("glpi_tickets_users", $condition);
         if($config->fields['waiting_by_default_followup'] && $is_tech){
             echo "<script>
-                $(document).ready(function (){              
-                 document.getElementById('new-itilobject-form').querySelector('[id^=\"enable-pending-reasons\"]').click();
+                $(document).ready(function (){         
+                    document.getElementById('itil-footer').querySelector(\"button[data-bs-target='#new-ITILFollowup-block']\").addEventListener('click', e => {
+                        document.getElementById('new-itilobject-form').querySelector('[id^=\"enable-pending-reasons\"]').click();
+                    })
                 });
                  </script>";
         }
