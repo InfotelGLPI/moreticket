@@ -276,6 +276,14 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      * @return Nothing (display)
      * */
     public function showFormTicketTask($ID, $options = []) {
+        global $DB;
+        $actionButtonLayout = $DB->request([
+            'SELECT' => 'value',
+            'FROM' => 'glpi_configs',
+            'WHERE' => [
+                'name' => 'timeline_action_btn_layout'
+            ]
+        ])->current()['value'];
         // validation des droits
         if (!$this->canView()) {
             return false;
