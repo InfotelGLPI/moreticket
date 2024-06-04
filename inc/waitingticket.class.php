@@ -315,15 +315,22 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
             'type' => CommonITILActor::ASSIGN
         ];
         $is_tech = countElementsInTable("glpi_tickets_users", $condition);
+        $event_added = false;
         if($config->fields['waiting_by_default_task'] && $is_tech){
-            echo "<script>
+            $element = 'a';
+            if ($actionButtonLayout == 1) {
+                $element = 'button';
+            }
+                echo "<script>
                 $(document).ready(function (){    
-                document.getElementById('itil-footer').querySelector('a[data-bs-target=\"#new-TicketTask-block\"]').addEventListener('click', (e) => {
+                document.getElementById('itil-footer').querySelector('".$element."[data-bs-target=\"#new-TicketTask-block\"]').addEventListener('click', (e) => {
                         let inputs = document.getElementById('new-itilobject-form').querySelectorAll('[id^=\"enable-pending-reasons\"]');
                          inputs[1].click();
                     })
-                 }); 
+                 });   
                  </script>";
+
+            $event_added = true;
         }
         echo "<div class='spaced' id='moreticket_waiting_ticket_task'>";
         echo "</br>";
@@ -358,10 +365,14 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         echo "</td></tr>";
         echo "</table>";
         echo "</div>";
-        if($config->fields['waiting_by_default_task']){
+        if($config->fields['waiting_by_default_task'] && !$event_added){
+            $element = 'a';
+            if ($actionButtonLayout == 1) {
+                $element = 'button';
+            }
             echo "<script>
                 $(document).ready(function (){    
-                    document.getElementById('itil-footer').querySelector('a[data-bs-target=\"#new-TicketTask-block\"]').addEventListener('click', (e) => {
+                    document.getElementById('itil-footer').querySelector('".$element."[data-bs-target=\"#new-TicketTask-block\"]').addEventListener('click', (e) => {
                          let inputs = document.getElementById('new-itilobject-form').querySelectorAll('[id^=\"enable-pending-reasons\"]');
                          inputs[1].click();
                     })
