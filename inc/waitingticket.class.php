@@ -333,7 +333,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                 $(document).ready(function (){    
                 document.getElementById('itil-footer').querySelector('".$element."[data-bs-target=\"#new-TicketTask-block\"]').addEventListener('click', (e) => {
                         let inputs = document.getElementById('new-itilobject-form').querySelectorAll('[id^=\"enable-pending-reasons\"]');
-                         inputs[1].click();
+                         if (!inputs[1].checked) inputs[1].click();
                     })
                  });   
                  </script>";
@@ -382,7 +382,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                 $(document).ready(function (){    
                     document.getElementById('itil-footer').querySelector('".$element."[data-bs-target=\"#new-TicketTask-block\"]').addEventListener('click', (e) => {
                          let inputs = document.getElementById('new-itilobject-form').querySelectorAll('[id^=\"enable-pending-reasons\"]');
-                         inputs[1].click();
+                         if (!inputs[1].checked) inputs[1].click();
                     })
                 });
                  </script>";
@@ -443,7 +443,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
             echo "<script>
                 $(document).ready(function (){         
                     document.getElementById('itil-footer').querySelector(\"button[data-bs-target='#new-ITILFollowup-block']\").addEventListener('click', e => {
-                        document.getElementById('new-itilobject-form').querySelector('[id^=\"enable-pending-reasons\"]').click();
+                        let input = document.getElementById('new-itilobject-form').querySelector('[id^=\"enable-pending-reasons\"]');
+                        if (!input.checked) input.click();
                     })
                 });
                  </script>";
