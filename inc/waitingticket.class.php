@@ -285,7 +285,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                 'id' => Session::getLoginUserID()
             ]
         ])->current()['timeline_action_btn_layout'];
-        Toolbox::logInfo($actionButtonLayout);
         if ($actionButtonLayout === null) {
             $actionButtonLayout = $DB->request([
                 'SELECT' => 'value',
@@ -329,31 +328,22 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         unset($_SESSION['glpi_plugin_moreticket_waiting']);
 
         $config = new PluginMoreticketConfig();
-        $condition = [
-            'tickets_id' => $ID,
-            'users_id' => Session::getLoginUserID(),
-            'type' => CommonITILActor::ASSIGN
-        ];
-        $is_tech = countElementsInTable("glpi_tickets_users", $condition);
-        $event_added = false;
-        if($config->fields['waiting_by_default_task'] && $is_tech){
+        if($config->fields['waiting_by_default_task'] && Session::haveRight('ticket', Ticket::OWN)){
             $element = 'a';
             if ($actionButtonLayout == 1) {
                 $element = 'button';
             }
                 echo "<script>
-                $(document).ready(function (){    
+                $(document).ready(function (){
                     setTimeout(() => {
                         let buttonTask = document.getElementById('itil-footer').querySelector('".$element."[data-bs-target=\"#new-TicketTask-block\"]');
                         buttonTask.addEventListener('click', (e) => {
                             let inputs = document.getElementById('new-itilobject-form').querySelectorAll('[id^=\"enable-pending-reasons\"]');
                             if (!inputs[1].checked) inputs[1].click();
                         })
-                    }, 300);  
-                }); 
+                    }, 300);
+                });
                  </script>";
-
-            $event_added = true;
         }
         echo "<div class='spaced' id='moreticket_waiting_ticket_task'>";
         echo "</br>";
@@ -365,14 +355,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         }
         echo Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]);
         echo "</td></tr>";
-        //        echo "<tr class='tab_bg_1'><td>";
-        //        echo PluginMoreticketWaitingType::getTypeName(1);
-        //        if ($config->mandatoryWaitingType() == true) {
-        //            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        //        }
-        //        $opt = ['value' => $this->fields['plugin_moreticket_waitingtypes_id']];
-        //        Dropdown::show('PluginMoreticketWaitingType', $opt);
-        //        echo "</td></tr>";
         echo "<tr class='tab_bg_1'><td>";
         echo __('Postponement date', 'moreticket');
 
@@ -388,23 +370,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         echo "</td></tr>";
         echo "</table>";
         echo "</div>";
-        if($config->fields['waiting_by_default_task'] && !$event_added){
-            $element = 'a';
-            if ($actionButtonLayout == 1) {
-                $element = 'button';
-            }
-            echo "<script>
-                $(document).ready(function (){    
-                    setTimeout(() => {
-                        let buttonTask = document.getElementById('itil-footer').querySelector('".$element."[data-bs-target=\"#new-TicketTask-block\"]');
-                        buttonTask.addEventListener('click', (e) => {
-                             let inputs = document.getElementById('new-itilobject-form').querySelectorAll('[id^=\"enable-pending-reasons\"]');
-                             if (!inputs[1].checked) inputs[1].click();
-                        })
-                    }, 300)
-                });
-                 </script>";
-        }
     }
 
     /**
@@ -451,13 +416,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         unset($_SESSION['glpi_plugin_moreticket_waiting']);
 
         $config = new PluginMoreticketConfig();
-        $condition = [
-            'tickets_id' => $ID,
-            'users_id' => Session::getLoginUserID(),
-            'type' => CommonITILActor::ASSIGN
-        ];
-        $is_tech = countElementsInTable("glpi_tickets_users", $condition);
-        if($config->fields['waiting_by_default_followup'] && $is_tech){
+        if($config->fields['waiting_by_default_followup'] && Session::haveRight('ticket', Ticket::OWN)){
             echo "<script>
                 $(document).ready(function (){         
                     setTimeout(() => {
@@ -480,14 +439,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         }
         echo Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]);
         echo "</td></tr>";
-        //        echo "<tr class='tab_bg_1'><td>";
-        //        echo PluginMoreticketWaitingType::getTypeName(1);
-        //        if ($config->mandatoryWaitingType() == true) {
-        //            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        //        }
-        //        $opt = ['value' => $this->fields['plugin_moreticket_waitingtypes_id']];
-        //        Dropdown::show('PluginMoreticketWaitingType', $opt);
-        //        echo "</td></tr>";
         echo "<tr class='tab_bg_1'><td>";
         echo __('Postponement date', 'moreticket');
 
@@ -503,7 +454,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         echo "</td></tr>";
         echo "</table>";
         echo "</div>";
-
     }
 
     /**
