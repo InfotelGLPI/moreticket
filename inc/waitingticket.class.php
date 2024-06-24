@@ -334,15 +334,11 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                 $element = 'button';
             }
                 echo "<script>
-                $(document).ready(function (){
-                    setTimeout(() => {
                         let buttonTask = document.getElementById('itil-footer').querySelector('".$element."[data-bs-target=\"#new-TicketTask-block\"]');
                         buttonTask.addEventListener('click', (e) => {
                             let inputs = document.getElementById('new-itilobject-form').querySelectorAll('[id^=\"enable-pending-reasons\"]');
                             if (!inputs[1].checked) inputs[1].click();
                         })
-                    }, 300);
-                });
                  </script>";
         }
         echo "<div class='spaced' id='moreticket_waiting_ticket_task'>";
@@ -417,16 +413,12 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
 
         $config = new PluginMoreticketConfig();
         if($config->fields['waiting_by_default_followup'] && Session::haveRight('ticket', Ticket::OWN)){
-            echo "<script>
-                $(document).ready(function (){         
-                    setTimeout(() => {
+            echo "<script>        
                         let buttonFollowup = document.getElementById('itil-footer').querySelector(\"button[data-bs-target='#new-ITILFollowup-block']\");
                         buttonFollowup.addEventListener('click', e => {
                             let input = document.getElementById('new-itilobject-form').querySelector('[id^=\"enable-pending-reasons\"]');
                             if (!input.checked) input.click();
                         })
-                    }, 300) 
-                });
                  </script>";
         }
         echo "<div class='spaced' id='moreticket_waiting_ticket_followup'>";
