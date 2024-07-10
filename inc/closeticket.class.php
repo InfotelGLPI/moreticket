@@ -434,45 +434,56 @@ class PluginMoreticketCloseTicket extends CommonDBTM
             return false;
         }
 
-        $ticket = new Ticket();
-
-        if ($ID > 0) {
-            if (!$ticket->getFromDB($ID)) {
+        if(Plugin::isPluginActive("formsolution")){
+            $solution = new PluginFormsolutionSolution();
+            $ticket = new Ticket();
+            if(!$ticket->getFromDB($ID)){
                 $ticket->getEmpty();
             }
+            $options = [
+                'item' => $ticket
+            ];
+            $solution->showForClosedTicket($ID, $options);
         } else {
-            // Create item
-            $ticket->getEmpty();
-        }
+            $ticket = new Ticket();
 
-        // If values are saved in session we retrieve it
-        if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
-            foreach ($_SESSION['glpi_plugin_moreticket_close'] as $key => $value) {
-                if (!is_array($value)) {
-                    $ticket->fields[$key] = str_replace(['\r\n', '\r', '\n'], '', $value);
+            if ($ID > 0) {
+                if (!$ticket->getFromDB($ID)) {
+                    $ticket->getEmpty();
+                }
+            } else {
+                // Create item
+                $ticket->getEmpty();
+            }
+
+            // If values are saved in session we retrieve it
+            if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
+                foreach ($_SESSION['glpi_plugin_moreticket_close'] as $key => $value) {
+                    if (!is_array($value)) {
+                        $ticket->fields[$key] = str_replace(['\r\n', '\r', '\n'], '', $value);
+                    }
                 }
             }
-        }
 
-        unset($_SESSION['glpi_plugin_moreticket_close']);
+            unset($_SESSION['glpi_plugin_moreticket_close']);
 
-        echo "<div class='spaced' id='moreticket_close_ticket'>";
-        echo "</br>";
-        echo "<table>";
-        echo "<tr><td>";
-        echo _n('Solution template', 'Solution templates', 1) . "&nbsp;:&nbsp;&nbsp;";
-        $rand = mt_rand();
-        $content_id = "solution$rand";
+            echo "<div class='spaced' id='moreticket_close_ticket'>";
+            echo "</br>";
+            echo "<table>";
+            echo "<tr><td>";
+            echo _n('Solution template', 'Solution templates', 1) . "&nbsp;:&nbsp;&nbsp;";
+            $rand = mt_rand();
+            $content_id = "solution$rand";
 
-        SolutionTemplate::dropdown([
-            'name' => "solution_template",
-            'value' => 0,
-            'rand' => $rand,
-            'on_change' => "solutiontemplate_update{$rand}(this.value)"
-        ]);
-        echo Html::hidden("_render_twig", ['value' => true]);
+            SolutionTemplate::dropdown([
+                'name' => "solution_template",
+                'value' => 0,
+                'rand' => $rand,
+                'on_change' => "solutiontemplate_update{$rand}(this.value)"
+            ]);
+            echo Html::hidden("_render_twig", ['value' => true]);
 
-        $JS = <<<JAVASCRIPT
+            $JS = <<<JAVASCRIPT
                function solutiontemplate_update{$rand}(value) {
                   $.ajax({
                      url: '{$CFG_GLPI['root_doc']}/ajax/solution.php',
@@ -490,51 +501,52 @@ class PluginMoreticketCloseTicket extends CommonDBTM
                   });
                }
 JAVASCRIPT;
-        echo Html::scriptBlock($JS);
+            echo Html::scriptBlock($JS);
 
-        echo "</td></tr>";
+            echo "</td></tr>";
 
-        echo "<tr><td>";
-        echo _n('Solution type', 'Solution types', 1);
-        $config = new PluginMoreticketConfig();
-        if ($config->mandatorySolutionType() == true) {
-            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        }
-        Dropdown::show('SolutionType',
-            ['value' => $ticket->getField('solutiontypes_id'),
+            echo "<tr><td>";
+            echo _n('Solution type', 'Solution types', 1);
+            $config = new PluginMoreticketConfig();
+            if ($config->mandatorySolutionType() == true) {
+                echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
+            }
+            Dropdown::show('SolutionType',
+                ['value' => $ticket->getField('solutiontypes_id'),
+                    'rand' => $rand,
+                    'entity' => $ticket->getEntityID()]);
+            echo "</td></tr>";
+            echo "<tr><td>";
+            echo __('Solution description', 'moreticket') . "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
+            $rand = mt_rand();
+            Html::initEditorSystem("solution" . $rand);
+            if (!isset($ticket->fields['solution'])) {
+                $ticket->fields['solution'] = '';
+            }
+            Html::textarea(['name' => 'solution',
+                'value' => stripslashes($ticket->fields['solution']),
                 'rand' => $rand,
-                'entity' => $ticket->getEntityID()]);
-        echo "</td></tr>";
-        echo "<tr><td>";
-        echo __('Solution description', 'moreticket') . "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        $rand = mt_rand();
-        Html::initEditorSystem("solution" . $rand);
-        if (!isset($ticket->fields['solution'])) {
-            $ticket->fields['solution'] = '';
+                'editor_id' => $content_id,
+                'enable_fileupload' => false,
+                'enable_richtext' => true,
+                // Uploaded images processing is not able to handle multiple use of same uploaded file, so until this is fixed,
+                // it is preferable to disable image pasting in rich text inside massive actions.
+                'enable_images' => false,
+                'cols' => 12,
+                'rows' => 80
+            ]);
+            //      echo "<div id='solution$rand'>";
+            //      Html::textarea(['name'            => 'solution',
+            //                      'value' => stripslashes($ticket->fields['solution']),
+            //                      'editor_id' => 'solution'.$rand,
+            //                      'cols'       => 80,
+            //                      'rows'       => 3,
+            //                      'enable_richtext' => false]);
+            //      echo "</div>";
+            echo "</td></tr>";
+            echo "</table>";
+            echo "</div>";
         }
-        Html::textarea(['name' => 'solution',
-            'value' => stripslashes($ticket->fields['solution']),
-            'rand' => $rand,
-            'editor_id' => $content_id,
-            'enable_fileupload' => false,
-            'enable_richtext' => true,
-            // Uploaded images processing is not able to handle multiple use of same uploaded file, so until this is fixed,
-            // it is preferable to disable image pasting in rich text inside massive actions.
-            'enable_images' => false,
-            'cols' => 12,
-            'rows' => 80
-        ]);
-        //      echo "<div id='solution$rand'>";
-        //      Html::textarea(['name'            => 'solution',
-        //                      'value' => stripslashes($ticket->fields['solution']),
-        //                      'editor_id' => 'solution'.$rand,
-        //                      'cols'       => 80,
-        //                      'rows'       => 3,
-        //                      'enable_richtext' => false]);
-        //      echo "</div>";
-        echo "</td></tr>";
-        echo "</table>";
-        echo "</div>";
     }
 
     // Hook done on before add ticket - checkMandatory
@@ -569,8 +581,12 @@ JAVASCRIPT;
                             $item->input['statusold'] = $item->input['status'];
                             $item->input['status'] = 0;
                         }
+                        if(!Plugin::isPluginActive("formsolution")) {
+                            $item->input['solution'] = str_replace(['\r', '\n', '\r\n'], '', $item->input['solution']);
+                        } else {
+                            $item->input['content'] = str_replace(['\r', '\n', '\r\n'], '', $item->input['content']);
+                        }
 
-                        $item->input['solution'] = str_replace(['\r', '\n', '\r\n'], '', $item->input['solution']);
                     } else {
                         $_SESSION['saveInput'][$item->getType()] = $item->input;
                         $item->input = [];
@@ -599,21 +615,28 @@ JAVASCRIPT;
             $array = json_decode($config->solutionStatus(), true);
             if (is_array($array)) {
                 $solution_status = array_keys($array);
-
                 // Then we add tickets informations
                 if (isset($item->fields['id'])
                     && isset($item->input['status'])
                     && $item->input['status'] == 0) {
-
-                    $input = [];
-                    $input['itemtype'] = 'Ticket';
-                    $input['items_id'] = $item->getID();
-                    $input['content'] = $item->input['solution'];
-                    $input['date_creation'] = $item->input['date'];
-                    $input['solutiontypes_id'] = $item->input['solutiontypes_id'];
-
                     $itilsolution = new ITILSolution();
-                    $id = $itilsolution->add($input);
+                    if(!Plugin::isPluginActive("formsolution")) {
+                        $input = [];
+                        $input['itemtype'] = 'Ticket';
+                        $input['items_id'] = $item->getID();
+                        $input['content'] = $item->input['solution'];
+                        $input['date_creation'] = $item->input['date'];
+                        $input['solutiontypes_id'] = $item->input['solutiontypes_id'];
+                        $id = $itilsolution->add($input);
+                    } else {
+                        $formsolution = new PluginFormsolutionSolution();
+                        $input = $item->input;
+                        $input['itemtype'] = "Ticket";
+                        $input['items_id'] = $item->fields['id'];
+                        $input['content'] = $item->input['solution_content'];
+                        $formsolution->add($input);
+                        $id = $formsolution->fields['itilsolutions_id'];
+                    }
 
                     //Validate solution if ticket closed
                     if (in_array($item->input['status'], $solution_status)) {

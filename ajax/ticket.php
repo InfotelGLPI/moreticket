@@ -85,13 +85,13 @@ if (isset($_POST['action'])) {
             }
             break;
 
-        //      case 'showFormSolution':
-        //         $config = new PluginMoreticketConfig();
-        //
-        //         if ($config->useDurationSolution()) {
-        //            $solution = new PluginMoreticketSolution();
-        //            $solution->showFormSolution($_POST['tickets_id']);
-        //         }
-        //         break;
+        case 'showFormSolution':
+            $config = new PluginMoreticketConfig();
+
+            if ($config->useDurationSolution()) {
+                $solution = new PluginMoreticketSolution();
+                $solution->showFormSolution($_POST['tickets_id']);
+            }
+            break;
     }
 }

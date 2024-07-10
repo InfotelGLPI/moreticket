@@ -67,8 +67,16 @@ class PluginMoreticketSolution extends CommonITILObject
             $options = $params['options'];
 
             if ($item->getType() == 'ITILSolution') {
-
                 $ticket = $options['item'];
+                if(Plugin::isPluginActive("formsolution")){
+                    $form = new PluginFormsolutionSolution();
+                    $ticket = new Ticket();
+                    $ticket->getFromDB($ticket->fields['id']);
+                    $options = [
+                        'item' => $ticket
+                    ];
+                    $form->showForm($ticket->fields['id'], $options);
+                }
                 $config = new PluginMoreticketConfig();
                 $use_duration_solution = $config->useDurationSolution();
                 if ($use_duration_solution == 1) {
