@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - Moreticket plugin 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-07 14:18+0100\n"
+"POT-Creation-Date: 2024-07-30 14:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:256 hook.php:263 hook.php:270 hook.php:277
+#: hook.php:257 hook.php:264 hook.php:271 hook.php:278
 #: inc/closeticket.class.php:78 inc/closeticket.class.php:82
 #: inc/closeticket.class.php:126 inc/closeticket.class.php:186
 #: inc/closeticket.class.php:339 inc/closeticket.class.php:393
@@ -30,11 +30,11 @@ msgstr ""
 msgid "Updated by a user"
 msgstr ""
 
-#: setup.php:122 inc/profile.class.php:50 inc/profile.class.php:212
+#: setup.php:117 inc/profile.class.php:50 inc/profile.class.php:212
 msgid "More ticket"
 msgstr ""
 
-#: front/config.form.php:65
+#: front/config.form.php:67
 msgid "Please activate the plugin"
 msgstr ""
 
@@ -46,7 +46,7 @@ msgstr ""
 msgid "Ticket cannot be closed"
 msgstr ""
 
-#: inc/closeticket.class.php:643
+#: inc/closeticket.class.php:644
 #, php-format
 msgid "%1$s added closing informations"
 msgstr ""

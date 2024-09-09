@@ -28,10 +28,12 @@
  */
 
 include('../../../inc/includes.php');
+Session::checkLoginUser();
 
 if (Plugin::isPluginActive("moreticket")) {
 
    $config = new PluginMoreticketConfig();
+   Session::checkRight('config', UPDATE);
 
    if (isset($_POST["update"])) {
       if (isset($_POST['solution_status'])) {

@@ -561,12 +561,11 @@ JAVASCRIPT;
                 $solution_status = array_keys($array);
 
                 // Then we add tickets informations
-                if (isset($item->input['id'])
-                    && isset($item->input['status'])
+                if (isset($item->input['status'])
                     && in_array($item->input['status'], $solution_status)) {
                     if (self::checkMandatory($item->input)) {
                         // Add followup on immediate ticket closing
-                        if ($item->input['id'] == 0) {
+                        if (!isset($item->input['id']) || $item->input['id'] == 0) {
                             $item->input['statusold'] = $item->input['status'];
                             $item->input['status'] = 0;
                         }
@@ -602,7 +601,7 @@ JAVASCRIPT;
                 $solution_status = array_keys($array);
 
                 // Then we add tickets informations
-                if (isset($item->input['id'])
+                if (isset($item->fields['id'])
                     && isset($item->input['status'])
                     && $item->input['status'] == 0) {
 
