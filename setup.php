@@ -53,7 +53,6 @@ function plugin_init_moreticket() {
                 $PLUGIN_HOOKS['add_javascript']['moreticket'] = ["scripts/moreticket.js"];
 //            }
             if ($config->useDurationSolution() == true) {
-                $PLUGIN_HOOKS['post_item_form']['moreticket'] = ['PluginMoreticketSolution', 'showFormSolution'];
                 $PLUGIN_HOOKS['pre_item_add']['moreticket']   =
                     ['ITILSolution' => ['PluginMoreticketSolution', 'beforeAdd']];
             }
@@ -101,7 +100,10 @@ function plugin_init_moreticket() {
                 Plugin::registerClass('PluginMoreticketWaitingTicket', ['addtabon' => 'Ticket']);
                 Plugin::registerClass('PluginMoreticketCloseTicket', ['addtabon' => 'Ticket']);
             }
+
+            $PLUGIN_HOOKS['post_item_form']['moreticket'] = 'plugin_moreticket_post_item_form';
         }
+
         //      if (isset($_SESSION['glpiactiveprofile']['interface'])
         //          && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
         //         $PLUGIN_HOOKS['pre_item_form']['moreticket'] = [PluginMoreticketTicket::class, 'displaySaveButton'];

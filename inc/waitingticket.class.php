@@ -276,25 +276,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      * @return Nothing (display)
      * */
     public function showFormTicketTask($ID, $options = []) {
-        global $DB;
-
-        $actionButtonLayout = $DB->request([
-            'SELECT' => 'timeline_action_btn_layout',
-            'FROM' => 'glpi_users',
-            'WHERE' => [
-                'id' => Session::getLoginUserID()
-            ]
-        ])->current()['timeline_action_btn_layout'];
-        if ($actionButtonLayout === null) {
-            $actionButtonLayout = $DB->request([
-                'SELECT' => 'value',
-                'FROM' => 'glpi_configs',
-                'WHERE' => [
-                    'name' => 'timeline_action_btn_layout'
-                ]
-            ])->current()['value'];
-        }
-
         // validation des droits
         if (!$this->canView()) {
             return false;
@@ -328,19 +309,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         unset($_SESSION['glpi_plugin_moreticket_waiting']);
 
         $config = new PluginMoreticketConfig();
-        if($config->fields['waiting_by_default_task'] && Session::haveRight('ticket', Ticket::OWN)){
-            $element = 'a';
-            if ($actionButtonLayout == 1) {
-                $element = 'button';
-            }
-                echo "<script>
-                        let buttonTask = document.getElementById('itil-footer').querySelector('".$element."[data-bs-target=\"#new-TicketTask-block\"]');
-                        buttonTask.addEventListener('click', (e) => {
-                            let inputs = document.getElementById('new-itilobject-form').querySelectorAll('[id^=\"enable-pending-reasons\"]');
-                            if (!inputs[1].checked) inputs[1].click();
-                        })
-                 </script>";
-        }
+
         echo "<div class='spaced' id='moreticket_waiting_ticket_task'>";
         echo "</br>";
         echo "<table id='cl_menu'>";
@@ -412,15 +381,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         unset($_SESSION['glpi_plugin_moreticket_waiting']);
 
         $config = new PluginMoreticketConfig();
-        if($config->fields['waiting_by_default_followup'] && Session::haveRight('ticket', Ticket::OWN)){
-            echo "<script>        
-                        let buttonFollowup = document.getElementById('itil-footer').querySelector(\"button[data-bs-target='#new-ITILFollowup-block']\");
-                        buttonFollowup.addEventListener('click', e => {
-                            let input = document.getElementById('new-itilobject-form').querySelector('[id^=\"enable-pending-reasons\"]');
-                            if (!input.checked) input.click();
-                        })
-                 </script>";
-        }
         echo "<div class='spaced' id='moreticket_waiting_ticket_followup'>";
         echo "</br>";
         echo "<table id='cl_menu'>";
