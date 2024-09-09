@@ -31,6 +31,7 @@
     -webkit-border-radius: 3px;
     border-radius: 3px;
     border: solid 1px #CCCCCC;
+    width: 100%
 }
 
 .moreticket_waiting_ticket {
