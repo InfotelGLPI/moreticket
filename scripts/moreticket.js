@@ -169,7 +169,7 @@
                             var status_bloc = $("select[name='status']");
 
                             if (status_bloc != undefined && status_bloc.length != 0) {
-                                status_bloc.parent().append(requester);
+                                status_bloc.parent().parent().append(requester);
 
                                 // ON DISPLAY : Display or hide waiting type
                                 if ($("#moreticket_waiting_ticket") != undefined) {
