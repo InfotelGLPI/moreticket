@@ -33,4 +33,8 @@ var root_moreticket_doc = "<?php echo PLUGIN_MORETICKET_WEBDIR; ?>";
    };
 }(jQuery));
 
-$(document).moreticket_load_scripts();
+$(document).ready(function() {
+    setTimeout(function() {
+        $(document).moreticket_load_scripts();
+    }, 1000);
+});
