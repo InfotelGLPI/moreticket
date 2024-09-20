@@ -67,6 +67,7 @@ class PluginMoreticketTicketTask extends CommonITILTask {
       $config = new PluginMoreticketConfig();
 
       if (isset($tickettask->input['pending'])
+          && $tickettask->input['pending']
           && $config->useWaiting() == true) {
 
           $waiting_ticket = new PluginMoreticketWaitingTicket();

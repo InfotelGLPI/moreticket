@@ -70,6 +70,7 @@ class PluginMoreticketTicketFollowup extends CommonDBTM
         $config = new PluginMoreticketConfig();
 
         if (isset($ticketfollowup->input['pending'])
+            && $ticketfollowup->input['pending']
             && $config->useWaiting() == true) {
 
             $waiting_ticket = new PluginMoreticketWaitingTicket();
