@@ -266,26 +266,22 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
     }
 
     /**
-     * Print the waiting ticket task form
-     *
-     * @param $ID integer ID of the item
-     * @param $options array
-     *     - target filename : where to go when done.
-     *     - withtemplate boolean : template or basic item
-     *
-     * @return Nothing (display)
-     * */
-    public function showFormTicketTask($ID, $options = []) {
+     * add waiting block form, with the plugin's waiting reason and postponement date
+     * @param int $tickets_id
+     * @param string $itilObject getType()
+     * @return void
+     */
+    public function addFormWaitingBlock($tickets_id, $itilObject) {
         // validation des droits
         if (!$this->canView()) {
             return false;
         }
 
-        if ($ID > 0) {
-            if (self::getWaitingTicketFromDB($ID) === false) {
+        if ($tickets_id > 0) {
+            if (self::getWaitingTicketFromDB($tickets_id) === false) {
                 $this->getEmpty();
             } else {
-                $this->fields = self::getWaitingTicketFromDB($ID);
+                $this->fields = self::getWaitingTicketFromDB($tickets_id);
             }
         } else {
             // Create item
@@ -308,9 +304,17 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
 
         unset($_SESSION['glpi_plugin_moreticket_waiting']);
 
+        switch($itilObject) {
+            case 'ITILFollowup' :
+                $blockId = 'moreticket_waiting_ticket_followup';
+                break;
+            case 'TicketTask' :
+                $blockId = 'moreticket_waiting_ticket_task';
+                break;
+        }
         $config = new PluginMoreticketConfig();
-
-        echo "<div class='spaced' id='moreticket_waiting_ticket_task'>";
+        // echo the form
+        echo "<div class='spaced' id='$blockId'>";
         echo "</br>";
         echo "<table id='cl_menu'>";
         echo "<tr class='tab_bg_1'><td>";
@@ -330,82 +334,56 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
             $this->fields['date_report'] = date("Y-m-d H:i:s");
         }
         Html::showDateTimeField("date_report", ['value'      => $this->fields['date_report'],
-                                                'maybeempty' => false]);
+            'maybeempty' => false]);
 
         echo "</td></tr>";
         echo "</table>";
         echo "</div>";
-    }
 
-    /**
-     * Print the waiting ticket task form
-     *
-     * @param $ID integer ID of the item
-     * @param $options array
-     *     - target filename : where to go when done.
-     *     - withtemplate boolean : template or basic item
-     *
-     * @return Nothing (display)
-     * */
-    public function showFormTicketFollowup($ID, $options = []) {
-        // validation des droits
-        if (!$this->canView()) {
-            return false;
+        switch($itilObject) {
+            case "ITILFollowup" :
+                $blockSelector = '#moreticket_waiting_ticket_followup';
+                $position = 'first';
+                break;
+            case "TicketTask" :
+                $blockSelector = '#moreticket_waiting_ticket_task';
+                $position = 'last';
+                break;
         }
+        // position it with javascript and add the event to change its display
+        echo "<script>
+        $(document).ready(function() {
+           let switch_pending = $('input[type=\"checkbox\"][name=\"pending\"]:$position');
+    
+                    if (switch_pending != undefined) {
+                        $('input[type=\"checkbox\"][name=\"pending\"]:$position').closest('label').closest('span').parent().parent().parent().after($('$blockSelector'));
+        
+                        $('$blockSelector').css({'display': 'none'});
 
-        if ($ID > 0) {
-            if (self::getWaitingTicketFromDB($ID) === false) {
-                $this->getEmpty();
-            } else {
-                $this->fields = self::getWaitingTicketFromDB($ID);
-            }
-        } else {
-            // Create item
-            $this->getEmpty();
-        }
+                        if (switch_pending.is(':checked') === true) {
+                            $('$blockSelector').css({
+                                    'display': 'block',
+                                    'clear': 'both',
+                                    'text-align': 'center'
+                                });
+                        } else {
+                            $('$blockSelector').css({'display': 'none'});
+                        }
 
-        // If values are saved in session we retrieve it
-        if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-            foreach ($_SESSION['glpi_plugin_moreticket_waiting'] as $key => $value) {
-                switch ($key) {
-                    case 'reason':
-                        $this->fields[$key] = stripslashes($value);
-                        break;
-                    default:
-                        $this->fields[$key] = $value;
-                        break;
-                }
-            }
-        }
-
-        unset($_SESSION['glpi_plugin_moreticket_waiting']);
-
-        $config = new PluginMoreticketConfig();
-        echo "<div class='spaced' id='moreticket_waiting_ticket_followup'>";
-        echo "</br>";
-        echo "<table id='cl_menu'>";
-        echo "<tr class='tab_bg_1'><td>";
-        echo __('Reason', 'moreticket');
-        if ($config->mandatoryWaitingReason() == true) {
-            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        }
-        echo Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]);
-        echo "</td></tr>";
-        echo "<tr class='tab_bg_1'><td>";
-        echo __('Postponement date', 'moreticket');
-
-        if ($config->mandatoryReportDate() == true) {
-            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        }
-        if ($this->fields['date_report'] == 'NULL') {
-            $this->fields['date_report'] = date("Y-m-d H:i:s");
-        }
-        Html::showDateTimeField("date_report", ['value'      => $this->fields['date_report'],
-                                                'maybeempty' => false]);
-
-        echo "</td></tr>";
-        echo "</table>";
-        echo "</div>";
+                        switch_pending.change(function () {
+                            if (switch_pending.is(':checked') === true) {
+                                $('$blockSelector').css({
+                                        'display': 'block',
+                                        'clear': 'both',
+                                        'text-align': 'center'
+                                });
+                            } else {
+                                $('$blockSelector').css({'display': 'none'});
+                            }
+                        });
+                    } 
+        });
+        </script>";
     }
 
     /**

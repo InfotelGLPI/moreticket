@@ -306,6 +306,7 @@ function plugin_moreticket_post_item_form($params) {
     global $DB;
     $item = $params['item'];
     $config = new PluginMoreticketConfig();
+    $waitingTicket = new PluginMoreticketWaitingTicket();
     switch ($item->getType()) {
         case 'ITILSolution':
             if ($config->useDurationSolution() == true) {
@@ -313,6 +314,11 @@ function plugin_moreticket_post_item_form($params) {
             }
             break;
         case 'TicketTask':
+            // block with plugin's waiting reason + postponement date
+            if ($config->useWaiting() && PluginMoreticketWaitingTicket::canView()) {
+                $waitingTicket->addFormWaitingBlock($item->fields['tickets_id'], $item->getType());
+            }
+
             // automatically click task's set ticket to waiting status switch
             if($config->fields['waiting_by_default_task'] && Session::haveRight('ticket', Ticket::OWN)){
                 $actionButtonLayout = $DB->request([
@@ -348,10 +354,16 @@ function plugin_moreticket_post_item_form($params) {
             }
             break;
         case 'ITILFollowup':
-            // automatically click follow up set ticket to waiting status switch
-            if (strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false) {
-                if($config->fields['waiting_by_default_followup'] && Session::haveRight('ticket', Ticket::OWN)){
-                    echo "<script>       
+            if ($item->fields['itemtype'] == 'Ticket') {
+                // block with plugin's waiting reason + postponement date
+                if ($config->useWaiting() && PluginMoreticketWaitingTicket::canView()) {
+                    $waitingTicket->addFormWaitingBlock($item->fields['items_id'], $item->getType());
+                }
+
+                // automatically click follow up set ticket to waiting status switch
+                if (strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false) {
+                    if($config->fields['waiting_by_default_followup'] && Session::haveRight('ticket', Ticket::OWN)){
+                        echo "<script>       
                         $(document).ready(function() { 
                             let buttonFollowup = document.getElementById('itil-footer').querySelector(\"button[data-bs-target='#new-ITILFollowup-block']\");
                             console.log(buttonFollowup);
@@ -361,6 +373,7 @@ function plugin_moreticket_post_item_form($params) {
                             })
                         });
                  </script>";
+                    }
                 }
             }
             break;
