@@ -96,6 +96,9 @@ function plugin_moreticket_install() {
    if (!$DB->tableExists("glpi_plugin_moreticket_notificationtickets")) {
       $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.6.3.sql");
    }
+    if (!$DB->fieldExists("glpi_plugin_moreticket_configs", 'update_after_tech_add_task')) {
+        $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.7.4.sql");
+    }
 
    if ($update) {
        $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.7.0.sql");
@@ -299,63 +302,80 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
    return $sopt;
 }
 
-/**
- * @param $link
- * @param $nott
- * @param $type
- * @param $ID
- * @param $val
- * @param $searchtype
- *
- * @return string
- */
-//function plugin_moreticket_addWhere($link, $nott, $type, $ID, $val, $searchtype) {
-//
-//   $searchopt = &Search::getOptions($type);
-//   $table     = $searchopt[$ID]["table"];
-//   $field     = $searchopt[$ID]["field"];
-//
-//   switch ($table . "." . $field) {
-//      case "glpi_plugin_moreticket_waitingtickets.date_report" :
-//         $query = "";
-//         if (isset($_GET['criteria'])) {
-//            foreach ($_GET['criteria'] as $key => $search_item) {
-//               if (in_array($search_item['field'], array_keys($searchopt)) && $search_item['field'] == $ID) {
-//                  $NOT = $nott ? "NOT" : "";
-//
-//                  $SEARCH = "";
-//                  switch ($search_item['searchtype']) {
-//                     case 'morethan':
-//                        $SEARCH = "> '" . $val . "'";
-//                        break;
-//                     case 'lessthan':
-//                        $SEARCH = "< '" . $val . "'";
-//                        break;
-//                     case 'equals':
-//                        $SEARCH = "= '" . $val . "'";
-//                        break;
-//                     case 'notequals':
-//                        $SEARCH = "!= '" . $val . "'";
-//                        break;
-//                     case 'contains':
-//                        $SEARCH = "LIKE '%" . $val . "%'";
-//                        if ($val == 'NULL') {
-//                           $SEARCH = "IS NULL";
-//                        }
-//                        break;
-//                  }
-//
-//                  $query = " " . $link . " " . $NOT . " ((SELECT max(`" . $table . "`.`" . $field . "`) FROM `" . $table . "` WHERE `tickets_id` = `glpi_tickets`.`id`) " . $SEARCH;
-//                  //               if ($search_item['searchtype'] != 'contains') {
-//                  //                  $query .= " OR `".$table."`.`".$field."` IS NULL";
-//                  //               }
-//                  $query .= ")";
-//               }
-//            }
-//         }
-//
-//         return $query;
-//   }
-//
-//   return "";
-//}
+function plugin_moreticket_post_item_form($params) {
+    global $DB;
+    $item = $params['item'];
+    $config = new PluginMoreticketConfig();
+    $waitingTicket = new PluginMoreticketWaitingTicket();
+    switch ($item->getType()) {
+        case 'ITILSolution':
+            if ($config->useDurationSolution() == true) {
+                PluginMoreticketSolution::showFormSolution($params);
+            }
+            break;
+        case 'TicketTask':
+            // block with plugin's waiting reason + postponement date
+            if ($config->useWaiting() && PluginMoreticketWaitingTicket::canView()) {
+                $waitingTicket->addFormWaitingBlock($item->fields['tickets_id'], $item->getType());
+            }
+
+            // automatically click task's set ticket to waiting status switch
+            if($config->fields['waiting_by_default_task'] && Session::haveRight('ticket', Ticket::OWN)){
+                $actionButtonLayout = $DB->request([
+                    'SELECT' => 'timeline_action_btn_layout',
+                    'FROM' => 'glpi_users',
+                    'WHERE' => [
+                        'id' => Session::getLoginUserID()
+                    ]
+                ])->current()['timeline_action_btn_layout'];
+                if ($actionButtonLayout === null) {
+                    $actionButtonLayout = $DB->request([
+                        'SELECT' => 'value',
+                        'FROM' => 'glpi_configs',
+                        'WHERE' => [
+                            'name' => 'timeline_action_btn_layout'
+                        ]
+                    ])->current()['value'];
+                }
+                $element = 'a';
+                if ($actionButtonLayout == 1) {
+                    $element = 'button';
+                }
+                echo "<script>
+                        $(document).ready(function() {
+                            let buttonTask = document.getElementById('itil-footer').querySelector('".$element."[data-bs-target=\"#new-TicketTask-block\"]');
+                            console.log(buttonTask);
+                            buttonTask.addEventListener('click', (e) => {
+                                let inputs = document.getElementById('new-itilobject-form').querySelectorAll('[id^=\"enable-pending-reasons\"]');
+                                if (!inputs[1].checked) inputs[1].click();
+                            })
+                        })
+                 </script>";
+            }
+            break;
+        case 'ITILFollowup':
+            if ($item->fields['itemtype'] == 'Ticket') {
+                // block with plugin's waiting reason + postponement date
+                if ($config->useWaiting() && PluginMoreticketWaitingTicket::canView()) {
+                    $waitingTicket->addFormWaitingBlock($item->fields['items_id'], $item->getType());
+                }
+
+                // automatically click follow up set ticket to waiting status switch
+                if (strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false) {
+                    if($config->fields['waiting_by_default_followup'] && Session::haveRight('ticket', Ticket::OWN)){
+                        echo "<script>       
+                        $(document).ready(function() { 
+                            let buttonFollowup = document.getElementById('itil-footer').querySelector(\"button[data-bs-target='#new-ITILFollowup-block']\");
+                            console.log(buttonFollowup);
+                            buttonFollowup.addEventListener('click', e => {
+                                let input = document.getElementById('new-itilobject-form').querySelector('[id^=\"enable-pending-reasons\"]');
+                                if (!input.checked) input.click();
+                            })
+                        });
+                 </script>";
+                    }
+                }
+            }
+            break;
+    }
+}

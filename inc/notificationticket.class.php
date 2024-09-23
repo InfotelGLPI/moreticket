@@ -88,7 +88,8 @@ class PluginMoreticketNotificationTicket extends CommonDBTM {
     * @return bool
     */
    static function afterAddFollowup(ITILFollowup $followup) {
-      if (!$followup->getField('itemtype') == 'Ticket') {
+       global $DB;
+       if (!$followup->getField('itemtype') == 'Ticket') {
          return false;
       }
 
@@ -112,7 +113,6 @@ class PluginMoreticketNotificationTicket extends CommonDBTM {
           }
       }
    }
-
 
    static function getSpecificValueToDisplay($field, $values, array $options = []) {
 

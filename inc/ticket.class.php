@@ -305,6 +305,63 @@ class PluginMoreticketTicket extends CommonITILObject {
       $doc = $document;
    }
 
+    static function afterAddTask(TicketTask $task)
+    {
+        global $DB;
+        $config = new PluginMoreticketConfig();
+        if ($config->fields['update_after_tech_add_task']) {
+            $ticket = new Ticket();
+            $user = new User();
+            $user->getFromDB($task->fields['users_id']);
+            $condition = [
+                'tickets_id' => $task->fields['tickets_id'],
+                'users_id' => $task->fields['users_id'],
+                'type' => CommonITILActor::ASSIGN
+            ];
+            $ticket->getFromDB($task->fields['tickets_id']);
+            if (countElementsInTable('glpi_tickets_users', $condition) > 0 &&
+                in_array($ticket->fields['status'], Ticket::getProcessStatusArray())) {
+                $DB->update(
+                    Ticket::getTable(),
+                    [
+                        'status' => Ticket::WAITING
+                    ],
+                    [
+                        'id' => $ticket->getID()
+                    ]
+                );
+            }
+        }
+    }
+
+    static function afterAddFollowupTech(ITILFollowup $followup) {
+        global $DB;
+        $config = new PluginMoreticketConfig();
+        $ticket = new Ticket();
+        if ($config->fields['update_after_tech_add_followup'] && $followup->fields['itemtype'] == Ticket::getType()) {
+            $user = new User();
+            $ticket->getFromDB($followup->fields['items_id']);
+            $user->getFromDB($followup->fields['users_id']);
+            $condition = [
+                'tickets_id' => $followup->fields['items_id'],
+                'users_id' => $followup->fields['users_id'],
+                'type' => CommonITILActor::ASSIGN
+            ];
+            if (countElementsInTable('glpi_tickets_users', $condition) > 0 &&
+                in_array( $ticket->fields['status'], Ticket::getProcessStatusArray())) {
+                $DB->update(
+                    Ticket::getTable(),
+                    [
+                        'status' => Ticket::WAITING
+                    ],
+                    [
+                        'id' => $ticket->getID()
+                    ]
+                );
+            }
+        }
+    }
+
    static function afterUpdateValidation(TicketValidation $validation) {
 
       $config = new PluginMoreticketConfig();

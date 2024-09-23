@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_MORETICKET_VERSION', '1.7.4');
+define('PLUGIN_MORETICKET_VERSION', '1.7.5');
 
 if (!defined("PLUGIN_MORETICKET_DIR")) {
     define("PLUGIN_MORETICKET_DIR", Plugin::getPhpDir("moreticket"));
@@ -53,7 +53,6 @@ function plugin_init_moreticket() {
                 $PLUGIN_HOOKS['add_javascript']['moreticket'] = ["scripts/moreticket.js"];
 //            }
             if ($config->useDurationSolution() == true) {
-                $PLUGIN_HOOKS['post_item_form']['moreticket'] = ['PluginMoreticketSolution', 'showFormSolution'];
                 $PLUGIN_HOOKS['pre_item_add']['moreticket']   =
                     ['ITILSolution' => ['PluginMoreticketSolution', 'beforeAdd']];
             }
@@ -87,6 +86,8 @@ function plugin_init_moreticket() {
 
                 $PLUGIN_HOOKS['item_add']['moreticket']['Document']            = ['PluginMoreticketTicket', 'afterAddDocument'];
                 $PLUGIN_HOOKS['item_update']['moreticket']['TicketValidation'] = ['PluginMoreticketTicket', 'afterUpdateValidation'];
+                $PLUGIN_HOOKS['item_add']['moreticket'] ['TicketTask'] = ['PluginMoreticketTicket', 'afterAddTask'];
+                $PLUGIN_HOOKS['item_add']['moreticket']['ITILFollowup'] = ['PluginMoreticketTicket', 'afterAddFollowupTech'];
             }
 
             $PLUGIN_HOOKS['item_add']['moreticket']['ITILFollowup'] = ['PluginMoreticketNotificationTicket', 'afterAddFollowup'];
@@ -99,7 +100,10 @@ function plugin_init_moreticket() {
                 Plugin::registerClass('PluginMoreticketWaitingTicket', ['addtabon' => 'Ticket']);
                 Plugin::registerClass('PluginMoreticketCloseTicket', ['addtabon' => 'Ticket']);
             }
+
+            $PLUGIN_HOOKS['post_item_form']['moreticket'] = 'plugin_moreticket_post_item_form';
         }
+
         //      if (isset($_SESSION['glpiactiveprofile']['interface'])
         //          && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
         //         $PLUGIN_HOOKS['pre_item_form']['moreticket'] = [PluginMoreticketTicket::class, 'displaySaveButton'];
