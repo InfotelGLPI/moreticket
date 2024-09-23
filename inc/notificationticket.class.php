@@ -88,7 +88,8 @@ class PluginMoreticketNotificationTicket extends CommonDBTM {
     * @return bool
     */
    static function afterAddFollowup(ITILFollowup $followup) {
-      if (!$followup->getField('itemtype') == 'Ticket') {
+       global $DB;
+       if (!$followup->getField('itemtype') == 'Ticket') {
          return false;
       }
 
@@ -111,6 +112,31 @@ class PluginMoreticketNotificationTicket extends CommonDBTM {
                   ]);
           }
       }
+
+       $config = new PluginMoreticketConfig();
+       $ticket = new Ticket();
+       if ($config->fields['update_after_tech_add_followup'] && $followup->fields['itemtype'] == Ticket::getType()) {
+           $user = new User();
+           $ticket->getFromDB($followup->fields['items_id']);
+           $user->getFromDB($followup->fields['users_id']);
+           $condition = [
+               'tickets_id' => $followup->fields['items_id'],
+               'users_id' => $followup->fields['users_id'],
+               'type' => CommonITILActor::ASSIGN
+           ];
+           if (countElementsInTable('glpi_tickets_users', $condition) > 0 &&
+               in_array( $ticket->fields['status'], Ticket::getProcessStatusArray())) {
+               $DB->update(
+                   Ticket::getTable(),
+                   [
+                       'status' => Ticket::WAITING
+                   ],
+                   [
+                       'id' => $ticket->getID()
+                   ]
+               );
+           }
+       }
    }
 
 

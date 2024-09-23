@@ -320,14 +320,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         }
         echo Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]);
         echo "</td></tr>";
-        //        echo "<tr class='tab_bg_1'><td>";
-        //        echo PluginMoreticketWaitingType::getTypeName(1);
-        //        if ($config->mandatoryWaitingType() == true) {
-        //            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        //        }
-        //        $opt = ['value' => $this->fields['plugin_moreticket_waitingtypes_id']];
-        //        Dropdown::show('PluginMoreticketWaitingType', $opt);
-        //        echo "</td></tr>";
         echo "<tr class='tab_bg_1'><td>";
         echo __('Postponement date', 'moreticket');
 
@@ -389,7 +381,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         unset($_SESSION['glpi_plugin_moreticket_waiting']);
 
         $config = new PluginMoreticketConfig();
-
         echo "<div class='spaced' id='moreticket_waiting_ticket_followup'>";
         echo "</br>";
         echo "<table id='cl_menu'>";
@@ -400,14 +391,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         }
         echo Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]);
         echo "</td></tr>";
-        //        echo "<tr class='tab_bg_1'><td>";
-        //        echo PluginMoreticketWaitingType::getTypeName(1);
-        //        if ($config->mandatoryWaitingType() == true) {
-        //            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        //        }
-        //        $opt = ['value' => $this->fields['plugin_moreticket_waitingtypes_id']];
-        //        Dropdown::show('PluginMoreticketWaitingType', $opt);
-        //        echo "</td></tr>";
         echo "<tr class='tab_bg_1'><td>";
         echo __('Postponement date', 'moreticket');
 
@@ -829,9 +812,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                                  'status' => $waiting['status']]);
                 $waiting_ticket->update(['id'                  => $waiting['id'],
                                          'date_end_suspension' => date("Y-m-d H:i:s")]);
-                if ($config->addTaskStopWaiting()) {
+                if ($config->addFollowupStopWaiting()) {
                     $ticketTask->add(['tickets_id' => $ticket->getID(),
-                                      'is_private' => 1,
                                       'content'    => Toolbox::addslashes_deep($content), 'state' => 2]);
                 }
                 $cron_status = 1;
