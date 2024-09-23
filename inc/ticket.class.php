@@ -333,6 +333,35 @@ class PluginMoreticketTicket extends CommonITILObject {
             }
         }
     }
+
+    static function afterAddFollowupTech(ITILFollowup $followup) {
+        global $DB;
+        $config = new PluginMoreticketConfig();
+        $ticket = new Ticket();
+        if ($config->fields['update_after_tech_add_followup'] && $followup->fields['itemtype'] == Ticket::getType()) {
+            $user = new User();
+            $ticket->getFromDB($followup->fields['items_id']);
+            $user->getFromDB($followup->fields['users_id']);
+            $condition = [
+                'tickets_id' => $followup->fields['items_id'],
+                'users_id' => $followup->fields['users_id'],
+                'type' => CommonITILActor::ASSIGN
+            ];
+            if (countElementsInTable('glpi_tickets_users', $condition) > 0 &&
+                in_array( $ticket->fields['status'], Ticket::getProcessStatusArray())) {
+                $DB->update(
+                    Ticket::getTable(),
+                    [
+                        'status' => Ticket::WAITING
+                    ],
+                    [
+                        'id' => $ticket->getID()
+                    ]
+                );
+            }
+        }
+    }
+
    static function afterUpdateValidation(TicketValidation $validation) {
 
       $config = new PluginMoreticketConfig();
