@@ -487,7 +487,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
 
         $dbu = new DbUtils();
         if (sizeof($options) == 0) {
-            $iterator         = $DB->request(
+            $iterator = $DB->request(
                 "glpi_plugin_moreticket_waitingtickets",
                 '`tickets_id` = ' . $tickets_id . '
                                                        AND `date_suspension` IN (SELECT max(`date_suspension`)
@@ -976,5 +976,79 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         } else {
             echo "<a class=\"button\"><i class=\"$name fa-fw fas fa-2x fa-toggle-off disabled\"></i></a>";
         }
+    }
+
+    /**
+     * Delete all elements that could have been added prior to bugfix when adding task/followup
+     * @return void
+     */
+    public static function deleteDuplicates() {
+        global $DB;
+        $waitingTicket = new PluginMoreticketWaitingTicket();
+
+        // latest element added
+        $queryLatestAdded = "SELECT max(`date_suspension`) 
+        FROM `glpi_plugin_moreticket_waitingtickets` 
+        GROUP BY `tickets_id`";
+
+        // only those associated to a ticket with more than one element not marked as ended
+        $queryMultiple = "SELECT `tickets_id` 
+        FROM `glpi_plugin_moreticket_waitingtickets` 
+        WHERE (UNIX_TIMESTAMP(`date_end_suspension`) = 0 OR UNIX_TIMESTAMP(`date_end_suspension`) IS NULL)
+        GROUP BY `tickets_id`
+        HAVING COUNT(`tickets_id`) > 1";
+
+        // latest element added to each ticket with at least one duplicate
+        $iterator = $DB->request(
+            "glpi_plugin_moreticket_waitingtickets",
+            "`date_suspension` IN ($queryLatestAdded)
+             AND (UNIX_TIMESTAMP(`date_end_suspension`) = 0 OR UNIX_TIMESTAMP(`date_end_suspension`) IS NULL)
+             AND `tickets_id` IN ($queryMultiple)"
+        );
+
+        $duplicates = 0;
+        foreach($iterator as $row) {
+            $tickets_id = $row['tickets_id'];
+            $waiting = CommonITILObject::WAITING;
+            // get the most recent where status != WAITING
+            $queryMaxDateSuspension = "SELECT max(`date_suspension`) 
+            FROM `glpi_plugin_moreticket_waitingtickets` 
+            WHERE `tickets_id` = $tickets_id
+            AND `status` != $waiting";
+            $iteratorStatus = $DB->request(
+                "glpi_plugin_moreticket_waitingtickets",
+                "`tickets_id` = $tickets_id
+                 AND status != $waiting   
+                 AND `date_suspension` IN ($queryMaxDateSuspension)
+                 AND (UNIX_TIMESTAMP(`date_end_suspension`) = 0 OR UNIX_TIMESTAMP(`date_end_suspension`) IS NULL)"
+            );
+            $status = CommonITILObject::ASSIGNED;
+            foreach ($iteratorStatus as $rowStatus) {
+                $status = $rowStatus['status'];
+            }
+
+            // update the one most recently added to set its status at the status of the one found before
+            $waitingTicket->getFromDB($row['id']);
+            if ($waitingTicket->fields['status'] == CommonITILObject::WAITING) {
+                $DB->update(
+                    'glpi_plugin_moreticket_waitingtickets',
+                    ['status' => $status],
+                    ['id' => $row['id']]
+                );
+            }
+
+            // delete all those not marked as ended except for the one that was updated
+            $DB->delete(
+                'glpi_plugin_moreticket_waitingtickets',
+                [
+                    'tickets_id' => $tickets_id,
+                    'date_end_suspension' => null,
+                    'id' => ['!=', $row['id']]
+                ]
+            );
+            $duplicates++;
+        }
+
+        Session::addMessageAfterRedirect(sprintf(__('%s duplicates deleted', 'moreticket'), $duplicates));
     }
 }
