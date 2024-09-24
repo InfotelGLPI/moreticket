@@ -227,21 +227,21 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
 
          $config = new PluginMoreticketConfig();
 
-//         $sopt[3450]['table']         = 'glpi_plugin_moreticket_waitingtickets';
-//         $sopt[3450]['field']         = 'reason';
-//         $sopt[3450]['name']          = __('Reason', 'moreticket');
-//         $sopt[3450]['datatype']      = "text";
-//         $sopt[3450]['joinparams']    = ['jointype' => 'child',
-//                                              'condition' => "AND `NEWTABLE`.`date_end_suspension` IS NULL"];
-//         $sopt[3450]['massiveaction'] = false;
+         $sopt[3452]['table']         = 'glpi_plugin_moreticket_waitingtickets';
+         $sopt[3452]['field']         = 'reason';
+         $sopt[3452]['name']          = __('Waiting reason', 'moreticket');
+         $sopt[3452]['datatype']      = "text";
+         $sopt[3452]['joinparams']    = ['jointype' => 'child',
+                                              'condition' => "AND `NEWTABLE`.`date_end_suspension` IS NULL"];
+         $sopt[3452]['massiveaction'] = false;
 //
-//         $sopt[3451]['table']         = 'glpi_plugin_moreticket_waitingtickets';
-//         $sopt[3451]['field']         = 'date_report';
-//         $sopt[3451]['name']          = __('Postponement date', 'moreticket');
-//         $sopt[3451]['datatype']      = "datetime";
-//         $sopt[3451]['joinparams']    = ['jointype' => 'child',
-//                                              'condition' => "AND `NEWTABLE`.`date_end_suspension` IS NULL"];
-//         $sopt[3451]['massiveaction'] = false;
+         $sopt[3451]['table']         = 'glpi_plugin_moreticket_waitingtickets';
+         $sopt[3451]['field']         = 'date_report';
+         $sopt[3451]['name']          = __('Postponement date', 'moreticket');
+         $sopt[3451]['datatype']      = "datetime";
+         $sopt[3451]['joinparams']    = ['jointype' => 'child',
+                                              'condition' => "AND `NEWTABLE`.`date_end_suspension` IS NULL"];
+         $sopt[3451]['massiveaction'] = false;
 //
 //         $sopt[3452]['table']         = 'glpi_plugin_moreticket_waitingtypes';
 //         $sopt[3452]['field']         = 'name';
