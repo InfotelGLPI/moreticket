@@ -485,7 +485,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
     public static function getWaitingTicketFromDB($tickets_id, $options = []) {
         global $DB;
 
-        $dbu = new DbUtils();
         if (sizeof($options) == 0) {
             $iterator = $DB->request(
                 "glpi_plugin_moreticket_waitingtickets",
@@ -569,23 +568,19 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                 unset($input['status']);
             }
 
-            $waitingTicketData = PluginMoreticketWaitingTicket::getWaitingTicketFromDB(
-                $tickets_id,
-                ['start' => 0, 'limit' => 1]
-            );
+            $waitingTicketData = PluginMoreticketWaitingTicket::getWaitingTicketFromDB($tickets_id);
 
             if (!$waitingTicketData) {
                 if ($waiting_ticket->add($input)) {
                     unset($_SESSION['glpi_plugin_moreticket_waiting']);
                 }
             } else {
-                $ids = array_keys($waitingTicketData);
-                $waiting_ticket->getFromDB($ids[0]);
+                $waiting_ticket->getFromDB($waitingTicketData['id']);
                 // based on PluginMoreticketWaitingTicket::preUpdateWaitingTicket
                 unset($input['status']);
                 unset($input['date_suspension']);
                 unset($input['date_end_suspension']);
-                $input['id'] = $ids[0];
+                $input['id'] = $waitingTicketData['id'];
                 $waiting_ticket->update($input);
             }
         }
@@ -838,7 +833,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
 
         $waiting_ticket = new self();
         $ticket         = new Ticket();
-        $ticketTask     = new TicketTask();
+        $followup       = new ITILFollowup();
         $log            = new Log();
         $config         = new PluginMoreticketConfig();
         $content        = __("Waiting ticket exceedeed", 'moreticket');
@@ -856,8 +851,11 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                 $waiting_ticket->update(['id'                  => $waiting['id'],
                                          'date_end_suspension' => date("Y-m-d H:i:s")]);
                 if ($config->addFollowupStopWaiting()) {
-                    $ticketTask->add(['tickets_id' => $ticket->getID(),
-                                      'content'    => Toolbox::addslashes_deep($content), 'state' => 2]);
+                    $followup->add([
+                        'itemtype' => Ticket::getType(),
+                        'items_id' => $ticket->getID(),
+                        'content'    => Toolbox::addslashes_deep($content)
+                    ]);
                 }
                 $cron_status = 1;
                 $task->addVolume(1);
