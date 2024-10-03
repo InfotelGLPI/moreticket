@@ -53,14 +53,9 @@ if (Plugin::isPluginActive("moreticket")) {
       //Update singelton
       PluginMoreticketConfig::getConfig(true);
       Html::redirect($_SERVER['HTTP_REFERER']);
-
-   } else if (isset($_POST['delete_duplicates'])) {
-       PluginMoreticketWaitingTicket::deleteDuplicates();
-       Html::back();
    } else {
       Html::header(PluginMoreticketConfig::getTypeName(), '', "plugins", "moreticket");
       $config->showConfigForm();
-      $config->showDeleteDuplicatesForm();
       Html::footer();
    }
 

@@ -97,6 +97,7 @@ function plugin_moreticket_install() {
       $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.6.3.sql");
    }
     if (!$DB->fieldExists("glpi_plugin_moreticket_configs", 'update_after_tech_add_task')) {
+        PluginMoreticketWaitingTicket::deleteDuplicates();
         $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.7.5.sql");
     }
 
