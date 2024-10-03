@@ -618,7 +618,9 @@ JAVASCRIPT;
                 // Then we add tickets informations
                 if (isset($item->fields['id'])
                     && isset($item->input['status'])
-                    && $item->input['status'] == 0) {
+                    && ($item->input['status'] == 0
+                        || (isset($item->input['statusold']) && in_array($item->input['statusold'], $solution_status))) // fix for shipping
+                ) {
                     $itilsolution = new ITILSolution();
                     if(!Plugin::isPluginActive("formsolution")) {
                         $input = [];
