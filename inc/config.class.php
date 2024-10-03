@@ -489,16 +489,4 @@ class PluginMoreticketConfig extends CommonDBTM {
    function addFollowupStopWaiting() {
       return $this->fields['add_followup_stop_waiting'];
    }
-
-   public function showDeleteDuplicatesForm() {
-       echo "<form name='form' method='post' action='" . $this->getFormURL() . "'>";
-       echo "<table class='tab_cadre_fixe'>";
-       echo "<tr><th>" . __("Clear waiting ticket duplicates", 'moreticket') . "</th>";
-       echo "<th align='center'>";
-       echo Html::submit(__('Delete duplicates', 'moreticket'), ['name' => 'delete_duplicates', 'class' => 'btn btn-primary']);
-       echo "</th>";
-       echo "</tr>";
-       echo "</table>";
-       Html::closeForm();
-   }
 }
