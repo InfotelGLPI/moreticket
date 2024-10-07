@@ -1047,6 +1047,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
             $duplicates++;
         }
 
-        Session::addMessageAfterRedirect(sprintf(__('%s duplicates deleted', 'moreticket'), $duplicates));
+        if ($duplicates) {
+            Session::addMessageAfterRedirect(sprintf(__('%s duplicates deleted', 'moreticket'), $duplicates));
+        }
     }
 }
