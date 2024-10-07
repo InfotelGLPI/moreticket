@@ -72,31 +72,7 @@ class PluginMoreticketTicketFollowup extends CommonDBTM
         if (isset($ticketfollowup->input['pending'])
             && $ticketfollowup->input['pending']
             && $config->useWaiting() == true) {
-
-            $waiting_ticket = new PluginMoreticketWaitingTicket();
-            if (PluginMoreticketWaitingTicket::checkMandatory($ticketfollowup->input)) {
-                if (isset($ticketfollowup->input['date_report'])
-                    && ($ticketfollowup->input['date_report'] == "0000-00-00 00:00:00"
-                        || empty($ticketfollowup->input['date_report']))) {
-                    $ticketfollowup->input['date_report'] = 'NULL';
-                }
-
-                $status = (in_array($ticketfollowup->input['_job']->fields['status'],
-                                    [CommonITILObject::SOLVED, CommonITILObject::CLOSED]))
-                    ? CommonITILObject::ASSIGNED : $ticketfollowup->input['_job']->fields['status'];
-
-                // Then we add tickets informations
-                $input = ['reason'                            => (isset($ticketfollowup->input['reason'])) ? $ticketfollowup->input['reason'] : "",
-                          'tickets_id'                        => $ticketfollowup->input['items_id'],
-                          'date_report'                       => (isset($ticketfollowup->input['date_report'])) ? $ticketfollowup->input['date_report'] : "NULL",
-                          'date_suspension'                   => date("Y-m-d H:i:s"),
-                          'date_end_suspension'               => 'NULL',
-                          'status'                            => $status,
-                          'plugin_moreticket_waitingtypes_id' => (isset($item->input['plugin_moreticket_waitingtypes_id'])) ?? 0];
-                if ($waiting_ticket->add($input)) {
-                    unset($_SESSION['glpi_plugin_moreticket_waiting']);
-                }
-            }
+            PluginMoreticketWaitingTicket::addWaitingTicket($ticketfollowup);
         }
     }
 }

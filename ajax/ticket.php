@@ -56,26 +56,6 @@ if (isset($_POST['action'])) {
                 }
             }
             break;
-
-        case 'showFormTicketFollowup':
-            $config = new PluginMoreticketConfig();
-            // Ticket is waiting
-            if ($config->useWaiting()) {
-                $waiting_ticket = new PluginMoreticketWaitingTicket();
-                $waiting_ticket->showFormTicketFollowup($_POST['tickets_id']);
-            }
-
-            break;
-
-        case 'showFormTicketTask':
-            $config = new PluginMoreticketConfig();
-            // Ticket is waiting
-            if ($config->useWaiting()) {
-                $waiting_ticket = new PluginMoreticketWaitingTicket();
-                $waiting_ticket->showFormTicketTask($_POST['tickets_id']);
-            }
-
-            break;
         case 'showFormUrgency':
             $config = new PluginMoreticketConfig();
             // Ticket is waiting

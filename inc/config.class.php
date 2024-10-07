@@ -145,6 +145,20 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</td>";
       echo "</tr>";
 
+       echo "<tr class='tab_bg_1'>
+               <td id='show_waiting' $style>" . __("Check by default to put the ticket on waiting when adding a follow-up", "moreticket") . "</td>";
+       echo "<td id='show_waiting' $style>";
+       Dropdown::showYesNo("waiting_by_default_followup", $this->fields["waiting_by_default_followup"]);
+       echo "</td>";
+       echo "</tr>";
+
+       echo "<tr class='tab_bg_1'>
+               <td id='show_waiting' $style>" . __("Check by default to put the ticket on waiting when adding a task", "moreticket") . "</td>";
+       echo "<td id='show_waiting' $style>";
+       Dropdown::showYesNo("waiting_by_default_task", $this->fields["waiting_by_default_task"]);
+       echo "</td>";
+       echo "</tr>";
+
 //       echo "<tr class='tab_bg_1'>
 //            <td>" . __("Use the option ticket waiting in ticket followup", "moreticket") . "</td><td>";
 //       Dropdown::showYesNo("use_question", $this->fields["use_question"]);
@@ -275,6 +289,19 @@ class PluginMoreticketConfig extends CommonDBTM {
       Dropdown::showYesNo("update_after_approval", $this->fields["update_after_approval"]);
       echo "</td>";
       echo "</tr>";
+       echo "</tr>";
+
+       echo "<tr class='tab_bg_1'>
+            <td id='change_status'>" . __("Update ticket status to pending after a technician adds a follow up", "moreticket") . "</td><td>";
+       Dropdown::showYesNo("update_after_tech_add_followup", $this->fields["update_after_tech_add_followup"]);
+       echo "</td>";
+       echo "</tr>";
+
+       echo "<tr class='tab_bg_1'>
+            <td id='change_status'>" . __("Update ticket status to pending after a technician adds a task", "moreticket") . "</td><td>";
+       Dropdown::showYesNo("update_after_tech_add_task", $this->fields["update_after_tech_add_task"]);
+       echo "</td>";
+       echo "</tr>";
 //
 //      echo "<tr><th colspan='2'>" . _n('Automatic action', 'Automatic actions', Session::getPluralNumber()) . "</th></tr>";
 //      echo "<tr class='tab_bg_1'>
@@ -459,8 +486,7 @@ class PluginMoreticketConfig extends CommonDBTM {
       return $values;
    }
 
-   function addTaskStopWaiting() {
+   function addFollowupStopWaiting() {
       return $this->fields['add_followup_stop_waiting'];
    }
-
 }

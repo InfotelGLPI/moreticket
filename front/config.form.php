@@ -53,9 +53,7 @@ if (Plugin::isPluginActive("moreticket")) {
       //Update singelton
       PluginMoreticketConfig::getConfig(true);
       Html::redirect($_SERVER['HTTP_REFERER']);
-
    } else {
-
       Html::header(PluginMoreticketConfig::getTypeName(), '', "plugins", "moreticket");
       $config->showConfigForm();
       Html::footer();
