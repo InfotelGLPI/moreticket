@@ -49,7 +49,6 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      **/
     static function canCreate()
     {
-
         if (static::$rightname) {
             return Session::haveRight(static::$rightname, UPDATE);
         }
@@ -66,7 +65,6 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      */
     function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
-
         $config = new PluginMoreticketConfig();
 
         if (!$withtemplate) {
@@ -75,9 +73,13 @@ class PluginMoreticketCloseTicket extends CommonDBTM
                 && $config->closeInformations()) {
                 if ($_SESSION['glpishow_count_on_tabs']) {
                     $dbu = new DbUtils();
-                    return self::createTabEntry(__('Close ticket informations', 'moreticket'),
-                        $dbu->countElementsInTable($this->getTable(),
-                            ["tickets_id" => $item->getID()]));
+                    return self::createTabEntry(
+                        __('Close ticket informations', 'moreticket'),
+                        $dbu->countElementsInTable(
+                            $this->getTable(),
+                            ["tickets_id" => $item->getID()]
+                        )
+                    );
                 }
                 return __('Close ticket informations', 'moreticket');
             }
@@ -99,13 +101,11 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      */
     static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
-
         $config = new PluginMoreticketConfig();
 
         if ($item->getType() == 'Ticket'
             && ($item->fields['status'] == Ticket::CLOSED)
             && $config->closeInformations()) {
-
             self::showForTicket($item);
         }
 
@@ -122,7 +122,6 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      */
     public static function getTypeName($nb = 0)
     {
-
         return __('Close ticket informations', 'moreticket');
     }
 
@@ -158,7 +157,15 @@ class PluginMoreticketCloseTicket extends CommonDBTM
         }
 
         if (in_array(1, $checkKo)) {
-            Session::addMessageAfterRedirect(__('Ticket cannot be closed', 'moreticket') . "<br>" . _n('Mandatory field', 'Mandatory fields', 2) . " : " . implode(', ', $msg), false, ERROR);
+            Session::addMessageAfterRedirect(
+                __('Ticket cannot be closed', 'moreticket') . "<br>" . _n(
+                    'Mandatory field',
+                    'Mandatory fields',
+                    2
+                ) . " : " . implode(', ', $msg),
+                false,
+                ERROR
+            );
             return false;
         }
         return true;
@@ -171,7 +178,6 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      */
     static function showForTicket(Ticket $item)
     {
-
         if (!self::canView()) {
             return false;
         }
@@ -211,10 +217,12 @@ class PluginMoreticketCloseTicket extends CommonDBTM
         echo __('Comments');
         echo "</td>";
         echo "<td>";
-        Html::textarea(['name' => 'comment',
+        Html::textarea([
+            'name' => 'comment',
             'cols' => 80,
             'rows' => 8,
-            'enable_richtext' => false]);
+            'enable_richtext' => false
+        ]);
         echo "</td>";
         echo "</tr>";
 
@@ -257,7 +265,6 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      **/
     public function rawSearchOptions()
     {
-
         $tab = parent::rawSearchOptions();
 
         $tab[] = [
@@ -305,7 +312,6 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      */
     static function showList($item, $canedit)
     {
-
         // validation des droits
         if (!self::canView()) {
             return false;
@@ -320,18 +326,21 @@ class PluginMoreticketCloseTicket extends CommonDBTM
         $rand = mt_rand();
 
         // Get close informations
-        $data = self::getCloseTicketFromDB($item->getField('id'), ['start' => $start,
-            'limit' => $_SESSION['glpilist_limit']]);
+        $data = self::getCloseTicketFromDB($item->getField('id'), [
+            'start' => $start,
+            'limit' => $_SESSION['glpilist_limit']
+        ]);
         $dbu = new DbUtils();
-        $number = $dbu->countElementsInTable("glpi_plugin_moreticket_closetickets",
-            ['tickets_id' => $item->getField('id')]);
+        $number = $dbu->countElementsInTable(
+            "glpi_plugin_moreticket_closetickets",
+            ['tickets_id' => $item->getField('id')]
+        );
         if ($number == 0) {
             echo "<div class='center'>";
             echo "<table class='tab_cadre_fixe'>";
             echo "<tr><th>" . __('No historical') . "</th></tr>";
             echo "</table>";
             echo "</div><br>";
-
         } else {
             $doc = new Document();
             echo "<div class='left'>";
@@ -405,12 +414,14 @@ class PluginMoreticketCloseTicket extends CommonDBTM
     static function getCloseTicketFromDB($tickets_id, $options = [])
     {
         $dbu = new DbUtils();
-        $data = $dbu->getAllDataFromTable("glpi_plugin_moreticket_closetickets",
+        $data = $dbu->getAllDataFromTable(
+            "glpi_plugin_moreticket_closetickets",
             ['tickets_id' => $tickets_id] +
             ['ORDER' => 'date DESC'] +
             ['START' => (int)$options['start']] +
             ['LIMIT' => (int)$options['limit']],
-            false);
+            false
+        );
 
         return $data;
     }
@@ -500,10 +511,14 @@ JAVASCRIPT;
         if ($config->mandatorySolutionType() == true) {
             echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
         }
-        Dropdown::show('SolutionType',
-            ['value' => $ticket->getField('solutiontypes_id'),
+        Dropdown::show(
+            'SolutionType',
+            [
+                'value' => $ticket->getField('solutiontypes_id'),
                 'rand' => $rand,
-                'entity' => $ticket->getEntityID()]);
+                'entity' => $ticket->getEntityID()
+            ]
+        );
         echo "</td></tr>";
         echo "<tr><td>";
         echo __('Solution description', 'moreticket') . "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
@@ -512,7 +527,8 @@ JAVASCRIPT;
         if (!isset($ticket->fields['solution'])) {
             $ticket->fields['solution'] = '';
         }
-        Html::textarea(['name' => 'solution',
+        Html::textarea([
+            'name' => 'solution',
             'value' => stripslashes($ticket->fields['solution']),
             'rand' => $rand,
             'editor_id' => $content_id,
@@ -533,6 +549,35 @@ JAVASCRIPT;
         //                      'enable_richtext' => false]);
         //      echo "</div>";
         echo "</td></tr>";
+        $use_duration_solution = $config->useDurationSolution();
+
+        if (!isset($ticket->fields['duration_solution'])) {
+            $ticket->fields['duration_solution'] = '';
+        }
+
+        if ($use_duration_solution == 1) {
+            echo "<tr><td>";
+            echo __('Duration');
+            if ($config->isMandatorysolution()) {
+                echo "&nbsp;<span style='color:red'>*</span>&nbsp;";
+            }
+            $rand = mt_rand();
+            echo "<span id='duration_solution_" . $rand . $ticket->fields['id'] . "'>";
+            $toadd = [];
+            for ($i = 9; $i <= 100; $i++) {
+                $toadd[] = $i * HOUR_TIMESTAMP;
+            }
+            Dropdown::showTimeStamp("duration_solution", [
+                'min' => 0,
+                'max' => 8 * HOUR_TIMESTAMP,
+                'value' => $ticket->fields['duration_solution'],
+                'inhours' => true,
+                'toadd' => $toadd
+            ]);
+            echo "</span>";
+            echo "</td></tr>";
+        }
+
         echo "</table>";
         echo "</div>";
     }
@@ -585,7 +630,6 @@ JAVASCRIPT;
 
     static function postAddCloseTicket(Ticket $item)
     {
-
         if (!is_array($item->input) || !count($item->input)) {
             // Already cancel by another plugin
             return false;
@@ -598,36 +642,30 @@ JAVASCRIPT;
             // Get allowed status
             $array = json_decode($config->solutionStatus(), true);
             if (is_array($array)) {
-                $solution_status = array_keys($array);
-
                 // Then we add tickets informations
                 if (isset($item->fields['id'])
-                    && isset($item->input['status'])
-                    && $item->input['status'] == 0) {
-
+                    && isset($item->input['statusold'])) {
                     $input = [];
                     $input['itemtype'] = 'Ticket';
                     $input['items_id'] = $item->getID();
                     $input['content'] = $item->input['solution'];
                     $input['date_creation'] = $item->input['date'];
+                    $input['status'] = 3;
                     $input['solutiontypes_id'] = $item->input['solutiontypes_id'];
+
+                    $input['duration_solution'] = $item->input['duration_solution'];
 
                     $itilsolution = new ITILSolution();
                     $id = $itilsolution->add($input);
-
-                    //Validate solution if ticket closed
-                    if (in_array($item->input['status'], $solution_status)) {
-                        $inputUpd['status'] = 3;
-                        $inputUpd['id'] = $id;
-                        $itilsolution->update($inputUpd);
+                    if ($id > 0) {
+                        $item->update([
+                            'id' => $item->fields['id'],
+                            'status' => $item->input['statusold']
+                        ]);
                     }
-
-                    $item->update(['id' => $item->fields['id'],
-                        'status' => $item->input['statusold']]);
                 }
             }
         }
-
     }
 
     /**
@@ -635,13 +673,14 @@ JAVASCRIPT;
      */
     public function post_addItem()
     {
-
         $dbu = new DbUtils();
 
         $changes[0] = '0';
         $changes[1] = '';
-        $changes[2] = sprintf(__('%1$s added closing informations', 'moreticket'),
-            $dbu->getUserName(Session::getLoginUserID()));
+        $changes[2] = sprintf(
+            __('%1$s added closing informations', 'moreticket'),
+            $dbu->getUserName(Session::getLoginUserID())
+        );
         Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
         parent::post_addItem();
@@ -655,13 +694,14 @@ JAVASCRIPT;
      */
     public function post_updateItem($history = 1)
     {
-
         $dbu = new DbUtils();
 
         $changes[0] = '0';
         $changes[1] = '';
-        $changes[2] = sprintf(__('%1$s updated closing informations', 'moreticket'),
-            $dbu->getUserName(Session::getLoginUserID()));
+        $changes[2] = sprintf(
+            __('%1$s updated closing informations', 'moreticket'),
+            $dbu->getUserName(Session::getLoginUserID())
+        );
         Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
         parent::post_updateItem();
@@ -675,13 +715,14 @@ JAVASCRIPT;
      */
     public function post_purgeItem($history = 1)
     {
-
         $dbu = new DbUtils();
 
         $changes[0] = '0';
         $changes[1] = '';
-        $changes[2] = sprintf(__('%1$s deleted closing informations', 'moreticket'),
-            $dbu->getUserName(Session::getLoginUserID()));
+        $changes[2] = sprintf(
+            __('%1$s deleted closing informations', 'moreticket'),
+            $dbu->getUserName(Session::getLoginUserID())
+        );
         Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
         parent::post_updateItem();
@@ -695,13 +736,11 @@ JAVASCRIPT;
      */
     static function cleanCloseTicket(Ticket $ticket)
     {
-
         $fields = ['solutiontemplates_id', 'solution', 'solutiontypes_id'];
         foreach ($fields as $field) {
             if (isset($ticket->input[$field])) {
                 unset($ticket->input[$field]);
             }
         }
-
     }
 }
