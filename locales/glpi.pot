@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-20 11:15+0000\n"
+"POT-Creation-Date: 2024-11-15 11:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,36 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:257 hook.php:264 hook.php:271 hook.php:278
+#: hook.php:232
+msgid "Waiting reason"
+msgstr ""
+
+#: hook.php:240 inc/waitingticket.class.php:133 inc/waitingticket.class.php:256
+#: inc/waitingticket.class.php:340 inc/waitingticket.class.php:448
+msgid "Postponement date"
+msgstr ""
+
+#: hook.php:260 hook.php:267 hook.php:274 hook.php:281
 #: inc/closeticket.class.php:78 inc/closeticket.class.php:82
 #: inc/closeticket.class.php:126 inc/closeticket.class.php:186
 #: inc/closeticket.class.php:339 inc/closeticket.class.php:393
-#: inc/config.class.php:181
+#: inc/config.class.php:195
 msgid "Close ticket informations"
 msgstr ""
 
-#: hook.php:292
+#: hook.php:295
 msgid "Updated by a user"
 msgstr ""
 
-#: setup.php:117 inc/profile.class.php:50 inc/profile.class.php:212
+#: setup.php:121 inc/profile.class.php:50 inc/profile.class.php:212
 msgid "More ticket"
 msgstr ""
 
-#: front/config.form.php:67
+#: front/config.form.php:65
 msgid "Please activate the plugin"
 msgstr ""
 
-#: inc/closeticket.class.php:142 inc/closeticket.class.php:509
+#: inc/closeticket.class.php:142 inc/closeticket.class.php:520
 msgid "Solution description"
 msgstr ""
 
@@ -46,22 +55,22 @@ msgstr ""
 msgid "Ticket cannot be closed"
 msgstr ""
 
-#: inc/closeticket.class.php:643
+#: inc/closeticket.class.php:668
 #, php-format
 msgid "%1$s added closing informations"
 msgstr ""
 
-#: inc/closeticket.class.php:663
+#: inc/closeticket.class.php:688
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr ""
 
-#: inc/closeticket.class.php:683
+#: inc/closeticket.class.php:708
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr ""
 
-#: inc/config.class.php:98 inc/waitingticket.class.php:906
+#: inc/config.class.php:98 inc/waitingticket.class.php:941
 msgid "Ticket waiting"
 msgstr ""
 
@@ -73,6 +82,10 @@ msgstr ""
 msgid "Postponement date is mandatory"
 msgstr ""
 
+#: inc/config.class.php:128
+msgid "Waiting type is mandatory"
+msgstr ""
+
 #: inc/config.class.php:135
 msgid "Waiting reason is mandatory"
 msgstr ""
@@ -81,56 +94,72 @@ msgstr ""
 msgid "Add followup when waiting date is reached"
 msgstr ""
 
-#: inc/config.class.php:154
-msgid "Ticket resolution and close"
+#: inc/config.class.php:149
+msgid "Check by default to put the ticket on waiting when adding a follow-up"
 msgstr ""
 
 #: inc/config.class.php:156
+msgid "Check by default to put the ticket on waiting when adding a task"
+msgstr ""
+
+#: inc/config.class.php:168
+msgid "Ticket resolution and close"
+msgstr ""
+
+#: inc/config.class.php:170
 msgid "Use solution process"
 msgstr ""
 
-#: inc/config.class.php:174
+#: inc/config.class.php:188
 msgid "Solution type is mandatory"
 msgstr ""
 
-#: inc/config.class.php:187
+#: inc/config.class.php:201
 msgid "Status used to display solution block"
 msgstr ""
 
-#: inc/config.class.php:200
+#: inc/config.class.php:214
 msgid "Add a followup on immediate ticket closing"
 msgstr ""
 
-#: inc/config.class.php:206
+#: inc/config.class.php:220
 msgid "Use the 'Duration' field in the add solution interface"
 msgstr ""
 
-#: inc/config.class.php:220
+#: inc/config.class.php:234
 msgid "Mandatory 'Duration' field"
 msgstr ""
 
-#: inc/config.class.php:225
+#: inc/config.class.php:239
 msgid "Ticket urgency"
 msgstr ""
 
-#: inc/config.class.php:227
+#: inc/config.class.php:241
 msgid "Use a justification of the urgency field"
 msgstr ""
 
-#: inc/config.class.php:243
+#: inc/config.class.php:257
 msgid "Urgency impacted justification for the field"
 msgstr ""
 
-#: inc/config.class.php:265
+#: inc/config.class.php:279
 msgid "Update ticket status"
 msgstr ""
 
-#: inc/config.class.php:268
+#: inc/config.class.php:282
 msgid "Update ticket status to processing after add document"
 msgstr ""
 
-#: inc/config.class.php:274
+#: inc/config.class.php:288
 msgid "Update ticket status to processing after approval"
+msgstr ""
+
+#: inc/config.class.php:295
+msgid "Update ticket status to pending after a technician adds a follow up"
+msgstr ""
+
+#: inc/config.class.php:301
+msgid "Update ticket status to pending after a technician adds a task"
 msgstr ""
 
 #: inc/profile.class.php:175
@@ -149,7 +178,7 @@ msgstr ""
 msgid "Urgency ticket cannot be saved"
 msgstr ""
 
-#: inc/urgencyticket.class.php:95 inc/waitingticket.class.php:169
+#: inc/urgencyticket.class.php:95 inc/waitingticket.class.php:173
 msgid "Ticket cannot be saved"
 msgstr ""
 
@@ -159,44 +188,42 @@ msgid_plural "Waiting tickets"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/waitingticket.class.php:133 inc/waitingticket.class.php:252
-#: inc/waitingticket.class.php:332 inc/waitingticket.class.php:412
-#: inc/waitingticket.class.php:475
-msgid "Postponement date"
-msgstr ""
-
-#: inc/waitingticket.class.php:137 inc/waitingticket.class.php:236
-#: inc/waitingticket.class.php:317 inc/waitingticket.class.php:397
-#: inc/waitingticket.class.php:473
+#: inc/waitingticket.class.php:137 inc/waitingticket.class.php:240
+#: inc/waitingticket.class.php:325 inc/waitingticket.class.php:446
 msgid "Reason"
 msgstr ""
 
-#: inc/waitingticket.class.php:167
+#: inc/waitingticket.class.php:171
 msgid "Waiting ticket cannot be saved"
 msgstr ""
 
-#: inc/waitingticket.class.php:173
+#: inc/waitingticket.class.php:177
 msgid "Postponement date is inferior of today's date"
 msgstr ""
 
-#: inc/waitingticket.class.php:469 inc/waitingticket.class.php:512
+#: inc/waitingticket.class.php:442 inc/waitingticket.class.php:485
 msgid "Ticket suspension history"
 msgstr ""
 
-#: inc/waitingticket.class.php:472
+#: inc/waitingticket.class.php:445
 msgid "Suspension date"
 msgstr ""
 
-#: inc/waitingticket.class.php:476
+#: inc/waitingticket.class.php:449
 msgid "Suspension end date"
 msgstr ""
 
-#: inc/waitingticket.class.php:818
+#: inc/waitingticket.class.php:851
 msgid "Waiting ticket exceedeed"
 msgstr ""
 
-#: inc/waitingticket.class.php:858
+#: inc/waitingticket.class.php:893
 msgid "End of standby ticket"
+msgstr ""
+
+#: inc/waitingticket.class.php:1062
+#, php-format
+msgid "%s duplicates deleted"
 msgstr ""
 
 #: inc/waitingtype.class.php:48
