@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-15 08:10+0000\n"
+"POT-Creation-Date: 2024-10-30 09:33+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: INOUE Daisuke, 2024\n"
 "Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/teams/50826/ja_JP/)\n"
@@ -21,27 +21,27 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: hook.php:253 hook.php:260 hook.php:267 hook.php:274
-#: inc/closeticket.class.php:78 inc/closeticket.class.php:82
-#: inc/closeticket.class.php:126 inc/closeticket.class.php:186
-#: inc/closeticket.class.php:339 inc/closeticket.class.php:393
-#: inc/config.class.php:181
+#: hook.php:261 hook.php:268 hook.php:275 hook.php:282
+#: inc/closeticket.class.php:77 inc/closeticket.class.php:84
+#: inc/closeticket.class.php:125 inc/closeticket.class.php:192
+#: inc/closeticket.class.php:348 inc/closeticket.class.php:402
+#: inc/config.class.php:195
 msgid "Close ticket informations"
 msgstr "チケット終了情報"
 
-#: hook.php:288
+#: hook.php:296
 msgid "Updated by a user"
 msgstr "ユーザーが更新"
 
-#: setup.php:117 inc/profile.class.php:50 inc/profile.class.php:212
+#: setup.php:121 inc/profile.class.php:50 inc/profile.class.php:212
 msgid "More ticket"
 msgstr "チケット拡張"
 
-#: front/config.form.php:67
+#: front/config.form.php:65
 msgid "Please activate the plugin"
 msgstr "プラグインを有効にしてください"
 
-#: inc/closeticket.class.php:142 inc/closeticket.class.php:509
+#: inc/closeticket.class.php:141 inc/closeticket.class.php:524
 msgid "Solution description"
 msgstr "解決情報"
 
@@ -49,22 +49,22 @@ msgstr "解決情報"
 msgid "Ticket cannot be closed"
 msgstr "チケットを終了できません"
 
-#: inc/closeticket.class.php:644
+#: inc/closeticket.class.php:681
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s が終了情報を追加"
 
-#: inc/closeticket.class.php:664
+#: inc/closeticket.class.php:702
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s が終了情報を更新"
 
-#: inc/closeticket.class.php:684
+#: inc/closeticket.class.php:723
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s が終了情報を削除"
 
-#: inc/config.class.php:98 inc/waitingticket.class.php:906
+#: inc/config.class.php:98 inc/waitingticket.class.php:929
 msgid "Ticket waiting"
 msgstr "保留チケット"
 
@@ -84,57 +84,73 @@ msgstr "保留理由を必須に"
 msgid "Add followup when waiting date is reached"
 msgstr "再開日に達したらフォローを追加する"
 
-#: inc/config.class.php:154
+#: inc/config.class.php:149
+msgid "Check by default to put the ticket on waiting when adding a follow-up"
+msgstr "標準で回答を追加したらチケットを保留中にする場合はチェック"
+
+#: inc/config.class.php:156
+msgid "Check by default to put the ticket on waiting when adding a task"
+msgstr "標準でタスクを追加したらチケットを保留中にする場合はチェック"
+
+#: inc/config.class.php:168
 msgid "Ticket resolution and close"
 msgstr "チケットの解決と終了"
 
-#: inc/config.class.php:156
+#: inc/config.class.php:170
 msgid "Use solution process"
 msgstr "解決処理を利用する"
 
-#: inc/config.class.php:174
+#: inc/config.class.php:188
 msgid "Solution type is mandatory"
 msgstr "解決の型を必須に"
 
-#: inc/config.class.php:187
+#: inc/config.class.php:201
 msgid "Status used to display solution block"
 msgstr "解決ブロック表示で利用する状態"
 
-#: inc/config.class.php:200
+#: inc/config.class.php:214
 msgid "Add a followup on immediate ticket closing"
 msgstr "チケットの終了直後にフォローを追加する"
 
-#: inc/config.class.php:206
+#: inc/config.class.php:220
 msgid "Use the 'Duration' field in the add solution interface"
 msgstr "解決の追加画面で「期間」項目を利用する"
 
-#: inc/config.class.php:220
+#: inc/config.class.php:234
 msgid "Mandatory 'Duration' field"
 msgstr "「期間」項目を必須に"
 
-#: inc/config.class.php:225
+#: inc/config.class.php:239
 msgid "Ticket urgency"
 msgstr "チケットの緊急性"
 
-#: inc/config.class.php:227
+#: inc/config.class.php:241
 msgid "Use a justification of the urgency field"
 msgstr "緊急性項目で正当性を利用する"
 
-#: inc/config.class.php:243
+#: inc/config.class.php:257
 msgid "Urgency impacted justification for the field"
 msgstr "項目の正当性に影響を与える緊急度"
 
-#: inc/config.class.php:265
+#: inc/config.class.php:279
 msgid "Update ticket status"
 msgstr "チケットの状態を更新"
 
-#: inc/config.class.php:268
+#: inc/config.class.php:282
 msgid "Update ticket status to processing after add document"
 msgstr "文書を追加したら、チケットの状態を「対応中」に更新する"
 
-#: inc/config.class.php:274
+#: inc/config.class.php:288
 msgid "Update ticket status to processing after approval"
 msgstr "承認を受けたら、チケットの状態を「対応中」に更新する"
+
+#: inc/config.class.php:295
+msgid "Update ticket status to pending after a technician adds a follow up"
+msgstr "技術者が回答を追加したら、チケットの状態を保留中に更新する"
+
+#: inc/config.class.php:301
+msgid "Update ticket status to pending after a technician adds a task"
+msgstr "技術者がタスクを追加したら、チケットの状態を保留中に更新する"
 
 #: inc/profile.class.php:175
 msgid "Adding a justification of urgency"
@@ -162,14 +178,12 @@ msgid_plural "Waiting tickets"
 msgstr[0] "保留チケット"
 
 #: inc/waitingticket.class.php:133 inc/waitingticket.class.php:252
-#: inc/waitingticket.class.php:332 inc/waitingticket.class.php:412
-#: inc/waitingticket.class.php:475
+#: inc/waitingticket.class.php:328 inc/waitingticket.class.php:436
 msgid "Postponement date"
 msgstr "再開予定日"
 
 #: inc/waitingticket.class.php:137 inc/waitingticket.class.php:236
-#: inc/waitingticket.class.php:317 inc/waitingticket.class.php:397
-#: inc/waitingticket.class.php:473
+#: inc/waitingticket.class.php:321 inc/waitingticket.class.php:434
 msgid "Reason"
 msgstr "理由"
 
@@ -181,25 +195,30 @@ msgstr "保留チケットを保存できません"
 msgid "Postponement date is inferior of today's date"
 msgstr "再開予定日は今日の日付より未来を設定してください"
 
-#: inc/waitingticket.class.php:469 inc/waitingticket.class.php:512
+#: inc/waitingticket.class.php:430 inc/waitingticket.class.php:473
 msgid "Ticket suspension history"
 msgstr "チケットの延期履歴"
 
-#: inc/waitingticket.class.php:472
+#: inc/waitingticket.class.php:433
 msgid "Suspension date"
 msgstr "中断日"
 
-#: inc/waitingticket.class.php:476
+#: inc/waitingticket.class.php:437
 msgid "Suspension end date"
 msgstr "実再開日"
 
-#: inc/waitingticket.class.php:818
+#: inc/waitingticket.class.php:839
 msgid "Waiting ticket exceedeed"
 msgstr "チケットの保留を延長"
 
-#: inc/waitingticket.class.php:858
+#: inc/waitingticket.class.php:881
 msgid "End of standby ticket"
 msgstr "準備チケットの終了"
+
+#: inc/waitingticket.class.php:1051
+#, php-format
+msgid "%s duplicates deleted"
+msgstr "%s 件の重複を削除しました"
 
 #: inc/waitingtype.class.php:48
 msgid "Waiting type"
