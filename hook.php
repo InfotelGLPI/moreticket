@@ -97,10 +97,9 @@ function plugin_moreticket_install() {
       $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.6.3.sql");
    }
     if (!$DB->fieldExists("glpi_plugin_moreticket_configs", 'update_after_tech_add_task')) {
-        PluginMoreticketWaitingTicket::deleteDuplicates();
         $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.7.5.sql");
     }
-
+    PluginMoreticketWaitingTicket::deleteDuplicates();
    if ($update) {
        $DB->runFile(PLUGIN_MORETICKET_DIR . "/sql/update-1.7.0.sql");
    }
@@ -186,15 +185,15 @@ function plugin_moreticket_getDatabaseRelations() {
 /**
  * @return array
  */
-//function plugin_moreticket_getDropdown() {
-//
-//
-//   if (Plugin::isPluginActive("moreticket")) {
-//      return ['PluginMoreticketWaitingType' => PluginMoreticketWaitingType::getTypeName(2)];
-//   } else {
-//      return [];
-//   }
-//}
+function plugin_moreticket_getDropdown() {
+
+
+   if (Plugin::isPluginActive("moreticket")) {
+      return ['PluginMoreticketWaitingType' => PluginMoreticketWaitingType::getTypeName(2)];
+   } else {
+      return [];
+   }
+}
 
 // Hook done on purge item case
 /**
@@ -243,17 +242,17 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
          $sopt[3451]['joinparams']    = ['jointype' => 'child',
                                               'condition' => "AND `NEWTABLE`.`date_end_suspension` IS NULL"];
          $sopt[3451]['massiveaction'] = false;
-//
-//         $sopt[3452]['table']         = 'glpi_plugin_moreticket_waitingtypes';
-//         $sopt[3452]['field']         = 'name';
-//         $sopt[3452]['name']          = PluginMoreticketWaitingType::getTypeName(1);
-//         $sopt[3452]['datatype']      = "dropdown";
-//         $condition                   = "AND (`NEWTABLE`.`date_end_suspension` IS NULL)";
-//         $sopt[3452]['joinparams']    = ['beforejoin'
-//                                              => ['table'      => 'glpi_plugin_moreticket_waitingtickets',
-//                                                       'joinparams' => ['jointype'  => 'child',
-//                                                                             'condition' => $condition]]];
-//         $sopt[3452]['massiveaction'] = false;
+
+         $sopt[8457]['table']         = 'glpi_plugin_moreticket_waitingtypes';
+         $sopt[8457]['field']         = 'name';
+         $sopt[8457]['name']          = PluginMoreticketWaitingType::getTypeName(1);
+         $sopt[8457]['datatype']      = "dropdown";
+         $condition                   = "AND (`NEWTABLE`.`date_end_suspension` IS NULL)";
+         $sopt[8457]['joinparams']    = ['beforejoin'
+                                              => ['table'      => 'glpi_plugin_moreticket_waitingtickets',
+                                                       'joinparams' => ['jointype'  => 'child',
+                                                                             'condition' => $condition]]];
+         $sopt[8457]['massiveaction'] = false;
 
          if ($config->closeInformations()) {
             $sopt[3453]['table']         = 'glpi_plugin_moreticket_closetickets';

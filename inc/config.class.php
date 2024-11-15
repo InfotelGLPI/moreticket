@@ -124,12 +124,12 @@ class PluginMoreticketConfig extends CommonDBTM {
       echo "</tr>";
 
       //TODROP
-//      echo "<tr class='tab_bg_1'>
-//               <td id='show_waiting' $style>" . __("Waiting type is mandatory", "moreticket") . "</td>";
-//      echo "<td id='show_waiting' $style>";
-//      Dropdown::showYesNo("waitingtype_mandatory", $this->fields["waitingtype_mandatory"]);
-//      echo "</td>";
-//      echo "</tr>";
+      echo "<tr class='tab_bg_1'>
+               <td id='show_waiting' $style>" . __("Waiting type is mandatory", "moreticket") . "</td>";
+      echo "<td id='show_waiting' $style>";
+      Dropdown::showYesNo("waitingtype_mandatory", $this->fields["waitingtype_mandatory"]);
+      echo "</td>";
+      echo "</tr>";
 
       echo "<tr class='tab_bg_1'>
                <td id='show_waiting' $style>" . __("Waiting reason is mandatory", "moreticket") . "</td>";

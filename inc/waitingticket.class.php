@@ -137,6 +137,10 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
             $mandatory_fields['reason'] = __('Reason', 'moreticket');
         }
 
+        if ($config->mandatoryWaitingType() == true) {
+            $mandatory_fields['plugin_moreticket_waitingtypes_id'] = PluginMoreticketWaitingType::getTypeName(1);
+        }
+
         $msg = [];
 
         foreach ($mandatory_fields as $key => $value) {
@@ -240,14 +244,14 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         echo Html::input('reason', ['value' => $this->fields['reason'],
                                     'size'  => 20]);
         echo "</td></tr>";
-        //      echo "<tr><td>";
-        //      echo PluginMoreticketWaitingType::getTypeName(1);
-        //      if ($config->mandatoryWaitingType() == true) {
-        //         echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        //      }
-        //      $opt = ['value' => $this->fields['plugin_moreticket_waitingtypes_id']];
-        //      Dropdown::show('PluginMoreticketWaitingType', $opt);
-        //      echo "</td></tr>";
+        echo "<tr><td>";
+        echo PluginMoreticketWaitingType::getTypeName(1);
+        if ($config->mandatoryWaitingType() == true) {
+            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
+        }
+        $opt = ['value' => $this->fields['plugin_moreticket_waitingtypes_id']];
+        Dropdown::show('PluginMoreticketWaitingType', $opt);
+        echo "</td></tr>";
         echo "<tr><td>";
         echo __('Postponement date', 'moreticket');
 
@@ -323,6 +327,14 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
             echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
         }
         echo Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]);
+        echo "</td></tr>";
+        echo "<tr><td>";
+        echo PluginMoreticketWaitingType::getTypeName(1);
+        if ($config->mandatoryWaitingType() == true) {
+            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
+        }
+        $opt = ['value' => $this->fields['plugin_moreticket_waitingtypes_id']];
+        Dropdown::show('PluginMoreticketWaitingType', $opt);
         echo "</td></tr>";
         echo "<tr class='tab_bg_1'><td>";
         echo __('Postponement date', 'moreticket');
