@@ -193,7 +193,7 @@ msgstr "保留チケットを保存できません"
 
 #: inc/waitingticket.class.php:173
 msgid "Postponement date is inferior of today's date"
-msgstr "再開予定日は今日の日付より未来を設定してください"
+msgstr "再開予定日は現在日付より未来に設定してください"
 
 #: inc/waitingticket.class.php:430 inc/waitingticket.class.php:473
 msgid "Ticket suspension history"
