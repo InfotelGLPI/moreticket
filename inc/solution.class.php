@@ -109,6 +109,9 @@ class PluginMoreticketSolution extends CommonITILObject
             return false;
         }
         $config = new PluginMoreticketConfig();
+        
+        $configglpi = Config::getConfigurationValues('core', ['system_user']);
+
         if ($config->useDurationSolution()) {
             if ($solution->input['itemtype'] == 'Ticket') {
                 if (isset($solution->input['duration_solution']) && $solution->input['duration_solution'] > 0) {
@@ -141,6 +144,9 @@ class PluginMoreticketSolution extends CommonITILObject
                 } else if ($config->isMandatorysolution()) {
                     if (Plugin::isPluginActive('servicecatalog')
                         && Session::getCurrentInterface() != "central") {
+                        return true;
+                    }
+                    if ($configglpi['system_user'] == $solution->input['users_id']) {
                         return true;
                     }
                     $ticket = new Ticket();
