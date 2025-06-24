@@ -29,17 +29,22 @@
 
 define('PLUGIN_MORETICKET_VERSION', '1.7.5');
 
+global $CFG_GLPI;
+
+use Glpi\Plugin\Hooks;
+
 if (!defined("PLUGIN_MORETICKET_DIR")) {
     define("PLUGIN_MORETICKET_DIR", Plugin::getPhpDir("moreticket"));
     define("PLUGIN_MORETICKET_DIR_NOFULL", Plugin::getPhpDir("moreticket", false));
-    define("PLUGIN_MORETICKET_WEBDIR", Plugin::getWebDir("moreticket"));
+    $root = $CFG_GLPI['root_doc'] . '/plugins/moreticket';
+    define("PLUGIN_MORETICKET_WEBDIR", $root);
 }
 
 // Init the hooks of the plugins -Needed
 function plugin_init_moreticket() {
     global $PLUGIN_HOOKS;
 
-    $PLUGIN_HOOKS['add_css']['moreticket'][]      = 'css/moreticket.css';
+    $PLUGIN_HOOKS[Hooks::ADD_CSS]['moreticket'][]      = 'css/moreticket.css';
     $PLUGIN_HOOKS['csrf_compliant']['moreticket'] = true;
     $PLUGIN_HOOKS['change_profile']['moreticket'] = ['PluginMoreticketProfile', 'initProfile'];
 
@@ -50,7 +55,7 @@ function plugin_init_moreticket() {
             $config = new PluginMoreticketConfig();
 
 //            if (Session::haveRight("plugin_moreticket_justification", READ)) {
-                $PLUGIN_HOOKS['add_javascript']['moreticket'] = ["scripts/moreticket.js"];
+                $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['moreticket'] = ["scripts/moreticket.js"];
 //            }
             if ($config->useDurationSolution() == true) {
                 $PLUGIN_HOOKS['pre_item_add']['moreticket']   =
@@ -69,7 +74,7 @@ function plugin_init_moreticket() {
                            //                      || $config->useQuestion() == true
                            || $config->useUrgency() == true
                            || $config->useDurationSolution() == true)) {
-                    $PLUGIN_HOOKS['add_javascript']['moreticket'][] = 'scripts/moreticket_load_scripts.js.php';
+                    $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['moreticket'][] = 'scripts/moreticket_load_scripts.js.php';
                 }
                 $PLUGIN_HOOKS['config_page']['moreticket'] = 'front/config.form.php';
 
@@ -93,7 +98,7 @@ function plugin_init_moreticket() {
             $PLUGIN_HOOKS['item_add']['moreticket']['ITILFollowup'] = ['PluginMoreticketNotificationTicket', 'afterAddFollowup'];
 
             if (Session::haveRight("plugin_moreticket_hide_task_duration", READ)) {
-                $PLUGIN_HOOKS['add_css']['moreticket'][] = 'css/hide_task_duration.css';
+                $PLUGIN_HOOKS[Hooks::ADD_CSS]['moreticket'][] = 'css/hide_task_duration.css';
             }
 
             if (Session::haveRight('plugin_moreticket', READ)) {
@@ -102,6 +107,7 @@ function plugin_init_moreticket() {
             }
 
             $PLUGIN_HOOKS['post_item_form']['moreticket'] = 'plugin_moreticket_post_item_form';
+            $PLUGIN_HOOKS['pre_item_form']['moreticket'] = 'plugin_moreticket_pre_item_form';
         }
 
         //      if (isset($_SESSION['glpiactiveprofile']['interface'])
@@ -125,8 +131,8 @@ function plugin_version_moreticket() {
         'license'      => 'GPLv2+',
         'requirements' => [
             'glpi' => [
-                'min' => '10.0',
-                'max' => '11.0',
+                'min' => '11.0',
+                'max' => '12.0',
                 'dev' => false
             ]
         ]

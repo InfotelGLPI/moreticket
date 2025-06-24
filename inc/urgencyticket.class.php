@@ -46,7 +46,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
      *
      * @return booleen
      **/
-    public static function canCreate()
+    public static function canCreate(): bool
     {
         if (static::$rightname) {
             return Session::haveRight(static::$rightname, UPDATE);

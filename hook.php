@@ -145,7 +145,7 @@ function plugin_moreticket_uninstall() {
                    "glpi_plugin_moreticket_notificationtickets"];
 
    foreach ($tables as $table) {
-      $DB->query("DROP TABLE IF EXISTS `$table`;");
+      $DB->dropTable($table);
    }
 
    //Delete rights associated with the plugin
@@ -303,6 +303,36 @@ function plugin_moreticket_getAddSearchOptions($itemtype) {
    return $sopt;
 }
 
+function plugin_moreticket_pre_item_form($params) {
+    global $DB;
+    $item = $params['item'];
+    $config = new PluginMoreticketConfig();
+    $waitingTicket = new PluginMoreticketWaitingTicket();
+    switch ($item->getType()) {
+        case 'ITILSolution':
+            if ($config->useDurationSolution() == true) {
+                echo "<div class='alert alert-warning'>";
+
+                echo "<div class='d-flex'>";
+
+                echo "<div class='me-2'>";
+                echo "<i style='font-size:2em;' class='ti ti-alert-triangle'></i>";
+                echo "</div>";
+
+                echo "<div>";
+                echo "<h4 class='alert-title'>" . __("Warning", 'moreticket') . "</h4>";
+                echo "<div class='text-muted'>" .  __("Duration is mandatory", 'moreticket') . "</div>";
+                echo "</div>";
+
+               echo "</div>";
+
+               echo "</div>";
+            }
+            break;
+    }
+}
+
+
 function plugin_moreticket_post_item_form($params) {
     global $DB;
     $item = $params['item'];
@@ -312,6 +342,14 @@ function plugin_moreticket_post_item_form($params) {
         case 'ITILSolution':
             if ($config->useDurationSolution() == true) {
                 PluginMoreticketSolution::showFormSolution($params);
+                if (isset($params['item'])) {
+                    $item = $params['item'];
+                    if ($item->getType() == 'ITILSolution') {
+                        echo Html::scriptBlock("$(document).ready(function(){
+                        $('.itilsolution').children().find(':submit').hide();
+                     });");
+                    }
+                }
             }
             break;
         case 'TicketTask':

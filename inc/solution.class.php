@@ -83,11 +83,21 @@ class PluginMoreticketSolution extends CommonITILObject
                     for ($i = 9; $i <= 100; $i++) {
                         $toadd[] = $i * HOUR_TIMESTAMP;
                     }
+                    echo Html::scriptBlock("function showsolutionbutton(){
+                                $(document).ready(function(){
+                                    $('.itilsolution').children().find(':submit').show();
+                                 });
+                     }");
+
                     Dropdown::showTimeStamp("duration_solution", ['min' => 0,
                         'max' => 8 * HOUR_TIMESTAMP,
-//                                                             'addfirstminutes' => true,
                         'inhours' => true,
-                        'toadd' => $toadd]);
+                        'toadd' => $toadd,
+                        'on_change' => 'showsolutionbutton();']);
+
+
+
+
                     echo "</span>";
                     echo "</div></div>";
                 }
@@ -155,6 +165,7 @@ class PluginMoreticketSolution extends CommonITILObject
                     $dur = (isset($ticket->fields['actiontime']) ? $ticket->fields['actiontime'] : 0);
                     if ($dur == 0) {
                         Session::addMessageAfterRedirect(_n('Mandatory field', 'Mandatory fields', 2) . " : " . __('Duration'), false, ERROR);
+                        $_SESSION['saveInput'][$solution->getType()] = $solution->input;
                         $solution->input = [];
                     }
                     return false;

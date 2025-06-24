@@ -366,6 +366,7 @@ class PluginMoreticketTicket extends CommonITILObject
 
     static function afterUpdateValidation(TicketValidation $validation)
     {
+        Toolbox::logInfo('test');
         $config = new PluginMoreticketConfig();
         if ($config->getField('update_after_approval') == 1) {
             //         if($validation->itemtype == Ticket::getType()) {
@@ -419,9 +420,10 @@ class PluginMoreticketTicket extends CommonITILObject
                 } else {
                     $update['status'] = CommonITILObject::INCOMING;
                 }
-
+                $update["_reopen"] = true;
                 $update['id'] = $ticket->fields['id'];
 
+                Toolbox::logInfo($update);
                 // Use update method for history
                 $ticket->update($update);
                 $reopened = true;

@@ -47,7 +47,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *
      * @return booleen
      **/
-    static function canCreate()
+    static function canCreate(): bool
     {
         if (static::$rightname) {
             return Session::haveRight(static::$rightname, UPDATE);

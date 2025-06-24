@@ -130,7 +130,7 @@ class PluginMoreticketNotificationTicket extends CommonDBTM {
 //                  if (!$ticketUsers->getFromDBByCrit(['tickets_id' => $values['tickets_id'],
 //                                                      'users_id' => $values['users_id_lastupdater'],
 //                                                      'type' => Ticket_User::ASSIGN])) {
-                     $res = "<i class='itilstatus fas fa-bell waiting'></i>";
+                     $res = "<i class='itilstatus ti ti-bell waiting'></i>";
 //                  }
 //               }
 //            }

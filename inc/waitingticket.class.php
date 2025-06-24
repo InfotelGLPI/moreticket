@@ -31,6 +31,8 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
+use Glpi\DBAL\QuerySubQuery;
+use Glpi\DBAL\QueryExpression;
 /**
  * Class PluginMoreticketWaitingTicket
  */
@@ -46,7 +48,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      *
      * @return booleen
      **/
-    public static function canCreate() {
+    public static function canCreate(): bool
+    {
         if (static::$rightname) {
             return Session::haveRight(static::$rightname, UPDATE);
         }
@@ -65,6 +68,10 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         return _n('Waiting ticket', 'Waiting tickets', $nb, 'moreticket');
     }
 
+    static function getIcon()
+    {
+        return "ti ti-clock-pause";
+    }
     /**
      * Display moreticket-item's tab for each users
      *
@@ -80,7 +87,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
             if ($item->getType() == 'Ticket' && $config->useWaiting() == true) {
                 if ($_SESSION['glpishow_count_on_tabs']) {
                     $dbu = new DbUtils();
-                    $nb = self::getWaitingTicketFromDB($item->getID());
                     return self::createTabEntry(
                         self::getTypeName(2),
                         $dbu->countElementsInTable(
@@ -89,7 +95,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                         )
                     );
                 }
-                return self::getTypeName(2);
+                return self::createTabEntry(self::getTypeName(2));
             }
         }
         return '';
@@ -487,13 +493,20 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
 
         if (sizeof($options) == 0) {
             $iterator = $DB->request(
-                "glpi_plugin_moreticket_waitingtickets",
-                '`tickets_id` = ' . $tickets_id . '
-                                                       AND `date_suspension` IN (SELECT max(`date_suspension`)
-                                                FROM `glpi_plugin_moreticket_waitingtickets`
-                                                WHERE `tickets_id` = ' . $tickets_id . ')
-                 AND (UNIX_TIMESTAMP(`date_end_suspension`) = 0 OR UNIX_TIMESTAMP(`date_end_suspension`) IS NULL)'
-            );
+                ['FROM' => 'glpi_plugin_moreticket_waitingtickets',
+                'WHERE' => ['tickets_id' => $tickets_id,
+                'date_suspension' => new QuerySubQuery([
+                    'SELECT' => ['MAX' => 'date_suspension'],
+                    'FROM' => 'glpi_plugin_moreticket_waitingtickets',
+                    'WHERE' => ['tickets_id' => $tickets_id]
+                    ]),
+                    ['OR' =>
+                        new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") = 0"),
+                        new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") IS NULL"),
+                    ]
+                ]
+            ]);
+
             $data_WaitingType = [];
             foreach ($iterator as $row) {
                 $data_WaitingType[$row['id']] = $row;
@@ -501,10 +514,13 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
             }
         } else {
             $iterator = $DB->request(
-                "glpi_plugin_moreticket_waitingtickets",
-                "tickets_id = $tickets_id
-                   ORDER BY `date_suspension` DESC
-                   LIMIT " . intval($options['start']) . "," . intval($options['limit'])
+                [
+                    'FROM' => 'glpi_plugin_moreticket_waitingtickets',
+                    'WHERE' => ['tickets_id' => $tickets_id],
+                    'ORDERBY' => ['date_suspension DESC'],
+                    'LIMIT' => [intval($options['start']),
+                        intval($options['limit'])],
+                ]
             );
 
             $data_WaitingType = [];
@@ -801,18 +817,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
     }
 
     /**
-     * @return string
-     */
-    public static function queryTicketWaiting() {
-        $query = "SELECT `glpi_tickets`.`id` AS tickets_id
-                FROM `glpi_tickets`
-                WHERE `glpi_tickets`.`status` = '" . Ticket::WAITING . "'
-                AND `is_deleted` = 0";
-
-        return $query;
-    }
-
-    /**
      * Cron action
      *
      * @param  $task for log
@@ -838,7 +842,12 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         $config         = new PluginMoreticketConfig();
         $content        = __("Waiting ticket exceedeed", 'moreticket');
 
-        $query_ticket_waiting = self::queryTicketWaiting();
+        $query_ticket_waiting = [
+            'SELECT' =>'id AS tickets_id',
+            'FROM' => 'glpi_tickets',
+            'WHERE' => ['is_deleted' => 0,
+                'status' => Ticket::WAITING]
+        ];
         foreach ($DB->request($query_ticket_waiting) as $data) {
             // Update ticket only if last waiting has empty end of suspension
             $waiting = $waiting_ticket->getWaitingTicketFromDB($data['tickets_id']);
@@ -854,7 +863,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                     $followup->add([
                         'itemtype' => Ticket::getType(),
                         'items_id' => $ticket->getID(),
-                        'content'    => Toolbox::addslashes_deep($content)
+                        'content'    => $content
                     ]);
                 }
                 $cron_status = 1;
@@ -950,17 +959,17 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         echo Html::scriptBlock("(function(){
                              var toggleButton = $('.$name');
                              toggleButton.click(function() {
-                             if ($(this).hasClass('fa-toggle-on')) {
-                                   toggleButton.removeClass('fa-toggle-on');
-                                   toggleButton.addClass('fa-toggle-off');
+                             if ($(this).hasClass('toggle-right')) {
+                                   toggleButton.removeClass('toggle-right');
+                                   toggleButton.addClass('toggle-left');
                                    toggleButton.removeClass('enabled');
                                    toggleButton.addClass('disabled');
                                    document.getElementById('$name').value = '0';
                                    var event = new Event('change');
                                    document.getElementById('$name').dispatchEvent(event);
                                  } else {
-                                   toggleButton.removeClass('fa-toggle-off');
-                                   toggleButton.addClass('fa-toggle-on');
+                                   toggleButton.removeClass('toggle-left');
+                                   toggleButton.addClass('toggle-right');
                                    toggleButton.removeClass('disabled');
                                    toggleButton.addClass('enabled');
                                    document.getElementById('$name').value = '1';
@@ -970,9 +979,9 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                              });
                            })();");
         if ($value == 1) {
-            echo "<a class=\"button\"><i class=\"$name fa-fw fas fa-2x fa-toggle-on enabled\"></i></a>";
+            echo "<a class=\"button\"><i style='font-size: 2em;' class=\"ti $name toggle-right enabled\"></i></a>";
         } else {
-            echo "<a class=\"button\"><i class=\"$name fa-fw fas fa-2x fa-toggle-off disabled\"></i></a>";
+            echo "<a class=\"button\"><i class=\"ti $name toggle-left disabled\"></i></a>";
         }
     }
 
@@ -984,42 +993,70 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         global $DB;
         $waitingTicket = new PluginMoreticketWaitingTicket();
 
-        // latest element added
-        $queryLatestAdded = "SELECT max(`date_suspension`) 
-        FROM `glpi_plugin_moreticket_waitingtickets` 
-        GROUP BY `tickets_id`";
-
-        // only those associated to a ticket with more than one element not marked as ended
-        $queryMultiple = "SELECT `tickets_id` 
-        FROM `glpi_plugin_moreticket_waitingtickets` 
-        WHERE (UNIX_TIMESTAMP(`date_end_suspension`) = 0 OR UNIX_TIMESTAMP(`date_end_suspension`) IS NULL)
-        GROUP BY `tickets_id`
-        HAVING COUNT(`tickets_id`) > 1";
-
         // latest element added to each ticket with at least one duplicate
+
         $iterator = $DB->request(
-            "glpi_plugin_moreticket_waitingtickets",
-            "`date_suspension` IN ($queryLatestAdded)
-             AND (UNIX_TIMESTAMP(`date_end_suspension`) = 0 OR UNIX_TIMESTAMP(`date_end_suspension`) IS NULL)
-             AND `tickets_id` IN ($queryMultiple)"
+            [
+                'FROM' => 'glpi_plugin_moreticket_waitingtickets',
+                'WHERE' => [
+                    'date_suspension' => new QuerySubQuery([
+                        'SELECT' => ['MAX' => 'date_suspension'],
+                        'FROM' => 'glpi_plugin_moreticket_waitingtickets',
+                        'GROUPBY' => ['tickets_id']
+                    ]),
+                    [
+                        'OR' =>
+                            new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") = 0"),
+                        new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") IS NULL"),
+                    ],
+                    'tickets_id' => new QuerySubQuery([
+                        'SELECT' => ['tickets_id'],
+                        'FROM' => 'glpi_plugin_moreticket_waitingtickets',
+                        'WHERE' => [
+                            'OR' =>
+                                new QueryExpression(
+                                    "UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") = 0"
+                                ),
+                            new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") IS NULL"),
+                        ],
+                        'GROUPBY' => ['tickets_id'],
+                        'HAVING' => [new QueryExpression("COUNT(tickets_id) > 1")]
+                    ]),
+                ]
+            ]
         );
 
         $duplicates = 0;
         foreach($iterator as $row) {
             $tickets_id = $row['tickets_id'];
-            $waiting = CommonITILObject::WAITING;
+
             // get the most recent where status != WAITING
-            $queryMaxDateSuspension = "SELECT max(`date_suspension`) 
-            FROM `glpi_plugin_moreticket_waitingtickets` 
-            WHERE `tickets_id` = $tickets_id
-            AND `status` != $waiting";
+
             $iteratorStatus = $DB->request(
-                "glpi_plugin_moreticket_waitingtickets",
-                "`tickets_id` = $tickets_id
-                 AND status != $waiting   
-                 AND `date_suspension` IN ($queryMaxDateSuspension)
-                 AND (UNIX_TIMESTAMP(`date_end_suspension`) = 0 OR UNIX_TIMESTAMP(`date_end_suspension`) IS NULL)"
+                [
+                    'FROM' => 'glpi_plugin_moreticket_waitingtickets',
+                    'WHERE' => [
+                        'date_suspension' => new QuerySubQuery([
+                            'SELECT' => ['MAX' => 'date_suspension'],
+                            'FROM' => 'glpi_plugin_moreticket_waitingtickets',
+                            'WHERE' => [
+                                'tickets_id' => $tickets_id,
+                                'status' => ['<>', CommonITILObject::WAITING]
+                            ]
+                        ]),
+                        [
+                            'OR' =>
+                                new QueryExpression(
+                                    "UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") = 0"
+                                ),
+                            new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") IS NULL"),
+                        ],
+                        'tickets_id' => $tickets_id,
+                        'status' => ['<>', CommonITILObject::WAITING]
+                    ]
+                ]
             );
+
             $status = CommonITILObject::ASSIGNED;
             foreach ($iteratorStatus as $rowStatus) {
                 $status = $rowStatus['status'];

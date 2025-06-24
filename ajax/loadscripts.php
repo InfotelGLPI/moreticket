@@ -34,6 +34,8 @@ Html::header_nocache();
 Session::checkLoginUser();
 header("Content-Type: text/html; charset=UTF-8");
 
+Global $CFG_GLPI;
+
 if (isset($_POST['action'])) {
 
    switch ($_POST['action']) {

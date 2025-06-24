@@ -1,2 +1,2 @@
-ALTER TABLE `glpi_plugin_moreticket_notificationtickets` DROP FOREIGN KEY glpi_plugin_moreticket_notificationtickets_ibfk_1;
-ALTER TABLE `glpi_plugin_moreticket_urgencytickets` DROP FOREIGN KEY glpi_plugin_moreticket_urgencytickets_ibfk_1;
+-- ALTER TABLE `glpi_plugin_moreticket_notificationtickets` DROP FOREIGN KEY glpi_plugin_moreticket_notificationtickets_ibfk_1;
+-- ALTER TABLE `glpi_plugin_moreticket_urgencytickets` DROP FOREIGN KEY glpi_plugin_moreticket_urgencytickets_ibfk_1;
