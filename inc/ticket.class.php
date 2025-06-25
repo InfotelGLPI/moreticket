@@ -443,4 +443,10 @@ class PluginMoreticketTicket extends CommonITILObject
     {
         // TODO: Implement getContentTemplatesParametersClass() method.
     }
+
+    public static function getContentTemplatesParametersClassInstance(
+    ): \Glpi\ContentTemplates\Parameters\CommonITILObjectParameters
+    {
+        // TODO: Implement getContentTemplatesParametersClassInstance() method.
+    }
 }

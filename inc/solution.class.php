@@ -174,4 +174,10 @@ class PluginMoreticketSolution extends CommonITILObject
         }
         return true;
     }
+
+    public static function getContentTemplatesParametersClassInstance(
+    ): \Glpi\ContentTemplates\Parameters\CommonITILObjectParameters
+    {
+        // TODO: Implement getContentTemplatesParametersClassInstance() method.
+    }
 }
