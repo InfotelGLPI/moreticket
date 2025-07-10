@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# INOUE Daisuke, 2024
+# INOUE Daisuke, 2025
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-30 09:33+0000\n"
+"POT-Creation-Date: 2025-06-25 11:13+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
-"Last-Translator: INOUE Daisuke, 2024\n"
+"Last-Translator: INOUE Daisuke, 2025\n"
 "Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/teams/50826/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +33,15 @@ msgstr "チケット終了情報"
 msgid "Updated by a user"
 msgstr "ユーザーが更新"
 
-#: setup.php:121 inc/profile.class.php:50 inc/profile.class.php:212
+#: hook.php:323
+msgid "Warning"
+msgstr "警告"
+
+#: hook.php:324
+msgid "Duration is mandatory"
+msgstr "期間は必須です"
+
+#: setup.php:127 inc/profile.class.php:50 inc/profile.class.php:217
 msgid "More ticket"
 msgstr "チケット拡張"
 
@@ -64,7 +72,7 @@ msgstr "%1$s が終了情報を更新"
 msgid "%1$s deleted closing informations"
 msgstr "%1$s が終了情報を削除"
 
-#: inc/config.class.php:98 inc/waitingticket.class.php:929
+#: inc/config.class.php:98 inc/waitingticket.class.php:938
 msgid "Ticket waiting"
 msgstr "保留チケット"
 
@@ -152,11 +160,11 @@ msgstr "技術者が回答を追加したら、チケットの状態を保留中
 msgid "Update ticket status to pending after a technician adds a task"
 msgstr "技術者がタスクを追加したら、チケットの状態を保留中に更新する"
 
-#: inc/profile.class.php:175
+#: inc/profile.class.php:180
 msgid "Adding a justification of urgency"
 msgstr "緊急性に正当性を追加"
 
-#: inc/profile.class.php:183
+#: inc/profile.class.php:188
 msgid "Hide task duration in tickets"
 msgstr "チケットにタスクの期間を表示しない"
 
@@ -168,54 +176,54 @@ msgstr "正当性"
 msgid "Urgency ticket cannot be saved"
 msgstr "チケットの緊急性を保存できません"
 
-#: inc/urgencyticket.class.php:95 inc/waitingticket.class.php:169
+#: inc/urgencyticket.class.php:95 inc/waitingticket.class.php:175
 msgid "Ticket cannot be saved"
 msgstr "チケットを保存できません"
 
-#: inc/waitingticket.class.php:65
+#: inc/waitingticket.class.php:68
 msgid "Waiting ticket"
 msgid_plural "Waiting tickets"
 msgstr[0] "保留チケット"
 
-#: inc/waitingticket.class.php:133 inc/waitingticket.class.php:252
-#: inc/waitingticket.class.php:328 inc/waitingticket.class.php:436
+#: inc/waitingticket.class.php:139 inc/waitingticket.class.php:258
+#: inc/waitingticket.class.php:334 inc/waitingticket.class.php:442
 msgid "Postponement date"
 msgstr "再開予定日"
 
-#: inc/waitingticket.class.php:137 inc/waitingticket.class.php:236
-#: inc/waitingticket.class.php:321 inc/waitingticket.class.php:434
+#: inc/waitingticket.class.php:143 inc/waitingticket.class.php:242
+#: inc/waitingticket.class.php:327 inc/waitingticket.class.php:440
 msgid "Reason"
 msgstr "理由"
 
-#: inc/waitingticket.class.php:167
+#: inc/waitingticket.class.php:173
 msgid "Waiting ticket cannot be saved"
 msgstr "保留チケットを保存できません"
 
-#: inc/waitingticket.class.php:173
+#: inc/waitingticket.class.php:179
 msgid "Postponement date is inferior of today's date"
 msgstr "再開予定日は現在日付より未来に設定してください"
 
-#: inc/waitingticket.class.php:430 inc/waitingticket.class.php:473
+#: inc/waitingticket.class.php:436 inc/waitingticket.class.php:479
 msgid "Ticket suspension history"
 msgstr "チケットの延期履歴"
 
-#: inc/waitingticket.class.php:433
+#: inc/waitingticket.class.php:439
 msgid "Suspension date"
 msgstr "中断日"
 
-#: inc/waitingticket.class.php:437
+#: inc/waitingticket.class.php:443
 msgid "Suspension end date"
 msgstr "実再開日"
 
-#: inc/waitingticket.class.php:839
+#: inc/waitingticket.class.php:843
 msgid "Waiting ticket exceedeed"
 msgstr "チケットの保留を延長"
 
-#: inc/waitingticket.class.php:881
+#: inc/waitingticket.class.php:890
 msgid "End of standby ticket"
 msgstr "準備チケットの終了"
 
-#: inc/waitingticket.class.php:1051
+#: inc/waitingticket.class.php:1088
 #, php-format
 msgid "%s duplicates deleted"
 msgstr "%s 件の重複を削除しました"
