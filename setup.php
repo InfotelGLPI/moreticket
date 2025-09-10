@@ -35,7 +35,7 @@ use Glpi\Plugin\Hooks;
 
 if (!defined("PLUGIN_MORETICKET_DIR")) {
     define("PLUGIN_MORETICKET_DIR", Plugin::getPhpDir("moreticket"));
-    define("PLUGIN_MORETICKET_DIR_NOFULL", Plugin::getPhpDir("moreticket", false));
+//    define("PLUGIN_MORETICKET_WEBDIR", Plugin::getPhpDir("moreticket", false));
     $root = $CFG_GLPI['root_doc'] . '/plugins/moreticket';
     define("PLUGIN_MORETICKET_WEBDIR", $root);
 }

@@ -360,10 +360,10 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         echo "<script>
         $(document).ready(function() {
            let switch_pending = $('input[type=\"checkbox\"][name=\"pending\"]:$position');
-    
+
                     if (switch_pending != undefined) {
                         $('input[type=\"checkbox\"][name=\"pending\"]:$position').closest('label').closest('span').parent().parent().parent().after($('$blockSelector'));
-        
+
                         $('$blockSelector').css({'display': 'none'});
 
                         if (switch_pending.is(':checked') === true) {
@@ -387,7 +387,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                                 $('$blockSelector').css({'display': 'none'});
                             }
                         });
-                    } 
+                    }
         });
         </script>";
     }
@@ -942,8 +942,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         echo "</td><td>";
         self::showSwitchField("question", 1);
 
-        Ajax::updateItemOnEvent("question","fakeupdate",$CFG_GLPI["root_doc"].PLUGIN_MORETICKET_DIR_NOFULL."/ajax/updatestatus.php",["question"=>'__VALUE__',"status"=>$ticket->getField("status")]);
-        Ajax::updateItem("fakeupdate",$CFG_GLPI["root_doc"].PLUGIN_MORETICKET_DIR_NOFULL."/ajax/updatestatus.php",["question"=>'1',"status"=>$ticket->getField("status")]);
+        Ajax::updateItemOnEvent("question","fakeupdate",$CFG_GLPI["root_doc"].PLUGIN_MORETICKET_WEBDIR."/ajax/updatestatus.php",["question"=>'__VALUE__',"status"=>$ticket->getField("status")]);
+        Ajax::updateItem("fakeupdate",$CFG_GLPI["root_doc"].PLUGIN_MORETICKET_WEBDIR."/ajax/updatestatus.php",["question"=>'1',"status"=>$ticket->getField("status")]);
 
         echo "</td></tr>";
 
