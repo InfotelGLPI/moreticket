@@ -145,7 +145,7 @@ function plugin_moreticket_uninstall() {
                    "glpi_plugin_moreticket_notificationtickets"];
 
    foreach ($tables as $table) {
-      $DB->dropTable($table);
+      $DB->dropTable($table, true);
    }
 
    //Delete rights associated with the plugin
@@ -402,8 +402,8 @@ function plugin_moreticket_post_item_form($params) {
                 // automatically click follow up set ticket to waiting status switch
                 if (strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false) {
                     if($config->fields['waiting_by_default_followup'] && Session::haveRight('ticket', Ticket::OWN)){
-                        echo "<script>       
-                        $(document).ready(function() { 
+                        echo "<script>
+                        $(document).ready(function() {
                             let buttonFollowup = document.getElementById('itil-footer').querySelector(\"button[data-bs-target='#new-ITILFollowup-block']\");
                             console.log(buttonFollowup);
                             buttonFollowup.addEventListener('click', e => {
