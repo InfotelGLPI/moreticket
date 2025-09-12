@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-11 09:35+0000\n"
+"POT-Creation-Date: 2025-09-12 07:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -165,15 +165,15 @@ msgstr ""
 msgid "Hide task duration in tickets"
 msgstr ""
 
-#: inc/urgencyticket.class.php:70 inc/urgencyticket.class.php:167
+#: inc/urgencyticket.class.php:72 inc/urgencyticket.class.php:169
 msgid "Justification"
 msgstr ""
 
-#: inc/urgencyticket.class.php:93
+#: inc/urgencyticket.class.php:95
 msgid "Urgency ticket cannot be saved"
 msgstr ""
 
-#: inc/urgencyticket.class.php:95 inc/waitingticket.class.php:175
+#: inc/urgencyticket.class.php:97 inc/waitingticket.class.php:175
 msgid "Ticket cannot be saved"
 msgstr ""
 
