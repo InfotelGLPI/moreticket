@@ -27,6 +27,8 @@
  --------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Servicecatalog\Config;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
@@ -156,7 +158,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
         $align = "center";
 
         if (Plugin::isPluginActive('servicecatalog')) {
-            $config      = new PluginServicecatalogConfig();
+            $config      = new Config();
             $use_as_step = $config->getFormDisplayAsStep();
             if ($use_as_step != 1) {
                 $align = "left";
