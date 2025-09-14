@@ -5,16 +5,16 @@
 # 
 # Translators:
 # Kevin HAINRY <kevin.hainry@infotel.com>, 2021
-# Xavier CAILLAUD <thetsmr@gmail.com>, 2024
+# Xavier CAILLAUD <thetsmr@gmail.com>, 2025
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-07 13:13+0000\n"
+"POT-Creation-Date: 2025-09-12 07:52+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
-"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2024\n"
+"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2025\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/50826/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,9 +23,9 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: hook.php:261 hook.php:268 hook.php:275 hook.php:282
-#: inc/closeticket.class.php:78 inc/closeticket.class.php:82
-#: inc/closeticket.class.php:126 inc/closeticket.class.php:186
-#: inc/closeticket.class.php:339 inc/closeticket.class.php:393
+#: inc/closeticket.class.php:77 inc/closeticket.class.php:84
+#: inc/closeticket.class.php:125 inc/closeticket.class.php:192
+#: inc/closeticket.class.php:348 inc/closeticket.class.php:402
 #: inc/config.class.php:195
 msgid "Close ticket informations"
 msgstr "Informations de clôture des tickets"
@@ -34,7 +34,15 @@ msgstr "Informations de clôture des tickets"
 msgid "Updated by a user"
 msgstr "Mis à jour par un utilisateur"
 
-#: setup.php:121 inc/profile.class.php:50 inc/profile.class.php:212
+#: hook.php:323
+msgid "Warning"
+msgstr "Attention"
+
+#: hook.php:324
+msgid "Duration is mandatory"
+msgstr "La durée est obligatoire"
+
+#: setup.php:127 inc/profile.class.php:50 inc/profile.class.php:217
 msgid "More ticket"
 msgstr "More ticket"
 
@@ -42,7 +50,7 @@ msgstr "More ticket"
 msgid "Please activate the plugin"
 msgstr "Merci d'activer le plugin"
 
-#: inc/closeticket.class.php:142 inc/closeticket.class.php:509
+#: inc/closeticket.class.php:141 inc/closeticket.class.php:524
 msgid "Solution description"
 msgstr "Description de la solution"
 
@@ -50,22 +58,22 @@ msgstr "Description de la solution"
 msgid "Ticket cannot be closed"
 msgstr "Impossible de clore le ticket"
 
-#: inc/closeticket.class.php:643
+#: inc/closeticket.class.php:681
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s a ajouté des informations de clôture"
 
-#: inc/closeticket.class.php:663
+#: inc/closeticket.class.php:702
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s a mis à jour des informations de clôture"
 
-#: inc/closeticket.class.php:683
+#: inc/closeticket.class.php:723
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s a supprimé des informations de clôture"
 
-#: inc/config.class.php:98 inc/waitingticket.class.php:929
+#: inc/config.class.php:98 inc/waitingticket.class.php:938
 msgid "Ticket waiting"
 msgstr "Mise en attente du ticket"
 
@@ -161,72 +169,72 @@ msgstr ""
 "Mettre à jour le statut du ticket à En attente après qu'un technicien a "
 "ajouté une tâche"
 
-#: inc/profile.class.php:175
+#: inc/profile.class.php:180
 msgid "Adding a justification of urgency"
 msgstr "Ajout d'une zone de justification pour l'urgence"
 
-#: inc/profile.class.php:183
+#: inc/profile.class.php:188
 msgid "Hide task duration in tickets"
 msgstr "Cacher la durée des tâches d'un ticket"
 
-#: inc/urgencyticket.class.php:70 inc/urgencyticket.class.php:167
+#: inc/urgencyticket.class.php:72 inc/urgencyticket.class.php:169
 msgid "Justification"
 msgstr "Justification"
 
-#: inc/urgencyticket.class.php:93
+#: inc/urgencyticket.class.php:95
 msgid "Urgency ticket cannot be saved"
 msgstr "Impossible d'enregistrer l'urgence du ticket"
 
-#: inc/urgencyticket.class.php:95 inc/waitingticket.class.php:169
+#: inc/urgencyticket.class.php:97 inc/waitingticket.class.php:175
 msgid "Ticket cannot be saved"
 msgstr "Impossible d'enregistrer le ticket"
 
-#: inc/waitingticket.class.php:65
+#: inc/waitingticket.class.php:68
 msgid "Waiting ticket"
 msgid_plural "Waiting tickets"
 msgstr[0] "Ticket en attente"
 msgstr[1] "Tickets en attente"
 msgstr[2] "Tickets en attente"
 
-#: inc/waitingticket.class.php:133 inc/waitingticket.class.php:252
-#: inc/waitingticket.class.php:328 inc/waitingticket.class.php:436
+#: inc/waitingticket.class.php:139 inc/waitingticket.class.php:258
+#: inc/waitingticket.class.php:334 inc/waitingticket.class.php:442
 msgid "Postponement date"
 msgstr "Date de report"
 
-#: inc/waitingticket.class.php:137 inc/waitingticket.class.php:236
-#: inc/waitingticket.class.php:321 inc/waitingticket.class.php:434
+#: inc/waitingticket.class.php:143 inc/waitingticket.class.php:242
+#: inc/waitingticket.class.php:327 inc/waitingticket.class.php:440
 msgid "Reason"
 msgstr "Raison"
 
-#: inc/waitingticket.class.php:167
+#: inc/waitingticket.class.php:173
 msgid "Waiting ticket cannot be saved"
 msgstr "La mise en attente du ticket n'a pas été sauvegardée"
 
-#: inc/waitingticket.class.php:173
+#: inc/waitingticket.class.php:179
 msgid "Postponement date is inferior of today's date"
 msgstr "La date de report est inférieure à aujourd'hui"
 
-#: inc/waitingticket.class.php:430 inc/waitingticket.class.php:473
+#: inc/waitingticket.class.php:436 inc/waitingticket.class.php:479
 msgid "Ticket suspension history"
 msgstr "Historique des mise en attente du ticket"
 
-#: inc/waitingticket.class.php:433
+#: inc/waitingticket.class.php:439
 msgid "Suspension date"
 msgstr "Date de mise en attente"
 
-#: inc/waitingticket.class.php:437
+#: inc/waitingticket.class.php:443
 msgid "Suspension end date"
 msgstr "Date de fin de mise en attente"
 
-#: inc/waitingticket.class.php:839
+#: inc/waitingticket.class.php:843
 msgid "Waiting ticket exceedeed"
 msgstr "Temps d'attente dépassé"
 
-#: inc/waitingticket.class.php:881
+#: inc/waitingticket.class.php:890
 msgid "End of standby ticket"
 msgstr "Fin de la mise en attente"
 
-#: inc/waitingticket.class.php:1051
+#: inc/waitingticket.class.php:1088
 #, php-format
 msgid "%s duplicates deleted"
 msgstr "%s doublons supprimés"
