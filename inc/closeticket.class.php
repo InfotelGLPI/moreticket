@@ -483,8 +483,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
         ]);
         echo Html::hidden("_render_twig", ['value' => true]);
 
-        $JS = <<<JAVASCRIPT
-               function solutiontemplate_update{$rand}(value) {
+        $JS = "function solutiontemplate_update{$rand}(value) {
                   $.ajax({
                      url: '{$CFG_GLPI['root_doc']}/ajax/solution.php',
                      type: 'POST',
@@ -492,15 +491,14 @@ class PluginMoreticketCloseTicket extends CommonDBTM
                         solutiontemplates_id: value
                      }
                   }).done(function(data) {
-                     tinymce.get("{$content_id}").setContent(data.content);
+                     tinymce.get('{$content_id}').setContent(data.content);
 
                      var solutiontypes_id = isNaN(parseInt(data.solutiontypes_id))
                         ? 0
                         : parseInt(data.solutiontypes_id);
-                     $("#dropdown_solutiontypes_id{$rand}").trigger("setValue", solutiontypes_id);
+                     $('#dropdown_solutiontypes_id{$rand}').trigger('setValue', solutiontypes_id);
                   });
-               }
-JAVASCRIPT;
+               }";
         echo Html::scriptBlock($JS);
 
         echo "</td></tr>";
