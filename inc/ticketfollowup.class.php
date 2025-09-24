@@ -38,7 +38,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginMoreticketTicketFollowup extends CommonDBTM
 {
 
-    static $rightname = "plugin_moreticket";
+    public static $rightname = "plugin_moreticket";
 
    /**
     * functions mandatory
@@ -59,7 +59,7 @@ class PluginMoreticketTicketFollowup extends CommonDBTM
     *
     * @return bool
     */
-    static function beforeAdd($ticketfollowup)
+    public static function beforeAdd($ticketfollowup)
     {
 
         if (!is_array($ticketfollowup->input) || !count($ticketfollowup->input)) {

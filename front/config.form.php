@@ -31,37 +31,35 @@ include('../../../inc/includes.php');
 Session::checkLoginUser();
 
 if (Plugin::isPluginActive("moreticket")) {
+    $config = new PluginMoreticketConfig();
+    Session::checkRight('config', UPDATE);
 
-   $config = new PluginMoreticketConfig();
-   Session::checkRight('config', UPDATE);
+    if (isset($_POST["update"])) {
+        if (isset($_POST['solution_status'])) {
+            $_POST['solution_status'] = json_encode($_POST['solution_status']);
+        } else {
+            $_POST['solution_status'] = "";
+        }
 
-   if (isset($_POST["update"])) {
-      if (isset($_POST['solution_status'])) {
-         $_POST['solution_status'] = json_encode($_POST['solution_status']);
-      } else {
-         $_POST['solution_status'] = "";
-      }
+        $dbu = new DbUtils();
+        if (isset($_POST['urgency_ids'])) {
+            $_POST['urgency_ids'] = $dbu->exportArrayToDB($_POST['urgency_ids']);
+        } else {
+            $_POST['urgency_ids'] = $dbu->exportArrayToDB([]);
+        }
 
-      $dbu = new DbUtils();
-      if (isset($_POST['urgency_ids'])) {
-         $_POST['urgency_ids'] = $dbu->exportArrayToDB($_POST['urgency_ids']);
-      } else {
-         $_POST['urgency_ids'] = $dbu->exportArrayToDB([]);
-      }
-
-      $config->update($_POST);
-      //Update singelton
-      PluginMoreticketConfig::getConfig(true);
-      Html::redirect($_SERVER['HTTP_REFERER']);
-   } else {
-      Html::header(PluginMoreticketConfig::getTypeName(), '', "plugins", "moreticket");
-      $config->showConfigForm();
-      Html::footer();
-   }
-
+        $config->update($_POST);
+       //Update singelton
+        PluginMoreticketConfig::getConfig(true);
+        Html::redirect($_SERVER['HTTP_REFERER']);
+    } else {
+        Html::header(PluginMoreticketConfig::getTypeName(), '', "plugins", "moreticket");
+        $config->showConfigForm();
+        Html::footer();
+    }
 } else {
-   Html::header(__('Setup'), '', "config", "plugin");
-   echo "<div class='alert alert-important alert-warning d-flex'>";
-   echo "<b>" . __('Please activate the plugin', 'moreticket') . "</b></div>";
-   Html::footer();
+    Html::header(__('Setup'), '', "config", "plugin");
+    echo "<div class='alert alert-important alert-warning d-flex'>";
+    echo "<b>" . __('Please activate the plugin', 'moreticket') . "</b></div>";
+    Html::footer();
 }

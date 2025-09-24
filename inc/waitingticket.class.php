@@ -33,13 +33,14 @@ if (!defined('GLPI_ROOT')) {
 
 use Glpi\DBAL\QuerySubQuery;
 use Glpi\DBAL\QueryExpression;
+
 /**
  * Class PluginMoreticketWaitingTicket
  */
 class PluginMoreticketWaitingTicket extends CommonDBTM
 {
     public static $types     = ['Ticket'];
-    public        $dohistory = true;
+    public $dohistory = true;
     public static $rightname = "plugin_moreticket";
 
     /**
@@ -64,7 +65,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      *
      * @return string|translated
      */
-    public static function getTypeName($nb = 0) {
+    public static function getTypeName($nb = 0)
+    {
         return _n('Waiting ticket', 'Waiting tickets', $nb, 'moreticket');
     }
 
@@ -80,7 +82,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      *
      * @return array|string
      */
-    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
+    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
+    {
         $config = new PluginMoreticketConfig();
 
         if (!$withtemplate) {
@@ -112,7 +115,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      *
      * @return bool|true
      */
-    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
+    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
+    {
         if (in_array($item->getType(), PluginMoreticketWaitingTicket::getTypes(true))) {
             self::showForTicket($item);
         }
@@ -127,7 +131,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      *
      * @return bool
      */
-    public static function checkMandatory($values, $add = false) {
+    public static function checkMandatory($values, $add = false)
+    {
         $checkKo   = [];
         $dateError = false;
 
@@ -201,7 +206,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      *
      * @return Nothing (display)
      * */
-    public function showForm($ID, $options = []) {
+    public function showForm($ID, $options = [])
+    {
         // validation des droits
         if (!$this->canView()) {
             return false;
@@ -277,7 +283,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      * @param string $itilObject getType()
      * @return void
      */
-    public function addFormWaitingBlock($tickets_id, $itilObject) {
+    public function addFormWaitingBlock($tickets_id, $itilObject)
+    {
         // validation des droits
         if (!$this->canView()) {
             return false;
@@ -310,11 +317,11 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
 
         unset($_SESSION['glpi_plugin_moreticket_waiting']);
 
-        switch($itilObject) {
-            case 'ITILFollowup' :
+        switch ($itilObject) {
+            case 'ITILFollowup':
                 $blockId = 'moreticket_waiting_ticket_followup';
                 break;
-            case 'TicketTask' :
+            case 'TicketTask':
                 $blockId = 'moreticket_waiting_ticket_task';
                 break;
         }
@@ -346,12 +353,12 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         echo "</table>";
         echo "</div>";
 
-        switch($itilObject) {
-            case "ITILFollowup" :
+        switch ($itilObject) {
+            case "ITILFollowup":
                 $blockSelector = '#moreticket_waiting_ticket_followup';
                 $position = 'first';
                 break;
-            case "TicketTask" :
+            case "TicketTask":
                 $blockSelector = '#moreticket_waiting_ticket_task';
                 $position = 'last';
                 break;
@@ -404,7 +411,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      *     - withtemplate boolean : template or basic item
      *
      */
-    public static function showForTicket($item) {
+    public static function showForTicket($item)
+    {
         // validation des droits
         if (!Session::haveRight('plugin_moreticket', READ)) {
             return false;
@@ -488,7 +496,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      *
      * @return array|bool|mixed
      */
-    public static function getWaitingTicketFromDB($tickets_id, $options = []) {
+    public static function getWaitingTicketFromDB($tickets_id, $options = [])
+    {
         global $DB;
 
         if (sizeof($options) == 0) {
@@ -506,7 +515,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                             ]
                     ]
                 ]
-            ]);
+                ]
+            );
 
             $data_WaitingType = [];
             foreach ($iterator as $row) {
@@ -547,7 +557,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      * @param $item TicketTask or ITILFollowup
      * @return void
      */
-    public static function addWaitingTicket($item) {
+    public static function addWaitingTicket($item)
+    {
         $waiting_ticket = new self();
         if (self::checkMandatory($item->input)) {
             if (isset($item->input['date_report'])
@@ -606,7 +617,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
     /**
      * @param $item
      */
-    public static function preUpdateWaitingTicket($item) {
+    public static function preUpdateWaitingTicket($item)
+    {
 
         $config = new PluginMoreticketConfig();
         if ($config->useWaiting()) {
@@ -622,7 +634,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                 if ($item->fields['status'] != CommonITILObject::WAITING
                     && $item->input['status'] == CommonITILObject::WAITING
                     && self::getWaitingTicketFromDB($item->fields['id']) === false) {
-
                     if (self::checkMandatory($item->input)) {
                         if (isset($item->input['date_report'])
                             && ($item->input['date_report'] == "0000-00-00 00:00:00"
@@ -630,8 +641,10 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                             $item->input['date_report'] = 'NULL';
                         }
 
-                        $status = (in_array($item->fields['status'],
-                                            [CommonITILObject::SOLVED, CommonITILObject::CLOSED]))
+                        $status = (in_array(
+                            $item->fields['status'],
+                            [CommonITILObject::SOLVED, CommonITILObject::CLOSED]
+                        ))
                             ? CommonITILObject::ASSIGNED : $item->fields['status'];
 
                         // Then we add tickets informations
@@ -643,7 +656,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                                   'status'                            => $status,
                                   'plugin_moreticket_waitingtypes_id' => (isset($item->input['plugin_moreticket_waitingtypes_id'])) ? $item->input['plugin_moreticket_waitingtypes_id'] : 0];
                         if ($waiting_ticket->add($input)) {
-
                             unset($_SESSION['glpi_plugin_moreticket_waiting']);
                         }
                     } else {
@@ -651,9 +663,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                     }
 
                     // UPDATE
-                } else if ($item->fields['status'] == CommonITILObject::WAITING
+                } elseif ($item->fields['status'] == CommonITILObject::WAITING
                            && $item->input['status'] == CommonITILObject::WAITING) {
-
                     $waiting_ticket_data = self::getWaitingTicketFromDB($item->fields['id']);
                     if (($waiting_ticket_data === false)) {
                         if (self::checkMandatory($item->input)) {
@@ -689,7 +700,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
     /**
      * @param $item
      */
-    public static function postUpdateWaitingTicket($item) {
+    public static function postUpdateWaitingTicket($item)
+    {
         $waiting_ticket = new self();
         // Then we add tickets informations
         if (isset($item->fields['id'])) {
@@ -704,8 +716,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                                           ['date_end_suspension' => null]
                                       ]
                                   ]] + [new QueryExpression(
-                                            'UNIX_TIMESTAMP(date_suspension) <= UNIX_TIMESTAMP(NOW())'
-                                        )
+                                      'UNIX_TIMESTAMP(date_suspension) <= UNIX_TIMESTAMP(NOW())'
+                                  )
                                  ];
 
                     $lastWaiting = $waiting_ticket->find($condition);
@@ -727,7 +739,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      *
      * @return bool
      */
-    public static function preAddWaitingTicket($item) {
+    public static function preAddWaitingTicket($item)
+    {
         if (!is_array($item->input) || !count($item->input)) {
             // Already cancel by another plugin
             return false;
@@ -755,7 +768,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      *
      * @return bool
      */
-    public static function postAddWaitingTicket($item) {
+    public static function postAddWaitingTicket($item)
+    {
         if (!is_array($item->input) || !count($item->input)) {
             // Already cancel by another plugin
             return false;
@@ -796,7 +810,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      *
      * @return array of types
      * */
-    public static function getTypes($all = false) {
+    public static function getTypes($all = false)
+    {
         if ($all) {
             return self::$types;
         }
@@ -826,7 +841,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      * @global $DB
      * @global $CFG_GLPI
      */
-    public static function cronMoreticketWaitingTicket($task = null) {
+    public static function cronMoreticketWaitingTicket($task = null)
+    {
         global $DB;
 
         if ($task->fields["state"] == CronTask::STATE_DISABLE) {
@@ -884,7 +900,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      *
      * @return array
      */
-    public static function cronInfo($name) {
+    public static function cronInfo($name)
+    {
         switch ($name) {
             case 'MoreticketWaitingTicket':
                 return [
@@ -905,7 +922,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      *
      * @return Nothing (display)
      * */
-    function showQuestionSign($ID, $options = []) {
+    function showQuestionSign($ID, $options = [])
+    {
 
         global $CFG_GLPI;
         // validation des droits
@@ -914,7 +932,6 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         }
         $ticket = new Ticket();
         if ($ID > 0) {
-
             $ticket->getFromDB($ID);
             if (!$this->fields = self::getWaitingTicketFromDB($ID)) {
 //                $this->getEmpty();
@@ -936,15 +953,15 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         echo "</br>";
         echo "<table class='moreticket_waiting_ticket_followup' id='c2_menu'>";
         echo "<tr><td>";
-        echo __('Ticket waiting',"moreticket");
+        echo __('Ticket waiting', "moreticket");
 //      if ($config->mandatoryWaitingReason() == true) {
 //         echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
 //      }
         echo "</td><td>";
         self::showSwitchField("question", 1);
 
-        Ajax::updateItemOnEvent("question","fakeupdate",$CFG_GLPI["root_doc"].PLUGIN_MORETICKET_WEBDIR."/ajax/updatestatus.php",["question"=>'__VALUE__',"status"=>$ticket->getField("status")]);
-        Ajax::updateItem("fakeupdate",$CFG_GLPI["root_doc"].PLUGIN_MORETICKET_WEBDIR."/ajax/updatestatus.php",["question"=>'1',"status"=>$ticket->getField("status")]);
+        Ajax::updateItemOnEvent("question", "fakeupdate", $CFG_GLPI["root_doc"].PLUGIN_MORETICKET_WEBDIR."/ajax/updatestatus.php", ["question"=>'__VALUE__',"status"=>$ticket->getField("status")]);
+        Ajax::updateItem("fakeupdate", $CFG_GLPI["root_doc"].PLUGIN_MORETICKET_WEBDIR."/ajax/updatestatus.php", ["question"=>'1',"status"=>$ticket->getField("status")]);
 
         echo "</td></tr>";
 
@@ -953,7 +970,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         echo "</div>";
     }
 
-    function showSwitchField($name, $value) {
+    function showSwitchField($name, $value)
+    {
 
         echo Html::hidden($name, ['id'    => $name,
             'value' => $value]);
@@ -990,7 +1008,8 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
      * Delete all elements that could have been added prior to bugfix when adding task/followup
      * @return void
      */
-    public static function deleteDuplicates() {
+    public static function deleteDuplicates()
+    {
         global $DB;
         $waitingTicket = new PluginMoreticketWaitingTicket();
 
@@ -1028,7 +1047,7 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
         );
 
         $duplicates = 0;
-        foreach($iterator as $row) {
+        foreach ($iterator as $row) {
             $tickets_id = $row['tickets_id'];
 
             // get the most recent where status != WAITING

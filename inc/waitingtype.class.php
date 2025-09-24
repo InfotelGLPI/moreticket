@@ -28,40 +28,42 @@
  */
 
 if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
+    die("Sorry. You can't access directly to this file");
 }
 
 /**
  * Class PluginMoreticketWaitingType
  */
-class PluginMoreticketWaitingType extends CommonTreeDropdown {
-   var    $can_be_translated = true;
-   static $rightname = "dropdown";
+class PluginMoreticketWaitingType extends CommonTreeDropdown
+{
+    public $can_be_translated = true;
+    public static $rightname = "dropdown";
 
    /**
     * @param int $nb
     *
     * @return \translated
     */
-   public static function getTypeName($nb = 0) {
+    public static function getTypeName($nb = 0)
+    {
 
-      return _n('Waiting type', 'Waiting types', $nb, 'moreticket');
-   }
+        return _n('Waiting type', 'Waiting types', $nb, 'moreticket');
+    }
 
    /**
     * @return array
     */
-   function getAdditionalFields() {
+    public function getAdditionalFields()
+    {
 
-      $tab = [['name'  => $this->getForeignKeyField(),
+        $tab = [['name'  => $this->getForeignKeyField(),
                          'label' => __('As child of'),
                          'type'  => 'parent',
                          'list'  => false]
-      ];
+        ];
 
-      return $tab;
-
-   }
+        return $tab;
+    }
 
    /**
     * Provides search options configuration. Do not rely directly
@@ -75,10 +77,11 @@ class PluginMoreticketWaitingType extends CommonTreeDropdown {
     *
     * @see https://glpi-developer-documentation.rtfd.io/en/master/devapi/search.html
     **/
-   public function rawSearchOptions() {
+    public function rawSearchOptions()
+    {
 
-      $tab = parent::rawSearchOptions();
+        $tab = parent::rawSearchOptions();
 
-      return $tab;
-   }
+        return $tab;
+    }
 }

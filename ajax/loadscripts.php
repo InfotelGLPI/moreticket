@@ -28,65 +28,61 @@
  --------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include('../../../inc/includes.php');
 
 Html::header_nocache();
 Session::checkLoginUser();
 header("Content-Type: text/html; charset=UTF-8");
 
-Global $CFG_GLPI;
+global $CFG_GLPI;
 
 if (isset($_POST['action'])) {
+    switch ($_POST['action']) {
+        case "load":
+            $config                = new PluginMoreticketConfig();
+            $use_waiting           = $config->useWaiting();
+            $use_solution          = $config->useSolution();
+            $use_question          = $config->useQuestion();
+            $use_urgency           = $config->useUrgency();
+            $solution_status       = $config->solutionStatus();
+            $urgency_ids           = $config->getUrgency_ids();
+            $use_duration_solution = $config->useDurationSolution();
 
-   switch ($_POST['action']) {
-      case "load" :
-
-         $config                = new PluginMoreticketConfig();
-         $use_waiting           = $config->useWaiting();
-         $use_solution          = $config->useSolution();
-         $use_question          = $config->useQuestion();
-         $use_urgency           = $config->useUrgency();
-         $solution_status       = $config->solutionStatus();
-         $urgency_ids           = $config->getUrgency_ids();
-         $use_duration_solution = $config->useDurationSolution();
-
-         $params = ['root_doc'        => $CFG_GLPI["root_doc"].PLUGIN_MORETICKET_WEBDIR,
+            $params = ['root_doc'        => $CFG_GLPI["root_doc"].PLUGIN_MORETICKET_WEBDIR,
                          'waiting'         => CommonITILObject::WAITING,
                          'closed'          => CommonITILObject::CLOSED,
                          'use_waiting'     => $use_waiting,
                          'use_solution'    => $use_solution,
                          'use_question'    => $use_question,
                          'solution_status' => $solution_status,
-//                         'glpilayout'      => $_SESSION['glpilayout'],
+ //                         'glpilayout'      => $_SESSION['glpilayout'],
                          'use_urgency'     => $use_urgency,
                          'urgency_ids'     => $urgency_ids,
                          'div_kb'          => Session::haveRight('knowbase', UPDATE)];
 
-         echo "<script type='text/javascript'>";
-         echo "var moreticket = $(document).moreticket(" . json_encode($params) . ");";
+            echo "<script type='text/javascript'>";
+            echo "var moreticket = $(document).moreticket(" . json_encode($params) . ");";
 
-         if (Session::haveRight("plugin_moreticket", UPDATE)
+            if (Session::haveRight("plugin_moreticket", UPDATE)
             && ($config->useWaiting() == true || $config->useSolution() == true)) {
-            if (Session::getCurrentInterface() == "central"
-               && (strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false)) {
-
-               echo "moreticket.moreticket_injectWaitingTicket();";
+                if (Session::getCurrentInterface() == "central"
+                && (strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false)) {
+                    echo "moreticket.moreticket_injectWaitingTicket();";
+                }
             }
-         }
 
-         if (Session::haveRight("plugin_moreticket_justification", READ)) {
-            if ((strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false ||
+            if (Session::haveRight("plugin_moreticket_justification", READ)) {
+                if ((strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false ||
                  strpos($_SERVER['HTTP_REFERER'], "newticket.form.php") !== false ||
                   strpos($_SERVER['HTTP_REFERER'], "helpdesk.public.php") !== false ||
                    strpos($_SERVER['HTTP_REFERER'], "tracking.injector.php") !== false)
-               && ($config->useUrgency() == true)) {
-               echo "moreticket.moreticket_urgency();";
-
+                && ($config->useUrgency() == true)) {
+                    echo "moreticket.moreticket_urgency();";
+                }
             }
-         }
 
-         echo "</script>";
+            echo "</script>";
 
-         break;
-   }
+            break;
+    }
 }

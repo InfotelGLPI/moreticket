@@ -38,7 +38,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginMoreticketTicket extends CommonITILObject
 {
 
-    static $rightname = "plugin_moreticket";
+    public static $rightname = "plugin_moreticket";
 
     /**
      * functions mandatory
@@ -56,7 +56,7 @@ class PluginMoreticketTicket extends CommonITILObject
     /**
      * @param Ticket $ticket
      */
-    static function emptyTicket(Ticket $ticket)
+    public static function emptyTicket(Ticket $ticket)
     {
         if (!empty($_POST)) {
             self::setSessions($_POST);
@@ -70,7 +70,7 @@ class PluginMoreticketTicket extends CommonITILObject
      *
      * @return bool
      */
-    static function beforeAdd(Ticket $ticket)
+    public static function beforeAdd(Ticket $ticket)
     {
         if (!is_array($ticket->input) || !count($ticket->input)) {
             // Already cancel by another plugin
@@ -102,7 +102,7 @@ class PluginMoreticketTicket extends CommonITILObject
      *
      * @return bool
      */
-    static function afterAdd(Ticket $ticket)
+    public static function afterAdd(Ticket $ticket)
     {
         if (!is_array($ticket->input) || !count($ticket->input)) {
             // Already cancel by another plugin
@@ -138,7 +138,7 @@ class PluginMoreticketTicket extends CommonITILObject
      *
      * @return bool
      */
-    static function beforeUpdate(Ticket $ticket)
+    public static function beforeUpdate(Ticket $ticket)
     {
         if (!is_array($ticket->input) || !count($ticket->input)) {
             // Already cancel by another plugin
@@ -157,7 +157,7 @@ class PluginMoreticketTicket extends CommonITILObject
     /**
      * @param Ticket $ticket
      */
-    static function afterUpdate(Ticket $ticket)
+    public static function afterUpdate(Ticket $ticket)
     {
         PluginMoreticketNotificationTicket::afterUpdateTicket($ticket);
 
@@ -186,7 +186,7 @@ class PluginMoreticketTicket extends CommonITILObject
     /**
      * @param $input
      */
-    static function setSessions($input)
+    public static function setSessions($input)
     {
 
         foreach ($input as $key => $values) {
@@ -212,7 +212,7 @@ class PluginMoreticketTicket extends CommonITILObject
         //      }
     }
 
-    static function getDefaultValues($entity = 0)
+    public static function getDefaultValues($entity = 0)
     {
         // TODO: Implement getDefaultValues() method.
     }
@@ -277,7 +277,7 @@ class PluginMoreticketTicket extends CommonITILObject
     /**
      * @param Ticket $ticket
      */
-    static function afterAddDocument(Document $document)
+    public static function afterAddDocument(Document $document)
     {
         $config = new PluginMoreticketConfig();
         if ($config->getField('update_after_document') == 1) {
@@ -306,7 +306,7 @@ class PluginMoreticketTicket extends CommonITILObject
         $doc = $document;
     }
 
-    static function afterAddTask(TicketTask $task)
+    public static function afterAddTask(TicketTask $task)
     {
         global $DB;
         $config = new PluginMoreticketConfig();
@@ -335,7 +335,7 @@ class PluginMoreticketTicket extends CommonITILObject
         }
     }
 
-    static function afterAddFollowupTech(ITILFollowup $followup)
+    public static function afterAddFollowupTech(ITILFollowup $followup)
     {
         global $DB;
         $config = new PluginMoreticketConfig();
@@ -364,7 +364,7 @@ class PluginMoreticketTicket extends CommonITILObject
         }
     }
 
-    static function afterUpdateValidation(TicketValidation $validation)
+    public static function afterUpdateValidation(TicketValidation $validation)
     {
         Toolbox::logInfo('test');
         $config = new PluginMoreticketConfig();
@@ -383,7 +383,8 @@ class PluginMoreticketTicket extends CommonITILObject
                 CommonITILValidation::REFUSED => 0
             ];
             $validations = getAllDataFromTable(
-                TicketValidation::getTable(), [
+                TicketValidation::getTable(),
+                [
                     'tickets_id' => $ticket->getID()
                 ]
             );
@@ -410,9 +411,9 @@ class PluginMoreticketTicket extends CommonITILObject
 
             $global_validation = $validation_status;
             if (in_array(
-                    $ticket->fields["status"],
-                    Ticket::getReopenableStatusArray()
-                ) && $global_validation != CommonITILValidation::WAITING) {
+                $ticket->fields["status"],
+                Ticket::getReopenableStatusArray()
+            ) && $global_validation != CommonITILValidation::WAITING) {
                 if (($ticket->countUsers(CommonITILActor::ASSIGN) > 0)
                     || ($ticket->countGroups(CommonITILActor::ASSIGN) > 0)
                     || ($ticket->countSuppliers(CommonITILActor::ASSIGN) > 0)) {
@@ -444,8 +445,7 @@ class PluginMoreticketTicket extends CommonITILObject
         // TODO: Implement getContentTemplatesParametersClass() method.
     }
 
-    public static function getContentTemplatesParametersClassInstance(
-    ): \Glpi\ContentTemplates\Parameters\CommonITILObjectParameters
+    public static function getContentTemplatesParametersClassInstance(): \Glpi\ContentTemplates\Parameters\CommonITILObjectParameters
     {
         // TODO: Implement getContentTemplatesParametersClassInstance() method.
     }

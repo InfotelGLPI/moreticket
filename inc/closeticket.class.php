@@ -37,9 +37,9 @@ if (!defined('GLPI_ROOT')) {
 class PluginMoreticketCloseTicket extends CommonDBTM
 {
 
-    static $types = ['Ticket'];
-    var $dohistory = true;
-    static $rightname = "plugin_moreticket";
+    public static $types = ['Ticket'];
+    public $dohistory = true;
+    public static $rightname = "plugin_moreticket";
 
     /**
      * Have I the global right to "create" the Object
@@ -47,7 +47,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *
      * @return booleen
      **/
-    static function canCreate(): bool
+    public static function canCreate(): bool
     {
         if (static::$rightname) {
             return Session::haveRight(static::$rightname, UPDATE);
@@ -63,7 +63,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *
      * @return array|string
      */
-    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
+    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
         $config = new PluginMoreticketConfig();
 
@@ -99,7 +99,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *
      * @return bool|true
      */
-    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
+    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
         $config = new PluginMoreticketConfig();
 
@@ -132,7 +132,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *
      * @return bool
      */
-    static function checkMandatory($values)
+    public static function checkMandatory($values)
     {
         $checkKo = [];
 
@@ -176,7 +176,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *
      * @return bool
      */
-    static function showForTicket(Ticket $item)
+    public static function showForTicket(Ticket $item)
     {
         if (!self::canView()) {
             return false;
@@ -310,7 +310,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *    when done.
      *     - withtemplate boolean : template or basic item
      */
-    static function showList($item, $canedit)
+    public static function showList($item, $canedit)
     {
         // validation des droits
         if (!self::canView()) {
@@ -411,7 +411,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *
      * @return bool
      */
-    static function getCloseTicketFromDB($tickets_id, $options = [])
+    public static function getCloseTicketFromDB($tickets_id, $options = [])
     {
         $dbu = new DbUtils();
         $data = $dbu->getAllDataFromTable(
@@ -436,7 +436,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *
      * @return Nothing (display)
      * */
-    function showForm($ID, $options = [])
+    public function showForm($ID, $options = [])
     {
         global $CFG_GLPI;
 
@@ -587,7 +587,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *
      * @return bool
      */
-    static function preAddCloseTicket($item)
+    public static function preAddCloseTicket($item)
     {
         if (!is_array($item->input) || !count($item->input)) {
             // Already cancel by another plugin
@@ -626,7 +626,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
         return false;
     }
 
-    static function postAddCloseTicket(Ticket $item)
+    public static function postAddCloseTicket(Ticket $item)
     {
         if (!is_array($item->input) || !count($item->input)) {
             // Already cancel by another plugin
@@ -732,7 +732,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *
      * @param \Ticket $ticket
      */
-    static function cleanCloseTicket(Ticket $ticket)
+    public static function cleanCloseTicket(Ticket $ticket)
     {
         $fields = ['solutiontemplates_id', 'solution', 'solutiontypes_id'];
         foreach ($fields as $field) {

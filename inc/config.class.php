@@ -29,65 +29,70 @@
 use Glpi\Application\View\TemplateRenderer;
 
 if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
+    die("Sorry. You can't access directly to this file");
 }
 
 /**
  * Class PluginMoreticketConfig
  */
-class PluginMoreticketConfig extends CommonDBTM {
+class PluginMoreticketConfig extends CommonDBTM
+{
 
-   static $rightname = "plugin_moreticket";
+    static $rightname = "plugin_moreticket";
     private static $_instance = null;
    /**
     * @param bool $update
     *
     * @return null|PluginMoreticketConfig
     */
-   static function getConfig($update = false) {
-      static $config = null;
+    static function getConfig($update = false)
+    {
+        static $config = null;
 
-      if (is_null($config)) {
-         $config = new self();
-      }
-      if ($update) {
-         $config->getFromDB(1);
-      }
-      return $config;
-   }
+        if (is_null($config)) {
+            $config = new self();
+        }
+        if ($update) {
+            $config->getFromDB(1);
+        }
+        return $config;
+    }
 
    /**
     * PluginMoreticketConfig constructor.
     */
-   function __construct() {
-      global $DB;
+    function __construct()
+    {
+        global $DB;
 
-      if ($DB->tableExists($this->getTable())) {
-         $this->getFromDB(1);
-      }
-   }
+        if ($DB->tableExists($this->getTable())) {
+            $this->getFromDB(1);
+        }
+    }
 
    /**
     * @param int $nb
     *
     * @return translated
     */
-   static function getTypeName($nb = 0) {
-      return __("Setup");
-   }
+    static function getTypeName($nb = 0)
+    {
+        return __("Setup");
+    }
 
    /**
     * @param string $interface
     *
     * @return array
     */
-   function getRights($interface = 'central') {
+    function getRights($interface = 'central')
+    {
 
-      $values = parent::getRights();
+        $values = parent::getRights();
 
-      unset($values[CREATE], $values[DELETE], $values[PURGE]);
-      return $values;
-   }
+        unset($values[CREATE], $values[DELETE], $values[PURGE]);
+        return $values;
+    }
 
 //   function showConfigForm() {
 //
@@ -353,7 +358,7 @@ class PluginMoreticketConfig extends CommonDBTM {
         }
         return self::$_instance;
     }
-    function showConfigForm()
+    public function showConfigForm()
     {
         $this->getFromDB(1);
         $config = self::getInstance();
@@ -395,148 +400,165 @@ class PluginMoreticketConfig extends CommonDBTM {
     *
     * @return array|mixed
     */
-   function getSolutionStatus($input) {
+    public function getSolutionStatus($input)
+    {
 
-      $solution_status = [];
+        $solution_status = [];
 
-      if (!empty($input)) {
-         $solution_status = json_decode($input, true);
-      }
+        if (!empty($input)) {
+            $solution_status = json_decode($input, true);
+        }
 
-      return $solution_status;
-   }
-
-   /**
-    * @return mixed
-    */
-   function useWaiting() {
-      return $this->fields['use_waiting'];
-   }
+        return $solution_status;
+    }
 
    /**
     * @return mixed
     */
-   function mandatoryReportDate() {
-      return $this->fields['date_report_mandatory'];
-   }
+    public function useWaiting()
+    {
+        return $this->fields['use_waiting'];
+    }
 
    /**
     * @return mixed
     */
-   function mandatoryWaitingType() {
-      return $this->fields['waitingtype_mandatory'];
-   }
+    public function mandatoryReportDate()
+    {
+        return $this->fields['date_report_mandatory'];
+    }
 
    /**
     * @return mixed
     */
-   function mandatoryWaitingReason() {
-      return $this->fields['waitingreason_mandatory'];
-   }
+    public function mandatoryWaitingType()
+    {
+        return $this->fields['waitingtype_mandatory'];
+    }
 
    /**
     * @return mixed
     */
-   function useSolution() {
-      return $this->fields['use_solution'];
-   }
+    public function mandatoryWaitingReason()
+    {
+        return $this->fields['waitingreason_mandatory'];
+    }
 
    /**
     * @return mixed
     */
-   function mandatorySolutionType() {
-      return $this->fields['solutiontype_mandatory'];
-   }
+    public function useSolution()
+    {
+        return $this->fields['use_solution'];
+    }
 
    /**
     * @return mixed
     */
-   function solutionStatus() {
-      return $this->fields["solution_status"];
-   }
+    public function mandatorySolutionType()
+    {
+        return $this->fields['solutiontype_mandatory'];
+    }
 
    /**
     * @return mixed
     */
-   function closeInformations() {
-      return $this->fields["close_informations"];
-   }
+    public function solutionStatus()
+    {
+        return $this->fields["solution_status"];
+    }
 
    /**
     * @return mixed
     */
-   function closeFollowup() {
-      return $this->fields["close_followup"];
-   }
+    public function closeInformations()
+    {
+        return $this->fields["close_informations"];
+    }
 
    /**
     * @return mixed
     */
-   function useUrgency() {
-      return $this->fields['urgency_justification'];
-   }
+    public function closeFollowup()
+    {
+        return $this->fields["close_followup"];
+    }
+
+   /**
+    * @return mixed
+    */
+    public function useUrgency()
+    {
+        return $this->fields['urgency_justification'];
+    }
 
    /**
     * @return array
     */
-   function getUrgency_ids() {
-      $dbu = new DbUtils();
-      return $dbu->importArrayFromDB($this->fields['urgency_ids']);
-   }
+    public function getUrgency_ids()
+    {
+        $dbu = new DbUtils();
+        return $dbu->importArrayFromDB($this->fields['urgency_ids']);
+    }
 
    /**
     * @return mixed
     */
-   function useDurationSolution() {
-      if (isset($this->fields['use_duration_solution'])) {
-         return $this->fields['use_duration_solution'];
-      }
-      return false;
-   }
+    public function useDurationSolution()
+    {
+        if (isset($this->fields['use_duration_solution'])) {
+            return $this->fields['use_duration_solution'];
+        }
+        return false;
+    }
 
    /**
     * @return mixed
     */
-   function isMandatorysolution() {
-      return $this->fields['is_mandatory_solution'];
-   }
+    public function isMandatorysolution()
+    {
+        return $this->fields['is_mandatory_solution'];
+    }
 
-   function useQuestion() {
-      return $this->fields['use_question'];
-   }
+    public function useQuestion()
+    {
+        return $this->fields['use_question'];
+    }
 
    /**
     * @return array
     */
-   static function getValuesUrgency() {
-      global $CFG_GLPI;
+    public static function getValuesUrgency()
+    {
+        global $CFG_GLPI;
 
-      $URGENCY_MASK_FIELD = 'urgency_mask';
-      $values             = [];
+        $URGENCY_MASK_FIELD = 'urgency_mask';
+        $values             = [];
 
-      if (isset($CFG_GLPI[$URGENCY_MASK_FIELD])) {
-         if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1 << 5)) {
-            $values[5] = CommonITILObject::getUrgencyName(5);
-         }
+        if (isset($CFG_GLPI[$URGENCY_MASK_FIELD])) {
+            if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1 << 5)) {
+                $values[5] = CommonITILObject::getUrgencyName(5);
+            }
 
-         if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1 << 4)) {
-            $values[4] = CommonITILObject::getUrgencyName(4);
-         }
+            if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1 << 4)) {
+                $values[4] = CommonITILObject::getUrgencyName(4);
+            }
 
-         $values[3] = CommonITILObject::getUrgencyName(3);
+            $values[3] = CommonITILObject::getUrgencyName(3);
 
-         if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1 << 2)) {
-            $values[2] = CommonITILObject::getUrgencyName(2);
-         }
+            if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1 << 2)) {
+                $values[2] = CommonITILObject::getUrgencyName(2);
+            }
 
-         if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1 << 1)) {
-            $values[1] = CommonITILObject::getUrgencyName(1);
-         }
-      }
-      return $values;
-   }
+            if ($CFG_GLPI[$URGENCY_MASK_FIELD] & (1 << 1)) {
+                $values[1] = CommonITILObject::getUrgencyName(1);
+            }
+        }
+        return $values;
+    }
 
-   function addFollowupStopWaiting() {
-      return $this->fields['add_followup_stop_waiting'];
-   }
+    public function addFollowupStopWaiting()
+    {
+        return $this->fields['add_followup_stop_waiting'];
+    }
 }

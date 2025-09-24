@@ -28,16 +28,17 @@
  */
 
 if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
+    die("Sorry. You can't access directly to this file");
 }
 
 
 /**
  * Class PluginMoreticketTicketTask
  */
-class PluginMoreticketTicketTask extends CommonITILTask {
+class PluginMoreticketTicketTask extends CommonITILTask
+{
 
-   static $rightname = "plugin_moreticket";
+    public static $rightname = "plugin_moreticket";
 
    /**
     * functions mandatory
@@ -47,29 +48,31 @@ class PluginMoreticketTicketTask extends CommonITILTask {
     *
     * @return string|translated
     */
-   public static function getTypeName($nb = 0) {
+    public static function getTypeName($nb = 0)
+    {
 
-      return _n('Ticket', 'Tickets', $nb);
-   }
+        return _n('Ticket', 'Tickets', $nb);
+    }
 
    /**
     * @param TicketTask $tickettask
     *
     * @return bool
     */
-   static function beforeAdd(TicketTask $tickettask) {
+    public static function beforeAdd(TicketTask $tickettask)
+    {
 
-      if (!is_array($tickettask->input) || !count($tickettask->input)) {
-         // Already cancel by another plugin
-         return false;
-      }
+        if (!is_array($tickettask->input) || !count($tickettask->input)) {
+           // Already cancel by another plugin
+            return false;
+        }
 
-      $config = new PluginMoreticketConfig();
+        $config = new PluginMoreticketConfig();
 
-      if (isset($tickettask->input['pending'])
+        if (isset($tickettask->input['pending'])
           && $tickettask->input['pending']
           && $config->useWaiting() == true) {
-          PluginMoreticketWaitingTicket::addWaitingTicket($tickettask);
-      }
-   }
+            PluginMoreticketWaitingTicket::addWaitingTicket($tickettask);
+        }
+    }
 }

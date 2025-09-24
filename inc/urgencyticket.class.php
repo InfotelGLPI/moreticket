@@ -129,7 +129,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
         if ($ID > 0) {
             if (self::getUrgencyTicketFromDB($ID) == false) {
                 $this->getEmpty();
-            }  else {
+            } else {
                 $this->fields = self::getUrgencyTicketFromDB($ID);
             }
         } else {
@@ -242,8 +242,10 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
                         } else {
                             // ADD
                             // Then we add tickets informations
-                            if ($urgency_ticket->add(['justification' => (isset($item->input['justification'])) ? $item->input['justification'] : "",
-                                                      'tickets_id'    => $item->fields['id']])
+                            if ($urgency_ticket->add(
+                                ['justification' => (isset($item->input['justification'])) ? $item->input['justification'] : "",
+                                'tickets_id'    => $item->fields['id']]
+                            )
                             ) {
                                 unset($_SESSION['glpi_plugin_moreticket_urgency']);
                             }

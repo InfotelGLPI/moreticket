@@ -52,7 +52,7 @@ class PluginMoreticketProfile extends CommonDBTM
         return '';
     }
 
-    static function getIcon()
+    public static function getIcon()
     {
         return "ti ti-clock-pause";
     }
