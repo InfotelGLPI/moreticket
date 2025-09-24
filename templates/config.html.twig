@@ -104,9 +104,9 @@
                     {'on_change': 'hide_show_solution(this.value);'}
                 ) }}
 
-                {% set style_solution = config.use_solution ? '' : 'display:none' %}
+{#                {% set style_solution = config.use_solution ? '' : 'display:none' %}#}
 
-                <div id="solution_settings" style="{{ style_solution }}" class="row g-3">
+                <div id="solution_settings" style="" class="row g-3">
                     {{ fields.sliderField(
                         'solutiontype_mandatory',
                         config.solutiontype_mandatory,
@@ -242,23 +242,4 @@
         </form>
     </div>
 </div>
-
-<script>
-    function hide_show_waiting(val) {
-        var display = (val == 0) ? 'none' : '';
-        document.getElementById('waiting_settings').style.display = display;
-    }
-    function hide_show_solution(val) {
-        var display = (val == 0) ? 'none' : '';
-        document.getElementById('solution_settings').style.display = display;
-        var elem = document.getElementById('mandatory_solution');
-        if(elem) elem.style.display = display;
-    }
-    function hide_show_urgency(val) {
-        var display = (val == 0) ? 'none' : '';
-        document.getElementById('urgency_settings').style.display = display;
-    }
-</script>
-
-
 
