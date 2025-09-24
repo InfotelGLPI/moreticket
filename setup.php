@@ -138,3 +138,10 @@ function plugin_version_moreticket() {
         ]
     ];
 }
+
+function plugin_moreticket_geturl(): string
+{
+    /** @var array $CFG_GLPI */
+    global $CFG_GLPI;
+    return sprintf('%s/plugins/moreticket/', $CFG_GLPI['url_base']);
+}
