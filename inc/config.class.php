@@ -359,7 +359,15 @@ class PluginMoreticketConfig extends CommonDBTM {
         $config = self::getInstance();
         $dbu = new DbUtils();
         $all_statuses = Ticket::getAllStatusArray();
+        $filtered_statuses = [];
+
+        foreach ([Ticket::CLOSED, Ticket::SOLVED] as $status_id) {
+            if (isset($all_statuses[$status_id])) {
+                $filtered_statuses[$status_id] = $all_statuses[$status_id];
+            }
+        }
         $checked_statuses = $this->getSolutionStatus($this->fields["solution_status"]);
+
         $data = [
             'fields' => $this->fields,
             'useWaiting' => $this->useWaiting(),
@@ -368,13 +376,13 @@ class PluginMoreticketConfig extends CommonDBTM {
             'useUrgency' => $this->useUrgency(),
             'urgency_ids' => self::getValuesUrgency(),
             'solution_status_checked'=> $checked_statuses,
-            'all_solution_statuses'  => $all_statuses,
+            'all_solution_statuses'  => $filtered_statuses,
             'form_url' => $this->getFormURL(),
             'urgency_selected' => $dbu->importArrayFromDB($this->fields["urgency_ids"]),
             'id'                => 1,
             'item'              => $config,
             'config'            => $config->fields,
-            'action'            => plugin_behaviors_geturl() . 'front/config.form.php',
+            'action'            => plugin_moreticket_geturl() . 'front/config.form.php',
         ];
 
         TemplateRenderer::getInstance()->display('@moreticket/config.html.twig', $data);

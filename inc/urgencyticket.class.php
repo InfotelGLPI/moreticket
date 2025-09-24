@@ -233,7 +233,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
             ) {
                 $urgency_ids = $config->getUrgency_ids();
 
-                if (in_array($item->input['urgency'], $urgency_ids)) {
+                if (in_array($item->input['urgency'], [$urgency_ids])) {
                     if (self::checkMandatory($item->input)) {
                         if ($urgency_ticket_data = self::getUrgencyTicketFromDB($item->fields['id'])) {
                             // UPDATE
@@ -303,6 +303,9 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
         $config = new PluginMoreticketConfig();
         if ($config->useUrgency()) {
             $urgency_ids = $config->getUrgency_ids();
+            if (!is_array($urgency_ids)) {
+                $urgency_ids = [$urgency_ids];
+            }
             // Then we add tickets informations
             if (isset($item->input['urgency']) && in_array($item->input['urgency'], $urgency_ids)) {
                 if (!self::checkMandatory($item->input, true)) {
@@ -332,6 +335,9 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
         if ($config->useUrgency()) {
             $urgency_ticket = new self();
             $urgency_ids    = $config->getUrgency_ids();
+            if (!is_array($urgency_ids)) {
+                $urgency_ids = [$urgency_ids];
+            }
             // Then we add tickets informations
             if (isset($item->input['urgency'])
                 && in_array($item->input['urgency'], $urgency_ids)) {

@@ -500,9 +500,10 @@ class PluginMoreticketWaitingTicket extends CommonDBTM
                     'FROM' => 'glpi_plugin_moreticket_waitingtickets',
                     'WHERE' => ['tickets_id' => $tickets_id]
                     ]),
-                    ['OR' =>
+                    ['OR' => [
                         new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") = 0"),
                         new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") IS NULL"),
+                            ]
                     ]
                 ]
             ]);
