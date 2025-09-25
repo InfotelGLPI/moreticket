@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR MoreTicket Development Team
-# This file is distributed under the same license as the MoreTicket - Accounts plugin package.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: MoreTicket - Accounts plugin\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-25 11:30+0000\n"
+"POT-Creation-Date: 2025-09-25 11:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,41 +18,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: setup.php:130 inc/profile.class.php:50 inc/profile.class.php:217
-msgid "More ticket"
-msgstr ""
-
-#: inc/profile.class.php:180
-msgid "Adding a justification of urgency"
-msgstr ""
-
-#: inc/profile.class.php:188
-msgid "Hide task duration in tickets"
-msgstr ""
-
-#: inc/closeticket.class.php:77 inc/closeticket.class.php:84
-#: inc/closeticket.class.php:125 inc/closeticket.class.php:192
-#: inc/closeticket.class.php:348 inc/closeticket.class.php:402 hook.php:261
-#: hook.php:268 hook.php:275 hook.php:282
-msgid "Close ticket informations"
-msgstr ""
-
-#: inc/closeticket.class.php:141 inc/closeticket.class.php:522
-msgid "Solution description"
-msgstr ""
-
-#: inc/closeticket.class.php:161
-msgid "Ticket cannot be closed"
-msgstr ""
-
 #: inc/closeticket.class.php:679
 #, php-format
 msgid "%1$s added closing informations"
-msgstr ""
-
-#: inc/closeticket.class.php:700
-#, php-format
-msgid "%1$s updated closing informations"
 msgstr ""
 
 #: inc/closeticket.class.php:721
@@ -60,33 +28,82 @@ msgstr ""
 msgid "%1$s deleted closing informations"
 msgstr ""
 
+#: inc/closeticket.class.php:700
+#, php-format
+msgid "%1$s updated closing informations"
+msgstr ""
+
+#: inc/waitingticket.class.php:1108
+#, php-format
+msgid "%s duplicates deleted"
+msgstr ""
+
+#: templates/config.html.twig:153
+msgid "Add a followup on immediate ticket closing"
+msgstr ""
+
+#: templates/config.html.twig:76
+msgid "Add followup when waiting date is reached"
+msgstr ""
+
+#: inc/profile.class.php:180
+msgid "Adding a justification of urgency"
+msgstr ""
+
+#: templates/config.html.twig:83
+msgid "Check by default to put the ticket on waiting when adding a follow-up"
+msgstr ""
+
+#: templates/config.html.twig:90
+msgid "Check by default to put the ticket on waiting when adding a task"
+msgstr ""
+
+#: inc/closeticket.class.php:77 inc/closeticket.class.php:84
+#: inc/closeticket.class.php:125 inc/closeticket.class.php:192
+#: inc/closeticket.class.php:348 inc/closeticket.class.php:402 hook.php:261
+#: hook.php:268 hook.php:275 hook.php:282 templates/config.html.twig:120
+msgid "Close ticket informations"
+msgstr ""
+
+#: hook.php:324
+msgid "Duration is mandatory"
+msgstr ""
+
+#: inc/waitingticket.class.php:908
+msgid "End of standby ticket"
+msgstr ""
+
+#: inc/profile.class.php:188
+msgid "Hide task duration in tickets"
+msgstr ""
+
 #: inc/urgencyticket.class.php:72 inc/urgencyticket.class.php:169
 msgid "Justification"
 msgstr ""
 
-#: inc/urgencyticket.class.php:95
-msgid "Urgency ticket cannot be saved"
+#: templates/config.html.twig:170
+msgid "Mandatory 'Duration' field"
 msgstr ""
 
-#: inc/urgencyticket.class.php:97 inc/waitingticket.class.php:180
-msgid "Ticket cannot be saved"
+#: setup.php:130 inc/profile.class.php:50 inc/profile.class.php:217
+msgid "More ticket"
 msgstr ""
 
-#: inc/waitingtype.class.php:50
-msgid "Waiting type"
-msgid_plural "Waiting types"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/waitingticket.class.php:70
-msgid "Waiting ticket"
-msgid_plural "Waiting tickets"
-msgstr[0] ""
-msgstr[1] ""
+#: front/config.form.php:63
+msgid "Please activate the plugin"
+msgstr ""
 
 #: inc/waitingticket.class.php:144 inc/waitingticket.class.php:264
 #: inc/waitingticket.class.php:341 inc/waitingticket.class.php:450
 msgid "Postponement date"
+msgstr ""
+
+#: inc/waitingticket.class.php:184
+msgid "Postponement date is inferior of today's date"
+msgstr ""
+
+#: templates/config.html.twig:62
+msgid "Postponement date is mandatory"
 msgstr ""
 
 #: inc/waitingticket.class.php:148 inc/waitingticket.class.php:248
@@ -94,16 +111,21 @@ msgstr ""
 msgid "Reason"
 msgstr ""
 
-#: inc/waitingticket.class.php:178
-msgid "Waiting ticket cannot be saved"
+#: templates/config.html.twig:238
+msgctxt "button"
+msgid "Save"
 msgstr ""
 
-#: inc/waitingticket.class.php:184
-msgid "Postponement date is inferior of today's date"
+#: inc/closeticket.class.php:141 inc/closeticket.class.php:522
+msgid "Solution description"
 msgstr ""
 
-#: inc/waitingticket.class.php:444 inc/waitingticket.class.php:487
-msgid "Ticket suspension history"
+#: templates/config.html.twig:113
+msgid "Solution type is mandatory"
+msgstr ""
+
+#: templates/config.html.twig:126
+msgid "Status used to display solution block"
 msgstr ""
 
 #: inc/waitingticket.class.php:447
@@ -114,35 +136,102 @@ msgstr ""
 msgid "Suspension end date"
 msgstr ""
 
-#: inc/waitingticket.class.php:860
-msgid "Waiting ticket exceedeed"
+#: inc/closeticket.class.php:161
+msgid "Ticket cannot be closed"
 msgstr ""
 
-#: inc/waitingticket.class.php:908
-msgid "End of standby ticket"
+#: inc/urgencyticket.class.php:97 inc/waitingticket.class.php:180
+msgid "Ticket cannot be saved"
 msgstr ""
 
-#: inc/waitingticket.class.php:956
+#: templates/config.html.twig:96
+msgid "Ticket solution and close"
+msgstr ""
+
+#: inc/waitingticket.class.php:444 inc/waitingticket.class.php:487
+msgid "Ticket suspension history"
+msgstr ""
+
+#: templates/config.html.twig:177
+msgid "Ticket urgency"
+msgstr ""
+
+#: inc/waitingticket.class.php:956 templates/config.html.twig:43
 msgid "Ticket waiting"
 msgstr ""
 
-#: inc/waitingticket.class.php:1108
-#, php-format
-msgid "%s duplicates deleted"
+#: templates/config.html.twig:201
+msgid "Update ticket status"
 msgstr ""
 
-#: front/config.form.php:63
-msgid "Please activate the plugin"
+#: templates/config.html.twig:221
+msgid "Update ticket status to pending after a technician adds a follow up"
+msgstr ""
+
+#: templates/config.html.twig:228
+msgid "Update ticket status to pending after a technician adds a task"
+msgstr ""
+
+#: templates/config.html.twig:207
+msgid "Update ticket status to processing after add document"
+msgstr ""
+
+#: templates/config.html.twig:214
+msgid "Update ticket status to processing after approval"
 msgstr ""
 
 #: hook.php:296
 msgid "Updated by a user"
 msgstr ""
 
-#: hook.php:323
-msgid "Warning"
+#: templates/config.html.twig:194
+msgid "Urgency impacted justification for the field"
 msgstr ""
 
-#: hook.php:324
-msgid "Duration is mandatory"
+#: inc/urgencyticket.class.php:95
+msgid "Urgency ticket cannot be saved"
+msgstr ""
+
+#: templates/config.html.twig:183
+msgid "Use a justification of the urgency field"
+msgstr ""
+
+#: templates/config.html.twig:102
+msgid "Use solution process"
+msgstr ""
+
+#: templates/config.html.twig:160
+msgid "Use the 'Duration' field in the add solution interface"
+msgstr ""
+
+#: templates/config.html.twig:51
+msgid "Use waiting process"
+msgstr ""
+
+#: templates/config.html.twig:69
+msgid "Waiting reason is mandatory"
+msgstr ""
+
+#: inc/waitingticket.class.php:70
+msgid "Waiting ticket"
+msgid_plural "Waiting tickets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/waitingticket.class.php:178
+msgid "Waiting ticket cannot be saved"
+msgstr ""
+
+#: inc/waitingticket.class.php:860
+msgid "Waiting ticket exceedeed"
+msgstr ""
+
+#: inc/waitingtype.class.php:50
+msgid "Waiting type"
+msgid_plural "Waiting types"
+msgstr[0] ""
+msgstr[1] ""
+
+#: hook.php:323
+msgid "Warning"
 msgstr ""
