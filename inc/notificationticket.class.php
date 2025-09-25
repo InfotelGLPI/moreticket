@@ -28,116 +28,127 @@
  */
 
 if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
+    die("Sorry. You can't access directly to this file");
 }
 
 /**
  * Class PluginMoreticketNotificationTicket
  */
-class PluginMoreticketNotificationTicket extends CommonDBTM {
+class PluginMoreticketNotificationTicket extends CommonDBTM
+{
 
-   static $types     = ['Ticket'];
-   var    $dohistory = true;
-   static $rightname = "plugin_moreticket";
-
-   /**
-    * @param \Ticket $ticket
-    */
-   static function afterAddTicket(Ticket $ticket) {
-      $notification = new PluginMoreticketNotificationTicket();
-      if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
-         $notification->add(
-            [
-               'tickets_id'           => $ticket->getID(),
-               'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-            ]);
-      } else {
-         $notification->update(
-            [
-               'id'                   => $notification->getID(),
-               'tickets_id'           => $ticket->getID(),
-               'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-            ]);
-      }
-   }
+    public static $types     = ['Ticket'];
+    public $dohistory = true;
+    public static $rightname = "plugin_moreticket";
 
    /**
     * @param \Ticket $ticket
     */
-   static function afterUpdateTicket(Ticket $ticket) {
-      $notification = new PluginMoreticketNotificationTicket();
-      if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
-         $notification->add(
-            [
-               'tickets_id'           => $ticket->getID(),
-               'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-            ]);
-      } else {
-         $notification->update(
-            [
-               'id'                   => $notification->getID(),
-               'tickets_id'           => $ticket->getID(),
-               'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-            ]);
-      }
-   }
+    public static function afterAddTicket(Ticket $ticket)
+    {
+        $notification = new PluginMoreticketNotificationTicket();
+        if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
+            $notification->add(
+                [
+                'tickets_id'           => $ticket->getID(),
+                'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
+                ]
+            );
+        } else {
+            $notification->update(
+                [
+                'id'                   => $notification->getID(),
+                'tickets_id'           => $ticket->getID(),
+                'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
+                ]
+            );
+        }
+    }
+
+   /**
+    * @param \Ticket $ticket
+    */
+    public static function afterUpdateTicket(Ticket $ticket)
+    {
+        $notification = new PluginMoreticketNotificationTicket();
+        if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
+            $notification->add(
+                [
+                'tickets_id'           => $ticket->getID(),
+                'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
+                ]
+            );
+        } else {
+            $notification->update(
+                [
+                'id'                   => $notification->getID(),
+                'tickets_id'           => $ticket->getID(),
+                'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
+                ]
+            );
+        }
+    }
 
    /**
     * @param \ITILFollowup $followup
     *
     * @return bool
     */
-   static function afterAddFollowup(ITILFollowup $followup) {
-       global $DB;
-       if (!$followup->getField('itemtype') == 'Ticket') {
-         return false;
-      }
+    public static function afterAddFollowup(ITILFollowup $followup)
+    {
+        global $DB;
+        if (!$followup->getField('itemtype') == 'Ticket') {
+            return false;
+        }
 
-      $notification = new PluginMoreticketNotificationTicket();
-      $ticket       = new Ticket();
-      $ticket->getFromDB($followup->getField('items_id'));
-      if ($ticket->getID() > 0) {
-          if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
-              $notification->add(
-                  [
+        $notification = new PluginMoreticketNotificationTicket();
+        $ticket       = new Ticket();
+        $ticket->getFromDB($followup->getField('items_id'));
+        if ($ticket->getID() > 0) {
+            if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
+                $notification->add(
+                    [
                       'tickets_id'           => $ticket->getID(),
                       'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-                  ]);
-          } else {
-              $notification->update(
-                  [
+                    ]
+                );
+            } else {
+                $notification->update(
+                    [
                       'id'                   => $notification->getID(),
                       'tickets_id'           => $ticket->getID(),
                       'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-                  ]);
-          }
-      }
-   }
+                    ]
+                );
+            }
+        }
+    }
 
-   static function getSpecificValueToDisplay($field, $values, array $options = []) {
+    public static function getSpecificValueToDisplay($field, $values, array $options = [])
+    {
 
-      if (!is_array($values)) {
-         $values = [$field => $values];
-      }
-      switch ($field) {
-         case 'users_id_lastupdater':
-            $res         = " ";
-            $ticketUsers = new Ticket_User();
-//            if ($values['users_id_lastupdater'] != Session::getLoginUserID()) {
-//               if ($ticketUsers->getFromDBByCrit(['tickets_id' => $values['tickets_id'],
-//                                                  'users_id' => $values['users_id_lastupdater'],
-//                                                  'type' => Ticket_User::REQUESTER])) {
-//                  if (!$ticketUsers->getFromDBByCrit(['tickets_id' => $values['tickets_id'],
-//                                                      'users_id' => $values['users_id_lastupdater'],
-//                                                      'type' => Ticket_User::ASSIGN])) {
+        if (!is_array($values)) {
+            $values = [$field => $values];
+        }
+        switch ($field) {
+            case 'users_id_lastupdater':
+                $res         = " ";
+                $ticketUsers = new Ticket_User();
+  //            if ($values['users_id_lastupdater'] != Session::getLoginUserID()) {
+  //               if ($ticketUsers->getFromDBByCrit(['tickets_id' => $values['tickets_id'],
+  //                                                  'users_id' => $values['users_id_lastupdater'],
+  //                                                  'type' => Ticket_User::REQUESTER])) {
+  //                  if (!$ticketUsers->getFromDBByCrit(['tickets_id' => $values['tickets_id'],
+  //                                                      'users_id' => $values['users_id_lastupdater'],
+  //                                                      'type' => Ticket_User::ASSIGN])) {
                      $res = "<i class='itilstatus ti ti-bell waiting'></i>";
-//                  }
-//               }
-//            }
+  //                  }
+  //               }
+  //            }
 
-            return $res;
+                return $res;
             break;
-      }
-      return parent::getSpecificValueToDisplay($field, $values, $options);
-   }
+        }
+        return parent::getSpecificValueToDisplay($field, $values, $options);
+    }
 }

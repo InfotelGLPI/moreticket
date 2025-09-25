@@ -55,7 +55,10 @@ function plugin_init_moreticket() {
             $config = new PluginMoreticketConfig();
 
 //            if (Session::haveRight("plugin_moreticket_justification", READ)) {
-                $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['moreticket'] = ["scripts/moreticket.js"];
+                $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['moreticket'][] = "scripts/moreticket.js";
+            $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['moreticket'][] = "scripts/config.js";
+
+
 //            }
             if ($config->useDurationSolution() == true) {
                 $PLUGIN_HOOKS['pre_item_add']['moreticket']   =
@@ -137,4 +140,11 @@ function plugin_version_moreticket() {
             ]
         ]
     ];
+}
+
+function plugin_moreticket_geturl(): string
+{
+    /** @var array $CFG_GLPI */
+    global $CFG_GLPI;
+    return sprintf('%s/plugins/moreticket/', $CFG_GLPI['url_base']);
 }

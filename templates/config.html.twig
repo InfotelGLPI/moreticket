@@ -1,0 +1,245 @@
+{#
+# -------------------------------------------------------------------------
+# moreticket plugin for GLPI
+# -------------------------------------------------------------------------
+#
+# LICENSE
+#
+# This file is part of moreticket.
+#
+# moreticket is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# moreticket is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with moreticket. If not, see <http://www.gnu.org/licenses/>.
+# -------------------------------------------------------------------------
+# @copyright Copyright (C) 2015-2023 by moreticket plugin team.
+# @license   GPLv2 https://www.gnu.org/licenses/gpl-2.0.html
+# @link      https://github.com/pluginsGLPI/moreticket
+# -------------------------------------------------------------------------
+#}
+
+{% import "components/form/fields_macros.html.twig" as fields %}
+
+{% set field_options = {'label_class': 'col-6', 'input_class': 'col-6', 'full_width': false} %}
+
+{{ include('components/form/header.html.twig') }}
+
+<div class="card">
+    <div class="card-body">
+        <form name="form" action="{{ form_url }}" method="post">
+            <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="id" value="1">
+
+            <div class="hr-text mt-6">
+                <i class="fa-2x ti ti-settings"></i>
+                <span>{{ __('Ticket waiting', 'moreticket') }}</span>
+            </div>
+
+            <div class="row">
+                {# Ticket waiting #}
+                {{ fields.sliderField(
+                    'use_waiting',
+                    config.use_waiting,
+                    __('Use waiting process', 'moreticket'),
+                    field_options,
+                    {'on_change': 'hide_show_waiting(this.value);'}
+                ) }}
+
+                {% set style_waiting = config.use_waiting ? '' : 'display:none' %}
+
+                <div class="row g-3 mt-4" id="waiting_settings" style="{{ style_waiting }}">
+                    {{ fields.sliderField(
+                        'date_report_mandatory',
+                        config.date_report_mandatory,
+                        __('Postponement date is mandatory', 'moreticket'),
+                        field_options
+                    ) }}
+
+                    {{ fields.sliderField(
+                        'waitingreason_mandatory',
+                        config.waitingreason_mandatory,
+                        __('Waiting reason is mandatory', 'moreticket'),
+                        field_options
+                    ) }}
+
+                    {{ fields.sliderField(
+                        'add_followup_stop_waiting',
+                        config.add_followup_stop_waiting,
+                        __('Add followup when waiting date is reached', 'moreticket'),
+                        field_options
+                    ) }}
+
+                    {{ fields.sliderField(
+                        'waiting_by_default_followup',
+                        config.waiting_by_default_followup,
+                        __('Check by default to put the ticket on waiting when adding a follow-up', 'moreticket'),
+                        field_options
+                    ) }}
+
+                    {{ fields.sliderField(
+                        'waiting_by_default_task',
+                        config.waiting_by_default_task,
+                        __('Check by default to put the ticket on waiting when adding a task', 'moreticket'),
+                        field_options
+                    ) }}
+                </div>
+                <div class="hr-text mt-2">
+                    <i class="fa-2x ti ti-settings"></i>
+                    <span>{{ __('Ticket solution and close', 'moreticket') }}</span>
+                </div>
+                {# Ticket solution and close #}
+                {{ fields.sliderField(
+                    'use_solution',
+                    config.use_solution,
+                    __('Use solution process', 'moreticket'),
+                    field_options,
+                    {'on_change': 'hide_show_solution(this.value);'}
+                ) }}
+
+{#                {% set style_solution = config.use_solution ? '' : 'display:none' %}#}
+
+                <div id="solution_settings" style="" class="row g-3">
+                    {{ fields.sliderField(
+                        'solutiontype_mandatory',
+                        config.solutiontype_mandatory,
+                        __('Solution type is mandatory', 'moreticket'),
+                        field_options
+                    ) }}
+
+                    {{ fields.sliderField(
+                        'close_informations',
+                        config.close_informations,
+                        __('Close ticket informations', 'moreticket'),
+                        field_options
+                    ) }}
+
+                    <div class="col-12 mb-3">
+                        <label class="form-label d-block">
+                            {{ __('Status used to display solution block', 'moreticket') }}
+                        </label>
+                        <div class="row">
+                            {% for status_id, status_label in all_solution_statuses %}
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               name="solution_status[{{ status_id }}]"
+                                               id="solution_status_{{ status_id }}"
+                                               value="1"
+                                                {% if solution_status_checked[status_id] is defined and solution_status_checked[status_id] %}
+                                                    checked
+                                                {% endif %}
+                                        >
+                                        <label class="form-check-label" for="solution_status_{{ status_id }}">
+                                            {{ status_label }}
+                                        </label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    {{ fields.sliderField(
+                        'close_followup',
+                        config.close_followup,
+                        __("Add a followup on immediate ticket closing", "moreticket"),
+                        field_options
+                    ) }}
+
+                    {{ fields.sliderField(
+                        'use_duration_solution',
+                        config.use_duration_solution,
+                        __("Use the 'Duration' field in the add solution interface", "moreticket"),
+                        field_options,
+                        {'on_change': 'hide_show_solution(this.value);'}
+                    ) }}
+
+                    {% set style_duration = config.use_duration_solution ? '' : 'display:none' %}
+                    <div id="mandatory_solution" style="{{ style_duration }}" class="row g-3">
+                        {{ fields.sliderField(
+                            'is_mandatory_solution',
+                            config.is_mandatory_solution,
+                            __("Mandatory 'Duration' field", "moreticket"),
+                            field_options
+                        ) }}
+                    </div>
+                </div>
+                <div class="hr-text mt-2">
+                    <i class="fa-2x ti ti-settings"></i>
+                    <span>{{ __('Ticket urgency', 'moreticket') }}</span>
+                </div>
+                {# Ticket urgency #}
+                {{ fields.sliderField(
+                    'urgency_justification',
+                    config.urgency_justification,
+                    __('Use a justification of the urgency field', 'moreticket'),
+                    field_options,
+                    {'on_change': 'hide_show_urgency(this.value);'}
+                ) }}
+
+                {% set style_urgency = config.urgency_justification ? '' : 'display:none' %}
+                <div id="urgency_settings" style="{{ style_urgency }}" class="row g-3">
+                    {{ fields.dropdownArrayField(
+                        'urgency_ids',
+                        null,
+                        urgency_ids,
+                        __('Urgency impacted justification for the field', 'moreticket'),
+                        field_options,
+                        {'multiple': true, 'values': urgency_selected}
+                    ) }}
+                </div>
+                <div class="hr-text mt-6">
+                    <i class="fa-2x ti ti-settings"></i>
+                    <span>{{ __('Update ticket status', 'moreticket') }}</span>
+                </div>
+                {# Update ticket status #}
+                {{ fields.sliderField(
+                    'update_after_document',
+                    config.update_after_document,
+                    __('Update ticket status to processing after add document', 'moreticket'),
+                    field_options
+                ) }}
+
+                {{ fields.sliderField(
+                    'update_after_approval',
+                    config.update_after_approval,
+                    __('Update ticket status to processing after approval', 'moreticket'),
+                    field_options
+                ) }}
+
+                {{ fields.sliderField(
+                    'update_after_tech_add_followup',
+                    config.update_after_tech_add_followup,
+                    __('Update ticket status to pending after a technician adds a follow up', 'moreticket'),
+                    field_options
+                ) }}
+
+                {{ fields.sliderField(
+                    'update_after_tech_add_task',
+                    config.update_after_tech_add_task,
+                    __('Update ticket status to pending after a technician adds a task', 'moreticket'),
+                    field_options
+                ) }}
+            </div>
+
+            <div class="hr mt-3 mb-3"></div>
+            <div class="hstack gap-1">
+                <div class="pe-5 ms-auto">
+                    <button class="btn btn-primary" type="submit" name="update" value="1">
+                        <i class="ti ti-device-floppy"></i>
+                        <span>{{ _x('button', 'Save') }}</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

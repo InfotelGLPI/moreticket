@@ -37,7 +37,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginMoreticketSolution extends CommonITILObject
 {
 
-    static $rightname = "plugin_moreticket";
+    public static $rightname = "plugin_moreticket";
 
     public static function getTaskClass()
     {
@@ -59,7 +59,7 @@ class PluginMoreticketSolution extends CommonITILObject
         // TODO: Implement getContentTemplatesParametersClass() method.
     }
 
-    static function showFormSolution($params)
+    public static function showFormSolution($params)
     {
 
         if (isset($params['item'])) {
@@ -67,7 +67,6 @@ class PluginMoreticketSolution extends CommonITILObject
             $options = $params['options'];
 
             if ($item->getType() == 'ITILSolution') {
-
                 $ticket = $options['item'];
                 $config = new PluginMoreticketConfig();
                 $use_duration_solution = $config->useDurationSolution();
@@ -110,7 +109,7 @@ class PluginMoreticketSolution extends CommonITILObject
      *
      * @return bool
      */
-    static function beforeAdd(ITILSolution $solution)
+    public static function beforeAdd(ITILSolution $solution)
     {
         global $CFG_GLPI;
 
@@ -125,7 +124,6 @@ class PluginMoreticketSolution extends CommonITILObject
         if ($config->useDurationSolution()) {
             if ($solution->input['itemtype'] == 'Ticket') {
                 if (isset($solution->input['duration_solution']) && $solution->input['duration_solution'] > 0) {
-
                     //               $solution->input['content'] = html_entity_decode($solution->input['content']);
                     //               $solution->input['content'] = strip_tags($solution->input['content']);
                     $ticket = new Ticket();
@@ -143,15 +141,17 @@ class PluginMoreticketSolution extends CommonITILObject
                     $tickettask = new TicketTask();
                     $tickettask->add(['tickets_id' => $tickets_id,
                         'date_creation' => date('Y-m-d H:i:s'),
-                        'date' => date('Y-m-d H:i:s',
-                            strtotime('- 10 seconds', strtotime(date('Y-m-d H:i:s')))),
+                        'date' => date(
+                            'Y-m-d H:i:s',
+                            strtotime('- 10 seconds', strtotime(date('Y-m-d H:i:s')))
+                        ),
                         'users_id' => Session::getLoginUserID(),
                         'users_id_tech' => Session::getLoginUserID(),
                         'content' => $solution->input['content'],
                         'state' => Planning::DONE,
                         'is_private' => $user->getField('task_private'),
                         'actiontime' => $solution->input['duration_solution']]);
-                } else if ($config->isMandatorysolution()) {
+                } elseif ($config->isMandatorysolution()) {
                     if (Plugin::isPluginActive('servicecatalog')
                         && Session::getCurrentInterface() != "central") {
                         return true;
@@ -164,7 +164,17 @@ class PluginMoreticketSolution extends CommonITILObject
                     $ticket->getFromDB($tickets_id);
                     $dur = (isset($ticket->fields['actiontime']) ? $ticket->fields['actiontime'] : 0);
                     if ($dur == 0) {
-                        Session::addMessageAfterRedirect(_n('Mandatory field', 'Mandatory fields', 2) . " : " . __('Duration'), false, ERROR);
+                        Session::addMessageAfterRedirect(
+                            _n(
+                                'Mandatory field',
+                                'Mandatory fields',
+                                2
+                            ) . " : " . __(
+                                'Duration'
+                            ),
+                            false,
+                            ERROR
+                        );
                         $_SESSION['saveInput'][$solution->getType()] = $solution->input;
                         $solution->input = [];
                     }
@@ -175,8 +185,7 @@ class PluginMoreticketSolution extends CommonITILObject
         return true;
     }
 
-    public static function getContentTemplatesParametersClassInstance(
-    ): \Glpi\ContentTemplates\Parameters\CommonITILObjectParameters
+    public static function getContentTemplatesParametersClassInstance(): \Glpi\ContentTemplates\Parameters\CommonITILObjectParameters
     {
         // TODO: Implement getContentTemplatesParametersClassInstance() method.
     }
