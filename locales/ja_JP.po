@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR MoreTicket Development Team
-# This file is distributed under the same license as the MoreTicket - Accounts plugin package.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
@@ -9,9 +9,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: MoreTicket - Accounts plugin\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-25 11:30+0000\n"
+"POT-Creation-Date: 2025-09-25 11:36+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: INOUE Daisuke, 2025\n"
 "Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/teams/50826/ja_JP/)\n"
@@ -21,91 +21,115 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: setup.php:130 inc/profile.class.php:50 inc/profile.class.php:217
-msgid "More ticket"
-msgstr "チケット拡張"
-
-#: inc/profile.class.php:180
-msgid "Adding a justification of urgency"
-msgstr "緊急性に正当性を追加"
-
-#: inc/profile.class.php:188
-msgid "Hide task duration in tickets"
-msgstr "チケットにタスクの期間を表示しない"
-
-#: inc/closeticket.class.php:77 inc/closeticket.class.php:84
-#: inc/closeticket.class.php:125 inc/closeticket.class.php:192
-#: inc/closeticket.class.php:348 inc/closeticket.class.php:402 hook.php:261
-#: hook.php:268 hook.php:275 hook.php:282
-msgid "Close ticket informations"
-msgstr "チケット終了情報"
-
-#: inc/closeticket.class.php:141 inc/closeticket.class.php:522
-msgid "Solution description"
-msgstr "解決情報"
-
-#: inc/closeticket.class.php:161
-msgid "Ticket cannot be closed"
-msgstr "チケットを終了できません"
-
 #: inc/closeticket.class.php:679
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s が終了情報を追加"
-
-#: inc/closeticket.class.php:700
-#, php-format
-msgid "%1$s updated closing informations"
-msgstr "%1$s が終了情報を更新"
 
 #: inc/closeticket.class.php:721
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s が終了情報を削除"
 
+#: inc/closeticket.class.php:700
+#, php-format
+msgid "%1$s updated closing informations"
+msgstr "%1$s が終了情報を更新"
+
+#: inc/waitingticket.class.php:1108
+#, php-format
+msgid "%s duplicates deleted"
+msgstr "%s 件の重複を削除しました"
+
+#: templates/config.html.twig:153
+msgid "Add a followup on immediate ticket closing"
+msgstr "チケットの終了直後に回答を追加する"
+
+#: templates/config.html.twig:76
+msgid "Add followup when waiting date is reached"
+msgstr "再開日に達したら回答を追加する"
+
+#: inc/profile.class.php:180
+msgid "Adding a justification of urgency"
+msgstr "緊急性に正当性を追加"
+
+#: templates/config.html.twig:83
+msgid "Check by default to put the ticket on waiting when adding a follow-up"
+msgstr "「回答を追加したらチケットを保留にする」を標準にする場合はチェック"
+
+#: templates/config.html.twig:90
+msgid "Check by default to put the ticket on waiting when adding a task"
+msgstr "「タスクを追加したらチケットを保留にする」を標準にする場合はチェック"
+
+#: inc/closeticket.class.php:77 inc/closeticket.class.php:84
+#: inc/closeticket.class.php:125 inc/closeticket.class.php:192
+#: inc/closeticket.class.php:348 inc/closeticket.class.php:402 hook.php:261
+#: hook.php:268 hook.php:275 hook.php:282 templates/config.html.twig:120
+msgid "Close ticket informations"
+msgstr "チケット終了情報"
+
+#: hook.php:324
+msgid "Duration is mandatory"
+msgstr "期間は必須です"
+
+#: inc/waitingticket.class.php:908
+msgid "End of standby ticket"
+msgstr "準備チケットの終了"
+
+#: inc/profile.class.php:188
+msgid "Hide task duration in tickets"
+msgstr "チケットにタスクの期間を表示しない"
+
 #: inc/urgencyticket.class.php:72 inc/urgencyticket.class.php:169
 msgid "Justification"
 msgstr "正当性"
 
-#: inc/urgencyticket.class.php:95
-msgid "Urgency ticket cannot be saved"
-msgstr "チケットの緊急性を保存できません"
+#: templates/config.html.twig:170
+msgid "Mandatory 'Duration' field"
+msgstr "「期間」を必須に"
 
-#: inc/urgencyticket.class.php:97 inc/waitingticket.class.php:180
-msgid "Ticket cannot be saved"
-msgstr "チケットを保存できません"
+#: setup.php:130 inc/profile.class.php:50 inc/profile.class.php:217
+msgid "More ticket"
+msgstr "チケット拡張"
 
-#: inc/waitingtype.class.php:50
-msgid "Waiting type"
-msgid_plural "Waiting types"
-msgstr[0] "保留型"
-
-#: inc/waitingticket.class.php:70
-msgid "Waiting ticket"
-msgid_plural "Waiting tickets"
-msgstr[0] "保留チケット"
+#: front/config.form.php:63
+msgid "Please activate the plugin"
+msgstr "プラグインを有効にしてください"
 
 #: inc/waitingticket.class.php:144 inc/waitingticket.class.php:264
 #: inc/waitingticket.class.php:341 inc/waitingticket.class.php:450
 msgid "Postponement date"
 msgstr "再開予定日"
 
+#: inc/waitingticket.class.php:184
+msgid "Postponement date is inferior of today's date"
+msgstr "再開予定日は現在日付より未来に設定してください"
+
+#: templates/config.html.twig:62
+msgid "Postponement date is mandatory"
+msgstr "再開予定日は必須です"
+
 #: inc/waitingticket.class.php:148 inc/waitingticket.class.php:248
 #: inc/waitingticket.class.php:334 inc/waitingticket.class.php:448
 msgid "Reason"
 msgstr "理由"
 
-#: inc/waitingticket.class.php:178
-msgid "Waiting ticket cannot be saved"
-msgstr "保留チケットを保存できません"
+#: templates/config.html.twig:238
+msgctxt "button"
+msgid "Save"
+msgstr "保存"
 
-#: inc/waitingticket.class.php:184
-msgid "Postponement date is inferior of today's date"
-msgstr "再開予定日は現在日付より未来に設定してください"
+#: inc/closeticket.class.php:141 inc/closeticket.class.php:522
+msgid "Solution description"
+msgstr "解決情報"
 
-#: inc/waitingticket.class.php:444 inc/waitingticket.class.php:487
-msgid "Ticket suspension history"
-msgstr "チケットの延期履歴"
+#: templates/config.html.twig:113
+msgid "Solution type is mandatory"
+msgstr "解決の型は必須です"
+
+#: templates/config.html.twig:126
+msgid "Status used to display solution block"
+msgstr "解決ブロックを表示するのに利用する状態"
 
 #: inc/waitingticket.class.php:447
 msgid "Suspension date"
@@ -115,35 +139,100 @@ msgstr "中断日"
 msgid "Suspension end date"
 msgstr "実再開日"
 
-#: inc/waitingticket.class.php:860
-msgid "Waiting ticket exceedeed"
-msgstr "チケットの保留を延長"
+#: inc/closeticket.class.php:161
+msgid "Ticket cannot be closed"
+msgstr "チケットを終了できません"
 
-#: inc/waitingticket.class.php:908
-msgid "End of standby ticket"
-msgstr "準備チケットの終了"
+#: inc/urgencyticket.class.php:97 inc/waitingticket.class.php:180
+msgid "Ticket cannot be saved"
+msgstr "チケットを保存できません"
 
-#: inc/waitingticket.class.php:956
+#: templates/config.html.twig:96
+msgid "Ticket solution and close"
+msgstr "チケットの解決と終了"
+
+#: inc/waitingticket.class.php:444 inc/waitingticket.class.php:487
+msgid "Ticket suspension history"
+msgstr "チケットの延期履歴"
+
+#: templates/config.html.twig:177
+msgid "Ticket urgency"
+msgstr "チケットの緊急性"
+
+#: inc/waitingticket.class.php:956 templates/config.html.twig:43
 msgid "Ticket waiting"
 msgstr "保留チケット"
 
-#: inc/waitingticket.class.php:1108
-#, php-format
-msgid "%s duplicates deleted"
-msgstr "%s 件の重複を削除しました"
+#: templates/config.html.twig:201
+msgid "Update ticket status"
+msgstr "チケットの状態を更新"
 
-#: front/config.form.php:63
-msgid "Please activate the plugin"
-msgstr "プラグインを有効にしてください"
+#: templates/config.html.twig:221
+msgid "Update ticket status to pending after a technician adds a follow up"
+msgstr "技術者が回答を追加したら、チケットの状態を保留にする"
+
+#: templates/config.html.twig:228
+msgid "Update ticket status to pending after a technician adds a task"
+msgstr "技術者がタスクを追加したら、チケットの状態を保留にする"
+
+#: templates/config.html.twig:207
+msgid "Update ticket status to processing after add document"
+msgstr "文書を追加したら、チケットの状態を対応中にする"
+
+#: templates/config.html.twig:214
+msgid "Update ticket status to processing after approval"
+msgstr "承認を受けたら、チケットの状態を対応中にする"
 
 #: hook.php:296
 msgid "Updated by a user"
 msgstr "ユーザーが更新"
 
+#: templates/config.html.twig:194
+msgid "Urgency impacted justification for the field"
+msgstr "項目の正当性に影響を与える緊急度"
+
+#: inc/urgencyticket.class.php:95
+msgid "Urgency ticket cannot be saved"
+msgstr "チケットの緊急性を保存できません"
+
+#: templates/config.html.twig:183
+msgid "Use a justification of the urgency field"
+msgstr "緊急性項目で正当性を利用する"
+
+#: templates/config.html.twig:102
+msgid "Use solution process"
+msgstr "解決処理を利用する"
+
+#: templates/config.html.twig:160
+msgid "Use the 'Duration' field in the add solution interface"
+msgstr "解決の追加画面で「期間」項目を利用する"
+
+#: templates/config.html.twig:51
+msgid "Use waiting process"
+msgstr "保留処理を利用する"
+
+#: templates/config.html.twig:69
+msgid "Waiting reason is mandatory"
+msgstr "保留理由は必須です"
+
+#: inc/waitingticket.class.php:70
+msgid "Waiting ticket"
+msgid_plural "Waiting tickets"
+msgstr[0] "保留チケット"
+
+#: inc/waitingticket.class.php:178
+msgid "Waiting ticket cannot be saved"
+msgstr "保留チケットを保存できません"
+
+#: inc/waitingticket.class.php:860
+msgid "Waiting ticket exceedeed"
+msgstr "チケットの保留を延長"
+
+#: inc/waitingtype.class.php:50
+msgid "Waiting type"
+msgid_plural "Waiting types"
+msgstr[0] "保留型"
+
 #: hook.php:323
 msgid "Warning"
 msgstr "警告"
-
-#: hook.php:324
-msgid "Duration is mandatory"
-msgstr "期間は必須です"
