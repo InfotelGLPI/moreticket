@@ -208,11 +208,18 @@ function moreticket_urgency(params) {
 }
 
 function inarray(value, tab) {
-    response = false;
-    $.each(tab, function (key, value2) {
-        if (value == value2) {
-            response = true;
-        }
-    });
-    return response;
-}
+          let response = false;
+
+          if (!Array.isArray(tab)) {
+              return false; // sécurité : si ce n’est pas un tableau, on sort
+          }
+
+          $.each(tab, function (key, value2) {
+              if (value == value2) {
+                  response = true;
+                  return false; // break du $.each
+              }
+          });
+
+          return response;
+      };

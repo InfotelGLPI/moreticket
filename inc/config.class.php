@@ -335,8 +335,8 @@ class PluginMoreticketConfig extends CommonDBTM
 ////      echo "</td>";
 ////      echo "</tr>";
 //
-//      echo "<tr class='tab_bg_1' align='center'>";
-//      echo "<td colspan='2' align='center'>";
+//      echo "<tr class='tab_bg_1 center'>";
+//      echo "<td colspan='2' class='center'>";
 //      echo Html::submit(_sx('button', 'Post'), ['name' => 'update', 'class' => 'btn btn-primary']);
 //      echo "</td>";
 //      echo "</tr>";

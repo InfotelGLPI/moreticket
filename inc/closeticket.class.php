@@ -188,7 +188,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
 
         echo "<form name='form' method='post' action='" . Toolbox::getItemTypeFormURL(__CLASS__) . "'>";
 
-        echo "<div align='center'><table class='tab_cadre_fixe'>";
+        echo "<div class='center'><table class='tab_cadre_fixe'>";
         echo "<tr><th colspan='2'>" . __('Close ticket informations', 'moreticket') . "</th></tr>";
 
         // Writer
