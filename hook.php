@@ -342,12 +342,17 @@ function plugin_moreticket_post_item_form($params) {
         case 'ITILSolution':
             if ($config->useDurationSolution() == true) {
                 PluginMoreticketSolution::showFormSolution($params);
-                if (isset($params['item'])) {
-                    $item = $params['item'];
-                    if ($item->getType() == 'ITILSolution') {
-                        echo Html::scriptBlock("$(document).ready(function(){
+
+                if ($config->isMandatorysolution()) {
+                    if (isset($params['item'])) {
+                        $item = $params['item'];
+                        if ($item->getType() == 'ITILSolution') {
+                            echo Html::scriptBlock(
+                                "$(document).ready(function(){
                         $('.itilsolution').children().find(':submit').hide();
-                     });");
+                     });"
+                            );
+                        }
                     }
                 }
             }
