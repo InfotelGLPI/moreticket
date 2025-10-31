@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 15:17+0200\n"
+"POT-Creation-Date: 2025-10-31 17:39+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2025\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/50826/fr_FR/)\n"
@@ -41,14 +41,34 @@ msgstr "%1$s a mis à jour des informations de clôture"
 msgid "%s duplicates deleted"
 msgstr "%s doublons supprimés"
 
+#: templates/config.html.twig:153
+msgid "Add a followup on immediate ticket closing"
+msgstr "Ajouter un suivi lors de la clôture à la création du ticket"
+
+#: templates/config.html.twig:76
+msgid "Add followup when waiting date is reached"
+msgstr "Ajout d'un suivi lorsque la date de report est atteinte"
+
 #: inc/profile.class.php:180
 msgid "Adding a justification of urgency"
 msgstr "Ajout d'une zone de justification pour l'urgence"
 
-#: hook.php:261 hook.php:268 hook.php:275 hook.php:282
+#: templates/config.html.twig:83
+msgid "Check by default to put the ticket on waiting when adding a follow-up"
+msgstr ""
+"Cocher par défaut pour mettre le ticket en attente lors de l'ajout d'un "
+"suivi"
+
+#: templates/config.html.twig:90
+msgid "Check by default to put the ticket on waiting when adding a task"
+msgstr ""
+"Cocher par défaut pour mettre le ticket en attente lors de l'ajout d'une "
+"tâche"
+
 #: inc/closeticket.class.php:77 inc/closeticket.class.php:84
 #: inc/closeticket.class.php:125 inc/closeticket.class.php:192
-#: inc/closeticket.class.php:348 inc/closeticket.class.php:402
+#: inc/closeticket.class.php:348 inc/closeticket.class.php:402 hook.php:261
+#: hook.php:268 hook.php:275 hook.php:282 templates/config.html.twig:120
 msgid "Close ticket informations"
 msgstr "Informations de clôture des tickets"
 
@@ -68,7 +88,11 @@ msgstr "Cacher la durée des tâches d'un ticket"
 msgid "Justification"
 msgstr "Justification"
 
-#: inc/profile.class.php:50 inc/profile.class.php:217 setup.php:130
+#: templates/config.html.twig:170
+msgid "Mandatory 'Duration' field"
+msgstr "Champ 'Durée' obligatoire"
+
+#: setup.php:130 inc/profile.class.php:50 inc/profile.class.php:217
 msgid "More ticket"
 msgstr "More ticket"
 
@@ -85,12 +109,16 @@ msgstr "Date de report"
 msgid "Postponement date is inferior of today's date"
 msgstr "La date de report est inférieure à aujourd'hui"
 
+#: templates/config.html.twig:62
+msgid "Postponement date is mandatory"
+msgstr "La date de report est obligatoire"
+
 #: inc/waitingticket.class.php:148 inc/waitingticket.class.php:248
 #: inc/waitingticket.class.php:334 inc/waitingticket.class.php:448
 msgid "Reason"
 msgstr "Raison"
 
-#: /c/wamp/www/glpi11symfony/marketplace/moreticket/templates/config.html.twig:238
+#: templates/config.html.twig:238
 msgctxt "button"
 msgid "Save"
 msgstr "Sauver"
@@ -99,7 +127,11 @@ msgstr "Sauver"
 msgid "Solution description"
 msgstr "Description de la solution"
 
-#: /c/wamp/www/glpi11symfony/marketplace/moreticket/templates/config.html.twig:126
+#: templates/config.html.twig:113
+msgid "Solution type is mandatory"
+msgstr "Le type de solution est obligatoire"
+
+#: templates/config.html.twig:126
 msgid "Status used to display solution block"
 msgstr "Statuts utilisés pour afficher le bloc de solution"
 
@@ -119,7 +151,7 @@ msgstr "Impossible de clore le ticket"
 msgid "Ticket cannot be saved"
 msgstr "Impossible d'enregistrer le ticket"
 
-#: /c/wamp/www/glpi11symfony/marketplace/moreticket/templates/config.html.twig:96
+#: templates/config.html.twig:96
 msgid "Ticket solution and close"
 msgstr "Résolution et clôture du ticket"
 
@@ -127,26 +159,69 @@ msgstr "Résolution et clôture du ticket"
 msgid "Ticket suspension history"
 msgstr "Historique des mise en attente du ticket"
 
-#: /c/wamp/www/glpi11symfony/marketplace/moreticket/templates/config.html.twig:177
+#: templates/config.html.twig:177
 msgid "Ticket urgency"
 msgstr "Urgence de ticket"
 
-#: inc/waitingticket.class.php:956
-#: /c/wamp/www/glpi11symfony/marketplace/moreticket/templates/config.html.twig:43
+#: inc/waitingticket.class.php:956 templates/config.html.twig:43
 msgid "Ticket waiting"
 msgstr "Mise en attente du ticket"
 
-#: /c/wamp/www/glpi11symfony/marketplace/moreticket/templates/config.html.twig:201
+#: templates/config.html.twig:201
 msgid "Update ticket status"
 msgstr "Mise à jour des statuts de tickets"
+
+#: templates/config.html.twig:221
+msgid "Update ticket status to pending after a technician adds a follow up"
+msgstr ""
+"Mettre à jour le statut du ticket à En attente après qu'un technicien a "
+"ajouté un suivi"
+
+#: templates/config.html.twig:228
+msgid "Update ticket status to pending after a technician adds a task"
+msgstr ""
+"Mettre à jour le statut du ticket à En attente après qu'un technicien a "
+"ajouté une tâche"
+
+#: templates/config.html.twig:207
+msgid "Update ticket status to processing after add document"
+msgstr "Mise à jour du statut du ticket à en cours après ajout d'un document"
+
+#: templates/config.html.twig:214
+msgid "Update ticket status to processing after approval"
+msgstr "Mise à jour du statut du ticket à en cours après approbation"
 
 #: hook.php:296
 msgid "Updated by a user"
 msgstr "Mis à jour par un utilisateur"
 
+#: templates/config.html.twig:194
+msgid "Urgency impacted justification for the field"
+msgstr "Urgences impactées pour la zone de justification"
+
 #: inc/urgencyticket.class.php:95
 msgid "Urgency ticket cannot be saved"
 msgstr "Impossible d'enregistrer l'urgence du ticket"
+
+#: templates/config.html.twig:183
+msgid "Use a justification of the urgency field"
+msgstr "Utiliser une zone de justification sur l'urgence"
+
+#: templates/config.html.twig:102
+msgid "Use solution process"
+msgstr "Utiliser le bloc solution à la création du ticket"
+
+#: templates/config.html.twig:160
+msgid "Use the 'Duration' field in the add solution interface"
+msgstr "Utilisez le champ 'Durée' dans l'interface d'ajout de solution"
+
+#: templates/config.html.twig:51
+msgid "Use waiting process"
+msgstr "Utiliser la mise en attente"
+
+#: templates/config.html.twig:69
+msgid "Waiting reason is mandatory"
+msgstr "La raison de mise en attente est obligatoire"
 
 #: inc/waitingticket.class.php:70
 msgid "Waiting ticket"
