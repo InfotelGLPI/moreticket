@@ -310,7 +310,7 @@ function plugin_moreticket_pre_item_form($params) {
     $waitingTicket = new PluginMoreticketWaitingTicket();
     switch ($item->getType()) {
         case 'ITILSolution':
-            if ($config->useDurationSolution() == true) {
+            if ($config->isMandatorysolution() == true) {
                 echo "<div class='alert alert-warning'>";
 
                 echo "<div class='d-flex'>";
