@@ -5,8 +5,8 @@
 find . -name '*.php' > php_files.list
 
 xgettext --files-from=php_files.list \
-  --copyright-holder='Behaviors Development Team' \
-  --package-name='Behaviors - Accounts plugin' \
+  --copyright-holder='Moreticket Development Team' \
+  --package-name='Moreticket plugin' \
   -o locales/glpi.pot \
   -L PHP \
   --add-comments=TRANS \
@@ -26,10 +26,10 @@ rm php_files.list
 
 # --- Étape 2 : Extraction des chaînes Twig ---
 
-SCRIPT_DIR=$(dirname "$0")
-WORKING_DIR=$(readlink -f "$SCRIPT_DIR/..")
-OUTPUT_FILE="$WORKING_DIR/locales/glpi.pot"
-
+# Append locales from Twig templates
+SCRIPT_DIR=$(dirname $0)
+WORKING_DIR=$(readlink -f "$SCRIPT_DIR/..") # Script will be executed from "vendor/bin" directory
+# Define translate function args
 F_ARGS_N="1,2"
 F_ARGS__S="1"
 F_ARGS__="1"
@@ -38,11 +38,14 @@ F_ARGS_SX="1c,2"
 F_ARGS_NX="1c,2,3"
 F_ARGS_SN="1,2"
 
-find "$WORKING_DIR/templates" -type f -name "*.twig" | while read -r file; do
-
-    # Convertit les blocs Twig {{ ... }} en pseudo-code PHP pour xgettext
-    perl -0pe 's/\{\{\s*(.*?)\s*\}\}/<?php \1; ?>/g' "$file" \
-    | xgettext -o "$OUTPUT_FILE" -L PHP \
+for file in $(cd $WORKING_DIR && find -regextype posix-egrep -not -regex $EXCLUDE_REGEX "$SCRIPT_DIR/.." -name "*.twig")
+do
+    # 1. Convert file content to replace "{{ function(.*) }}" by "<?php function(.*); ?>" and extract strings via std input
+    # 2. Replace "standard input:line_no" by file location in po file comments
+    contents=`cat $file | sed -r "s|\{\{\s*([a-z0-9_]+\(.*\))\s*\}\}|<?php \1; ?>|gi"`
+    cat $file | perl -0pe "s/\{\{(.*?)\}\}/<?php \1; ?>/gism" | xgettext - \
+        -o locales/glpi.pot \
+        -L PHP \
         --add-comments=TRANS \
         --from-code=UTF-8 \
         --force-po \
@@ -51,10 +54,6 @@ find "$WORKING_DIR/templates" -type f -name "*.twig" | while read -r file; do
         --keyword=_n:$F_ARGS_N \
         --keyword=__:$F_ARGS__ \
         --keyword=_x:$F_ARGS_X \
-        --keyword=_nx:$F_ARGS_NX \
-        --keyword=_sn:$F_ARGS_SN \
-        -
-
-    # Corrige les références de fichier dans le POT
-    sed -i -r "s|standard input:([0-9]+)|$file:\1|g" "$OUTPUT_FILE"
+        --keyword=_nx:$F_ARGS_NX
+    sed -i -r "s|standard input:([0-9]+)|`echo $file | sed "s|./||"`:\1|g" locales/glpi.pot
 done
