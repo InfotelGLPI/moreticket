@@ -82,11 +82,18 @@ class PluginMoreticketSolution extends CommonITILObject
                     for ($i = 9; $i <= 100; $i++) {
                         $toadd[] = $i * HOUR_TIMESTAMP;
                     }
-                    echo Html::scriptBlock("function showsolutionbutton(){
-                                $(document).ready(function(){
-                                    $('.itilsolution').children().find(':submit').show();
-                                 });
-                     }");
+                    echo Html::scriptBlock("
+	                    function showsolutionbutton(){
+		                    $(document).ready(function(){
+		                        $('.itilsolution').children().find(':submit').show();
+		                    });
+	                    }
+	                    function hidesolutionbutton(){
+		                    $(document).ready(function(){
+		                        $('.itilsolution').children().find(':submit').hide();
+		                    });
+	                    }
+	                    ");
 
                     Dropdown::showTimeStamp("duration_solution", ['min' => 0,
                         'max' => 8 * HOUR_TIMESTAMP,
@@ -95,12 +102,17 @@ class PluginMoreticketSolution extends CommonITILObject
                     ]);
 
 	                echo Html::scriptBlock("
-                                            $(document).ready(function(){
-                                                $('select[name=\"duration_solution\"]').on('change', function() {
-                                                    showsolutionbutton();
-                                                });
-                                            });
-                                        ");
+	                    $(document).ready(function(){
+	                        $('select[name=\"duration_solution\"]').on('change', function() {
+	                            if(this.value == 0){
+	                                hidesolutionbutton();
+	                            }else{
+	                                showsolutionbutton();
+	                            }
+	                            
+	                        });
+	                    });
+	                ");
 
 
 
