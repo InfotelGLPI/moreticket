@@ -101,18 +101,20 @@ class PluginMoreticketSolution extends CommonITILObject
                         'toadd' => $toadd
                     ]);
 
-	                echo Html::scriptBlock("
-	                    $(document).ready(function(){
-	                        $('select[name=\"duration_solution\"]').on('change', function() {
-	                            if(this.value == 0){
-	                                hidesolutionbutton();
-	                            }else{
-	                                showsolutionbutton();
-	                            }
-	                            
-	                        });
-	                    });
-	                ");
+					if($config->isMandatorysolution()){
+		                echo Html::scriptBlock("
+		                    $(document).ready(function(){
+		                        $('select[name=\"duration_solution\"]').on('change', function() {
+		                            if(this.value == 0 && ){
+		                                hidesolutionbutton();
+		                            }else{
+		                                showsolutionbutton();
+		                            }
+		                            
+		                        });
+		                    });
+		                ");
+					}
 
 
 
