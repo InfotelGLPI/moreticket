@@ -91,13 +91,21 @@ class PluginMoreticketSolution extends CommonITILObject
                     Dropdown::showTimeStamp("duration_solution", ['min' => 0,
                         'max' => 8 * HOUR_TIMESTAMP,
                         'inhours' => true,
-                        'toadd' => $toadd,
-                        'on_change' => 'showsolutionbutton();']);
+                        'toadd' => $toadd
+                    ]);
+
+	                echo Html::scriptBlock("
+                                            $(document).ready(function(){
+                                                $('select[name=\"duration_solution\"]').on('change', function() {
+                                                    showsolutionbutton();
+                                                });
+                                            });
+                                        ");
 
 
 
 
-                    echo "</span>";
+	                echo "</span>";
                     echo "</div></div>";
                 }
             }
