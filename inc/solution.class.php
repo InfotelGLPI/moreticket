@@ -116,9 +116,6 @@ class PluginMoreticketSolution extends CommonITILObject
 		                ");
 					}
 
-
-
-
 	                echo "</span>";
                     echo "</div></div>";
                 }
