@@ -82,22 +82,44 @@ class PluginMoreticketSolution extends CommonITILObject
                     for ($i = 9; $i <= 100; $i++) {
                         $toadd[] = $i * HOUR_TIMESTAMP;
                     }
-                    echo Html::scriptBlock("function showsolutionbutton(){
-                                $(document).ready(function(){
-                                    $('.itilsolution').children().find(':submit').show();
-                                 });
-                     }");
+                    echo Html::scriptBlock("
+	                    function showsolutionbutton(){
+		                    $(document).ready(function(){
+		                        $('.itilsolution').children().find(':submit').show();
+		                    });
+	                    }
+	                    function hidesolutionbutton(){
+		                    $(document).ready(function(){
+		                        $('.itilsolution').children().find(':submit').hide();
+		                    });
+	                    }
+	                    ");
 
                     Dropdown::showTimeStamp("duration_solution", ['min' => 0,
                         'max' => 8 * HOUR_TIMESTAMP,
                         'inhours' => true,
-                        'toadd' => $toadd,
-                        'on_change' => 'showsolutionbutton();']);
+                        'toadd' => $toadd
+                    ]);
+
+					if($config->isMandatorysolution()){
+		                echo Html::scriptBlock("
+		                    $(document).ready(function(){
+		                        $('select[name=\"duration_solution\"]').on('change', function() {
+		                            if(this.value == 0 && ){
+		                                hidesolutionbutton();
+		                            }else{
+		                                showsolutionbutton();
+		                            }
+		                            
+		                        });
+		                    });
+		                ");
+					}
 
 
 
 
-                    echo "</span>";
+	                echo "</span>";
                     echo "</div></div>";
                 }
             }
