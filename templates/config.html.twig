@@ -50,7 +50,6 @@
                     config.use_waiting,
                     __('Use waiting process', 'moreticket'),
                     field_options,
-                    {'on_change': 'hide_show_waiting(this.value);'}
                 ) }}
 
                 {% set style_waiting = config.use_waiting ? '' : 'display:none' %}
@@ -101,10 +100,9 @@
                     config.use_solution,
                     __('Use solution process', 'moreticket'),
                     field_options,
-                    {'on_change': 'hide_show_solution(this.value);'}
                 ) }}
 
-{#                {% set style_solution = config.use_solution ? '' : 'display:none' %}#}
+                {#                {% set style_solution = config.use_solution ? '' : 'display:none' %}#}
 
                 <div id="solution_settings" style="" class="row g-3">
                     {{ fields.sliderField(
@@ -159,7 +157,6 @@
                         config.use_duration_solution,
                         __("Use the 'Duration' field in the add solution interface", "moreticket"),
                         field_options,
-                        {'on_change': 'hide_show_solution(this.value);'}
                     ) }}
 
                     {% set style_duration = config.use_duration_solution ? '' : 'display:none' %}
@@ -182,7 +179,6 @@
                     config.urgency_justification,
                     __('Use a justification of the urgency field', 'moreticket'),
                     field_options,
-                    {'on_change': 'hide_show_urgency(this.value);'}
                 ) }}
 
                 {% set style_urgency = config.urgency_justification ? '' : 'display:none' %}
@@ -242,4 +238,3 @@
         </form>
     </div>
 </div>
-
