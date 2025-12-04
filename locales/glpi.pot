@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-04 14:57+0000\n"
+"POT-Creation-Date: 2025-12-04 14:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,11 +38,11 @@ msgstr ""
 msgid "%s duplicates deleted"
 msgstr ""
 
-#: templates/config.html.twig:153
+#: templates/config.html.twig:151
 msgid "Add a followup on immediate ticket closing"
 msgstr ""
 
-#: templates/config.html.twig:76
+#: templates/config.html.twig:75
 msgid "Add followup when waiting date is reached"
 msgstr ""
 
@@ -50,18 +50,18 @@ msgstr ""
 msgid "Adding a justification of urgency"
 msgstr ""
 
-#: templates/config.html.twig:83
+#: templates/config.html.twig:82
 msgid "Check by default to put the ticket on waiting when adding a follow-up"
 msgstr ""
 
-#: templates/config.html.twig:90
+#: templates/config.html.twig:89
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 
 #: inc/closeticket.class.php:77 inc/closeticket.class.php:84
 #: inc/closeticket.class.php:125 inc/closeticket.class.php:192
 #: inc/closeticket.class.php:348 inc/closeticket.class.php:402 hook.php:261
-#: hook.php:268 hook.php:275 hook.php:282 templates/config.html.twig:120
+#: hook.php:268 hook.php:275 hook.php:282 templates/config.html.twig:118
 msgid "Close ticket informations"
 msgstr ""
 
@@ -81,7 +81,7 @@ msgstr ""
 msgid "Justification"
 msgstr ""
 
-#: templates/config.html.twig:170
+#: templates/config.html.twig:167
 msgid "Mandatory 'Duration' field"
 msgstr ""
 
@@ -102,7 +102,7 @@ msgstr ""
 msgid "Postponement date is inferior of today's date"
 msgstr ""
 
-#: templates/config.html.twig:62
+#: templates/config.html.twig:61
 msgid "Postponement date is mandatory"
 msgstr ""
 
@@ -111,7 +111,7 @@ msgstr ""
 msgid "Reason"
 msgstr ""
 
-#: templates/config.html.twig:238
+#: templates/config.html.twig:234
 msgctxt "button"
 msgid "Save"
 msgstr ""
@@ -120,11 +120,11 @@ msgstr ""
 msgid "Solution description"
 msgstr ""
 
-#: templates/config.html.twig:113
+#: templates/config.html.twig:111
 msgid "Solution type is mandatory"
 msgstr ""
 
-#: templates/config.html.twig:126
+#: templates/config.html.twig:124
 msgid "Status used to display solution block"
 msgstr ""
 
@@ -144,7 +144,7 @@ msgstr ""
 msgid "Ticket cannot be saved"
 msgstr ""
 
-#: templates/config.html.twig:96
+#: templates/config.html.twig:95
 msgid "Ticket solution and close"
 msgstr ""
 
@@ -152,7 +152,7 @@ msgstr ""
 msgid "Ticket suspension history"
 msgstr ""
 
-#: templates/config.html.twig:177
+#: templates/config.html.twig:174
 msgid "Ticket urgency"
 msgstr ""
 
@@ -160,23 +160,23 @@ msgstr ""
 msgid "Ticket waiting"
 msgstr ""
 
-#: templates/config.html.twig:201
+#: templates/config.html.twig:197
 msgid "Update ticket status"
 msgstr ""
 
-#: templates/config.html.twig:221
+#: templates/config.html.twig:217
 msgid "Update ticket status to pending after a technician adds a follow up"
 msgstr ""
 
-#: templates/config.html.twig:228
+#: templates/config.html.twig:224
 msgid "Update ticket status to pending after a technician adds a task"
 msgstr ""
 
-#: templates/config.html.twig:207
+#: templates/config.html.twig:203
 msgid "Update ticket status to processing after add document"
 msgstr ""
 
-#: templates/config.html.twig:214
+#: templates/config.html.twig:210
 msgid "Update ticket status to processing after approval"
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Updated by a user"
 msgstr ""
 
-#: templates/config.html.twig:194
+#: templates/config.html.twig:190
 msgid "Urgency impacted justification for the field"
 msgstr ""
 
@@ -192,15 +192,15 @@ msgstr ""
 msgid "Urgency ticket cannot be saved"
 msgstr ""
 
-#: templates/config.html.twig:183
+#: templates/config.html.twig:180
 msgid "Use a justification of the urgency field"
 msgstr ""
 
-#: templates/config.html.twig:102
+#: templates/config.html.twig:101
 msgid "Use solution process"
 msgstr ""
 
-#: templates/config.html.twig:160
+#: templates/config.html.twig:158
 msgid "Use the 'Duration' field in the add solution interface"
 msgstr ""
 
@@ -208,7 +208,7 @@ msgstr ""
 msgid "Use waiting process"
 msgstr ""
 
-#: templates/config.html.twig:69
+#: templates/config.html.twig:68
 msgid "Waiting reason is mandatory"
 msgstr ""
 
