@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-04 14:58+0000\n"
+"POT-Creation-Date: 2025-12-05 11:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,12 +60,12 @@ msgstr ""
 
 #: inc/closeticket.class.php:77 inc/closeticket.class.php:84
 #: inc/closeticket.class.php:125 inc/closeticket.class.php:192
-#: inc/closeticket.class.php:348 inc/closeticket.class.php:402 hook.php:261
-#: hook.php:268 hook.php:275 hook.php:282 templates/config.html.twig:118
+#: inc/closeticket.class.php:348 inc/closeticket.class.php:402 hook.php:268
+#: hook.php:275 hook.php:282 hook.php:289 templates/config.html.twig:118
 msgid "Close ticket informations"
 msgstr ""
 
-#: hook.php:324
+#: hook.php:332
 msgid "Duration is mandatory"
 msgstr ""
 
@@ -180,7 +180,7 @@ msgstr ""
 msgid "Update ticket status to processing after approval"
 msgstr ""
 
-#: hook.php:296
+#: hook.php:303
 msgid "Updated by a user"
 msgstr ""
 
@@ -232,6 +232,6 @@ msgid_plural "Waiting types"
 msgstr[0] ""
 msgstr[1] ""
 
-#: hook.php:323
+#: hook.php:331
 msgid "Warning"
 msgstr ""
