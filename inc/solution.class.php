@@ -105,7 +105,7 @@ class PluginMoreticketSolution extends CommonITILObject
 		                echo Html::scriptBlock("
 		                    $(document).ready(function(){
 		                        $('select[name=\"duration_solution\"]').on('change', function() {
-		                            if(this.value == 0 && ){
+		                            if(this.value == 0){
 		                                hidesolutionbutton();
 		                            }else{
 		                                showsolutionbutton();
