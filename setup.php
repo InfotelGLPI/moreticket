@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_MORETICKET_VERSION', '1.8.0');
+define('PLUGIN_MORETICKET_VERSION', '1.8.1');
 
 global $CFG_GLPI;
 
