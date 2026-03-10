@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -27,21 +28,21 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
+use GlpiPlugin\Moreticket\CloseTicket;
 
-$closeTicket = new PluginMoreticketCloseTicket();
+$closeTicket = new CloseTicket();
 
 if (isset($_POST["add"])) {
-    $closeTicket->check(-1, UPDATE, $_POST);
+    $closeTicket->check(-1, CREATE, $_POST);
 
     $doc = new Document();
     $doc->check(-1, CREATE, $_POST);
     $DocId = $doc->add($_POST);
 
     $test = $closeTicket->add(['requesters_id' => $_POST['requesters_id'],
-                              'tickets_id'    => $_POST['tickets_id'],
-                              'date'          => $_POST['date'],
-                              'comment'       => $_POST['comment'],
-                              'documents_id'  => $DocId]);
+        'tickets_id'    => $_POST['tickets_id'],
+        'date'          => $_POST['date'],
+        'comment'       => $_POST['comment'],
+        'documents_id'  => $DocId]);
     Html::back();
 }

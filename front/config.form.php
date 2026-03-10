@@ -27,11 +27,12 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
+use GlpiPlugin\Moreticket\Config;
+
 Session::checkLoginUser();
 
 if (Plugin::isPluginActive("moreticket")) {
-    $config = new PluginMoreticketConfig();
+    $config = new Config();
     Session::checkRight('config', UPDATE);
 
     if (isset($_POST["update"])) {
@@ -50,10 +51,10 @@ if (Plugin::isPluginActive("moreticket")) {
 
         $config->update($_POST);
        //Update singelton
-        PluginMoreticketConfig::getConfig(true);
+        Config::getConfig(true);
         Html::redirect($_SERVER['HTTP_REFERER']);
     } else {
-        Html::header(PluginMoreticketConfig::getTypeName(), '', "plugins", "moreticket");
+        Html::header(Config::getTypeName(), '', "plugins", "moreticket");
         $config->showConfigForm();
         Html::footer();
     }

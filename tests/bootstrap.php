@@ -498,12 +498,12 @@ function loadDataset() {
    $_SESSION['glpiactiveentities_string'] = "'0'";
    $CFG_GLPI['root_doc']            = '/glpi';
    // need to set theses in DB, because tests for API use http call and this bootstrap file is not called
-   Config::setConfigurationValues('core', ['url_base'     => GLPI_URI,
+   \Config::setConfigurationValues('core', ['url_base'     => GLPI_URI,
        'url_base_api' => GLPI_URI . '/apirest.php']);
    $CFG_GLPI['url_base']      = GLPI_URI;
    $CFG_GLPI['url_base_api']  = GLPI_URI . '/apirest.php';
    is_dir(GLPI_LOG_DIR) or mkdir(GLPI_LOG_DIR, 0755, true);
-   $conf = Config::getConfigurationValues('phpunit');
+   $conf = \Config::getConfigurationValues('phpunit');
    if (isset($conf['dataset']) && $conf['dataset']==$data['_version']) {
       printf("\nGLPI dataset version %s already loaded\n\n", $data['_version']);
    } else {
@@ -553,7 +553,7 @@ function loadDataset() {
       }
       Search::$search = [];
       echo "\nDone\n\n";
-      Config::setConfigurationValues('phpunit', ['dataset' => $data['_version']]);
+      \Config::setConfigurationValues('phpunit', ['dataset' => $data['_version']]);
    }
 }
 /**

@@ -28,7 +28,7 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
+use GlpiPlugin\Moreticket\Config;
 
 Html::header_nocache();
 Session::checkLoginUser();
@@ -39,7 +39,7 @@ global $CFG_GLPI;
 if (isset($_POST['action'])) {
     switch ($_POST['action']) {
         case "load":
-            $config                = new PluginMoreticketConfig();
+            $config                = new Config();
             $use_waiting           = $config->useWaiting();
             $use_solution          = $config->useSolution();
             $use_question          = $config->useQuestion();

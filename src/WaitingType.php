@@ -27,52 +27,65 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Moreticket;
+
+use CommonTreeDropdown;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-
 /**
- * Class PluginMoreticketTicketFollowup
+ * Class WaitingType
  */
-class PluginMoreticketTicketFollowup extends CommonDBTM
+class WaitingType extends CommonTreeDropdown
 {
-
-    public static $rightname = "plugin_moreticket";
+    public $can_be_translated = true;
+    public static $rightname = "dropdown";
 
    /**
-    * functions mandatory
-    * getTypeName(), canCreate(), canView()
-    *
     * @param int $nb
     *
-    * @return string|translated
+    * @return string
     */
     public static function getTypeName($nb = 0)
     {
 
-        return _n('Ticket', 'Tickets', $nb);
+        return _n('Waiting type', 'Waiting types', $nb, 'moreticket');
     }
 
    /**
-    * @param $ticketfollowup
-    *
-    * @return bool
+    * @return array
     */
-    public static function beforeAdd($ticketfollowup)
+    public function getAdditionalFields()
     {
 
-        if (!is_array($ticketfollowup->input) || !count($ticketfollowup->input)) {
-            // Already cancel by another plugin
-            return false;
-        }
+        $tab = [['name'  => $this->getForeignKeyField(),
+                         'label' => __('As child of'),
+                         'type'  => 'parent',
+                         'list'  => false]
+        ];
 
-        $config = new PluginMoreticketConfig();
+        return $tab;
+    }
 
-        if (isset($ticketfollowup->input['pending'])
-            && $ticketfollowup->input['pending']
-            && $config->useWaiting() == true) {
-            PluginMoreticketWaitingTicket::addWaitingTicket($ticketfollowup);
-        }
+   /**
+    * Provides search options configuration. Do not rely directly
+    * on this, @see CommonDBTM::searchOptions instead.
+    *
+    * @since 9.3
+    *
+    * This should be overloaded in Class
+    *
+    * @return array a *not indexed* array of search options
+    *
+    * @see https://glpi-developer-documentation.rtfd.io/en/master/devapi/search.html
+    **/
+    public function rawSearchOptions()
+    {
+
+        $tab = parent::rawSearchOptions();
+
+        return $tab;
     }
 }

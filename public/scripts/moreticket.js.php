@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../../inc/includes.php');
+use GlpiPlugin\Moreticket\Config;
 
 //change mimetype
 header("Content-type: application/javascript");
@@ -35,7 +35,7 @@ header("Content-type: application/javascript");
 //not executed in self-service interface & right verification
 if (Session::getCurrentInterface() == "central") {
 
-   $config = new PluginMoreticketConfig();
+   $config = new Config();
    $use_waiting = $config->useWaiting();
    $use_solution = $config->useSolution();
    $use_question = $config->useQuestion();

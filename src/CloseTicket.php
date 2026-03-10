@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -27,34 +28,53 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Moreticket;
+
+use CommonDBTM;
+use CommonGLPI;
+use DbUtils;
+use Document;
+use Dropdown;
+use Html;
+use ITILSolution;
+use Log;
+use Session;
+use SolutionTemplate;
+use Toolbox;
+
+use GlpiPlugin\Moreticket\Config;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 /**
- * Class PluginMoreticketCloseTicket
+ * Class CloseTicket
  */
-class PluginMoreticketCloseTicket extends CommonDBTM
+class CloseTicket extends CommonDBTM
 {
-
     public static $types = ['Ticket'];
     public $dohistory = true;
     public static $rightname = "plugin_moreticket";
 
-    /**
-     * Have I the global right to "create" the Object
-     * May be overloaded if needed (ex KnowbaseItem)
-     *
-     * @return booleen
-     **/
+
+    public static function getIcon()
+    {
+        return "ti ti-browser-x";
+    }
+
     public static function canCreate(): bool
     {
         if (static::$rightname) {
-            return Session::haveRight(static::$rightname, UPDATE);
+            return Session::haveRight(static::$rightname, CREATE);
         }
         return false;
     }
 
+    public function canCreateItem(): bool
+    {
+        return Session::haveRight(static::$rightname, CREATE);
+    }
     /**
      * Display moreticket-item's tab for each users
      *
@@ -65,11 +85,11 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      */
     public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
 
         if (!$withtemplate) {
-            if ($item->getType() == 'Ticket'
-                && $item->fields['status'] == Ticket::CLOSED
+            if ($item->getType() == \Ticket::class
+                && $item->fields['status'] == \Ticket::CLOSED
                 && $config->closeInformations()) {
                 if ($_SESSION['glpishow_count_on_tabs']) {
                     $dbu = new DbUtils();
@@ -101,10 +121,10 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      */
     public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
 
-        if ($item->getType() == 'Ticket'
-            && ($item->fields['status'] == Ticket::CLOSED)
+        if ($item->getType() == \Ticket::class
+            && ($item->fields['status'] == \Ticket::CLOSED)
             && $config->closeInformations()) {
             self::showForTicket($item);
         }
@@ -118,7 +138,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *
      * @param int $nb
      *
-     * @return string|translated
+     * @return string
      */
     public static function getTypeName($nb = 0)
     {
@@ -136,7 +156,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
     {
         $checkKo = [];
 
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
 
         $mandatory_fields = ['solution' => __('Solution description', 'moreticket')];
 
@@ -176,15 +196,13 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *
      * @return bool
      */
-    public static function showForTicket(Ticket $item)
+    public static function showForTicket(\Ticket $item)
     {
         if (!self::canView()) {
             return false;
         }
 
         $canedit = ($item->canUpdate() && self::canUpdate());
-
-        $dbu = new DbUtils();
 
         echo "<form name='form' method='post' action='" . Toolbox::getItemTypeFormURL(__CLASS__) . "'>";
 
@@ -197,7 +215,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
         echo __('Writer');
         echo "</td>";
         echo "<td>";
-        echo $dbu->getUserName(Session::getLoginUserID());
+        echo getUserName(Session::getLoginUserID());
         echo Html::hidden('requesters_id', ['value' => Session::getLoginUserID()]);
         echo "</td>";
         echo "</tr>";
@@ -221,7 +239,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
             'name' => 'comment',
             'cols' => 80,
             'rows' => 8,
-            'enable_richtext' => false
+            'enable_richtext' => false,
         ]);
         echo "</td>";
         echo "</tr>";
@@ -273,7 +291,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
             'field' => 'date',
             'name' => __('Date'),
             'datatype' => 'datetime',
-            'massiveaction' => false
+            'massiveaction' => false,
         ];
 
         $tab[] = [
@@ -282,7 +300,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
             'field' => 'comment',
             'name' => __('Comments'),
             'datatype' => 'text',
-            'massiveaction' => true
+            'massiveaction' => true,
         ];
 
         $tab[] = [
@@ -292,7 +310,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
             'name' => __('Writer'),
             'datatype' => 'dropdown',
             'linkfield' => 'requesters_id',
-            'massiveaction' => false
+            'massiveaction' => false,
         ];
 
         return $tab;
@@ -304,7 +322,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      * @param $item
      * @param $canedit
      *
-     * @return Nothing
+     * @return
      * @internal param int $ID ID of the item
      * @internal param array $options - target filename : where to go when done.*     - target filename : where to go
      *    when done.
@@ -328,7 +346,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
         // Get close informations
         $data = self::getCloseTicketFromDB($item->getField('id'), [
             'start' => $start,
-            'limit' => $_SESSION['glpilist_limit']
+            'limit' => $_SESSION['glpilist_limit'],
         ]);
         $dbu = new DbUtils();
         $number = $dbu->countElementsInTable(
@@ -348,8 +366,8 @@ class PluginMoreticketCloseTicket extends CommonDBTM
             Html::printAjaxPager(__('Close ticket informations', 'moreticket'), $start, $number);
 
             if ($canedit) {
-                Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
-                $massiveactionparams = ['item' => __CLASS__, 'container' => 'mass' . __CLASS__ . $rand];
+                Html::openMassiveActionsForm('mass' .  $rand);
+                $massiveactionparams = ['item' => __CLASS__, 'container' => 'mass'  . $rand];
                 Html::showMassiveActions($massiveactionparams);
             }
 
@@ -357,7 +375,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
             echo "<tr>";
             echo "<th width='10'>";
             if ($canedit) {
-                echo Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand);
+                echo Html::getCheckAllAsCheckbox('mass'  . $rand);
             }
             echo "</th>";
             echo "<th>" . __('Date') . "</th>";
@@ -406,20 +424,20 @@ class PluginMoreticketCloseTicket extends CommonDBTM
     /**
      * Get close ticket informations
      *
-     * @param type $tickets_id
-     * @param array|type $options
+     * @param  $tickets_id
+     * @param  $options
      *
-     * @return bool
+     * @return array
      */
     public static function getCloseTicketFromDB($tickets_id, $options = [])
     {
         $dbu = new DbUtils();
         $data = $dbu->getAllDataFromTable(
             "glpi_plugin_moreticket_closetickets",
-            ['tickets_id' => $tickets_id] +
-            ['ORDER' => 'date DESC'] +
-            ['START' => (int)$options['start']] +
-            ['LIMIT' => (int)$options['limit']],
+            ['tickets_id' => $tickets_id]
+            + ['ORDER' => 'date DESC']
+            + ['START' => (int) $options['start']]
+            + ['LIMIT' => (int) $options['limit']],
             false
         );
 
@@ -434,7 +452,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *     - target filename : where to go when done.
      *     - withtemplate boolean : template or basic item
      *
-     * @return Nothing (display)
+     * @return
      * */
     public function showForm($ID, $options = [])
     {
@@ -445,7 +463,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
             return false;
         }
 
-        $ticket = new Ticket();
+        $ticket = new \Ticket();
 
         if ($ID > 0) {
             if (!$ticket->getFromDB($ID)) {
@@ -479,7 +497,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
             'name' => "solution_template",
             'value' => 0,
             'rand' => $rand,
-            'on_change' => "solutiontemplate_update{$rand}(this.value)"
+            'on_change' => "solutiontemplate_update{$rand}(this.value)",
         ]);
         echo Html::hidden("_render_twig", ['value' => true]);
 
@@ -505,7 +523,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
 
         echo "<tr><td>";
         echo _n('Solution type', 'Solution types', 1);
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
         if ($config->mandatorySolutionType() == true) {
             echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
         }
@@ -514,7 +532,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
             [
                 'value' => $ticket->getField('solutiontypes_id'),
                 'rand' => $rand,
-                'entity' => $ticket->getEntityID()
+                'entity' => $ticket->getEntityID(),
             ]
         );
         echo "</td></tr>";
@@ -536,7 +554,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
             // it is preferable to disable image pasting in rich text inside massive actions.
             'enable_images' => false,
             'cols' => 12,
-            'rows' => 80
+            'rows' => 80,
         ]);
         //      echo "<div id='solution$rand'>";
         //      Html::textarea(['name'            => 'solution',
@@ -570,7 +588,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
                 'max' => 8 * HOUR_TIMESTAMP,
                 'value' => $ticket->fields['duration_solution'],
                 'inhours' => true,
-                'toadd' => $toadd
+                'toadd' => $toadd,
             ]);
             echo "</span>";
             echo "</td></tr>";
@@ -594,7 +612,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
             return false;
         }
 
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
         if (isset($config->fields['use_solution'])
             && $config->useSolution()
             && $config->solutionStatus()) {
@@ -626,14 +644,14 @@ class PluginMoreticketCloseTicket extends CommonDBTM
         return false;
     }
 
-    public static function postAddCloseTicket(Ticket $item)
+    public static function postAddCloseTicket(\Ticket $item)
     {
         if (!is_array($item->input) || !count($item->input)) {
             // Already cancel by another plugin
             return false;
         }
 
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
         if (isset($config->fields['use_solution'])
             && $config->useSolution()
             && $config->solutionStatus()) {
@@ -658,7 +676,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
                     if ($id > 0) {
                         $item->update([
                             'id' => $item->fields['id'],
-                            'status' => $item->input['statusold']
+                            'status' => $item->input['statusold'],
                         ]);
                     }
                 }
@@ -671,13 +689,12 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      */
     public function post_addItem()
     {
-        $dbu = new DbUtils();
 
         $changes[0] = '0';
         $changes[1] = '';
         $changes[2] = sprintf(
             __('%1$s added closing informations', 'moreticket'),
-            $dbu->getUserName(Session::getLoginUserID())
+            getUserName(Session::getLoginUserID())
         );
         Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
@@ -688,17 +705,16 @@ class PluginMoreticketCloseTicket extends CommonDBTM
     /**
      * @param int $history
      *
-     * @return nothing|void
+     * @return void
      */
     public function post_updateItem($history = 1)
     {
-        $dbu = new DbUtils();
 
         $changes[0] = '0';
         $changes[1] = '';
         $changes[2] = sprintf(
             __('%1$s updated closing informations', 'moreticket'),
-            $dbu->getUserName(Session::getLoginUserID())
+            getUserName(Session::getLoginUserID())
         );
         Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
@@ -709,17 +725,16 @@ class PluginMoreticketCloseTicket extends CommonDBTM
     /**
      * @param int $history
      *
-     * @return nothing|void
+     * @return void
      */
     public function post_purgeItem($history = 1)
     {
-        $dbu = new DbUtils();
 
         $changes[0] = '0';
         $changes[1] = '';
         $changes[2] = sprintf(
             __('%1$s deleted closing informations', 'moreticket'),
-            $dbu->getUserName(Session::getLoginUserID())
+            getUserName(Session::getLoginUserID())
         );
         Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
@@ -732,7 +747,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM
      *
      * @param \Ticket $ticket
      */
-    public static function cleanCloseTicket(Ticket $ticket)
+    public static function cleanCloseTicket(\Ticket $ticket)
     {
         $fields = ['solutiontemplates_id', 'solution', 'solutiontypes_id'];
         foreach ($fields as $field) {
@@ -740,5 +755,21 @@ class PluginMoreticketCloseTicket extends CommonDBTM
                 unset($ticket->input[$field]);
             }
         }
+    }
+
+    /**
+     * Get the standard massive actions which are forbidden
+     *
+     * @return array of massive actions
+     **@since version 0.84
+     *
+     */
+    public function getForbiddenStandardMassiveAction()
+    {
+
+        $forbidden   = parent::getForbiddenStandardMassiveAction();
+        $forbidden[] = 'update';
+        $forbidden[] = 'amend_comment';
+        return $forbidden;
     }
 }

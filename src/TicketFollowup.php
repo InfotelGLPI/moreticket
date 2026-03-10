@@ -26,3 +26,57 @@
  along with moreticket. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
+
+namespace GlpiPlugin\Moreticket;
+
+use CommonDBTM;
+
+if (!defined('GLPI_ROOT')) {
+    die("Sorry. You can't access directly to this file");
+}
+
+
+/**
+ * Class TicketFollowup
+ */
+class TicketFollowup extends CommonDBTM
+{
+
+    public static $rightname = "plugin_moreticket";
+
+   /**
+    * functions mandatory
+    * getTypeName(), canCreate(), canView()
+    *
+    * @param int $nb
+    *
+    * @return string
+    */
+    public static function getTypeName($nb = 0)
+    {
+
+        return _n('Ticket', 'Tickets', $nb);
+    }
+
+   /**
+    * @param $ticketfollowup
+    *
+    * @return bool
+    */
+    public static function beforeAdd($ticketfollowup)
+    {
+
+        if (!is_array($ticketfollowup->input) || !count($ticketfollowup->input)) {
+            // Already cancel by another plugin
+            return false;
+        }
+
+        $config = new Config();
+
+        if (isset($ticketfollowup->input['pending'])
+            && $ticketfollowup->input['pending']
+            && $config->useWaiting() == true) {
+            WaitingTicket::addWaitingTicket($ticketfollowup);
+        }
+    }
+}

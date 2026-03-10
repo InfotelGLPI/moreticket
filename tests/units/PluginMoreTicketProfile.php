@@ -2,11 +2,11 @@
 
 namespace tests\units;
 
-include_once __DIR__ . "/../../inc/profile.class.php";
+include_once __DIR__ . "/../../src/Profile.php";
 
 use DbTestCase;
 
-class PluginMoreticketProfile extends DbTestCase
+class Profile extends DbTestCase
 {
    private $class;
 

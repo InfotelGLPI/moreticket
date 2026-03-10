@@ -60,6 +60,6 @@ You can choose to run tests on a whole directory, on any file, or on any \<class
 ```bash
 $ vendor/atoum/atoum/bin/atoum -bf tests/bootstrap.php -mcn 1 -d tests/units/
 [...]
-$ vendor/atoum/atoum/bin/atoum -bf tests/bootstrap.php -f tests/units/PluginMoreTicketProfile.php
+$ vendor/atoum/atoum/bin/atoum -bf tests/bootstrap.php -f tests/units/Profile.php
 [...]
 ```

@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------
 
  LICENSE
-      
+
  This file is part of moreticket.
 
  moreticket is free software; you can redistribute it and/or modify
@@ -27,14 +27,14 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../../inc/includes.php');
+use GlpiPlugin\Moreticket\Config;
 
 //change mimetype
 header("Content-type: application/javascript");
 
 //not executed in self-service interface & right verification
 
-$config = new PluginMoreticketConfig();
+$config = new Config();
 $use_urgency = $config->useUrgency();
 $urgency_ids = $config->getUrgency_ids();
 

@@ -26,15 +26,26 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Moreticket;
+
+use CommonITILObject;
+use Dropdown;
+use Html;
+use ITILSolution;
+use Planning;
+use Plugin;
+use Session;
+use User;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 
 /**
- * Class PluginMoreticketSolution
+ * Class Solution
  */
-class PluginMoreticketSolution extends CommonITILObject
+class Solution extends CommonITILObject
 {
 
     public static $rightname = "plugin_moreticket";
@@ -68,7 +79,7 @@ class PluginMoreticketSolution extends CommonITILObject
 
             if ($item->getType() == 'ITILSolution') {
                 $ticket = $options['item'];
-                $config = new PluginMoreticketConfig();
+                $config = new Config();
                 $use_duration_solution = $config->useDurationSolution();
                 if ($use_duration_solution == 1) {
                     echo "<div class='row'><div class='col-12 col-md-9'>";
@@ -110,7 +121,7 @@ class PluginMoreticketSolution extends CommonITILObject
 		                            }else{
 		                                showsolutionbutton();
 		                            }
-		                            
+
 		                        });
 		                    });
 		                ");
@@ -139,16 +150,16 @@ class PluginMoreticketSolution extends CommonITILObject
             // Already cancel by another plugin
             return false;
         }
-        $config = new PluginMoreticketConfig();
-        
-        $configglpi = Config::getConfigurationValues('core', ['system_user']);
+        $config = new Config();
+
+        $configglpi = \Config::getConfigurationValues('core', ['system_user']);
 
         if ($config->useDurationSolution()) {
             if ($solution->input['itemtype'] == 'Ticket') {
                 if (isset($solution->input['duration_solution']) && $solution->input['duration_solution'] > 0) {
                     //               $solution->input['content'] = html_entity_decode($solution->input['content']);
                     //               $solution->input['content'] = strip_tags($solution->input['content']);
-                    $ticket = new Ticket();
+                    $ticket = new \Ticket();
                     $tickets_id = $solution->input['items_id'];
                     if ($ticket->getFromDB($tickets_id)) {
                         if ($ticket->getField('actiontime') == 0) {
@@ -181,7 +192,7 @@ class PluginMoreticketSolution extends CommonITILObject
                     if ($configglpi['system_user'] == $solution->input['users_id']) {
                         return true;
                     }
-                    $ticket = new Ticket();
+                    $ticket = new \Ticket();
                     $tickets_id = $solution->input['items_id'];
                     $ticket->getFromDB($tickets_id);
                     $dur = (isset($ticket->fields['actiontime']) ? $ticket->fields['actiontime'] : 0);

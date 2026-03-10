@@ -27,14 +27,20 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Moreticket;
+
+use CommonDBTM;
+use ITILFollowup;
+use Ticket_User;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 /**
- * Class PluginMoreticketNotificationTicket
+ * Class NotificationTicket
  */
-class PluginMoreticketNotificationTicket extends CommonDBTM
+class NotificationTicket extends CommonDBTM
 {
 
     public static $types     = ['Ticket'];
@@ -44,9 +50,9 @@ class PluginMoreticketNotificationTicket extends CommonDBTM
    /**
     * @param \Ticket $ticket
     */
-    public static function afterAddTicket(Ticket $ticket)
+    public static function afterAddTicket(\Ticket $ticket)
     {
-        $notification = new PluginMoreticketNotificationTicket();
+        $notification = new NotificationTicket();
         if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
             $notification->add(
                 [
@@ -68,9 +74,9 @@ class PluginMoreticketNotificationTicket extends CommonDBTM
    /**
     * @param \Ticket $ticket
     */
-    public static function afterUpdateTicket(Ticket $ticket)
+    public static function afterUpdateTicket(\Ticket $ticket)
     {
-        $notification = new PluginMoreticketNotificationTicket();
+        $notification = new NotificationTicket();
         if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
             $notification->add(
                 [
@@ -101,8 +107,8 @@ class PluginMoreticketNotificationTicket extends CommonDBTM
             return false;
         }
 
-        $notification = new PluginMoreticketNotificationTicket();
-        $ticket       = new Ticket();
+        $notification = new NotificationTicket();
+        $ticket       = new \Ticket();
         $ticket->getFromDB($followup->getField('items_id'));
         if ($ticket->getID() > 0) {
             if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {

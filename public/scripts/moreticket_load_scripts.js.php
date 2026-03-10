@@ -1,6 +1,5 @@
 <?php
-use Glpi\Event;
-include('../../../../inc/includes.php');
+
 header('Content-Type: text/javascript');
 
 ?>

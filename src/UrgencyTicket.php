@@ -27,16 +27,23 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Moreticket;
+
+use CommonDBTM;
+use DbUtils;
 use GlpiPlugin\Servicecatalog\Config;
+use Html;
+use Plugin;
+use Session;
 
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 /**
- * Class PluginMoreticketUrgencyTicket
+ * Class UrgencyTicket
  */
-class PluginMoreticketUrgencyTicket extends CommonDBTM
+class UrgencyTicket extends CommonDBTM
 {
     public static $types     = ['Ticket'];
     public $dohistory = true;
@@ -46,7 +53,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
      * Have I the global right to "create" the Object
      * May be overloaded if needed (ex KnowbaseItem)
      *
-     * @return booleen
+     * @return
      **/
     public static function canCreate(): bool
     {
@@ -117,7 +124,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
      *     - target filename : where to go when done.
      *     - withtemplate boolean : template or basic item
      *
-     * @return Nothing (display)
+     * @return
      * */
     public function showForm($ID, $options = [])
     {
@@ -221,7 +228,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
      */
     public static function preUpdateUrgencyTicket($item)
     {
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
         if ($config->useUrgency()) {
             $urgency_ticket = new self();
 
@@ -263,7 +270,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
      */
     public static function postUpdateUrgencyTicket($item)
     {
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
 
         if ($config->useUrgency()) {
             $urgency_ticket = new self();
@@ -302,7 +309,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
             return false;
         }
 
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
         if ($config->useUrgency()) {
             $urgency_ids = $config->getUrgency_ids();
             if (!is_array($urgency_ids)) {
@@ -333,7 +340,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
             return false;
         }
 
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
         if ($config->useUrgency()) {
             $urgency_ticket = new self();
             $urgency_ids    = $config->getUrgency_ids();

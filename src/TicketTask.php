@@ -27,61 +27,56 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Moreticket;
+
+use CommonITILTask;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
+
 /**
- * Class PluginMoreticketWaitingType
+ * Class TicketTask
  */
-class PluginMoreticketWaitingType extends CommonTreeDropdown
+class TicketTask extends CommonITILTask
 {
-    public $can_be_translated = true;
-    public static $rightname = "dropdown";
+
+    public static $rightname = "plugin_moreticket";
 
    /**
+    * functions mandatory
+    * getTypeName(), canCreate(), canView()
+    *
     * @param int $nb
     *
-    * @return \translated
+    * @return string
     */
     public static function getTypeName($nb = 0)
     {
 
-        return _n('Waiting type', 'Waiting types', $nb, 'moreticket');
+        return _n('Ticket', 'Tickets', $nb);
     }
 
    /**
-    * @return array
+    * @param TicketTask $tickettask
+    *
+    * @return bool
     */
-    public function getAdditionalFields()
+    public static function beforeAdd(TicketTask $tickettask)
     {
 
-        $tab = [['name'  => $this->getForeignKeyField(),
-                         'label' => __('As child of'),
-                         'type'  => 'parent',
-                         'list'  => false]
-        ];
+        if (!is_array($tickettask->input) || !count($tickettask->input)) {
+           // Already cancel by another plugin
+            return false;
+        }
 
-        return $tab;
-    }
+        $config = new Config();
 
-   /**
-    * Provides search options configuration. Do not rely directly
-    * on this, @see CommonDBTM::searchOptions instead.
-    *
-    * @since 9.3
-    *
-    * This should be overloaded in Class
-    *
-    * @return array a *not indexed* array of search options
-    *
-    * @see https://glpi-developer-documentation.rtfd.io/en/master/devapi/search.html
-    **/
-    public function rawSearchOptions()
-    {
-
-        $tab = parent::rawSearchOptions();
-
-        return $tab;
+        if (isset($tickettask->input['pending'])
+          && $tickettask->input['pending']
+          && $config->useWaiting() == true) {
+            WaitingTicket::addWaitingTicket($tickettask);
+        }
     }
 }
