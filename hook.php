@@ -298,7 +298,10 @@ function plugin_moreticket_getAddSearchOptions($itemtype)
 
 function plugin_moreticket_pre_item_form($params)
 {
-    $item = $params['item'];
+    $item = $params['item'] ?? null;
+    if ($item === null) {
+        return;
+    }
     $config = new Config();
 
     switch ($item->getType()) {
