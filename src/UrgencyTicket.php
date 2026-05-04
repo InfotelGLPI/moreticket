@@ -31,7 +31,7 @@ namespace GlpiPlugin\Moreticket;
 
 use CommonDBTM;
 use DbUtils;
-use GlpiPlugin\Moreticket\Config;
+use GlpiPlugin\ServiceCatalog\Config as ServiceCatalogConfig;
 use Html;
 use Plugin;
 use Session;
@@ -165,7 +165,7 @@ class UrgencyTicket extends CommonDBTM
         $align = "center";
 
         if (Plugin::isPluginActive('servicecatalog')) {
-            $config      = new Config();
+            $config      = new ServiceCatalogConfig();
             $use_as_step = $config->getFormDisplayAsStep();
             if ($use_as_step != 1) {
                 $align = "left";
