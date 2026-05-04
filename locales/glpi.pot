@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-01 13:41+0000\n"
+"POT-Creation-Date: 2026-05-04 12:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,13 +58,13 @@ msgstr ""
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 
-#: hook.php:244 hook.php:251 hook.php:258 hook.php:265 src/CloseTicket.php:97
-#: src/CloseTicket.php:104 src/CloseTicket.php:145 src/CloseTicket.php:210
-#: src/CloseTicket.php:366 src/CloseTicket.php:420 templates/config.html.twig:118
+#: src/CloseTicket.php:97 src/CloseTicket.php:104 src/CloseTicket.php:145
+#: src/CloseTicket.php:210 src/CloseTicket.php:366 src/CloseTicket.php:420
+#: hook.php:240 hook.php:247 hook.php:254 hook.php:261 templates/config.html.twig:118
 msgid "Close ticket informations"
 msgstr ""
 
-#: hook.php:322
+#: hook.php:318
 msgid "Duration is mandatory"
 msgstr ""
 
@@ -84,7 +84,7 @@ msgstr ""
 msgid "Mandatory 'Duration' field"
 msgstr ""
 
-#: src/Profile.php:59 src/Profile.php:164 setup.php:132
+#: src/Profile.php:59 src/Profile.php:164 setup.php:131
 msgid "More ticket"
 msgstr ""
 
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Update ticket status to processing after approval"
 msgstr ""
 
-#: hook.php:291
+#: hook.php:287
 msgid "Updated by a user"
 msgstr ""
 
@@ -231,6 +231,6 @@ msgid_plural "Waiting types"
 msgstr[0] ""
 msgstr[1] ""
 
-#: hook.php:321
+#: hook.php:317
 msgid "Warning"
 msgstr ""
