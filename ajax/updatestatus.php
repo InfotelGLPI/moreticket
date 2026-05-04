@@ -67,7 +67,7 @@ if (isset($_POST['question'])) {
             allInput.forEach(function(element){
 
             var event = new Event('change');
-            if(element.value == " . $_POST['status'] . "){
+            if(element.value == " . (int) $_POST['status'] . "){
                element.checked = true;
                element.dispatchEvent(event);
 

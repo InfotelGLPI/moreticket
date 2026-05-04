@@ -17,13 +17,12 @@ var root_moreticket_doc = "<?php echo PLUGIN_MORETICKET_WEBDIR; ?>";
          $.ajax({
             url: root_moreticket_doc + '/ajax/loadscripts.php',
             type: "POST",
-            dataType: "html",
+            dataType: "json",
             data: 'action=load',
-            success: function (response, opts) {
-               var scripts, scriptsFinder = /<script[^>]*>([\s\S]+?)<\/script>/gi;
-               while (scripts = scriptsFinder.exec(response)) {
-                  eval(scripts[1]);
-               }
+            success: function (data) {
+               var moreticket = $(document).moreticket(data.params);
+               if (data.inject_waiting) { moreticket.moreticket_injectWaitingTicket(); }
+               if (data.inject_urgency) { moreticket.moreticket_urgency(); }
             }
          });
       }

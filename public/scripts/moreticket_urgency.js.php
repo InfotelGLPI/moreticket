@@ -42,5 +42,5 @@ $params = array('root_doc' => PLUGIN_MORETICKET_WEBDIR,
    'use_urgency' => $use_urgency,
    'urgency_ids' => $urgency_ids);
 
-echo "moreticket_urgency(" . json_encode($params) . ");";
+echo "moreticket_urgency(" . json_encode($params, JSON_HEX_TAG) . ");";
 ?>

@@ -303,4 +303,19 @@ class Config extends CommonDBTM
     {
         return $this->fields['add_followup_stop_waiting'];
     }
+
+    public function prepareInputForUpdate($input)
+    {
+        $allowed = [
+            'id', 'use_waiting', 'date_report_mandatory', 'waitingtype_mandatory',
+            'waitingreason_mandatory', 'use_solution', 'solutiontype_mandatory',
+            'close_informations', 'solution_status', 'close_followup',
+            'use_duration_solution', 'is_mandatory_solution', 'urgency_justification',
+            'urgency_ids', 'use_urgency', 'use_question', 'add_save_button',
+            'update_after_document', 'update_after_approval', 'update_after_tech_add_followup',
+            'update_after_tech_add_task', 'add_followup_stop_waiting',
+            'waiting_by_default_followup', 'waiting_by_default_task',
+        ];
+        return array_intersect_key($input, array_flip($allowed));
+    }
 }

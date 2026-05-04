@@ -157,10 +157,6 @@ function plugin_moreticket_uninstall()
 
 function plugin_moreticket_postinit()
 {
-    global $PLUGIN_HOOKS;
-
-    $PLUGIN_HOOKS['item_purge']['moreticket'] = [];
-    $PLUGIN_HOOKS['item_add']['moreticket'] = [];
 }
 
 // Define dropdown relations

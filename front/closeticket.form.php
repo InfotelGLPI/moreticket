@@ -30,6 +30,7 @@
 
 use GlpiPlugin\Moreticket\CloseTicket;
 
+Session::checkLoginUser();
 $closeTicket = new CloseTicket();
 
 if (isset($_POST["add"])) {

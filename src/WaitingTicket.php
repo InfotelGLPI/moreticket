@@ -239,7 +239,7 @@ class WaitingTicket extends CommonDBTM
             foreach ($_SESSION['glpi_plugin_moreticket_waiting'] as $key => $value) {
                 switch ($key) {
                     case 'reason':
-                        $this->fields[$key] = stripslashes($value);
+                        $this->fields[$key] = $value;
                         break;
                     default:
                         $this->fields[$key] = $value;
@@ -316,7 +316,7 @@ class WaitingTicket extends CommonDBTM
             foreach ($_SESSION['glpi_plugin_moreticket_waiting'] as $key => $value) {
                 switch ($key) {
                     case 'reason':
-                        $this->fields[$key] = stripslashes($value);
+                        $this->fields[$key] = $value;
                         break;
                     default:
                         $this->fields[$key] = $value;
@@ -471,7 +471,7 @@ class WaitingTicket extends CommonDBTM
                 echo Html::convDateTime($waitingTicket['date_suspension']);
                 echo "</td>";
                 echo "<td>";
-                echo $waitingTicket['reason'];
+                echo htmlescape($waitingTicket['reason']);
                 echo "</td>";
                 //                echo "<td>";
                 //                echo Dropdown::getDropdownName(

@@ -32,7 +32,7 @@ use GlpiPlugin\Moreticket\Config;
 
 Html::header_nocache();
 Session::checkLoginUser();
-header("Content-Type: text/html; charset=UTF-8");
+header("Content-Type: application/json; charset=UTF-8");
 
 global $CFG_GLPI;
 
@@ -55,33 +55,35 @@ if (isset($_POST['action'])) {
                          'use_solution'    => $use_solution,
                          'use_question'    => $use_question,
                          'solution_status' => $solution_status,
- //                         'glpilayout'      => $_SESSION['glpilayout'],
                          'use_urgency'     => $use_urgency,
                          'urgency_ids'     => $urgency_ids,
                          'div_kb'          => Session::haveRight('knowbase', UPDATE)];
 
-            echo "<script type='text/javascript'>";
-            echo "var moreticket = $(document).moreticket(" . json_encode($params) . ");";
-
+            $inject_waiting = false;
             if (Session::haveRight("plugin_moreticket", UPDATE)
             && ($config->useWaiting() == true || $config->useSolution() == true)) {
                 if (Session::getCurrentInterface() == "central"
                 && (strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false)) {
-                    echo "moreticket.moreticket_injectWaitingTicket();";
+                    $inject_waiting = true;
                 }
             }
 
+            $inject_urgency = false;
             if (Session::haveRight("plugin_moreticket_justification", READ)) {
                 if ((strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false ||
                  strpos($_SERVER['HTTP_REFERER'], "newticket.form.php") !== false ||
                   strpos($_SERVER['HTTP_REFERER'], "helpdesk.public.php") !== false ||
                    strpos($_SERVER['HTTP_REFERER'], "tracking.injector.php") !== false)
                 && ($config->useUrgency() == true)) {
-                    echo "moreticket.moreticket_urgency();";
+                    $inject_urgency = true;
                 }
             }
 
-            echo "</script>";
+            echo json_encode([
+                'params'         => $params,
+                'inject_waiting' => $inject_waiting,
+                'inject_urgency' => $inject_urgency,
+            ], JSON_HEX_TAG);
 
             break;
     }

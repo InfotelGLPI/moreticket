@@ -397,7 +397,7 @@ class CloseTicket extends CommonDBTM
                 echo Html::convDateTime($closeTicket['date']);
                 echo "</td>";
                 echo "<td>";
-                echo $closeTicket['comment'];
+                echo htmlescape($closeTicket['comment']);
                 echo "</td>";
                 echo "<td>";
                 echo $dbu->getUserName($closeTicket['requesters_id']);
@@ -545,7 +545,7 @@ class CloseTicket extends CommonDBTM
         }
         Html::textarea([
             'name' => 'solution',
-            'value' => stripslashes($ticket->fields['solution']),
+            'value' => $ticket->fields['solution'],
             'rand' => $rand,
             'editor_id' => $content_id,
             'enable_fileupload' => false,
@@ -558,7 +558,7 @@ class CloseTicket extends CommonDBTM
         ]);
         //      echo "<div id='solution$rand'>";
         //      Html::textarea(['name'            => 'solution',
-        //                      'value' => stripslashes($ticket->fields['solution']),
+        //                      'value' => $ticket->fields['solution'],
         //                      'editor_id' => 'solution'.$rand,
         //                      'cols'       => 80,
         //                      'rows'       => 3,

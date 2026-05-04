@@ -31,7 +31,7 @@ namespace GlpiPlugin\Moreticket;
 
 use CommonDBTM;
 use DbUtils;
-use GlpiPlugin\Servicecatalog\Config;
+use GlpiPlugin\Moreticket\Config;
 use Html;
 use Plugin;
 use Session;
@@ -134,7 +134,7 @@ class UrgencyTicket extends CommonDBTM
         }
 
         if ($ID > 0) {
-            if (self::getUrgencyTicketFromDB($ID) == false) {
+            if (self::getUrgencyTicketFromDB($ID) === false) {
                 $this->getEmpty();
             } else {
                 $this->fields = self::getUrgencyTicketFromDB($ID);
@@ -149,7 +149,7 @@ class UrgencyTicket extends CommonDBTM
             foreach ($_SESSION['glpi_plugin_moreticket_urgency'] as $key => $value) {
                 switch ($key) {
                     case 'justification':
-                        $this->fields[$key] = stripslashes($value);
+                        $this->fields[$key] = $value;
                         break;
                     default:
                         $this->fields[$key] = $value;
@@ -197,30 +197,24 @@ class UrgencyTicket extends CommonDBTM
      */
     public static function getUrgencyTicketFromDB($tickets_id, $options = [])
     {
-        $dbu = new DbUtils();
+        global $DB;
+        $request_args = [
+            'FROM'  => 'glpi_plugin_moreticket_urgencytickets',
+            'WHERE' => ['tickets_id' => $tickets_id],
+        ];
+        if (sizeof($options) > 0) {
+            $request_args['START'] = (int) $options['start'];
+            $request_args['LIMIT'] = (int) $options['limit'];
+        }
+        $iterator = $DB->request($request_args);
+        if (count($iterator) === 0) {
+            return false;
+        }
+        $data = iterator_to_array($iterator);
         if (sizeof($options) == 0) {
-            $data_Urgency = $dbu->getAllDataFromTable(
-                "glpi_plugin_moreticket_urgencytickets",
-                ['tickets_id' => $tickets_id]
-            );
-        } else {
-            $data_Urgency = $dbu->getAllDataFromTable(
-                "glpi_plugin_moreticket_urgencytickets",
-                ['tickets_id' => $tickets_id],
-                false,
-                ' LIMIT ' . intval($options['start']) . "," . intval($options['limit'])
-            );
+            return reset($data);
         }
-
-        if (sizeof($data_Urgency) > 0) {
-            if (sizeof($options) == 0) {
-                $data_Urgency = reset($data_Urgency);
-            }
-
-            return $data_Urgency;
-        }
-
-        return false;
+        return $data;
     }
 
     /**

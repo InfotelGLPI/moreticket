@@ -57,8 +57,7 @@ function plugin_init_moreticket()
     global $PLUGIN_HOOKS;
 
     $PLUGIN_HOOKS[Hooks::ADD_CSS]['moreticket'][] = 'css/moreticket.css';
-    $PLUGIN_HOOKS['csrf_compliant']['moreticket'] = true;
-    $PLUGIN_HOOKS['change_profile']['moreticket'] = [Profile::class, 'initProfile'];
+    $PLUGIN_HOOKS[Hooks::CHANGE_PROFILE]['moreticket'] = [Profile::class, 'initProfile'];
 
     if (Session::getLoginUserID()) {
         Plugin::registerClass(Profile::class, ['addtabon' => 'Profile']);
@@ -67,7 +66,7 @@ function plugin_init_moreticket()
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['moreticket'][] = "scripts/moreticket.js";
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['moreticket'][] = "scripts/config.js";
         if ($config->useDurationSolution() == true) {
-            $PLUGIN_HOOKS['pre_item_add']['moreticket']
+            $PLUGIN_HOOKS[Hooks::PRE_ITEM_ADD]['moreticket']
                 = ['ITILSolution' => [Solution::class, 'beforeAdd']];
         }
 
@@ -82,25 +81,25 @@ function plugin_init_moreticket()
             )) {
                 $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['moreticket'][] = 'scripts/moreticket_load_scripts.js.php';
             }
-            $PLUGIN_HOOKS['config_page']['moreticket'] = 'front/config.form.php';
+            $PLUGIN_HOOKS[Hooks::CONFIG_PAGE]['moreticket'] = 'front/config.form.php';
 
-            $PLUGIN_HOOKS['post_prepareadd']['moreticket'] = [
+            $PLUGIN_HOOKS[Hooks::POST_PREPAREADD]['moreticket'] = [
                 'TicketTask' => [TicketTask::class, 'beforeAdd'],
                 'ITILFollowup' => [TicketFollowup::class, 'beforeAdd'],
             ];
 
-            $PLUGIN_HOOKS['item_empty']['moreticket'] = ['Ticket' => [Ticket::class, 'emptyTicket']];
+            $PLUGIN_HOOKS[Hooks::ITEM_EMPTY]['moreticket'] = ['Ticket' => [Ticket::class, 'emptyTicket']];
 
-            $PLUGIN_HOOKS['pre_item_update']['moreticket']['Ticket'] = [Ticket::class, 'beforeUpdate'];
-            $PLUGIN_HOOKS['item_update']['moreticket']['Ticket'] = [Ticket::class, 'afterUpdate'];
+            $PLUGIN_HOOKS[Hooks::PRE_ITEM_UPDATE]['moreticket']['Ticket'] = [Ticket::class, 'beforeUpdate'];
+            $PLUGIN_HOOKS[Hooks::ITEM_UPDATE]['moreticket']['Ticket'] = [Ticket::class, 'afterUpdate'];
 
-            $PLUGIN_HOOKS['pre_item_add']['moreticket']['Ticket'] = [Ticket::class, 'beforeAdd'];
-            $PLUGIN_HOOKS['item_add']['moreticket']['Ticket'] = [Ticket::class, 'afterAdd'];
+            $PLUGIN_HOOKS[Hooks::PRE_ITEM_ADD]['moreticket']['Ticket'] = [Ticket::class, 'beforeAdd'];
+            $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['Ticket'] = [Ticket::class, 'afterAdd'];
 
-            $PLUGIN_HOOKS['item_add']['moreticket']['Document'] = [Ticket::class, 'afterAddDocument'];
-            $PLUGIN_HOOKS['item_update']['moreticket']['TicketValidation'] = [Ticket::class, 'afterUpdateValidation'];
-            $PLUGIN_HOOKS['item_add']['moreticket'] ['TicketTask'] = [Ticket::class, 'afterAddTask'];
-            $PLUGIN_HOOKS['item_add']['moreticket']['ITILFollowup'] = [
+            $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['Document'] = [Ticket::class, 'afterAddDocument'];
+            $PLUGIN_HOOKS[Hooks::ITEM_UPDATE]['moreticket']['TicketValidation'] = [Ticket::class, 'afterUpdateValidation'];
+            $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['TicketTask'] = [Ticket::class, 'afterAddTask'];
+            $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['ITILFollowup'] = [
                 [Ticket::class, 'afterAddFollowupTech'],
                 [NotificationTicket::class, 'afterAddFollowup'],
             ];
@@ -117,8 +116,8 @@ function plugin_init_moreticket()
             Plugin::registerClass(CloseTicket::class, ['addtabon' => 'Ticket']);
         }
 
-        $PLUGIN_HOOKS['post_item_form']['moreticket'] = 'plugin_moreticket_post_item_form';
-        $PLUGIN_HOOKS['pre_item_form']['moreticket'] = 'plugin_moreticket_pre_item_form';
+        $PLUGIN_HOOKS[Hooks::POST_ITEM_FORM]['moreticket'] = 'plugin_moreticket_post_item_form';
+        $PLUGIN_HOOKS[Hooks::PRE_ITEM_FORM]['moreticket'] = 'plugin_moreticket_pre_item_form';
     }
 }
 
