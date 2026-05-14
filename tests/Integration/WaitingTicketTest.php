@@ -158,6 +158,9 @@ class WaitingTicketTest extends DbTestCase
 
         $result = WaitingTicket::checkMandatory($values);
 
+        // Vider les messages flash laissés par checkMandatory (SESSION attendue vide par tearDown)
+        $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
+
         // Restaurer la config originale
         if ($original !== null) {
             $DB->update('glpi_plugin_moreticket_configs', [
