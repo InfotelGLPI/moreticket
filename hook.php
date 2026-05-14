@@ -155,26 +155,6 @@ function plugin_moreticket_uninstall()
     return true;
 }
 
-function plugin_moreticket_postinit()
-{
-}
-
-// Define dropdown relations
-/**
- * @return array
- */
-function plugin_moreticket_getDatabaseRelations()
-{
-    if (Plugin::isPluginActive("moreticket")) {
-        return [
-            "glpi_tickets" => ["glpi_plugin_moreticket_closetickets" => "tickets_id"]
-        ];
-    } else {
-        return [];
-    }
-}
-
-
 // Hook done on purge item case
 /**
  * @param $item
