@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-14 08:52+0000\n"
+"POT-Creation-Date: 2026-05-15 09:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,8 +60,7 @@ msgstr ""
 
 #: src/CloseTicket.php:97 src/CloseTicket.php:104 src/CloseTicket.php:145
 #: src/CloseTicket.php:210 src/CloseTicket.php:366 src/CloseTicket.php:420
-#: hook.php:220 hook.php:227 hook.php:234 hook.php:241
-#: templates/config.html.twig:118
+#: hook.php:220 hook.php:227 hook.php:234 hook.php:241 templates/config.html.twig:118
 msgid "Close ticket informations"
 msgstr ""
 
@@ -111,7 +110,7 @@ msgstr ""
 msgid "Reason"
 msgstr ""
 
-#: templates/config.html.twig:234 templates/profile.html.twig:35
+#: templates/profile.html.twig:35 templates/config.html.twig:234
 msgctxt "button"
 msgid "Save"
 msgstr ""
@@ -140,7 +139,7 @@ msgstr ""
 msgid "Ticket cannot be closed"
 msgstr ""
 
-#: src/WaitingTicket.php:190 src/UrgencyTicket.php:104
+#: src/UrgencyTicket.php:104 src/WaitingTicket.php:190
 msgid "Ticket cannot be saved"
 msgstr ""
 
