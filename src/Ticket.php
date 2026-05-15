@@ -127,14 +127,9 @@ class Ticket extends CommonITILObject
         if (Session::haveRight("plugin_moreticket", UPDATE)) {
             WaitingTicket::postAddWaitingTicket($ticket);
             CloseTicket::postAddCloseTicket($ticket);
-            if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
-                unset($_SESSION['glpi_plugin_moreticket_close']);
-            }
-
-            //         if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-            //            unset($_SESSION['glpi_plugin_moreticket_waiting']);
-            //         }
         }
+
+        unset($_SESSION['glpi_plugin_moreticket_close']);
 
         if (Session::haveRight("plugin_moreticket_justification", READ)) {
             UrgencyTicket::postAddUrgencyTicket($ticket);
@@ -176,15 +171,9 @@ class Ticket extends CommonITILObject
 
         if (Session::haveRight("plugin_moreticket", UPDATE)) {
             WaitingTicket::postUpdateWaitingTicket($ticket);
-
-            if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
-                unset($_SESSION['glpi_plugin_moreticket_close']);
-            }
-
-            if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-                unset($_SESSION['glpi_plugin_moreticket_waiting']);
-            }
         }
+
+        unset($_SESSION['glpi_plugin_moreticket_close'], $_SESSION['glpi_plugin_moreticket_waiting']);
 
         if (Session::haveRight("plugin_moreticket_justification", READ)) {
             UrgencyTicket::postUpdateUrgencyTicket($ticket);
