@@ -318,7 +318,7 @@ class Ticket extends CommonITILObject
         $doc = $document;
     }
 
-    public static function afterAddTask(TicketTask $task)
+    public static function afterAddTask(\TicketTask $task)
     {
         global $DB;
         $config = new Config();

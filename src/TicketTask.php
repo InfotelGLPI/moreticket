@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -41,33 +42,32 @@ if (!defined('GLPI_ROOT')) {
  */
 class TicketTask extends CommonITILTask
 {
-
     public static $rightname = "plugin_moreticket";
 
-   /**
-    * functions mandatory
-    * getTypeName(), canCreate(), canView()
-    *
-    * @param int $nb
-    *
-    * @return string
-    */
+    /**
+     * functions mandatory
+     * getTypeName(), canCreate(), canView()
+     *
+     * @param int $nb
+     *
+     * @return string
+     */
     public static function getTypeName($nb = 0)
     {
 
         return _n('Ticket', 'Tickets', $nb);
     }
 
-   /**
-    * @param TicketTask $tickettask
-    *
-    * @return bool
-    */
-    public static function beforeAdd(TicketTask $tickettask)
+    /**
+     * @param TicketTask $tickettask
+     *
+     * @return bool
+     */
+    public static function beforeAdd(\TicketTask $tickettask)
     {
 
         if (!is_array($tickettask->input) || !count($tickettask->input)) {
-           // Already cancel by another plugin
+            // Already cancel by another plugin
             return false;
         }
 
