@@ -39,7 +39,7 @@ use GlpiPlugin\Moreticket\TicketFollowup;
 use GlpiPlugin\Moreticket\TicketTask;
 use GlpiPlugin\Moreticket\WaitingTicket;
 
-define('PLUGIN_MORETICKET_VERSION', '1.8.4');
+define('PLUGIN_MORETICKET_VERSION', '1.8.5');
 
 global $CFG_GLPI;
 
