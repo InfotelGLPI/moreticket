@@ -30,7 +30,9 @@
 
 namespace GlpiPlugin\Moreticket;
 
+use CommonITILActor;
 use CommonITILTask;
+use User;
 
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
@@ -77,6 +79,35 @@ class TicketTask extends CommonITILTask
           && $tickettask->input['pending']
           && $config->useWaiting() == true) {
             WaitingTicket::addWaitingTicket($tickettask);
+        }
+    }
+
+    public static function afterAddTask(\TicketTask $task)
+    {
+        global $DB;
+        $config = new Config();
+        if ($config->fields['update_after_tech_add_task']) {
+            $ticket = new \Ticket();
+            $user = new User();
+            $user->getFromDB($task->fields['users_id']);
+            $condition = [
+                'tickets_id' => $task->fields['tickets_id'],
+                'users_id' => $task->fields['users_id'],
+                'type' => CommonITILActor::ASSIGN
+            ];
+            $ticket->getFromDB($task->fields['tickets_id']);
+            if (countElementsInTable('glpi_tickets_users', $condition) > 0 &&
+                in_array($ticket->fields['status'], \Ticket::getProcessStatusArray())) {
+                $DB->update(
+                    \Ticket::getTable(),
+                    [
+                        'status' => \Ticket::WAITING
+                    ],
+                    [
+                        'id' => $ticket->getID()
+                    ]
+                );
+            }
         }
     }
 }

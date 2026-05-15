@@ -171,7 +171,7 @@ class Solution extends CommonITILObject
                     $user = new User();
                     $user->getFromDB(Session::getLoginUserID());
 
-                    $tickettask = new TicketTask();
+                    $tickettask = new \TicketTask();
                     $tickettask->add(['tickets_id' => $tickets_id,
                         'date_creation' => date('Y-m-d H:i:s'),
                         'date' => date(

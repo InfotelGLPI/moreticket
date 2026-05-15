@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -33,6 +34,7 @@ use CommonITILActor;
 use CommonITILObject;
 use CommonITILValidation;
 use Document;
+use Glpi\ContentTemplates\Parameters\CommonITILObjectParameters;
 use ITILFollowup;
 use Session;
 use TicketValidation;
@@ -49,7 +51,6 @@ if (!defined('GLPI_ROOT')) {
  */
 class Ticket extends CommonITILObject
 {
-
     public static $rightname = "plugin_moreticket";
 
     /**
@@ -130,9 +131,9 @@ class Ticket extends CommonITILObject
                 unset($_SESSION['glpi_plugin_moreticket_close']);
             }
 
-//         if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-//            unset($_SESSION['glpi_plugin_moreticket_waiting']);
-//         }
+            //         if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
+            //            unset($_SESSION['glpi_plugin_moreticket_waiting']);
+            //         }
         }
 
         if (Session::haveRight("plugin_moreticket_justification", READ)) {
@@ -203,11 +204,11 @@ class Ticket extends CommonITILObject
 
         foreach ($input as $key => $values) {
             switch ($key) {
-//            case 'plugin_moreticket_waitingtypes_id':
-//            case 'date_report':
-//            case 'reason':
-//               $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $values;
-//               break;
+                //            case 'plugin_moreticket_waitingtypes_id':
+                //            case 'date_report':
+                //            case 'reason':
+                //               $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $values;
+                //               break;
                 case 'solutiontypes_id':
                 case 'solution':
                 case 'solutiontemplates_id':
@@ -318,34 +319,6 @@ class Ticket extends CommonITILObject
         $doc = $document;
     }
 
-    public static function afterAddTask(\TicketTask $task)
-    {
-        global $DB;
-        $config = new Config();
-        if ($config->fields['update_after_tech_add_task']) {
-            $ticket = new \Ticket();
-            $user = new User();
-            $user->getFromDB($task->fields['users_id']);
-            $condition = [
-                'tickets_id' => $task->fields['tickets_id'],
-                'users_id' => $task->fields['users_id'],
-                'type' => CommonITILActor::ASSIGN
-            ];
-            $ticket->getFromDB($task->fields['tickets_id']);
-            if (countElementsInTable('glpi_tickets_users', $condition) > 0 &&
-                in_array($ticket->fields['status'], \Ticket::getProcessStatusArray())) {
-                $DB->update(
-                    \Ticket::getTable(),
-                    [
-                        'status' => \Ticket::WAITING
-                    ],
-                    [
-                        'id' => $ticket->getID()
-                    ]
-                );
-            }
-        }
-    }
 
     public static function afterAddFollowupTech(ITILFollowup $followup)
     {
@@ -359,17 +332,17 @@ class Ticket extends CommonITILObject
             $condition = [
                 'tickets_id' => $followup->fields['items_id'],
                 'users_id' => $followup->fields['users_id'],
-                'type' => CommonITILActor::ASSIGN
+                'type' => CommonITILActor::ASSIGN,
             ];
-            if (countElementsInTable('glpi_tickets_users', $condition) > 0 &&
-                in_array($ticket->fields['status'], \Ticket::getProcessStatusArray())) {
+            if (countElementsInTable('glpi_tickets_users', $condition) > 0
+                && in_array($ticket->fields['status'], \Ticket::getProcessStatusArray())) {
                 $DB->update(
                     \Ticket::getTable(),
                     [
-                        'status' => \Ticket::WAITING
+                        'status' => \Ticket::WAITING,
                     ],
                     [
-                        'id' => $ticket->getID()
+                        'id' => $ticket->getID(),
                     ]
                 );
             }
@@ -392,12 +365,12 @@ class Ticket extends CommonITILObject
             $statuses = [
                 CommonITILValidation::ACCEPTED => 0,
                 CommonITILValidation::WAITING => 0,
-                CommonITILValidation::REFUSED => 0
+                CommonITILValidation::REFUSED => 0,
             ];
             $validations = getAllDataFromTable(
                 TicketValidation::getTable(),
                 [
-                    'tickets_id' => $ticket->getID()
+                    'tickets_id' => $ticket->getID(),
                 ]
             );
 
@@ -457,7 +430,7 @@ class Ticket extends CommonITILObject
         // TODO: Implement getContentTemplatesParametersClass() method.
     }
 
-    public static function getContentTemplatesParametersClassInstance(): \Glpi\ContentTemplates\Parameters\CommonITILObjectParameters
+    public static function getContentTemplatesParametersClassInstance(): CommonITILObjectParameters
     {
         // TODO: Implement getContentTemplatesParametersClassInstance() method.
     }

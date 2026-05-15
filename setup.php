@@ -98,7 +98,7 @@ function plugin_init_moreticket()
 
             $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['Document'] = [Ticket::class, 'afterAddDocument'];
             $PLUGIN_HOOKS[Hooks::ITEM_UPDATE]['moreticket']['TicketValidation'] = [Ticket::class, 'afterUpdateValidation'];
-            $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['TicketTask'] = [Ticket::class, 'afterAddTask'];
+            $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['TicketTask'] = [TicketTask::class, 'afterAddTask'];
             $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['ITILFollowup'] = [
                 [Ticket::class, 'afterAddFollowupTech'],
                 [NotificationTicket::class, 'afterAddFollowup'],
