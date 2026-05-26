@@ -1,8 +1,9 @@
 <?php
+
 /*
  -------------------------------------------------------------------------
  moreticket plugin for GLPI
- Copyright (C) 2013-2016 by the moreticket Development Team.
+ Copyright (C) 2015-2026 by the moreticket Development Team.
 
  https://github.com/InfotelGLPI/moreticket
  -------------------------------------------------------------------------

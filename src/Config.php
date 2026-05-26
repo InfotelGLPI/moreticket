@@ -1,9 +1,9 @@
 <?php
+
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  moreticket plugin for GLPI
- Copyright (C) 2013-2016 by the moreticket Development Team.
+ Copyright (C) 2015-2026 by the moreticket Development Team.
 
  https://github.com/InfotelGLPI/moreticket
  -------------------------------------------------------------------------
