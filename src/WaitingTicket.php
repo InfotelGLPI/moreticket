@@ -1035,19 +1035,21 @@ class WaitingTicket extends CommonDBTM
                         'GROUPBY' => ['tickets_id']
                     ]),
                     [
-                        'OR' =>
+                        'OR' => [
                             new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") = 0"),
-                        new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") IS NULL"),
+                            new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") IS NULL"),
+                        ],
                     ],
                     'tickets_id' => new QuerySubQuery([
                         'SELECT' => ['tickets_id'],
                         'FROM' => 'glpi_plugin_moreticket_waitingtickets',
                         'WHERE' => [
-                            'OR' =>
+                            'OR' => [
                                 new QueryExpression(
                                     "UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") = 0"
                                 ),
-                            new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") IS NULL"),
+                                new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") IS NULL"),
+                            ],
                         ],
                         'GROUPBY' => ['tickets_id'],
                         'HAVING' => [new QueryExpression("COUNT(tickets_id) > 1")]
