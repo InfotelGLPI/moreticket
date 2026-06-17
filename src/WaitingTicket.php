@@ -1077,11 +1077,12 @@ class WaitingTicket extends CommonDBTM
                             ]
                         ]),
                         [
-                            'OR' =>
+                            'OR' => [
                                 new QueryExpression(
                                     "UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") = 0"
                                 ),
-                            new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") IS NULL"),
+                                new QueryExpression("UNIX_TIMESTAMP(" . $DB->quoteName("date_end_suspension") . ") IS NULL"),
+                            ],
                         ],
                         'tickets_id' => $tickets_id,
                         'status' => ['<>', CommonITILObject::WAITING]
