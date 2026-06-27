@@ -1,6 +1,6 @@
 # Documentation — Moreticket Plugin for GLPI
  
-**License:** GNU GPL v2+  
+**License:** GNU GPL v3+  
 **Author:** Infotel (Xavier CAILLAUD)  
 **Repository:** https://github.com/InfotelGLPI/moreticket
 
