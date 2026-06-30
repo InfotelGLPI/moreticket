@@ -65,14 +65,14 @@ class CloseTicket extends CommonDBTM
     public static function canCreate(): bool
     {
         if (static::$rightname) {
-            return Session::haveRight(static::$rightname, CREATE);
+            return Session::haveRight(static::$rightname, UPDATE);
         }
         return false;
     }
 
     public function canCreateItem(): bool
     {
-        return Session::haveRight(static::$rightname, CREATE);
+        return Session::haveRight(static::$rightname, UPDATE);
     }
     /**
      * Display moreticket-item's tab for each users

@@ -36,10 +36,9 @@ if (isset($_POST["add"])) {
     $closeTicket->check(-1, CREATE, $_POST);
 
     $doc = new Document();
-    $doc->check(-1, CREATE, $_POST);
     $DocId = $doc->add($_POST);
 
-    $test = $closeTicket->add(['requesters_id' => $_POST['requesters_id'],
+    $closeTicket->add(['requesters_id' => $_POST['requesters_id'],
         'tickets_id'    => $_POST['tickets_id'],
         'date'          => $_POST['date'],
         'comment'       => $_POST['comment'],
