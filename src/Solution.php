@@ -1,8 +1,9 @@
 <?php
+
 /*
  -------------------------------------------------------------------------
  moreticket plugin for GLPI
- Copyright (C) 2013-2016 by the moreticket Development Team.
+ Copyright (C) 2015-2026 by the moreticket Development Team.
 
  https://github.com/InfotelGLPI/moreticket
  -------------------------------------------------------------------------
@@ -13,7 +14,7 @@
 
  moreticket is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
+ the Free Software Foundation; either version 3 of the License, or
  (at your option) any later version.
 
  moreticket is distributed in the hope that it will be useful,
@@ -26,15 +27,26 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Moreticket;
+
+use CommonITILObject;
+use Dropdown;
+use Html;
+use ITILSolution;
+use Planning;
+use Plugin;
+use Session;
+use User;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 
 /**
- * Class PluginMoreticketSolution
+ * Class Solution
  */
-class PluginMoreticketSolution extends CommonITILObject
+class Solution extends CommonITILObject
 {
 
     public static $rightname = "plugin_moreticket";
@@ -68,7 +80,7 @@ class PluginMoreticketSolution extends CommonITILObject
 
             if ($item->getType() == 'ITILSolution') {
                 $ticket = $options['item'];
-                $config = new PluginMoreticketConfig();
+                $config = new Config();
                 $use_duration_solution = $config->useDurationSolution();
                 if ($use_duration_solution == 1) {
                     echo "<div class='row'><div class='col-12 col-md-9'>";
@@ -110,7 +122,7 @@ class PluginMoreticketSolution extends CommonITILObject
 		                            }else{
 		                                showsolutionbutton();
 		                            }
-		                            
+
 		                        });
 		                    });
 		                ");
@@ -139,16 +151,16 @@ class PluginMoreticketSolution extends CommonITILObject
             // Already cancel by another plugin
             return false;
         }
-        $config = new PluginMoreticketConfig();
-        
-        $configglpi = Config::getConfigurationValues('core', ['system_user']);
+        $config = new Config();
+
+        $configglpi = \Config::getConfigurationValues('core', ['system_user']);
 
         if ($config->useDurationSolution()) {
             if ($solution->input['itemtype'] == 'Ticket') {
                 if (isset($solution->input['duration_solution']) && $solution->input['duration_solution'] > 0) {
                     //               $solution->input['content'] = html_entity_decode($solution->input['content']);
                     //               $solution->input['content'] = strip_tags($solution->input['content']);
-                    $ticket = new Ticket();
+                    $ticket = new \Ticket();
                     $tickets_id = $solution->input['items_id'];
                     if ($ticket->getFromDB($tickets_id)) {
                         if ($ticket->getField('actiontime') == 0) {
@@ -160,7 +172,7 @@ class PluginMoreticketSolution extends CommonITILObject
                     $user = new User();
                     $user->getFromDB(Session::getLoginUserID());
 
-                    $tickettask = new TicketTask();
+                    $tickettask = new \TicketTask();
                     $tickettask->add(['tickets_id' => $tickets_id,
                         'date_creation' => date('Y-m-d H:i:s'),
                         'date' => date(
@@ -181,7 +193,7 @@ class PluginMoreticketSolution extends CommonITILObject
                     if ($configglpi['system_user'] == $solution->input['users_id']) {
                         return true;
                     }
-                    $ticket = new Ticket();
+                    $ticket = new \Ticket();
                     $tickets_id = $solution->input['items_id'];
                     $ticket->getFromDB($tickets_id);
                     $dur = (isset($ticket->fields['actiontime']) ? $ticket->fields['actiontime'] : 0);

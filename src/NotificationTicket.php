@@ -1,9 +1,9 @@
 <?php
+
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  moreticket plugin for GLPI
- Copyright (C) 2013-2016 by the moreticket Development Team.
+ Copyright (C) 2015-2026 by the moreticket Development Team.
 
  https://github.com/InfotelGLPI/moreticket
  -------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 
  moreticket is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
+ the Free Software Foundation; either version 3 of the License, or
  (at your option) any later version.
 
  moreticket is distributed in the hope that it will be useful,
@@ -27,14 +27,20 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Moreticket;
+
+use CommonDBTM;
+use ITILFollowup;
+use Ticket_User;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 /**
- * Class PluginMoreticketNotificationTicket
+ * Class NotificationTicket
  */
-class PluginMoreticketNotificationTicket extends CommonDBTM
+class NotificationTicket extends CommonDBTM
 {
 
     public static $types     = ['Ticket'];
@@ -44,9 +50,9 @@ class PluginMoreticketNotificationTicket extends CommonDBTM
    /**
     * @param \Ticket $ticket
     */
-    public static function afterAddTicket(Ticket $ticket)
+    public static function afterAddTicket(\Ticket $ticket)
     {
-        $notification = new PluginMoreticketNotificationTicket();
+        $notification = new NotificationTicket();
         if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
             $notification->add(
                 [
@@ -68,9 +74,9 @@ class PluginMoreticketNotificationTicket extends CommonDBTM
    /**
     * @param \Ticket $ticket
     */
-    public static function afterUpdateTicket(Ticket $ticket)
+    public static function afterUpdateTicket(\Ticket $ticket)
     {
-        $notification = new PluginMoreticketNotificationTicket();
+        $notification = new NotificationTicket();
         if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
             $notification->add(
                 [
@@ -101,8 +107,8 @@ class PluginMoreticketNotificationTicket extends CommonDBTM
             return false;
         }
 
-        $notification = new PluginMoreticketNotificationTicket();
-        $ticket       = new Ticket();
+        $notification = new NotificationTicket();
+        $ticket       = new \Ticket();
         $ticket->getFromDB($followup->getField('items_id'));
         if ($ticket->getID() > 0) {
             if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {

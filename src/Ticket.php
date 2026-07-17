@@ -1,9 +1,9 @@
 <?php
+
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  moreticket plugin for GLPI
- Copyright (C) 2013-2016 by the moreticket Development Team.
+ Copyright (C) 2015-2026 by the moreticket Development Team.
 
  https://github.com/InfotelGLPI/moreticket
  -------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 
  moreticket is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
+ the Free Software Foundation; either version 3 of the License, or
  (at your option) any later version.
 
  moreticket is distributed in the hope that it will be useful,
@@ -27,17 +27,29 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Moreticket;
+
+use CommonITILActor;
+use CommonITILObject;
+use CommonITILValidation;
+use Document;
+use Glpi\ContentTemplates\Parameters\CommonITILObjectParameters;
+use ITILFollowup;
+use Session;
+use TicketValidation;
+use Toolbox;
+use User;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 
 /**
- * Class PluginMoreticketTicket
+ * Class Ticket
  */
-class PluginMoreticketTicket extends CommonITILObject
+class Ticket extends CommonITILObject
 {
-
     public static $rightname = "plugin_moreticket";
 
     /**
@@ -46,7 +58,7 @@ class PluginMoreticketTicket extends CommonITILObject
      *
      * @param int $nb
      *
-     * @return string|translated
+     * @return string
      */
     public static function getTypeName($nb = 0)
     {
@@ -56,7 +68,7 @@ class PluginMoreticketTicket extends CommonITILObject
     /**
      * @param Ticket $ticket
      */
-    public static function emptyTicket(Ticket $ticket)
+    public static function emptyTicket(\Ticket $ticket)
     {
         if (!empty($_POST)) {
             self::setSessions($_POST);
@@ -70,7 +82,7 @@ class PluginMoreticketTicket extends CommonITILObject
      *
      * @return bool
      */
-    public static function beforeAdd(Ticket $ticket)
+    public static function beforeAdd(\Ticket $ticket)
     {
         if (!is_array($ticket->input) || !count($ticket->input)) {
             // Already cancel by another plugin
@@ -80,19 +92,19 @@ class PluginMoreticketTicket extends CommonITILObject
         $clean_close_ticket = true;
 
         if (Session::haveRight("plugin_moreticket", UPDATE)) {
-            PluginMoreticketWaitingTicket::preAddWaitingTicket($ticket);
-            if (PluginMoreticketCloseTicket::preAddCloseTicket($ticket)) {
+            WaitingTicket::preAddWaitingTicket($ticket);
+            if (CloseTicket::preAddCloseTicket($ticket)) {
                 $clean_close_ticket = false;
             }
         }
 
         if (Session::haveRight("plugin_moreticket_justification", READ)) {
-            PluginMoreticketUrgencyTicket::preAddUrgencyTicket($ticket);
+            UrgencyTicket::preAddUrgencyTicket($ticket);
         }
 
         //cleaning the information entered in the ticket for adding solution but not useful so delete to not add solution.
         if ($clean_close_ticket) {
-            PluginMoreticketCloseTicket::cleanCloseTicket($ticket);
+            CloseTicket::cleanCloseTicket($ticket);
         }
     }
 
@@ -102,29 +114,24 @@ class PluginMoreticketTicket extends CommonITILObject
      *
      * @return bool
      */
-    public static function afterAdd(Ticket $ticket)
+    public static function afterAdd(\Ticket $ticket)
     {
         if (!is_array($ticket->input) || !count($ticket->input)) {
             // Already cancel by another plugin
             return false;
         }
 
-        PluginMoreticketNotificationTicket::afterAddTicket($ticket);
+        NotificationTicket::afterAddTicket($ticket);
 
         if (Session::haveRight("plugin_moreticket", UPDATE)) {
-            PluginMoreticketWaitingTicket::postAddWaitingTicket($ticket);
-            PluginMoreticketCloseTicket::postAddCloseTicket($ticket);
-            if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
-                unset($_SESSION['glpi_plugin_moreticket_close']);
-            }
-
-//         if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-//            unset($_SESSION['glpi_plugin_moreticket_waiting']);
-//         }
+            WaitingTicket::postAddWaitingTicket($ticket);
+            CloseTicket::postAddCloseTicket($ticket);
         }
 
+        unset($_SESSION['glpi_plugin_moreticket_close']);
+
         if (Session::haveRight("plugin_moreticket_justification", READ)) {
-            PluginMoreticketUrgencyTicket::postAddUrgencyTicket($ticket);
+            UrgencyTicket::postAddUrgencyTicket($ticket);
 
             if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
                 unset($_SESSION['glpi_plugin_moreticket_urgency']);
@@ -138,7 +145,7 @@ class PluginMoreticketTicket extends CommonITILObject
      *
      * @return bool
      */
-    public static function beforeUpdate(Ticket $ticket)
+    public static function beforeUpdate(\Ticket $ticket)
     {
         if (!is_array($ticket->input) || !count($ticket->input)) {
             // Already cancel by another plugin
@@ -146,35 +153,29 @@ class PluginMoreticketTicket extends CommonITILObject
         }
 
         if (Session::haveRight("plugin_moreticket", UPDATE)) {
-            PluginMoreticketWaitingTicket::preUpdateWaitingTicket($ticket);
+            WaitingTicket::preUpdateWaitingTicket($ticket);
         }
 
         if (Session::haveRight("plugin_moreticket_justification", READ)) {
-            PluginMoreticketUrgencyTicket::preUpdateUrgencyTicket($ticket);
+            UrgencyTicket::preUpdateUrgencyTicket($ticket);
         }
     }
 
     /**
      * @param Ticket $ticket
      */
-    public static function afterUpdate(Ticket $ticket)
+    public static function afterUpdate(\Ticket $ticket)
     {
-        PluginMoreticketNotificationTicket::afterUpdateTicket($ticket);
+        NotificationTicket::afterUpdateTicket($ticket);
 
         if (Session::haveRight("plugin_moreticket", UPDATE)) {
-            PluginMoreticketWaitingTicket::postUpdateWaitingTicket($ticket);
-
-            if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
-                unset($_SESSION['glpi_plugin_moreticket_close']);
-            }
-
-            if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-                unset($_SESSION['glpi_plugin_moreticket_waiting']);
-            }
+            WaitingTicket::postUpdateWaitingTicket($ticket);
         }
 
+        unset($_SESSION['glpi_plugin_moreticket_close'], $_SESSION['glpi_plugin_moreticket_waiting']);
+
         if (Session::haveRight("plugin_moreticket_justification", READ)) {
-            PluginMoreticketUrgencyTicket::postUpdateUrgencyTicket($ticket);
+            UrgencyTicket::postUpdateUrgencyTicket($ticket);
 
             if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
                 unset($_SESSION['glpi_plugin_moreticket_urgency']);
@@ -191,11 +192,11 @@ class PluginMoreticketTicket extends CommonITILObject
 
         foreach ($input as $key => $values) {
             switch ($key) {
-//            case 'plugin_moreticket_waitingtypes_id':
-//            case 'date_report':
-//            case 'reason':
-//               $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $values;
-//               break;
+                //            case 'plugin_moreticket_waitingtypes_id':
+                //            case 'date_report':
+                //            case 'reason':
+                //               $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $values;
+                //               break;
                 case 'solutiontypes_id':
                 case 'solution':
                 case 'solutiontemplates_id':
@@ -225,7 +226,7 @@ class PluginMoreticketTicket extends CommonITILObject
     //   static function displaySaveButton($params) {
     //
     //
-    //      $config = new PluginMoreticketConfig();
+    //      $config = new Config();
     //      if($config->fields["add_save_button"] == 1) {
     //
     //
@@ -241,7 +242,7 @@ class PluginMoreticketTicket extends CommonITILObject
     //                                || (Session::getCurrentInterface() == "central"
     //                                    && $item->canUpdateItem());
     //               $can_requester = $item->canRequesterUpdateItem();
-    //               $canpriority   = Session::haveRight(Ticket::$rightname, Ticket::CHANGEPRIORITY);
+    //               $canpriority   = Session::haveRight(\Ticket::$rightname, \Ticket::CHANGEPRIORITY);
     //               $canassign     = $item->canAssign();
     //               $canassigntome = $item->canAssignTome();
     //
@@ -279,13 +280,13 @@ class PluginMoreticketTicket extends CommonITILObject
      */
     public static function afterAddDocument(Document $document)
     {
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
         if ($config->getField('update_after_document') == 1) {
             if (isset($document->input['itemtype'])) {
-                if ($document->input['itemtype'] == Ticket::getType()) {
-                    $ticket = new Ticket();
+                if ($document->input['itemtype'] == \Ticket::getType()) {
+                    $ticket = new \Ticket();
                     $ticket->getFromDB($document->input['items_id']);
-                    if (in_array($ticket->fields["status"], Ticket::getReopenableStatusArray())) {
+                    if (in_array($ticket->fields["status"], \Ticket::getReopenableStatusArray())) {
                         if (($ticket->countUsers(CommonITILActor::ASSIGN) > 0)
                             || ($ticket->countGroups(CommonITILActor::ASSIGN) > 0)
                             || ($ticket->countSuppliers(CommonITILActor::ASSIGN) > 0)) {
@@ -306,58 +307,30 @@ class PluginMoreticketTicket extends CommonITILObject
         $doc = $document;
     }
 
-    public static function afterAddTask(TicketTask $task)
-    {
-        global $DB;
-        $config = new PluginMoreticketConfig();
-        if ($config->fields['update_after_tech_add_task']) {
-            $ticket = new Ticket();
-            $user = new User();
-            $user->getFromDB($task->fields['users_id']);
-            $condition = [
-                'tickets_id' => $task->fields['tickets_id'],
-                'users_id' => $task->fields['users_id'],
-                'type' => CommonITILActor::ASSIGN
-            ];
-            $ticket->getFromDB($task->fields['tickets_id']);
-            if (countElementsInTable('glpi_tickets_users', $condition) > 0 &&
-                in_array($ticket->fields['status'], Ticket::getProcessStatusArray())) {
-                $DB->update(
-                    Ticket::getTable(),
-                    [
-                        'status' => Ticket::WAITING
-                    ],
-                    [
-                        'id' => $ticket->getID()
-                    ]
-                );
-            }
-        }
-    }
 
     public static function afterAddFollowupTech(ITILFollowup $followup)
     {
         global $DB;
-        $config = new PluginMoreticketConfig();
-        $ticket = new Ticket();
-        if ($config->fields['update_after_tech_add_followup'] && $followup->fields['itemtype'] == Ticket::getType()) {
+        $config = new Config();
+        $ticket = new \Ticket();
+        if ($config->fields['update_after_tech_add_followup'] && $followup->fields['itemtype'] == \Ticket::getType()) {
             $user = new User();
             $ticket->getFromDB($followup->fields['items_id']);
             $user->getFromDB($followup->fields['users_id']);
             $condition = [
                 'tickets_id' => $followup->fields['items_id'],
                 'users_id' => $followup->fields['users_id'],
-                'type' => CommonITILActor::ASSIGN
+                'type' => CommonITILActor::ASSIGN,
             ];
-            if (countElementsInTable('glpi_tickets_users', $condition) > 0 &&
-                in_array($ticket->fields['status'], Ticket::getProcessStatusArray())) {
+            if (countElementsInTable('glpi_tickets_users', $condition) > 0
+                && in_array($ticket->fields['status'], \Ticket::getProcessStatusArray())) {
                 $DB->update(
-                    Ticket::getTable(),
+                    \Ticket::getTable(),
                     [
-                        'status' => Ticket::WAITING
+                        'status' => \Ticket::WAITING,
                     ],
                     [
-                        'id' => $ticket->getID()
+                        'id' => $ticket->getID(),
                     ]
                 );
             }
@@ -366,11 +339,11 @@ class PluginMoreticketTicket extends CommonITILObject
 
     public static function afterUpdateValidation(TicketValidation $validation)
     {
-        Toolbox::logInfo('test');
-        $config = new PluginMoreticketConfig();
+
+        $config = new Config();
         if ($config->getField('update_after_approval') == 1) {
-            //         if($validation->itemtype == Ticket::getType()) {
-            $ticket = new Ticket();
+            //         if($validation->itemtype == \getType()) {
+            $ticket = new \Ticket();
             $ticket->getFromDB($validation->fields['tickets_id']);
             $validation_status = CommonITILValidation::WAITING;
 
@@ -380,12 +353,12 @@ class PluginMoreticketTicket extends CommonITILObject
             $statuses = [
                 CommonITILValidation::ACCEPTED => 0,
                 CommonITILValidation::WAITING => 0,
-                CommonITILValidation::REFUSED => 0
+                CommonITILValidation::REFUSED => 0,
             ];
             $validations = getAllDataFromTable(
                 TicketValidation::getTable(),
                 [
-                    'tickets_id' => $ticket->getID()
+                    'tickets_id' => $ticket->getID(),
                 ]
             );
 
@@ -412,7 +385,7 @@ class PluginMoreticketTicket extends CommonITILObject
             $global_validation = $validation_status;
             if (in_array(
                 $ticket->fields["status"],
-                Ticket::getReopenableStatusArray()
+                \Ticket::getReopenableStatusArray()
             ) && $global_validation != CommonITILValidation::WAITING) {
                 if (($ticket->countUsers(CommonITILActor::ASSIGN) > 0)
                     || ($ticket->countGroups(CommonITILActor::ASSIGN) > 0)
@@ -445,7 +418,7 @@ class PluginMoreticketTicket extends CommonITILObject
         // TODO: Implement getContentTemplatesParametersClass() method.
     }
 
-    public static function getContentTemplatesParametersClassInstance(): \Glpi\ContentTemplates\Parameters\CommonITILObjectParameters
+    public static function getContentTemplatesParametersClassInstance(): CommonITILObjectParameters
     {
         // TODO: Implement getContentTemplatesParametersClassInstance() method.
     }

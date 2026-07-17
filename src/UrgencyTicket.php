@@ -1,9 +1,9 @@
 <?php
+
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  moreticket plugin for GLPI
- Copyright (C) 2013-2016 by the moreticket Development Team.
+ Copyright (C) 2015-2026 by the moreticket Development Team.
 
  https://github.com/InfotelGLPI/moreticket
  -------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 
  moreticket is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
+ the Free Software Foundation; either version 3 of the License, or
  (at your option) any later version.
 
  moreticket is distributed in the hope that it will be useful,
@@ -27,16 +27,23 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Servicecatalog\Config;
+namespace GlpiPlugin\Moreticket;
+
+use CommonDBTM;
+use DbUtils;
+use GlpiPlugin\ServiceCatalog\Config as ServiceCatalogConfig;
+use Html;
+use Plugin;
+use Session;
 
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 /**
- * Class PluginMoreticketUrgencyTicket
+ * Class UrgencyTicket
  */
-class PluginMoreticketUrgencyTicket extends CommonDBTM
+class UrgencyTicket extends CommonDBTM
 {
     public static $types     = ['Ticket'];
     public $dohistory = true;
@@ -46,7 +53,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
      * Have I the global right to "create" the Object
      * May be overloaded if needed (ex KnowbaseItem)
      *
-     * @return booleen
+     * @return
      **/
     public static function canCreate(): bool
     {
@@ -117,7 +124,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
      *     - target filename : where to go when done.
      *     - withtemplate boolean : template or basic item
      *
-     * @return Nothing (display)
+     * @return
      * */
     public function showForm($ID, $options = [])
     {
@@ -127,7 +134,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
         }
 
         if ($ID > 0) {
-            if (self::getUrgencyTicketFromDB($ID) == false) {
+            if (self::getUrgencyTicketFromDB($ID) === false) {
                 $this->getEmpty();
             } else {
                 $this->fields = self::getUrgencyTicketFromDB($ID);
@@ -142,7 +149,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
             foreach ($_SESSION['glpi_plugin_moreticket_urgency'] as $key => $value) {
                 switch ($key) {
                     case 'justification':
-                        $this->fields[$key] = stripslashes($value);
+                        $this->fields[$key] = $value;
                         break;
                     default:
                         $this->fields[$key] = $value;
@@ -158,7 +165,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
         $align = "center";
 
         if (Plugin::isPluginActive('servicecatalog')) {
-            $config      = new Config();
+            $config      = new ServiceCatalogConfig();
             $use_as_step = $config->getFormDisplayAsStep();
             if ($use_as_step != 1) {
                 $align = "left";
@@ -190,30 +197,24 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
      */
     public static function getUrgencyTicketFromDB($tickets_id, $options = [])
     {
-        $dbu = new DbUtils();
+        global $DB;
+        $request_args = [
+            'FROM'  => 'glpi_plugin_moreticket_urgencytickets',
+            'WHERE' => ['tickets_id' => $tickets_id],
+        ];
+        if (sizeof($options) > 0) {
+            $request_args['START'] = (int) $options['start'];
+            $request_args['LIMIT'] = (int) $options['limit'];
+        }
+        $iterator = $DB->request($request_args);
+        if (count($iterator) === 0) {
+            return false;
+        }
+        $data = iterator_to_array($iterator);
         if (sizeof($options) == 0) {
-            $data_Urgency = $dbu->getAllDataFromTable(
-                "glpi_plugin_moreticket_urgencytickets",
-                ['tickets_id' => $tickets_id]
-            );
-        } else {
-            $data_Urgency = $dbu->getAllDataFromTable(
-                "glpi_plugin_moreticket_urgencytickets",
-                ['tickets_id' => $tickets_id],
-                false,
-                ' LIMIT ' . intval($options['start']) . "," . intval($options['limit'])
-            );
+            return reset($data);
         }
-
-        if (sizeof($data_Urgency) > 0) {
-            if (sizeof($options) == 0) {
-                $data_Urgency = reset($data_Urgency);
-            }
-
-            return $data_Urgency;
-        }
-
-        return false;
+        return $data;
     }
 
     /**
@@ -221,7 +222,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
      */
     public static function preUpdateUrgencyTicket($item)
     {
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
         if ($config->useUrgency()) {
             $urgency_ticket = new self();
 
@@ -263,7 +264,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
      */
     public static function postUpdateUrgencyTicket($item)
     {
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
 
         if ($config->useUrgency()) {
             $urgency_ticket = new self();
@@ -302,7 +303,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
             return false;
         }
 
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
         if ($config->useUrgency()) {
             $urgency_ids = $config->getUrgency_ids();
             if (!is_array($urgency_ids)) {
@@ -333,7 +334,7 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM
             return false;
         }
 
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
         if ($config->useUrgency()) {
             $urgency_ticket = new self();
             $urgency_ids    = $config->getUrgency_ids();

@@ -1,9 +1,9 @@
 <?php
+
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  moreticket plugin for GLPI
- Copyright (C) 2013-2016 by the moreticket Development Team.
+ Copyright (C) 2015-2026 by the moreticket Development Team.
 
  https://github.com/InfotelGLPI/moreticket
  -------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 
  moreticket is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
+ the Free Software Foundation; either version 3 of the License, or
  (at your option) any later version.
 
  moreticket is distributed in the hope that it will be useful,
@@ -27,11 +27,12 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
+use GlpiPlugin\Moreticket\Config;
+
 Session::checkLoginUser();
 
 if (Plugin::isPluginActive("moreticket")) {
-    $config = new PluginMoreticketConfig();
+    $config = new Config();
     Session::checkRight('config', UPDATE);
 
     if (isset($_POST["update"])) {
@@ -50,10 +51,10 @@ if (Plugin::isPluginActive("moreticket")) {
 
         $config->update($_POST);
        //Update singelton
-        PluginMoreticketConfig::getConfig(true);
-        Html::redirect($_SERVER['HTTP_REFERER']);
+        Config::getConfig(true);
+        Html::back();
     } else {
-        Html::header(PluginMoreticketConfig::getTypeName(), '', "plugins", "moreticket");
+        Html::header(Config::getTypeName(), '', "plugins", "moreticket");
         $config->showConfigForm();
         Html::footer();
     }

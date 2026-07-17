@@ -1,9 +1,9 @@
 <?php
+
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  moreticket plugin for GLPI
- Copyright (C) 2013-2016 by the moreticket Development Team.
+ Copyright (C) 2015-2026 by the moreticket Development Team.
 
  https://github.com/InfotelGLPI/moreticket
  -------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 
  moreticket is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
+ the Free Software Foundation; either version 3 of the License, or
  (at your option) any later version.
 
  moreticket is distributed in the hope that it will be useful,
@@ -27,7 +27,13 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
+// 3 niveaux au-dessus de tests/ → glpi/ (en CI : glpi/plugins/moreticket/tests/)
+$glpiRoot = dirname(__DIR__, 3);
 
-$dropdown = new PluginMoreticketWaitingType();
-include(GLPI_ROOT . "/front/dropdown.common.php");
+// Enregistrer les namespaces PSR-4 du plugin avant le bootstrap GLPI
+$loader = require $glpiRoot . '/vendor/autoload.php';
+$loader->addPsr4('GlpiPlugin\\Moreticket\\', dirname(__DIR__) . '/src/');
+$loader->addPsr4('GlpiPlugin\\Moreticket\\Tests\\', dirname(__DIR__) . '/tests/');
+
+// Bootstrap GLPI complet : initialise la DB, le cache et les fixtures de test
+require $glpiRoot . '/tests/bootstrap.php';

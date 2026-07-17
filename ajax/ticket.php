@@ -1,9 +1,9 @@
 <?php
+
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  moreticket plugin for GLPI
- Copyright (C) 2013-2016 by the moreticket Development Team.
+ Copyright (C) 2015-2026 by the moreticket Development Team.
 
  https://github.com/InfotelGLPI/moreticket
  -------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 
  moreticket is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
+ the Free Software Foundation; either version 3 of the License, or
  (at your option) any later version.
 
  moreticket is distributed in the hope that it will be useful,
@@ -27,7 +27,10 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
+use GlpiPlugin\Moreticket\CloseTicket;
+use GlpiPlugin\Moreticket\Config;
+use GlpiPlugin\Moreticket\UrgencyTicket;
+use GlpiPlugin\Moreticket\WaitingTicket;
 
 Html::header_nocache();
 Session::checkLoginUser();
@@ -40,36 +43,36 @@ if (!isset($_POST['tickets_id']) || empty($_POST['tickets_id'])) {
 if (isset($_POST['action'])) {
     switch ($_POST['action']) {
         case 'showForm':
-            $config = new PluginMoreticketConfig();
+            $config = new Config();
 
             // Ticket is waiting
             if ($config->useWaiting()) {
-                $waiting_ticket = new PluginMoreticketWaitingTicket();
+                $waiting_ticket = new WaitingTicket();
                 $waiting_ticket->showForm($_POST['tickets_id']);
             }
 
             // Ticket is closed
             if ($config->useSolution()) {
                 if (isset($_POST['type']) && $_POST['type'] == 'add') {
-                    $close_ticket = new PluginMoreticketCloseTicket();
+                    $close_ticket = new CloseTicket();
                     $close_ticket->showForm($_POST['tickets_id']);
                 }
             }
             break;
         case 'showFormUrgency':
-            $config = new PluginMoreticketConfig();
-            // Ticket is waiting
+            $config = new Config();
             if ($config->useUrgency()) {
-                $urgency_ticket = new PluginMoreticketUrgencyTicket();
+                $urgency_ticket = new UrgencyTicket();
                 $urgency_ticket->showForm($_POST['tickets_id']);
             }
+
             break;
 
         //      case 'showFormSolution':
-        //         $config = new PluginMoreticketConfig();
+        //         $config = new Config();
         //
         //         if ($config->useDurationSolution()) {
-        //            $solution = new PluginMoreticketSolution();
+        //            $solution = new Solution();
         //            $solution->showFormSolution($_POST['tickets_id']);
         //         }
         //         break;

@@ -1,9 +1,9 @@
 <?php
+
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  moreticket plugin for GLPI
- Copyright (C) 2013-2016 by the moreticket Development Team.
+ Copyright (C) 2015-2026 by the moreticket Development Team.
 
  https://github.com/InfotelGLPI/moreticket
  -------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 
  moreticket is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
+ the Free Software Foundation; either version 3 of the License, or
  (at your option) any later version.
 
  moreticket is distributed in the hope that it will be useful,
@@ -27,21 +27,21 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
+use GlpiPlugin\Moreticket\CloseTicket;
 
-$closeTicket = new PluginMoreticketCloseTicket();
+Session::checkLoginUser();
+$closeTicket = new CloseTicket();
 
 if (isset($_POST["add"])) {
-    $closeTicket->check(-1, UPDATE, $_POST);
+    $closeTicket->check(-1, CREATE, $_POST);
 
     $doc = new Document();
-    $doc->check(-1, CREATE, $_POST);
     $DocId = $doc->add($_POST);
 
-    $test = $closeTicket->add(['requesters_id' => $_POST['requesters_id'],
-                              'tickets_id'    => $_POST['tickets_id'],
-                              'date'          => $_POST['date'],
-                              'comment'       => $_POST['comment'],
-                              'documents_id'  => $DocId]);
+    $closeTicket->add(['requesters_id' => $_POST['requesters_id'],
+        'tickets_id'    => $_POST['tickets_id'],
+        'date'          => $_POST['date'],
+        'comment'       => $_POST['comment'],
+        'documents_id'  => $DocId]);
     Html::back();
 }

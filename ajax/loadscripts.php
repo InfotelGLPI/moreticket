@@ -1,10 +1,9 @@
 <?php
 
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  moreticket plugin for GLPI
- Copyright (C) 2013-2016 by the moreticket Development Team.
+ Copyright (C) 2015-2026 by the moreticket Development Team.
 
  https://github.com/InfotelGLPI/moreticket
  -------------------------------------------------------------------------
@@ -15,7 +14,7 @@
 
  moreticket is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
+ the Free Software Foundation; either version 3 of the License, or
  (at your option) any later version.
 
  moreticket is distributed in the hope that it will be useful,
@@ -28,18 +27,18 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
+use GlpiPlugin\Moreticket\Config;
 
 Html::header_nocache();
 Session::checkLoginUser();
-header("Content-Type: text/html; charset=UTF-8");
+header("Content-Type: application/json; charset=UTF-8");
 
 global $CFG_GLPI;
 
 if (isset($_POST['action'])) {
     switch ($_POST['action']) {
         case "load":
-            $config                = new PluginMoreticketConfig();
+            $config                = new Config();
             $use_waiting           = $config->useWaiting();
             $use_solution          = $config->useSolution();
             $use_question          = $config->useQuestion();
@@ -55,33 +54,35 @@ if (isset($_POST['action'])) {
                          'use_solution'    => $use_solution,
                          'use_question'    => $use_question,
                          'solution_status' => $solution_status,
- //                         'glpilayout'      => $_SESSION['glpilayout'],
                          'use_urgency'     => $use_urgency,
                          'urgency_ids'     => $urgency_ids,
                          'div_kb'          => Session::haveRight('knowbase', UPDATE)];
 
-            echo "<script type='text/javascript'>";
-            echo "var moreticket = $(document).moreticket(" . json_encode($params) . ");";
-
+            $inject_waiting = false;
             if (Session::haveRight("plugin_moreticket", UPDATE)
             && ($config->useWaiting() == true || $config->useSolution() == true)) {
                 if (Session::getCurrentInterface() == "central"
                 && (strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false)) {
-                    echo "moreticket.moreticket_injectWaitingTicket();";
+                    $inject_waiting = true;
                 }
             }
 
+            $inject_urgency = false;
             if (Session::haveRight("plugin_moreticket_justification", READ)) {
                 if ((strpos($_SERVER['HTTP_REFERER'], "ticket.form.php") !== false ||
                  strpos($_SERVER['HTTP_REFERER'], "newticket.form.php") !== false ||
                   strpos($_SERVER['HTTP_REFERER'], "helpdesk.public.php") !== false ||
                    strpos($_SERVER['HTTP_REFERER'], "tracking.injector.php") !== false)
                 && ($config->useUrgency() == true)) {
-                    echo "moreticket.moreticket_urgency();";
+                    $inject_urgency = true;
                 }
             }
 
-            echo "</script>";
+            echo json_encode([
+                'params'         => $params,
+                'inject_waiting' => $inject_waiting,
+                'inject_urgency' => $inject_urgency,
+            ], JSON_HEX_TAG);
 
             break;
     }

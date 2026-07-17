@@ -1,9 +1,9 @@
 <?php
+
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  moreticket plugin for GLPI
- Copyright (C) 2013-2016 by the moreticket Development Team.
+ Copyright (C) 2015-2026 by the moreticket Development Team.
 
  https://github.com/InfotelGLPI/moreticket
  -------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 
  moreticket is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
+ the Free Software Foundation; either version 3 of the License, or
  (at your option) any later version.
 
  moreticket is distributed in the hope that it will be useful,
@@ -27,15 +27,19 @@
  --------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Moreticket;
+
+use CommonDBTM;
+
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
 
 /**
- * Class PluginMoreticketTicketFollowup
+ * Class TicketFollowup
  */
-class PluginMoreticketTicketFollowup extends CommonDBTM
+class TicketFollowup extends CommonDBTM
 {
 
     public static $rightname = "plugin_moreticket";
@@ -46,7 +50,7 @@ class PluginMoreticketTicketFollowup extends CommonDBTM
     *
     * @param int $nb
     *
-    * @return string|translated
+    * @return string
     */
     public static function getTypeName($nb = 0)
     {
@@ -67,12 +71,12 @@ class PluginMoreticketTicketFollowup extends CommonDBTM
             return false;
         }
 
-        $config = new PluginMoreticketConfig();
+        $config = new Config();
 
         if (isset($ticketfollowup->input['pending'])
             && $ticketfollowup->input['pending']
             && $config->useWaiting() == true) {
-            PluginMoreticketWaitingTicket::addWaitingTicket($ticketfollowup);
+            WaitingTicket::addWaitingTicket($ticketfollowup);
         }
     }
 }

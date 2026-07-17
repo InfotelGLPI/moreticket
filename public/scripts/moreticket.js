@@ -190,7 +190,6 @@
          */
         this.moreticket_urgency = function () {
             // On UPDATE/ADD side
-
             $(document).ready(function () {
                 var tickets_id = object.urlParam(window.location.href, 'id');
 
@@ -226,140 +225,180 @@
         };
 
         this.createSCTicket_urgency = function (tickets_id) {
+
             $.ajax({
                 url: object.params.root_doc + '/ajax/ticket.php',
-                data: {'tickets_id': tickets_id, 'action': 'showFormUrgency', 'type': 'add'},
+                data: {
+                    tickets_id: tickets_id,
+                    action: 'showFormUrgency',
+                    type: 'add'
+                },
                 type: "POST",
                 dataType: "html",
-                success: function (response, opts) {
-                    var blocktoadd = response;
+                success: function (response) {
 
-                    var urgency_bloc = $("input[type='radio'][name='urgency']");
+                    const blocktoadd = response;
 
-                    if (urgency_bloc != undefined) {
-                        // console.log(urgency_bloc.val());
-                        var radio_urgency = document.getElementsByName("urgency");
-                        var display = 0;
-                        for (var i = 0; i < radio_urgency.length; i++) {
-                            if (inarray(radio_urgency[i].value, object.params.urgency_ids)
-                                & object.params.use_urgency) {
-                                if (display === 0) {
-                                    $("#justification").after(blocktoadd);
-                                    display++;
-                                }
-                            }
-                        }
-                        // ON DISPLAY : Display or hide urgency type
-                        // URGENCY TICKET
-                        if (inarray($('input[name=urgency]:checked').val(), object.params.urgency_ids)
-                            & object.params.use_urgency) {
-                            $("div#moreticket_urgency_ticket").css({'display': 'flex'});
-                        } else {
-                            $("div#moreticket_urgency_ticket").css({'display': 'none'});
-                        }
-                        // ONCLICK : Display urgency type
-                        $("input[name=urgency]:radio").click(function () {
-                            if (inarray($('input[name=urgency]:checked').val(), object.params.urgency_ids)
-                                & object.params.use_urgency) {
-                                $("div#moreticket_urgency_ticket").css({'display': 'flex'});
-                            } else {
-                                $("div#moreticket_urgency_ticket").css({'display': 'none'});
-                            }
-                        });
+                    // Convert urgency_ids en array
+                    let urgency_ids = object.params.urgency_ids;
+                    if (typeof urgency_ids === "string") {
+                        urgency_ids = urgency_ids.split(',').map(Number);
                     }
+
+                    const radios = $("input[name='urgency']");
+
+                    if (!radios.length) return;
+
+                    // VÃ©rifie si au moins une urgence doit afficher le bloc
+                    const shouldDisplay = radios.toArray().some(r =>
+                        urgency_ids.includes(parseInt(r.value)) && object.params.use_urgency
+                    );
+
+                    if (shouldDisplay) {
+                        $("#justification").after(blocktoadd);
+                    }
+
+                    function toggleUrgencyBlock() {
+                        const selected = parseInt($("input[name='urgency']:checked").val());
+
+                        if (urgency_ids.includes(selected) && object.params.use_urgency) {
+                            $("#moreticket_urgency_ticket").css("display", "flex");
+                        } else {
+                            $("#moreticket_urgency_ticket").hide();
+                        }
+                    }
+
+                    // Etat initial
+                    toggleUrgencyBlock();
+
+                    // Au clic sur un radio
+                    radios.on("click", toggleUrgencyBlock);
                 }
             });
         };
 
         this.createTicket_urgency = function (tickets_id) {
+
             $.ajax({
                 url: object.params.root_doc + '/ajax/ticket.php',
-                data: {'tickets_id': tickets_id, 'action': 'showFormUrgency', 'type': 'add'},
+                data: {
+                    tickets_id: tickets_id,
+                    action: 'showFormUrgency',
+                    type: 'add'
+                },
                 type: "POST",
                 dataType: "html",
-                success: function (response, opts) {
-                    var requester = response;
 
-                    var urgency_bloc = $("select[name='urgency']");
+                success: function (response) {
 
-                    if (urgency_bloc != undefined) {
-                        urgency_bloc.parent().append(requester);
-                        // ON DISPLAY : Display or hide urgency type
-                        if ($("#moreticket_urgency_ticket") != undefined) {
-                            // URGENCY TICKET
-                            if (inarray(urgency_bloc.val(), object.params.urgency_ids)
-                                && object.params.use_urgency) {
-                                $("#moreticket_urgency_ticket").css({'display': 'flex'});
-                            } else {
-                                $("#moreticket_urgency_ticket").css({'display': 'none'});
-                            }
+                    const requester = response;
 
-                            // ONCLICK : Display or hide urgency type
-                            urgency_bloc.change(function () {
-                                // URGENCY TICKET
-                                if (inarray(urgency_bloc.val(), object.params.urgency_ids)
-                                    && object.params.use_urgency) {
-                                    $("#moreticket_urgency_ticket").css({'display': 'flex'});
-                                } else {
-                                    $("#moreticket_urgency_ticket").css({'display': 'none'});
-                                }
-                            });
+                    // Convert urgency_ids en array
+                    let urgency_ids = object.params.urgency_ids;
+
+                    if (typeof urgency_ids === "string") {
+                        try {
+                            urgency_ids = JSON.parse(urgency_ids);
+                        } catch {
+                            urgency_ids = urgency_ids.split(',').map(Number);
                         }
                     }
+
+                    const urgency_bloc = $("select[name='urgency']");
+                    if (!urgency_bloc.length) return;
+
+                    urgency_bloc.parent().append(requester);
+
+                    const urgencyTicket = $("#moreticket_urgency_ticket");
+                    if (!urgencyTicket.length) return;
+
+                    function toggleUrgency() {
+
+                        const value = parseInt(urgency_bloc.val());
+
+                        const show =
+                            urgency_ids.includes(value) &&
+                            object.params.use_urgency;
+
+                        urgencyTicket.css("display", show ? "flex" : "none");
+                    }
+
+                    // Etat initial
+                    toggleUrgency();
+
+                    // Au changement du select
+                    urgency_bloc.on("change", toggleUrgency);
                 }
             });
+
         };
 
         this.updateTicket_urgency = function (tickets_id) {
+
             $.ajax({
                 url: object.params.root_doc + '/ajax/ticket.php',
-                data: {'tickets_id': tickets_id, 'action': 'showFormUrgency', 'type': 'update'},
+                data: {
+                    tickets_id: tickets_id,
+                    action: 'showFormUrgency',
+                    type: 'update'
+                },
                 type: "POST",
                 dataType: "html",
-                success: function (response, opts) {
-                    if ($("#moreticket_urgency_ticket").length != 0) {
-                        $("#moreticket_urgency_ticket").remove();
-                    }
-                    $(document).ready(function () {
-                        setTimeout(function () {
-                            var requester = response;
 
-                            var urgency_bloc = $("select[name='urgency']");
-                            // console.log(urgency_bloc);
-                            if (urgency_bloc != undefined) {
-                                urgency_bloc.parent().append(requester);
+                success: function (response) {
 
-                                // ON DISPLAY : Display or hide urgency type
-                                if ($("#moreticket_urgency_ticket") != undefined) {
-                                    // URGENCY TICKET
-                                    if (inarray(urgency_bloc.val(), object.params.urgency_ids)) {
-                                        $("#moreticket_urgency_ticket").css({'display': 'block'});
-                                    } else {
-                                        $("#moreticket_urgency_ticket").css({'display': 'none'});
-                                    }
+                    // Supprime l'ancien bloc si prÃ©sent
+                    $("#moreticket_urgency_ticket").remove();
 
-                                    // ONCHANGE : Display or hide urgency type
-                                    urgency_bloc.change(function () {
-                                        // URGENCY TICKET
-                                        if (inarray(urgency_bloc.val(), object.params.urgency_ids)) {
-                                            $("#moreticket_urgency_ticket").css({'display': 'block'});
-                                        } else {
-                                            $("#moreticket_urgency_ticket").css({'display': 'none'});
-                                        }
-                                    });
-                                }
+                    setTimeout(function () {
+
+                        const requester = response;
+
+                        // Convert urgency_ids en array
+                        let urgency_ids = object.params.urgency_ids;
+
+                        if (typeof urgency_ids === "string") {
+                            try {
+                                urgency_ids = JSON.parse(urgency_ids);
+                            } catch {
+                                urgency_ids = urgency_ids.split(',').map(Number);
                             }
-                         }, 100);
-                    });
+                        }
+
+                        const urgency_bloc = $("select[name='urgency']");
+                        if (!urgency_bloc.length) return;
+
+                        urgency_bloc.parent().append(requester);
+
+                        const urgencyTicket = $("#moreticket_urgency_ticket");
+                        if (!urgencyTicket.length) return;
+
+                        function toggleUrgency() {
+
+                            const value = parseInt(urgency_bloc.val());
+
+                            const show = urgency_ids.includes(value);
+
+                            urgencyTicket.css("display", show ? "block" : "none");
+                        }
+
+                        // Etat initial
+                        toggleUrgency();
+
+                        // Au changement du select
+                        urgency_bloc.on("change", toggleUrgency);
+
+                    }, 100);
                 }
             });
+
         };
 
         function inarray(value, tab) {
           let response = false;
 
           if (!Array.isArray(tab)) {
-              return false; // sécurité : si ce n’est pas un tableau, on sort
+              return false; // sï¿½curitï¿½ : si ce nï¿½est pas un tableau, on sort
           }
 
           $.each(tab, function (key, value2) {
