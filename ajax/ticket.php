@@ -40,6 +40,16 @@ if (!isset($_POST['tickets_id']) || empty($_POST['tickets_id'])) {
     $_POST['tickets_id'] = 0;
 }
 
+// Entity/ticket access control: never expose ticket-scoped data (waiting reason,
+// urgency justification, closing information) for a ticket the caller cannot view.
+$tickets_id = (int) $_POST['tickets_id'];
+if ($tickets_id > 0) {
+    $ticket = new Ticket();
+    if (!$ticket->can($tickets_id, READ)) {
+        Html::displayRightError();
+    }
+}
+
 if (isset($_POST['action'])) {
     switch ($_POST['action']) {
         case 'showForm':

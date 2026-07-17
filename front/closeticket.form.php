@@ -35,6 +35,13 @@ $closeTicket = new CloseTicket();
 if (isset($_POST["add"])) {
     $closeTicket->check(-1, CREATE, $_POST);
 
+    // Entity/ticket access control: the closing record and its uploaded document
+    // must only be attached to a ticket the caller is allowed to update.
+    $ticket = new Ticket();
+    if (!$ticket->can((int) ($_POST['tickets_id'] ?? 0), UPDATE)) {
+        Html::displayRightError();
+    }
+
     $doc = new Document();
     $DocId = $doc->add($_POST);
 
