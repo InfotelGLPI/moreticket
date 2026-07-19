@@ -27,6 +27,7 @@
  --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Moreticket\CloseTicket;
 use GlpiPlugin\Moreticket\Config;
 use GlpiPlugin\Moreticket\UrgencyTicket;
@@ -46,7 +47,7 @@ $tickets_id = (int) $_POST['tickets_id'];
 if ($tickets_id > 0) {
     $ticket = new Ticket();
     if (!$ticket->can($tickets_id, READ)) {
-        Html::displayRightError();
+        throw new AccessDeniedHttpException();
     }
 }
 

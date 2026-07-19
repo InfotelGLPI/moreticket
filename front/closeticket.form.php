@@ -27,6 +27,7 @@
  --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Moreticket\CloseTicket;
 
 Session::checkLoginUser();
@@ -39,7 +40,7 @@ if (isset($_POST["add"])) {
     // must only be attached to a ticket the caller is allowed to update.
     $ticket = new Ticket();
     if (!$ticket->can((int) ($_POST['tickets_id'] ?? 0), UPDATE)) {
-        Html::displayRightError();
+        throw new AccessDeniedHttpException();
     }
 
     $doc = new Document();
