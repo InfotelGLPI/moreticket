@@ -285,22 +285,9 @@ function plugin_moreticket_pre_item_form($params)
     switch ($item->getType()) {
         case 'ITILSolution':
             if ($config->isMandatorysolution() == true) {
-                echo "<div class='alert alert-warning'>";
-
-                echo "<div class='d-flex'>";
-
-                echo "<div class='me-2'>";
-                echo "<i style='font-size:2em;' class='ti ti-alert-triangle'></i>";
-                echo "</div>";
-
-                echo "<div>";
-                echo "<h4 class='alert-title'>" . __("Warning", 'moreticket') . "</h4>";
-                echo "<div class='text-muted'>" . __("Duration is mandatory", 'moreticket') . "</div>";
-                echo "</div>";
-
-                echo "</div>";
-
-                echo "</div>";
+                \Glpi\Application\View\TemplateRenderer::getInstance()->display(
+                    '@moreticket/solution_mandatory_warning.html.twig'
+                );
             }
             break;
     }
@@ -360,16 +347,15 @@ function plugin_moreticket_post_item_form($params)
                 if ($actionButtonLayout == 1) {
                     $element = 'button';
                 }
-                echo "<script>
-                        $(document).ready(function() {
+                echo Html::scriptBlock(
+                    "$(document).ready(function() {
                             let buttonTask = document.getElementById('itil-footer').querySelector('" . $element . "[data-bs-target=\"#new-TicketTask-block\"]');
-                            console.log(buttonTask);
                             buttonTask.addEventListener('click', (e) => {
                                 let inputs = document.getElementById('new-itilobject-form').querySelectorAll('[id^=\"enable-pending-reasons\"]');
                                 if (!inputs[1].checked) inputs[1].click();
                             })
-                        })
-                 </script>";
+                        })"
+                );
             }
             break;
         case 'ITILFollowup':
@@ -382,16 +368,15 @@ function plugin_moreticket_post_item_form($params)
                 // automatically click follow up set ticket to waiting status switch
                 if (strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false) {
                     if ($config->fields['waiting_by_default_followup'] && Session::haveRight('ticket', \Ticket::OWN)) {
-                        echo "<script>
-                        $(document).ready(function() {
+                        echo Html::scriptBlock(
+                            "$(document).ready(function() {
                             let buttonFollowup = document.getElementById('itil-footer').querySelector(\"button[data-bs-target='#new-ITILFollowup-block']\");
-                            console.log(buttonFollowup);
                             buttonFollowup.addEventListener('click', e => {
                                 let input = document.getElementById('new-itilobject-form').querySelector('[id^=\"enable-pending-reasons\"]');
                                 if (!input.checked) input.click();
                             })
-                        });
-                 </script>";
+                        });"
+                        );
                     }
                 }
             }

@@ -31,6 +31,7 @@ namespace GlpiPlugin\Moreticket;
 
 use CommonDBTM;
 use DbUtils;
+use Glpi\Application\View\TemplateRenderer;
 use GlpiPlugin\ServiceCatalog\Config as ServiceCatalogConfig;
 use Html;
 use Plugin;
@@ -160,8 +161,6 @@ class UrgencyTicket extends CommonDBTM
 
         unset($_SESSION['glpi_plugin_moreticket_urgency']);
 
-        echo "<div class='spaced' id='moreticket_urgency_ticket'>";
-        echo "</br>";
         $align = "center";
 
         if (Plugin::isPluginActive('servicecatalog')) {
@@ -171,20 +170,20 @@ class UrgencyTicket extends CommonDBTM
                 $align = "left";
             }
         }
-        echo "<table align='$align' id='cl_menu'>";
-        echo "<tr><td>";
-        echo __('Justification', 'moreticket');
-        echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;</br>";
-        echo "</td></tr>";
-        echo "<tr><td>";
+
+        // Html::textarea echoes its markup directly: capture it into an HTML slot.
+        ob_start();
         Html::textarea(['name'            => 'justification',
                         'value'           => $this->fields['justification'],
                         'cols'            => 30,
                         'rows'            => 5,
                         'enable_richtext' => false]);
-        echo "</td></tr>";
-        echo "</table>";
-        echo "</div>";
+        $justification_field = ob_get_clean();
+
+        TemplateRenderer::getInstance()->display('@moreticket/urgencyticket_form.html.twig', [
+            'align'               => $align,
+            'justification_field' => $justification_field,
+        ]);
     }
 
     /**

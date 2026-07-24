@@ -1,0 +1,71 @@
+{#
+ -------------------------------------------------------------------------
+ moreticket plugin for GLPI
+ Copyright (C) 2015-2026 by the moreticket Development Team.
+
+ https://github.com/InfotelGLPI/moreticket
+ -------------------------------------------------------------------------
+
+ LICENSE
+
+ This file is part of moreticket.
+
+ moreticket is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+
+ moreticket is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with moreticket. If not, see <http://www.gnu.org/licenses/>.
+ --------------------------------------------------------------------------
+ #}
+
+<form name="form" method="post" action="{{ form_action }}">
+    <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
+
+    <div class="center">
+        <table class="tab_cadre_fixe">
+            <tr>
+                <th colspan="2">{{ __('Close ticket informations', 'moreticket') }}</th>
+            </tr>
+
+            <tr class="tab_bg_1">
+                <td>{{ __('Writer') }}</td>
+                <td>{{ writer_name }}{{ requesters_hidden|raw }}</td>
+            </tr>
+
+            <tr class="tab_bg_1">
+                <td></td>
+                <td>{{ date_field|raw }}</td>
+            </tr>
+
+            <tr class="tab_bg_1">
+                <td>{{ __('Comments') }}</td>
+                <td>{{ comment_field|raw }}</td>
+            </tr>
+
+            <tr class="tab_bg_1">
+                <td colspan="2" style="padding:10px 20px 0px 20px">
+                    {{ file_field|raw }}({{ max_upload }})&nbsp;
+                </td>
+            </tr>
+
+            {% if canedit %}
+                <tr>
+                    <td class="tab_bg_2 center" colspan="6">
+                        {{ tickets_hidden|raw }}{{ items_hidden|raw }}{{ itemtype_hidden|raw }}
+                        <button class="btn btn-primary" type="submit" name="add">
+                            <i class="ti ti-plus"></i>
+                            <span>{{ _x('button', 'Add') }}</span>
+                        </button>
+                    </td>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
+</form>

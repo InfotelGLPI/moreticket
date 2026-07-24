@@ -31,6 +31,7 @@ namespace GlpiPlugin\Moreticket;
 
 use CommonITILObject;
 use Dropdown;
+use Glpi\Application\View\TemplateRenderer;
 use Html;
 use ITILSolution;
 use Planning;
@@ -63,12 +64,14 @@ class Solution extends CommonITILObject
 
     public static function getItemLinkClass(): string
     {
-        // TODO: Implement getItemLinkClass() method.
+        // Minimal implementation: default to the core Item_Ticket link class.
+        return \Item_Ticket::class;
     }
 
     public static function getContentTemplatesParametersClass(): string
     {
-        // TODO: Implement getContentTemplatesParametersClass() method.
+        // Minimal implementation: default to the core Ticket content-template parameters.
+        return \Glpi\ContentTemplates\Parameters\TicketParameters::class;
     }
 
     public static function showFormSolution($params)
@@ -83,18 +86,13 @@ class Solution extends CommonITILObject
                 $config = new Config();
                 $use_duration_solution = $config->useDurationSolution();
                 if ($use_duration_solution == 1) {
-                    echo "<div class='row'><div class='col-12 col-md-9'>";
-                    echo __('Duration');
-                    if ($config->isMandatorysolution()) {
-                        echo "&nbsp;<span style='color:red'>*</span>&nbsp;";
-                    }
-                    $rand = mt_rand();
-                    echo "<span id='duration_solution_" . $rand . $ticket->fields['id'] . "'>";
+                    $rand  = mt_rand();
                     $toadd = [];
                     for ($i = 9; $i <= 100; $i++) {
                         $toadd[] = $i * HOUR_TIMESTAMP;
                     }
-                    echo Html::scriptBlock("
+
+                    $script = Html::scriptBlock("
 	                    function showsolutionbutton(){
 		                    $(document).ready(function(){
 		                        $('.itilsolution').children().find(':submit').show();
@@ -107,14 +105,17 @@ class Solution extends CommonITILObject
 	                    }
 	                    ");
 
+                    // Dropdown::showTimeStamp echoes its markup directly: capture it into an HTML slot.
+                    ob_start();
                     Dropdown::showTimeStamp("duration_solution", ['min' => 0,
                         'max' => 8 * HOUR_TIMESTAMP,
                         'inhours' => true,
                         'toadd' => $toadd
                     ]);
+                    $duration_dropdown = ob_get_clean();
 
-					if($config->isMandatorysolution()){
-		                echo Html::scriptBlock("
+                    if ($config->isMandatorysolution()) {
+                        $script .= Html::scriptBlock("
 		                    $(document).ready(function(){
 		                        $('select[name=\"duration_solution\"]').on('change', function() {
 		                            if(this.value == 0){
@@ -126,13 +127,14 @@ class Solution extends CommonITILObject
 		                        });
 		                    });
 		                ");
-					}
+                    }
 
-
-
-
-	                echo "</span>";
-                    echo "</div></div>";
+                    TemplateRenderer::getInstance()->display('@moreticket/solution_duration.html.twig', [
+                        'duration_mandatory' => $config->isMandatorysolution(),
+                        'duration_span_id'   => 'duration_solution_' . $rand . $ticket->fields['id'],
+                        'script_block'       => $script,
+                        'duration_dropdown'  => $duration_dropdown,
+                    ]);
                 }
             }
         }
@@ -221,6 +223,7 @@ class Solution extends CommonITILObject
 
     public static function getContentTemplatesParametersClassInstance(): \Glpi\ContentTemplates\Parameters\CommonITILObjectParameters
     {
-        // TODO: Implement getContentTemplatesParametersClassInstance() method.
+        // Minimal implementation: default to the core Ticket content-template parameters.
+        return new \Glpi\ContentTemplates\Parameters\TicketParameters();
     }
 }

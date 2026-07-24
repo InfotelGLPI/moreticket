@@ -34,6 +34,7 @@ use CommonGLPI;
 use DbUtils;
 use Document;
 use Dropdown;
+use Glpi\Application\View\TemplateRenderer;
 use Html;
 use ITILSolution;
 use Log;
@@ -203,66 +204,34 @@ class CloseTicket extends CommonDBTM
 
         $canedit = ($item->canUpdate() && self::canUpdate());
 
-        echo "<form name='form' method='post' action='" . Toolbox::getItemTypeFormURL(__CLASS__) . "'>";
-
-        echo "<div class='center'><table class='tab_cadre_fixe'>";
-        echo "<tr><th colspan='2'>" . __('Close ticket informations', 'moreticket') . "</th></tr>";
-
-        // Writer
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>";
-        echo __('Writer');
-        echo "</td>";
-        echo "<td>";
-        echo getUserName(Session::getLoginUserID());
-        echo Html::hidden('requesters_id', ['value' => Session::getLoginUserID()]);
-        echo "</td>";
-        echo "</tr>";
-
-        // Date
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>";
-        echo "</td>";
-        echo "<td>";
+        // The date field and the comment textarea echo their markup directly:
+        // capture them into HTML slots for the template.
+        ob_start();
         Html::showDateTimeField("date", ['value' => date('Y-m-d H:i:s')]);
-        echo "</td>";
-        echo "</tr>";
+        $date_field = ob_get_clean();
 
-        // Comments
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>";
-        echo __('Comments');
-        echo "</td>";
-        echo "<td>";
+        ob_start();
         Html::textarea([
             'name' => 'comment',
             'cols' => 80,
             'rows' => 8,
             'enable_richtext' => false,
         ]);
-        echo "</td>";
-        echo "</tr>";
+        $comment_field = ob_get_clean();
 
-        // Documents
-        echo "<tr class='tab_bg_1'>";
-        echo "<td colspan='2' style='padding:10px 20px 0px 20px'>";
-        echo Html::file();
-        echo "(" . Document::getMaxUploadSize() . ")&nbsp;";
-        echo "</td>";
-        echo "</tr>";
-
-        if ($canedit) {
-            echo "<tr>";
-            echo "<td class='tab_bg_2 center' colspan='6'>";
-            echo Html::hidden('tickets_id', ['value' => $item->fields['id']]);
-            echo Html::hidden('items_id', ['value' => $item->fields['id']]);
-            echo Html::hidden('itemtype', ['value' => 'Ticket']);
-            echo Html::submit(_sx('button', 'Add'), ['name' => 'add', 'class' => 'btn btn-primary']);
-            echo "</td>";
-            echo "</tr>";
-        }
-        echo "</table></div>";
-        Html::closeForm();
+        TemplateRenderer::getInstance()->display('@moreticket/closeticket_form.html.twig', [
+            'form_action'      => Toolbox::getItemTypeFormURL(__CLASS__),
+            'canedit'          => $canedit,
+            'writer_name'      => getUserName(Session::getLoginUserID()),
+            'requesters_hidden' => Html::hidden('requesters_id', ['value' => Session::getLoginUserID()]),
+            'date_field'       => $date_field,
+            'comment_field'    => $comment_field,
+            'file_field'       => Html::file(['display' => false]),
+            'max_upload'       => Document::getMaxUploadSize(),
+            'tickets_hidden'   => Html::hidden('tickets_id', ['value' => $item->fields['id']]),
+            'items_hidden'     => Html::hidden('items_id', ['value' => $item->fields['id']]),
+            'itemtype_hidden'  => Html::hidden('itemtype', ['value' => 'Ticket']),
+        ]);
 
         // List
         self::showList($item, $canedit);
@@ -334,90 +303,57 @@ class CloseTicket extends CommonDBTM
             return false;
         }
 
-        if (isset($_REQUEST["start"])) {
-            $start = $_REQUEST["start"];
-        } else {
-            $start = 0;
-        }
-
         $rand = mt_rand();
+        $dbu  = new DbUtils();
+        $doc  = new Document();
 
-        // Get close informations
-        $data = self::getCloseTicketFromDB($item->getField('id'), [
-            'start' => $start,
-            'limit' => $_SESSION['glpilist_limit'],
-        ]);
-        $dbu = new DbUtils();
-        $number = $dbu->countElementsInTable(
+        $data = $dbu->getAllDataFromTable(
             "glpi_plugin_moreticket_closetickets",
-            ['tickets_id' => $item->getField('id')]
+            ['tickets_id' => $item->getField('id')] + ['ORDER' => 'date DESC'],
+            false
         );
-        if ($number == 0) {
-            echo "<div class='center'>";
-            echo "<table class='tab_cadre_fixe'>";
-            echo "<tr><th>" . __('No historical') . "</th></tr>";
-            echo "</table>";
-            echo "</div><br>";
-        } else {
-            $doc = new Document();
-            echo "<div class='left'>";
-            // Display the pager
-            Html::printAjaxPager(__('Close ticket informations', 'moreticket'), $start, $number);
 
-            if ($canedit) {
-                Html::openMassiveActionsForm('mass' .  $rand);
-                $massiveactionparams = ['item' => __CLASS__, 'container' => 'mass'  . $rand];
-                Html::showMassiveActions($massiveactionparams);
+        $entries = [];
+        foreach ($data as $closeTicket) {
+            $document_link = '';
+            if ($doc->getFromDB($closeTicket['documents_id'])) {
+                $document_link = $doc->getLink();
             }
-
-            echo "<table class='tab_cadre_fixe'>";
-            echo "<tr>";
-            echo "<th width='10'>";
-            if ($canedit) {
-                echo Html::getCheckAllAsCheckbox('mass'  . $rand);
-            }
-            echo "</th>";
-            echo "<th>" . __('Date') . "</th>";
-            echo "<th>" . __('Comments') . "</th>";
-            echo "<th>" . __('Writer') . "</th>";
-            echo "<th>" . __('Document') . "</th>";
-            echo "</tr>";
-
-            $dbu = new DbUtils();
-
-            foreach ($data as $closeTicket) {
-                echo "<tr class='tab_bg_2'>";
-                echo "<td width='10'>";
-                if ($canedit) {
-                    Html::showMassiveActionCheckBox(__CLASS__, $closeTicket['id']);
-                }
-                echo "</td>";
-                echo "<td>";
-                echo Html::convDateTime($closeTicket['date']);
-                echo "</td>";
-                echo "<td>";
-                echo htmlescape($closeTicket['comment']);
-                echo "</td>";
-                echo "<td>";
-                echo $dbu->getUserName($closeTicket['requesters_id']);
-                echo "</td>";
-                echo "<td>";
-                if ($doc->getFromDB($closeTicket['documents_id'])) {
-                    echo $doc->getLink();
-                }
-                echo "</td>";
-                echo "</tr>";
-            }
-
-            echo "</table>";
-            echo "</div>";
-            if ($canedit) {
-                $massiveactionparams['ontop'] = false;
-                Html::showMassiveActions($massiveactionparams);
-                Html::closeForm();
-            }
-            Html::printAjaxPager(__('Close ticket informations', 'moreticket'), $start, count($data));
+            $entries[] = [
+                'itemtype' => self::class,
+                'id'       => $closeTicket['id'],
+                'date'     => $closeTicket['date'],
+                'comment'  => $closeTicket['comment'],
+                'writer'   => $dbu->getUserName($closeTicket['requesters_id']),
+                'document' => $document_link,
+            ];
         }
+
+        TemplateRenderer::getInstance()->display('components/datatable.html.twig', [
+            'is_tab'             => true,
+            'nofilter'           => true,
+            'columns'            => [
+                'date'     => __('Date'),
+                'comment'  => __('Comments'),
+                'writer'   => __('Writer'),
+                'document' => __('Document'),
+            ],
+            'formatters'         => [
+                'date'     => 'datetime',
+                'document' => 'raw_html',
+            ],
+            'entries'            => $entries,
+            'total_number'       => count($entries),
+            'filtered_number'    => count($entries),
+            'showmassiveactions' => $canedit,
+            'massiveactionparams' => [
+                'num_displayed' => count($entries),
+                'container'     => 'mass' . str_replace('\\', '', self::class) . $rand,
+                'specific_actions' => [
+                    'purge' => _x('button', 'Delete permanently'),
+                ],
+            ],
+        ]);
     }
 
     /**
@@ -484,21 +420,19 @@ class CloseTicket extends CommonDBTM
 
         unset($_SESSION['glpi_plugin_moreticket_close']);
 
-        echo "<div class='spaced' id='moreticket_close_ticket'>";
-        echo "</br>";
-        echo "<table>";
-        echo "<tr><td>";
-        echo _n('Solution template', 'Solution templates', 1) . "&nbsp;:&nbsp;&nbsp;";
-        $rand = mt_rand();
+        $config     = new Config();
+        $rand       = mt_rand();
         $content_id = "solution$rand";
 
+        // Solution template dropdown (echoes directly).
+        ob_start();
         SolutionTemplate::dropdown([
             'name' => "solution_template",
             'value' => 0,
             'rand' => $rand,
             'on_change' => "solutiontemplate_update{$rand}(this.value)",
         ]);
-        echo Html::hidden("_render_twig", ['value' => true]);
+        $solution_template_dropdown = ob_get_clean();
 
         $JS = "function solutiontemplate_update{$rand}(value) {
                   $.ajax({
@@ -516,16 +450,9 @@ class CloseTicket extends CommonDBTM
                      $('#dropdown_solutiontypes_id{$rand}').trigger('setValue', solutiontypes_id);
                   });
                }";
-        echo Html::scriptBlock($JS);
 
-        echo "</td></tr>";
-
-        echo "<tr><td>";
-        echo _n('Solution type', 'Solution types', 1);
-        $config = new Config();
-        if ($config->mandatorySolutionType() == true) {
-            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        }
+        // Solution type dropdown (echoes directly).
+        ob_start();
         Dropdown::show(
             'SolutionType',
             [
@@ -534,18 +461,19 @@ class CloseTicket extends CommonDBTM
                 'entity' => $ticket->getEntityID(),
             ]
         );
-        echo "</td></tr>";
-        echo "<tr><td>";
-        echo __('Solution description', 'moreticket') . "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        $rand = mt_rand();
-        Html::initEditorSystem("solution" . $rand);
+        $solution_type_dropdown = ob_get_clean();
+
+        // Solution description rich-text editor (both helpers echo directly).
         if (!isset($ticket->fields['solution'])) {
             $ticket->fields['solution'] = '';
         }
+        $editor_rand = mt_rand();
+        ob_start();
+        Html::initEditorSystem("solution" . $editor_rand);
         Html::textarea([
             'name' => 'solution',
             'value' => $ticket->fields['solution'],
-            'rand' => $rand,
+            'rand' => $editor_rand,
             'editor_id' => $content_id,
             'enable_fileupload' => false,
             'enable_richtext' => true,
@@ -555,33 +483,24 @@ class CloseTicket extends CommonDBTM
             'cols' => 12,
             'rows' => 80,
         ]);
-        //      echo "<div id='solution$rand'>";
-        //      Html::textarea(['name'            => 'solution',
-        //                      'value' => $ticket->fields['solution'],
-        //                      'editor_id' => 'solution'.$rand,
-        //                      'cols'       => 80,
-        //                      'rows'       => 3,
-        //                      'enable_richtext' => false]);
-        //      echo "</div>";
-        echo "</td></tr>";
+        $solution_editor = ob_get_clean();
+
         $use_duration_solution = $config->useDurationSolution();
 
         if (!isset($ticket->fields['duration_solution'])) {
             $ticket->fields['duration_solution'] = '';
         }
 
+        $duration_dropdown = '';
+        $duration_span_id  = '';
         if ($use_duration_solution == 1) {
-            echo "<tr><td>";
-            echo __('Duration');
-            if ($config->isMandatorysolution()) {
-                echo "&nbsp;<span style='color:red'>*</span>&nbsp;";
-            }
-            $rand = mt_rand();
-            echo "<span id='duration_solution_" . $rand . $ticket->fields['id'] . "'>";
+            $duration_rand    = mt_rand();
+            $duration_span_id = "duration_solution_" . $duration_rand . $ticket->fields['id'];
             $toadd = [];
             for ($i = 9; $i <= 100; $i++) {
                 $toadd[] = $i * HOUR_TIMESTAMP;
             }
+            ob_start();
             Dropdown::showTimeStamp("duration_solution", [
                 'min' => 0,
                 'max' => 8 * HOUR_TIMESTAMP,
@@ -589,12 +508,24 @@ class CloseTicket extends CommonDBTM
                 'inhours' => true,
                 'toadd' => $toadd,
             ]);
-            echo "</span>";
-            echo "</td></tr>";
+            $duration_dropdown = ob_get_clean();
         }
 
-        echo "</table>";
-        echo "</div>";
+        TemplateRenderer::getInstance()->display('@moreticket/closeticket_solution_form.html.twig', [
+            'solution_template_label'    => _n('Solution template', 'Solution templates', 1),
+            'solution_template_dropdown' => $solution_template_dropdown,
+            'render_twig_hidden'         => Html::hidden("_render_twig", ['value' => true]),
+            'script_block'               => Html::scriptBlock($JS),
+            'solution_type_label'        => _n('Solution type', 'Solution types', 1),
+            'solution_type_mandatory'    => $config->mandatorySolutionType() == true,
+            'solution_type_dropdown'     => $solution_type_dropdown,
+            'solution_desc_label'        => __('Solution description', 'moreticket'),
+            'solution_editor'            => $solution_editor,
+            'use_duration_solution'      => $use_duration_solution == 1,
+            'duration_mandatory'         => $config->isMandatorysolution(),
+            'duration_span_id'           => $duration_span_id,
+            'duration_dropdown'          => $duration_dropdown,
+        ]);
     }
 
     // Hook done on before add ticket - checkMandatory

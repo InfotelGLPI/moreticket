@@ -1,0 +1,367 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property CommonGLPI\:\:\$fields\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/CloseTicket.php
+
+		-
+			message: '#^Call to an undefined method CommonGLPI\:\:getID\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/CloseTicket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\CloseTicket\:\:showForTicket\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/CloseTicket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\CloseTicket\:\:showForm\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/CloseTicket.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$item with type GlpiPlugin\\Moreticket\\Ticket is incompatible with native type Ticket\.$#'
+			identifier: parameter.phpDocType
+			count: 1
+			path: src/CloseTicket.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     \* ", expected type at offset 113 on line 7$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/CloseTicket.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     \* ", expected type at offset 253 on line 9$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/CloseTicket.php
+
+		-
+			message: '#^Parameter \#1 \$history \(int\) of method GlpiPlugin\\Moreticket\\CloseTicket\:\:post_updateItem\(\) should be compatible with parameter \$history \(bool\) of method CommonDBTM\:\:post_updateItem\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: src/CloseTicket.php
+
+		-
+			message: '#^Parameter \#1 \$item of static method GlpiPlugin\\Moreticket\\CloseTicket\:\:showForTicket\(\) expects Ticket, CommonGLPI given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CloseTicket.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/CloseTicket.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\r\\n    ", expected type at offset 47 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Config.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Config.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\NotificationTicket\:\:afterAddFollowup\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 2
+			path: src/NotificationTicket.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/NotificationTicket.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/NotificationTicket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\Profile\:\:migrateOneProfile\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$all$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\Solution\:\:getDefaultValues\(\) should return array but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Solution.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\Solution\:\:getTaskClass\(\) should return class\-string\<CommonITILTask\>\|null but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Solution.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$item$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Solution.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Solution.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\Ticket\:\:afterAdd\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 2
+			path: src/Ticket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\Ticket\:\:beforeAdd\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 2
+			path: src/Ticket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\Ticket\:\:beforeUpdate\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 2
+			path: src/Ticket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\Ticket\:\:getDefaultValues\(\) should return array but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Ticket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\Ticket\:\:getItemLinkClass\(\) should return class\-string\<CommonDBTM\> but returns false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Ticket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\Ticket\:\:getTaskClass\(\) should return class\-string\<CommonITILTask\>\|null but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Ticket.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$ticket with type GlpiPlugin\\Moreticket\\Ticket is incompatible with native type Ticket\.$#'
+			identifier: parameter.phpDocType
+			count: 5
+			path: src/Ticket.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$ticket$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Ticket.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Ticket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\TicketFollowup\:\:beforeAdd\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 2
+			path: src/TicketFollowup.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/TicketFollowup.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\TicketTask\:\:beforeAdd\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 2
+			path: src/TicketTask.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$tickettask with type GlpiPlugin\\Moreticket\\TicketTask is incompatible with native type TicketTask\.$#'
+			identifier: parameter.phpDocType
+			count: 1
+			path: src/TicketTask.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/TicketTask.php
+
+		-
+			message: '#^Call to method getFormDisplayAsStep\(\) on an unknown class GlpiPlugin\\ServiceCatalog\\Config\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/UrgencyTicket.php
+
+		-
+			message: '#^Instantiated class GlpiPlugin\\ServiceCatalog\\Config not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/UrgencyTicket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\UrgencyTicket\:\:showForm\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/UrgencyTicket.php
+
+		-
+			message: '#^Offset ''justification'' on array\<mixed, mixed\> in empty\(\) does not exist\.$#'
+			identifier: empty.offset
+			count: 1
+			path: src/UrgencyTicket.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\r\\n     \* ", expected type at offset 260 on line 9$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/UrgencyTicket.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\r\\n     \*", expected type at offset 136 on line 5$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/UrgencyTicket.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/UrgencyTicket.php
+
+		-
+			message: '#^Call to an undefined method CommonGLPI\:\:getID\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:addFormWaitingBlock\(\) with return type void returns false but should not return anything\.$#'
+			identifier: return.void
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showForTicket\(\) has invalid return type GlpiPlugin\\Moreticket\\Nothing\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showForTicket\(\) should return GlpiPlugin\\Moreticket\\Nothing but empty return statement found\.$#'
+			identifier: return.empty
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showForTicket\(\) should return GlpiPlugin\\Moreticket\\Nothing but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showForTicket\(\) should return GlpiPlugin\\Moreticket\\Nothing but returns false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showForm\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showQuestionSign\(\) has invalid return type GlpiPlugin\\Moreticket\\Nothing\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showQuestionSign\(\) should return GlpiPlugin\\Moreticket\\Nothing but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showQuestionSign\(\) should return GlpiPlugin\\Moreticket\\Nothing but returns false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\r\\n     \* ", expected type at offset 260 on line 9$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\r\\n     \*", expected type at offset 136 on line 5$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^Variable \$blockId might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^Variable \$blockSelector might not be defined\.$#'
+			identifier: variable.undefined
+			count: 6
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^Variable \$position might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/WaitingTicket.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/WaitingType.php

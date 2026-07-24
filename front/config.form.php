@@ -60,7 +60,6 @@ if (Plugin::isPluginActive("moreticket")) {
     }
 } else {
     Html::header(__('Setup'), '', "config", "plugin");
-    echo "<div class='alert alert-important alert-warning d-flex'>";
-    echo "<b>" . __('Please activate the plugin', 'moreticket') . "</b></div>";
+    \Glpi\Application\View\TemplateRenderer::getInstance()->display('@moreticket/plugin_not_active.html.twig');
     Html::footer();
 }

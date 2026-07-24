@@ -38,6 +38,7 @@ use CommonDBTM;
 use CommonGLPI;
 use CommonITILObject;
 use DbUtils;
+use Glpi\Application\View\TemplateRenderer;
 use Glpi\DBAL\QuerySubQuery;
 use Glpi\DBAL\QueryExpression;
 use Html;
@@ -252,39 +253,26 @@ class WaitingTicket extends CommonDBTM
 
         $config = new Config();
 
-        echo "<div class='spaced' id='moreticket_waiting_ticket'>";
-        echo "<table id='cl_menu'>";
-        echo "<tr><td>";
-        echo __('Reason', 'moreticket');
-        if ($config->mandatoryWaitingReason() == true) {
-            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        }
-        echo Html::input('reason', ['value' => $this->fields['reason'],
-                                    'size'  => 20]);
-        echo "</td></tr>";
-        //      echo "<tr><td>";
-        //      echo WaitingType::getTypeName(1);
-        //      if ($config->mandatoryWaitingType() == true) {
-        //         echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        //      }
-        //      $opt = ['value' => $this->fields['plugin_moreticket_waitingtypes_id']];
-        //      Dropdown::show(WaitingType::class, $opt);
-        //      echo "</td></tr>";
-        echo "<tr><td>";
-        echo __('Postponement date', 'moreticket');
-
-        if ($config->mandatoryReportDate() == true) {
-            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        }
         if ($this->fields['date_report'] == 'NULL') {
             $this->fields['date_report'] = date("Y-m-d H:i:s");
         }
+
+        // The date field echoes its markup directly: capture it into an HTML slot.
+        ob_start();
         Html::showDateTimeField("date_report", ['value'      => $this->fields['date_report'],
                                                 'maybeempty' => false]);
+        $date_field = ob_get_clean();
 
-        echo "</td></tr>";
-        echo "</table>";
-        echo "</div>";
+        TemplateRenderer::getInstance()->display('@moreticket/waitingticket_form.html.twig', [
+            'block_id'         => 'moreticket_waiting_ticket',
+            'with_break'       => false,
+            'row_class'        => '',
+            'reason_mandatory' => $config->mandatoryWaitingReason() == true,
+            'reason_input'     => Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]),
+            'date_mandatory'   => $config->mandatoryReportDate() == true,
+            'date_field'       => $date_field,
+            'position_script'  => '',
+        ]);
     }
 
     /**
@@ -329,53 +317,31 @@ class WaitingTicket extends CommonDBTM
 
         switch ($itilObject) {
             case ITILFollowup::class:
-                $blockId = 'moreticket_waiting_ticket_followup';
+                $blockId       = 'moreticket_waiting_ticket_followup';
+                $blockSelector = '#moreticket_waiting_ticket_followup';
+                $position      = 'first';
                 break;
             case \TicketTask::class:
-                $blockId = 'moreticket_waiting_ticket_task';
+                $blockId       = 'moreticket_waiting_ticket_task';
+                $blockSelector = '#moreticket_waiting_ticket_task';
+                $position      = 'last';
                 break;
         }
         $config = new Config();
-        // echo the form
-        echo "<div class='spaced' id='$blockId'>";
-        echo "</br>";
-        echo "<table id='cl_menu'>";
-        echo "<tr class='tab_bg_1'><td>";
-        echo __('Reason', 'moreticket');
-        if ($config->mandatoryWaitingReason() == true) {
-            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        }
-        echo Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]);
-        echo "</td></tr>";
-        echo "<tr class='tab_bg_1'><td>";
-        echo __('Postponement date', 'moreticket');
 
-        if ($config->mandatoryReportDate() == true) {
-            echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
-        }
         if ($this->fields['date_report'] == 'NULL') {
             $this->fields['date_report'] = date("Y-m-d H:i:s");
         }
+
+        // The date field echoes its markup directly: capture it into an HTML slot.
+        ob_start();
         Html::showDateTimeField("date_report", ['value'      => $this->fields['date_report'],
             'maybeempty' => false]);
+        $date_field = ob_get_clean();
 
-        echo "</td></tr>";
-        echo "</table>";
-        echo "</div>";
-
-        switch ($itilObject) {
-            case ITILFollowup::class:
-                $blockSelector = '#moreticket_waiting_ticket_followup';
-                $position = 'first';
-                break;
-            case \TicketTask::class:
-                $blockSelector = '#moreticket_waiting_ticket_task';
-                $position = 'last';
-                break;
-        }
-        // position it with javascript and add the event to change its display
-        echo "<script>
-        $(document).ready(function() {
+        // Position the block with javascript and toggle its display on the pending switch.
+        $position_script = Html::scriptBlock(
+            "$(document).ready(function() {
            let switch_pending = $('input[type=\"checkbox\"][name=\"pending\"]:$position');
 
                     if (switch_pending != undefined) {
@@ -405,8 +371,19 @@ class WaitingTicket extends CommonDBTM
                             }
                         });
                     }
-        });
-        </script>";
+        });"
+        );
+
+        TemplateRenderer::getInstance()->display('@moreticket/waitingticket_form.html.twig', [
+            'block_id'         => $blockId,
+            'with_break'       => true,
+            'row_class'        => 'tab_bg_1',
+            'reason_mandatory' => $config->mandatoryWaitingReason() == true,
+            'reason_input'     => Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]),
+            'date_mandatory'   => $config->mandatoryReportDate() == true,
+            'date_field'       => $date_field,
+            'position_script'  => $position_script,
+        ]);
     }
 
     /**
@@ -441,61 +418,43 @@ class WaitingTicket extends CommonDBTM
             ["tickets_id" => $item->getField('id')]
         );
 
-        if ($number < 1) {
-            echo "<div class='center'>";
-            echo "<table class='tab_cadre_fixe'>";
-            echo "<tr><th>" . __('No historical') . "</th></tr>";
-            echo "</table>";
-            echo "</div><br>";
-            return;
-        } else {
-            echo "<div class='center'>";
-            // Display the pager
-            Html::printAjaxPager(__('Ticket suspension history', 'moreticket'), $start, $number);
-            echo "<table class='tab_cadre_fixe'>";
-            echo "<tr>";
-            echo "<th>" . __('Suspension date', 'moreticket') . "</th>";
-            echo "<th>" . __('Reason', 'moreticket') . "</th>";
-            //            echo "<th>" . WaitingType::getTypeName(1) . "</th>";
-            echo "<th>" . __('Postponement date', 'moreticket') . "</th>";
-            echo "<th>" . __('Suspension end date', 'moreticket') . "</th>";
-            echo "</tr>";
-
+        $entries = [];
+        if ($number >= 1) {
             foreach (self::getWaitingTicketFromDB(
                 $item->getField('id'),
                 ['start' => $start,
                  'limit' => $_SESSION['glpilist_limit']]
             ) as $waitingTicket) {
-                echo "<tr class='tab_bg_2'>";
-                echo "<td>";
-                echo Html::convDateTime($waitingTicket['date_suspension']);
-                echo "</td>";
-                echo "<td>";
-                echo htmlescape($waitingTicket['reason']);
-                echo "</td>";
-                //                echo "<td>";
-                //                echo Dropdown::getDropdownName(
-                //                    'glpi_plugin_moreticket_waitingtypes',
-                //                    $waitingTicket['plugin_moreticket_waitingtypes_id']
-                //                );
-                //                echo "</td>";
-                echo "<td>";
                 if ($waitingTicket['date_report'] == "0000-00-00 00:00:00") {
-                    echo _x('periodicity', 'None');
+                    $date_report = _x('periodicity', 'None');
                 } else {
-                    echo Html::convDateTime($waitingTicket['date_report']);
+                    $date_report = Html::convDateTime($waitingTicket['date_report']);
                 }
-                echo "</td>";
-                echo "<td>";
-                echo Html::convDateTime($waitingTicket['date_end_suspension']);
-                echo "</td>";
-                echo "</tr>";
+                $entries[] = [
+                    'date_suspension'     => Html::convDateTime($waitingTicket['date_suspension']),
+                    'reason'              => $waitingTicket['reason'],
+                    'date_report'         => $date_report,
+                    'date_end_suspension' => Html::convDateTime($waitingTicket['date_end_suspension']),
+                ];
             }
-
-            echo "</table>";
-            echo "</div>";
-            Html::printAjaxPager(__('Ticket suspension history', 'moreticket'), $start, $number);
         }
+
+        TemplateRenderer::getInstance()->display('components/datatable.html.twig', [
+            'is_tab'            => true,
+            'nofilter'          => true,
+            'nopager'           => false,
+            'columns'           => [
+                'date_suspension'     => __('Suspension date', 'moreticket'),
+                'reason'              => __('Reason', 'moreticket'),
+                'date_report'         => __('Postponement date', 'moreticket'),
+                'date_end_suspension' => __('Suspension end date', 'moreticket'),
+            ],
+            'formatters'        => [],
+            'entries'           => $entries,
+            'total_number'      => $number,
+            'filtered_number'   => $number,
+            'showmassiveactions' => false,
+        ]);
     }
 
     /**
@@ -952,40 +911,24 @@ class WaitingTicket extends CommonDBTM
             $this->getEmpty();
         }
 
-        echo "<div class='spaced' id='isQuestion' style=\"
-             word-wrap: normal;
-             white-space: normal;
-             display: block;
-             clear: both;
-             text-align: center;
-             margin-left: -50px;
-         \">";
-        echo "</br>";
-        echo "<table class='moreticket_waiting_ticket_followup' id='c2_menu'>";
-        echo "<tr><td>";
-        echo __('Ticket waiting', "moreticket");
-//      if ($config->mandatoryWaitingReason() == true) {
-//         echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
-//      }
-        echo "</td><td>";
-        self::showSwitchField("question", 1);
-
+        // The Ajax helpers echo their <script> markup directly: capture them into an HTML slot.
+        ob_start();
         Ajax::updateItemOnEvent("question", "fakeupdate", $CFG_GLPI["root_doc"].PLUGIN_MORETICKET_WEBDIR."/ajax/updatestatus.php", ["question"=>'__VALUE__',"status"=>$ticket->getField("status")]);
         Ajax::updateItem("fakeupdate", $CFG_GLPI["root_doc"].PLUGIN_MORETICKET_WEBDIR."/ajax/updatestatus.php", ["question"=>'1',"status"=>$ticket->getField("status")]);
+        $ajax_scripts = ob_get_clean();
 
-        echo "</td></tr>";
-
-        echo "</table>";
-        echo "<div id='fakeupdate'></div>";
-        echo "</div>";
+        TemplateRenderer::getInstance()->display('@moreticket/waitingticket_question.html.twig', [
+            'switch_field' => self::showSwitchField("question", 1),
+            'ajax_scripts' => $ajax_scripts,
+        ]);
     }
 
     function showSwitchField($name, $value)
     {
 
-        echo Html::hidden($name, ['id'    => $name,
+        $out  = Html::hidden($name, ['id'    => $name,
             'value' => $value]);
-        echo Html::scriptBlock("(function(){
+        $out .= Html::scriptBlock("(function(){
                              var toggleButton = $('.$name');
                              toggleButton.click(function() {
                              if ($(this).hasClass('toggle-right')) {
@@ -1008,10 +951,11 @@ class WaitingTicket extends CommonDBTM
                              });
                            })();");
         if ($value == 1) {
-            echo "<a class=\"button\"><i style='font-size: 2em;' class=\"ti $name toggle-right enabled\"></i></a>";
+            $out .= "<a class=\"button\"><i style='font-size: 2em;' class=\"ti $name toggle-right enabled\"></i></a>";
         } else {
-            echo "<a class=\"button\"><i class=\"ti $name toggle-left disabled\"></i></a>";
+            $out .= "<a class=\"button\"><i class=\"ti $name toggle-left disabled\"></i></a>";
         }
+        return $out;
     }
 
     /**
