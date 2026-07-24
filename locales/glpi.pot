@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-17 14:48+0000\n"
+"POT-Creation-Date: 2026-07-24 17:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,24 +18,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: src/CloseTicket.php:695
+#: src/CloseTicket.php:626
 #, php-format
 msgid "%1$s added closing informations"
 msgstr ""
 
-#: src/CloseTicket.php:735
+#: src/CloseTicket.php:666
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr ""
 
-#: src/CloseTicket.php:715
+#: src/CloseTicket.php:646
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr ""
 
-#: src/WaitingTicket.php:1121
+#: src/WaitingTicket.php:1065
 #, php-format
 msgid "%s duplicates deleted"
+msgstr ""
+
+#: templates/closeticket_form.html.twig:64
+msgctxt "button"
+msgid "Add"
 msgstr ""
 
 #: templates/config.html.twig:150
@@ -58,18 +63,26 @@ msgstr ""
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 
-#: src/CloseTicket.php:96 src/CloseTicket.php:103 src/CloseTicket.php:144
-#: src/CloseTicket.php:209 src/CloseTicket.php:365 src/CloseTicket.php:419
+#: src/CloseTicket.php:97 src/CloseTicket.php:104 src/CloseTicket.php:145
 #: hook.php:220 hook.php:227 hook.php:234 hook.php:241
-#: templates/config.html.twig:117
+#: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
 msgstr ""
 
-#: hook.php:298
+#: templates/closeticket_form.html.twig:48
+msgid "Comments"
+msgstr ""
+
+#: templates/solution_duration.html.twig:30
+#: templates/closeticket_solution_form.html.twig:58
+msgid "Duration"
+msgstr ""
+
+#: templates/solution_mandatory_warning.html.twig:35
 msgid "Duration is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:918
+#: src/WaitingTicket.php:877
 msgid "End of standby ticket"
 msgstr ""
 
@@ -77,7 +90,7 @@ msgstr ""
 msgid "Hide task duration in tickets"
 msgstr ""
 
-#: src/UrgencyTicket.php:79 src/UrgencyTicket.php:176
+#: src/UrgencyTicket.php:80 templates/urgencyticket_form.html.twig:33
 msgid "Justification"
 msgstr ""
 
@@ -89,16 +102,16 @@ msgstr ""
 msgid "More ticket"
 msgstr ""
 
-#: front/config.form.php:64
+#: templates/plugin_not_active.html.twig:29
 msgid "Please activate the plugin"
 msgstr ""
 
-#: src/WaitingTicket.php:154 src/WaitingTicket.php:274
-#: src/WaitingTicket.php:351 src/WaitingTicket.php:460
+#: src/WaitingTicket.php:155 src/WaitingTicket.php:449
+#: templates/waitingticket_form.html.twig:40
 msgid "Postponement date"
 msgstr ""
 
-#: src/WaitingTicket.php:194
+#: src/WaitingTicket.php:195
 msgid "Postponement date is inferior of today's date"
 msgstr ""
 
@@ -106,17 +119,17 @@ msgstr ""
 msgid "Postponement date is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:158 src/WaitingTicket.php:258
-#: src/WaitingTicket.php:344 src/WaitingTicket.php:458
+#: src/WaitingTicket.php:159 src/WaitingTicket.php:448
+#: templates/waitingticket_form.html.twig:33
 msgid "Reason"
 msgstr ""
 
-#: templates/profile.html.twig:34 templates/config.html.twig:233
+#: templates/config.html.twig:233 templates/profile.html.twig:34
 msgctxt "button"
 msgid "Save"
 msgstr ""
 
-#: src/CloseTicket.php:160 src/CloseTicket.php:539
+#: src/CloseTicket.php:161 src/CloseTicket.php:522
 msgid "Solution description"
 msgstr ""
 
@@ -128,19 +141,19 @@ msgstr ""
 msgid "Status used to display solution block"
 msgstr ""
 
-#: src/WaitingTicket.php:457
+#: src/WaitingTicket.php:447
 msgid "Suspension date"
 msgstr ""
 
-#: src/WaitingTicket.php:461
+#: src/WaitingTicket.php:450
 msgid "Suspension end date"
 msgstr ""
 
-#: src/CloseTicket.php:180
+#: src/CloseTicket.php:181
 msgid "Ticket cannot be closed"
 msgstr ""
 
-#: src/UrgencyTicket.php:104 src/WaitingTicket.php:190
+#: src/UrgencyTicket.php:105 src/WaitingTicket.php:191
 msgid "Ticket cannot be saved"
 msgstr ""
 
@@ -148,15 +161,11 @@ msgstr ""
 msgid "Ticket solution and close"
 msgstr ""
 
-#: src/WaitingTicket.php:454 src/WaitingTicket.php:497
-msgid "Ticket suspension history"
-msgstr ""
-
 #: templates/config.html.twig:173
 msgid "Ticket urgency"
 msgstr ""
 
-#: src/WaitingTicket.php:966 templates/config.html.twig:42
+#: templates/config.html.twig:42 templates/waitingticket_question.html.twig:33
 msgid "Ticket waiting"
 msgstr ""
 
@@ -188,7 +197,7 @@ msgstr ""
 msgid "Urgency impacted justification for the field"
 msgstr ""
 
-#: src/UrgencyTicket.php:102
+#: src/UrgencyTicket.php:103
 msgid "Urgency ticket cannot be saved"
 msgstr ""
 
@@ -212,17 +221,17 @@ msgstr ""
 msgid "Waiting reason is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:80
+#: src/WaitingTicket.php:81
 msgid "Waiting ticket"
 msgid_plural "Waiting tickets"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/WaitingTicket.php:188
+#: src/WaitingTicket.php:189
 msgid "Waiting ticket cannot be saved"
 msgstr ""
 
-#: src/WaitingTicket.php:870
+#: src/WaitingTicket.php:829
 msgid "Waiting ticket exceedeed"
 msgstr ""
 
@@ -232,6 +241,10 @@ msgid_plural "Waiting types"
 msgstr[0] ""
 msgstr[1] ""
 
-#: hook.php:297
+#: templates/solution_mandatory_warning.html.twig:34
 msgid "Warning"
+msgstr ""
+
+#: templates/closeticket_form.html.twig:38
+msgid "Writer"
 msgstr ""
