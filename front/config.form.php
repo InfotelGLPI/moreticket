@@ -27,6 +27,7 @@
  --------------------------------------------------------------------------
  */
 
+use Glpi\Application\View\TemplateRenderer;
 use GlpiPlugin\Moreticket\Config;
 
 Session::checkLoginUser();
@@ -60,6 +61,6 @@ if (Plugin::isPluginActive("moreticket")) {
     }
 } else {
     Html::header(__('Setup'), '', "config", "plugin");
-    \Glpi\Application\View\TemplateRenderer::getInstance()->display('@moreticket/plugin_not_active.html.twig');
+    TemplateRenderer::getInstance()->display('@moreticket/plugin_not_active.html.twig');
     Html::footer();
 }
