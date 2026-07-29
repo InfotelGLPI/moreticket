@@ -75,6 +75,32 @@ class CloseTicket extends CommonDBTM
     {
         return Session::haveRight(static::$rightname, UPDATE);
     }
+
+    /**
+     * Normalize input server-side before insert.
+     *
+     * The closing record's author (requesters_id) is forced to the authenticated
+     * user and never taken from client input: the form ships it as a hidden field,
+     * so a technician with UPDATE on the ticket could otherwise attribute the
+     * closure to a colleague and pollute the audit trail. The closing date is
+     * defaulted to the server time when the POST omits it instead of trusting a
+     * raw client value.
+     *
+     * @param array $input
+     *
+     * @return array
+     */
+    public function prepareInputForAdd($input)
+    {
+        $input['requesters_id'] = Session::getLoginUserID();
+
+        if (empty($input['date'])) {
+            $input['date'] = $_SESSION['glpi_currenttime'] ?? date('Y-m-d H:i:s');
+        }
+
+        return $input;
+    }
+
     /**
      * Display moreticket-item's tab for each users
      *

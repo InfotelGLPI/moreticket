@@ -913,8 +913,8 @@ class WaitingTicket extends CommonDBTM
 
         // The Ajax helpers echo their <script> markup directly: capture them into an HTML slot.
         ob_start();
-        Ajax::updateItemOnEvent("question", "fakeupdate", $CFG_GLPI["root_doc"].PLUGIN_MORETICKET_WEBDIR."/ajax/updatestatus.php", ["question"=>'__VALUE__',"status"=>$ticket->getField("status")]);
-        Ajax::updateItem("fakeupdate", $CFG_GLPI["root_doc"].PLUGIN_MORETICKET_WEBDIR."/ajax/updatestatus.php", ["question"=>'1',"status"=>$ticket->getField("status")]);
+        Ajax::updateItemOnEvent("question", "fakeupdate", PLUGIN_MORETICKET_WEBDIR."/ajax/updatestatus.php", ["question"=>'__VALUE__',"status"=>$ticket->getField("status")]);
+        Ajax::updateItem("fakeupdate", PLUGIN_MORETICKET_WEBDIR."/ajax/updatestatus.php", ["question"=>'1',"status"=>$ticket->getField("status")]);
         $ajax_scripts = ob_get_clean();
 
         TemplateRenderer::getInstance()->display('@moreticket/waitingticket_question.html.twig', [

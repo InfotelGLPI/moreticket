@@ -27,10 +27,16 @@
  --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Moreticket\Config;
 
 Html::header_nocache();
 Session::checkLoginUser();
+
+if (!Session::haveRight('plugin_moreticket', READ)) {
+    throw new AccessDeniedHttpException();
+}
+
 header("Content-Type: application/json; charset=UTF-8");
 
 global $CFG_GLPI;
@@ -47,7 +53,7 @@ if (isset($_POST['action'])) {
             $urgency_ids           = $config->getUrgency_ids();
             $use_duration_solution = $config->useDurationSolution();
 
-            $params = ['root_doc'        => $CFG_GLPI["root_doc"].PLUGIN_MORETICKET_WEBDIR,
+            $params = ['root_doc'        => PLUGIN_MORETICKET_WEBDIR,
                          'waiting'         => CommonITILObject::WAITING,
                          'closed'          => CommonITILObject::CLOSED,
                          'use_waiting'     => $use_waiting,
