@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- moreticket plugin for GLPI
- Copyright (C) 2015-2026 by the moreticket Development Team.
-
- https://github.com/InfotelGLPI/moreticket
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of moreticket.
-
- moreticket is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- moreticket is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with moreticket. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * moreticket plugin for GLPI
+ * Copyright (C) 2015-2026 by the moreticket Development Team.
+ *
+ * https://github.com/InfotelGLPI/moreticket
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of moreticket.
+ *
+ * moreticket is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * moreticket is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with moreticket. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Moreticket;
@@ -43,13 +43,11 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-
 /**
  * Class Solution
  */
 class Solution extends CommonITILObject
 {
-
     public static $rightname = "plugin_moreticket";
 
     public static function getTaskClass()
@@ -110,7 +108,7 @@ class Solution extends CommonITILObject
                     Dropdown::showTimeStamp("duration_solution", ['min' => 0,
                         'max' => 8 * HOUR_TIMESTAMP,
                         'inhours' => true,
-                        'toadd' => $toadd
+                        'toadd' => $toadd,
                     ]);
                     $duration_dropdown = ob_get_clean();
 
@@ -179,7 +177,7 @@ class Solution extends CommonITILObject
                         'date_creation' => date('Y-m-d H:i:s'),
                         'date' => date(
                             'Y-m-d H:i:s',
-                            strtotime('- 10 seconds', strtotime(date('Y-m-d H:i:s')))
+                            strtotime('- 10 seconds', strtotime(date('Y-m-d H:i:s'))),
                         ),
                         'users_id' => Session::getLoginUserID(),
                         'users_id_tech' => Session::getLoginUserID(),
@@ -204,12 +202,12 @@ class Solution extends CommonITILObject
                             _n(
                                 'Mandatory field',
                                 'Mandatory fields',
-                                2
+                                2,
                             ) . " : " . __(
-                                'Duration'
+                                'Duration',
                             ),
                             false,
-                            ERROR
+                            ERROR,
                         );
                         $_SESSION['saveInput'][$solution->getType()] = $solution->input;
                         $solution->input = [];

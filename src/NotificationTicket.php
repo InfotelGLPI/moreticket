@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- moreticket plugin for GLPI
- Copyright (C) 2015-2026 by the moreticket Development Team.
-
- https://github.com/InfotelGLPI/moreticket
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of moreticket.
-
- moreticket is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- moreticket is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with moreticket. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * moreticket plugin for GLPI
+ * Copyright (C) 2015-2026 by the moreticket Development Team.
+ *
+ * https://github.com/InfotelGLPI/moreticket
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of moreticket.
+ *
+ * moreticket is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * moreticket is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with moreticket. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Moreticket;
@@ -42,64 +42,63 @@ if (!defined('GLPI_ROOT')) {
  */
 class NotificationTicket extends CommonDBTM
 {
-
     public static $types     = ['Ticket'];
     public $dohistory = true;
     public static $rightname = "plugin_moreticket";
 
-   /**
-    * @param \Ticket $ticket
-    */
+    /**
+     * @param \Ticket $ticket
+     */
     public static function afterAddTicket(\Ticket $ticket)
     {
         $notification = new NotificationTicket();
         if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
             $notification->add(
                 [
-                'tickets_id'           => $ticket->getID(),
-                'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-                ]
+                    'tickets_id'           => $ticket->getID(),
+                    'users_id_lastupdater' => $ticket->getField('users_id_lastupdater'),
+                ],
             );
         } else {
             $notification->update(
                 [
-                'id'                   => $notification->getID(),
-                'tickets_id'           => $ticket->getID(),
-                'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-                ]
+                    'id'                   => $notification->getID(),
+                    'tickets_id'           => $ticket->getID(),
+                    'users_id_lastupdater' => $ticket->getField('users_id_lastupdater'),
+                ],
             );
         }
     }
 
-   /**
-    * @param \Ticket $ticket
-    */
+    /**
+     * @param \Ticket $ticket
+     */
     public static function afterUpdateTicket(\Ticket $ticket)
     {
         $notification = new NotificationTicket();
         if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
             $notification->add(
                 [
-                'tickets_id'           => $ticket->getID(),
-                'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-                ]
+                    'tickets_id'           => $ticket->getID(),
+                    'users_id_lastupdater' => $ticket->getField('users_id_lastupdater'),
+                ],
             );
         } else {
             $notification->update(
                 [
-                'id'                   => $notification->getID(),
-                'tickets_id'           => $ticket->getID(),
-                'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-                ]
+                    'id'                   => $notification->getID(),
+                    'tickets_id'           => $ticket->getID(),
+                    'users_id_lastupdater' => $ticket->getField('users_id_lastupdater'),
+                ],
             );
         }
     }
 
-   /**
-    * @param \ITILFollowup $followup
-    *
-    * @return bool
-    */
+    /**
+     * @param \ITILFollowup $followup
+     *
+     * @return bool
+     */
     public static function afterAddFollowup(ITILFollowup $followup)
     {
         global $DB;
@@ -114,17 +113,17 @@ class NotificationTicket extends CommonDBTM
             if (!$notification->getFromDBByCrit(['tickets_id' => $ticket->getID()])) {
                 $notification->add(
                     [
-                      'tickets_id'           => $ticket->getID(),
-                      'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-                    ]
+                        'tickets_id'           => $ticket->getID(),
+                        'users_id_lastupdater' => $ticket->getField('users_id_lastupdater'),
+                    ],
                 );
             } else {
                 $notification->update(
                     [
-                      'id'                   => $notification->getID(),
-                      'tickets_id'           => $ticket->getID(),
-                      'users_id_lastupdater' => $ticket->getField('users_id_lastupdater')
-                    ]
+                        'id'                   => $notification->getID(),
+                        'tickets_id'           => $ticket->getID(),
+                        'users_id_lastupdater' => $ticket->getField('users_id_lastupdater'),
+                    ],
                 );
             }
         }
@@ -140,20 +139,20 @@ class NotificationTicket extends CommonDBTM
             case 'users_id_lastupdater':
                 $res         = " ";
                 $ticketUsers = new Ticket_User();
-  //            if ($values['users_id_lastupdater'] != Session::getLoginUserID()) {
-  //               if ($ticketUsers->getFromDBByCrit(['tickets_id' => $values['tickets_id'],
-  //                                                  'users_id' => $values['users_id_lastupdater'],
-  //                                                  'type' => Ticket_User::REQUESTER])) {
-  //                  if (!$ticketUsers->getFromDBByCrit(['tickets_id' => $values['tickets_id'],
-  //                                                      'users_id' => $values['users_id_lastupdater'],
-  //                                                      'type' => Ticket_User::ASSIGN])) {
-                     $res = "<i class='itilstatus ti ti-bell waiting'></i>";
-  //                  }
-  //               }
-  //            }
+                //            if ($values['users_id_lastupdater'] != Session::getLoginUserID()) {
+                //               if ($ticketUsers->getFromDBByCrit(['tickets_id' => $values['tickets_id'],
+                //                                                  'users_id' => $values['users_id_lastupdater'],
+                //                                                  'type' => Ticket_User::REQUESTER])) {
+                //                  if (!$ticketUsers->getFromDBByCrit(['tickets_id' => $values['tickets_id'],
+                //                                                      'users_id' => $values['users_id_lastupdater'],
+                //                                                      'type' => Ticket_User::ASSIGN])) {
+                $res = "<i class='itilstatus ti ti-bell waiting'></i>";
+                //                  }
+                //               }
+                //            }
 
                 return $res;
-            break;
+                break;
         }
         return parent::getSpecificValueToDisplay($field, $values, $options);
     }

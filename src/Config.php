@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- moreticket plugin for GLPI
- Copyright (C) 2015-2026 by the moreticket Development Team.
-
- https://github.com/InfotelGLPI/moreticket
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of moreticket.
-
- moreticket is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- moreticket is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with moreticket. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * moreticket plugin for GLPI
+ * Copyright (C) 2015-2026 by the moreticket Development Team.
+ *
+ * https://github.com/InfotelGLPI/moreticket
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of moreticket.
+ *
+ * moreticket is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * moreticket is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with moreticket. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Moreticket;
@@ -43,15 +43,14 @@ if (!defined('GLPI_ROOT')) {
  */
 class Config extends CommonDBTM
 {
-
-    static $rightname = "plugin_moreticket";
+    public static $rightname = "plugin_moreticket";
     private static $_instance = null;
-   /**
-    * @param bool $update
-    *
-    * @return null|Config
-    */
-    static function getConfig($update = false)
+    /**
+     * @param bool $update
+     *
+     * @return null|Config
+     */
+    public static function getConfig($update = false)
     {
         static $config = null;
 
@@ -64,10 +63,10 @@ class Config extends CommonDBTM
         return $config;
     }
 
-   /**
-    * Config constructor.
-    */
-    function __construct()
+    /**
+     * Config constructor.
+     */
+    public function __construct()
     {
         global $DB;
 
@@ -76,12 +75,12 @@ class Config extends CommonDBTM
         }
     }
 
-   /**
-    * @param int $nb
-    *
-    * @return
-    */
-    static function getTypeName($nb = 0)
+    /**
+     * @param int $nb
+     *
+     * @return
+     */
+    public static function getTypeName($nb = 0)
     {
         return __("Setup");
     }
@@ -90,7 +89,7 @@ class Config extends CommonDBTM
     /**
      * Singleton for the unique config record
      */
-    static function getInstance()
+    public static function getInstance()
     {
         if (!isset(self::$_instance)) {
             self::$_instance = new self();
@@ -122,7 +121,7 @@ class Config extends CommonDBTM
             'useDurationSolution' => $this->useDurationSolution(),
             'useUrgency' => $this->useUrgency(),
             'urgency_ids' => self::getValuesUrgency(),
-            'solution_status_checked'=> $checked_statuses,
+            'solution_status_checked' => $checked_statuses,
             'all_solution_statuses'  => $filtered_statuses,
             'form_url' => $this->getFormURL(),
             'urgency_selected' => $dbu->importArrayFromDB($this->fields["urgency_ids"]),
@@ -137,11 +136,11 @@ class Config extends CommonDBTM
         return true;
     }
 
-   /**
-    * @param $input
-    *
-    * @return array|mixed
-    */
+    /**
+     * @param $input
+     *
+     * @return array|mixed
+     */
     public function getSolutionStatus($input)
     {
 
@@ -154,98 +153,98 @@ class Config extends CommonDBTM
         return $solution_status;
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function useWaiting()
     {
         return $this->fields['use_waiting'];
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function mandatoryReportDate()
     {
         return $this->fields['date_report_mandatory'];
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function mandatoryWaitingType()
     {
         return $this->fields['waitingtype_mandatory'];
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function mandatoryWaitingReason()
     {
         return $this->fields['waitingreason_mandatory'];
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function useSolution()
     {
         return $this->fields['use_solution'];
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function mandatorySolutionType()
     {
         return $this->fields['solutiontype_mandatory'];
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function solutionStatus()
     {
         return $this->fields["solution_status"];
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function closeInformations()
     {
         return $this->fields["close_informations"];
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function closeFollowup()
     {
         return $this->fields["close_followup"];
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function useUrgency()
     {
         return $this->fields['urgency_justification'];
     }
 
-   /**
-    * @return array
-    */
+    /**
+     * @return array
+     */
     public function getUrgency_ids()
     {
         $dbu = new DbUtils();
         return $dbu->importArrayFromDB($this->fields['urgency_ids']);
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function useDurationSolution()
     {
         if (isset($this->fields['use_duration_solution'])) {
@@ -254,9 +253,9 @@ class Config extends CommonDBTM
         return false;
     }
 
-   /**
-    * @return mixed
-    */
+    /**
+     * @return mixed
+     */
     public function isMandatorysolution()
     {
         return $this->fields['is_mandatory_solution'];
@@ -267,9 +266,9 @@ class Config extends CommonDBTM
         return $this->fields['use_question'];
     }
 
-   /**
-    * @return array
-    */
+    /**
+     * @return array
+     */
     public static function getValuesUrgency()
     {
         global $CFG_GLPI;

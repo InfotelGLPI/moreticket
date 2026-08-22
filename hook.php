@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- moreticket plugin for GLPI
- Copyright (C) 2015-2026 by the moreticket Development Team.
-
- https://github.com/InfotelGLPI/moreticket
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of moreticket.
-
- moreticket is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- moreticket is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with moreticket. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * moreticket plugin for GLPI
+ * Copyright (C) 2015-2026 by the moreticket Development Team.
+ *
+ * https://github.com/InfotelGLPI/moreticket
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of moreticket.
+ *
+ * moreticket is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * moreticket is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with moreticket. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 use GlpiPlugin\Moreticket\CloseTicket;
@@ -137,17 +137,17 @@ function plugin_moreticket_uninstall()
         "glpi_plugin_moreticket_waitingtypes",
         "glpi_plugin_moreticket_closetickets",
         "glpi_plugin_moreticket_urgencytickets",
-        "glpi_plugin_moreticket_notificationtickets"
+        "glpi_plugin_moreticket_notificationtickets",
     ];
-
-    foreach ($tables as $table) {
-        $DB->dropTable($table, true);
-    }
 
     //Delete rights associated with the plugin
     $profileRight = new ProfileRight();
     foreach (Profile::getAllRights() as $right) {
         $profileRight->deleteByCriteria(['name' => $right['field']]);
+    }
+
+    foreach ($tables as $table) {
+        $DB->dropTable($table, true);
     }
 
     CronTask::Unregister('Moreticket');
@@ -203,15 +203,15 @@ function plugin_moreticket_getAddSearchOptions($itemtype)
             //         $sopt[3451]['massiveaction'] = false;
             //
             //Used by Mydashboard
-             $sopt[3452]['table']         = 'glpi_plugin_moreticket_waitingtypes';
-             $sopt[3452]['field']         = 'name';
-             $sopt[3452]['name']          = WaitingType::getTypeName(1);
-             $sopt[3452]['datatype']      = "dropdown";
-             $condition                   = "AND (`NEWTABLE`.`date_end_suspension` IS NULL)";
-             $sopt[3452]['joinparams']    = ['beforejoin'
-                                                  => ['table'      => 'glpi_plugin_moreticket_waitingtickets',
-                                                           'joinparams' => ['jointype'  => 'child',
-                                                                                 'condition' => $condition]]];
+            $sopt[3452]['table']         = 'glpi_plugin_moreticket_waitingtypes';
+            $sopt[3452]['field']         = 'name';
+            $sopt[3452]['name']          = WaitingType::getTypeName(1);
+            $sopt[3452]['datatype']      = "dropdown";
+            $condition                   = "AND (`NEWTABLE`.`date_end_suspension` IS NULL)";
+            $sopt[3452]['joinparams']    = ['beforejoin'
+                                                 => ['table'      => 'glpi_plugin_moreticket_waitingtickets',
+                                                     'joinparams' => ['jointype'  => 'child',
+                                                         'condition' => $condition]]];
             //         $sopt[3452]['massiveaction'] = false;
 
             if ($config->closeInformations()) {
@@ -239,10 +239,10 @@ function plugin_moreticket_getAddSearchOptions($itemtype)
                 $sopt[3486]['table'] = 'glpi_documents';
                 $sopt[3486]['field'] = 'name';
                 $sopt[3486]['name'] = __('Close ticket informations', 'moreticket') . " : " . _n(
-                        'Document',
-                        'Documents',
-                        Session::getPluralNumber()
-                    );
+                    'Document',
+                    'Documents',
+                    Session::getPluralNumber(),
+                );
                 $sopt[3486]['forcegroupby'] = true;
                 $sopt[3486]['usehaving'] = true;
                 $sopt[3486]['datatype'] = 'dropdown';
@@ -255,10 +255,10 @@ function plugin_moreticket_getAddSearchOptions($itemtype)
                             'specific_itemtype' => CloseTicket::class,
                             'beforejoin' => [
                                 'table' => 'glpi_plugin_moreticket_closetickets',
-                                'joinparams' => []
-                            ]
-                        ]
-                    ]
+                                'joinparams' => [],
+                            ],
+                        ],
+                    ],
                 ];
             }
 
@@ -286,7 +286,7 @@ function plugin_moreticket_pre_item_form($params)
         case 'ITILSolution':
             if ($config->isMandatorysolution() == true) {
                 \Glpi\Application\View\TemplateRenderer::getInstance()->display(
-                    '@moreticket/solution_mandatory_warning.html.twig'
+                    '@moreticket/solution_mandatory_warning.html.twig',
                 );
             }
             break;
@@ -312,7 +312,7 @@ function plugin_moreticket_post_item_form($params)
                             echo Html::scriptBlock(
                                 "$(document).ready(function(){
                         $('.itilsolution').children().find(':submit').hide();
-                     });"
+                     });",
                             );
                         }
                     }
@@ -331,16 +331,16 @@ function plugin_moreticket_post_item_form($params)
                     'SELECT' => 'timeline_action_btn_layout',
                     'FROM' => 'glpi_users',
                     'WHERE' => [
-                        'id' => Session::getLoginUserID()
-                    ]
+                        'id' => Session::getLoginUserID(),
+                    ],
                 ])->current()['timeline_action_btn_layout'];
                 if ($actionButtonLayout === null) {
                     $actionButtonLayout = $DB->request([
                         'SELECT' => 'value',
                         'FROM' => 'glpi_configs',
                         'WHERE' => [
-                            'name' => 'timeline_action_btn_layout'
-                        ]
+                            'name' => 'timeline_action_btn_layout',
+                        ],
                     ])->current()['value'];
                 }
                 $element = 'a';
@@ -354,7 +354,7 @@ function plugin_moreticket_post_item_form($params)
                                 let inputs = document.getElementById('new-itilobject-form').querySelectorAll('[id^=\"enable-pending-reasons\"]');
                                 if (!inputs[1].checked) inputs[1].click();
                             })
-                        })"
+                        })",
                 );
             }
             break;
@@ -375,7 +375,7 @@ function plugin_moreticket_post_item_form($params)
                                 let input = document.getElementById('new-itilobject-form').querySelector('[id^=\"enable-pending-reasons\"]');
                                 if (!input.checked) input.click();
                             })
-                        });"
+                        });",
                         );
                     }
                 }

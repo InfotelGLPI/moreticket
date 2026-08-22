@@ -61,7 +61,7 @@ parameters:
 			path: src/CloseTicket.php
 
 		-
-			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\r\\n    ", expected type at offset 47 on line 4$#'
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 47 on line 4$#'
 			identifier: phpDoc.parseError
 			count: 1
 			path: src/Config.php
@@ -241,13 +241,13 @@ parameters:
 			path: src/UrgencyTicket.php
 
 		-
-			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\r\\n     \* ", expected type at offset 260 on line 9$#'
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     \* ", expected type at offset 252 on line 9$#'
 			identifier: phpDoc.parseError
 			count: 1
 			path: src/UrgencyTicket.php
 
 		-
-			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\r\\n     \*", expected type at offset 136 on line 5$#'
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     \*", expected type at offset 132 on line 5$#'
 			identifier: phpDoc.parseError
 			count: 1
 			path: src/UrgencyTicket.php
@@ -273,12 +273,6 @@ parameters:
 		-
 			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showForTicket\(\) has invalid return type GlpiPlugin\\Moreticket\\Nothing\.$#'
 			identifier: class.notFound
-			count: 1
-			path: src/WaitingTicket.php
-
-		-
-			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showForTicket\(\) should return GlpiPlugin\\Moreticket\\Nothing but empty return statement found\.$#'
-			identifier: return.empty
 			count: 1
 			path: src/WaitingTicket.php
 
@@ -319,13 +313,13 @@ parameters:
 			path: src/WaitingTicket.php
 
 		-
-			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\r\\n     \* ", expected type at offset 260 on line 9$#'
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     \* ", expected type at offset 252 on line 9$#'
 			identifier: phpDoc.parseError
 			count: 1
 			path: src/WaitingTicket.php
 
 		-
-			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\r\\n     \*", expected type at offset 136 on line 5$#'
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     \*", expected type at offset 132 on line 5$#'
 			identifier: phpDoc.parseError
 			count: 1
 			path: src/WaitingTicket.php

@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- moreticket plugin for GLPI
- Copyright (C) 2015-2026 by the moreticket Development Team.
-
- https://github.com/InfotelGLPI/moreticket
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of moreticket.
-
- moreticket is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- moreticket is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with moreticket. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * moreticket plugin for GLPI
+ * Copyright (C) 2015-2026 by the moreticket Development Team.
+ *
+ * https://github.com/InfotelGLPI/moreticket
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of moreticket.
+ *
+ * moreticket is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * moreticket is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with moreticket. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Moreticket;
@@ -174,10 +174,10 @@ class UrgencyTicket extends CommonDBTM
         // Html::textarea echoes its markup directly: capture it into an HTML slot.
         ob_start();
         Html::textarea(['name'            => 'justification',
-                        'value'           => $this->fields['justification'],
-                        'cols'            => 30,
-                        'rows'            => 5,
-                        'enable_richtext' => false]);
+            'value'           => $this->fields['justification'],
+            'cols'            => 30,
+            'rows'            => 5,
+            'enable_richtext' => false]);
         $justification_field = ob_get_clean();
 
         TemplateRenderer::getInstance()->display('@moreticket/urgencyticket_form.html.twig', [
@@ -238,13 +238,13 @@ class UrgencyTicket extends CommonDBTM
                         if ($urgency_ticket_data = self::getUrgencyTicketFromDB($item->fields['id'])) {
                             // UPDATE
                             $urgency_ticket->update(['id'            => $urgency_ticket_data['id'],
-                                                     'justification' => $item->input['justification']]);
+                                'justification' => $item->input['justification']]);
                         } else {
                             // ADD
                             // Then we add tickets informations
                             if ($urgency_ticket->add(
                                 ['justification' => (isset($item->input['justification'])) ? $item->input['justification'] : "",
-                                'tickets_id'    => $item->fields['id']]
+                                    'tickets_id'    => $item->fields['id']],
                             )
                             ) {
                                 unset($_SESSION['glpi_plugin_moreticket_urgency']);
@@ -279,7 +279,7 @@ class UrgencyTicket extends CommonDBTM
                     if (isset($urgency_ticket_data['id'])
                         && !in_array($item->input['urgency'], $urgency_ids)) {
                         $urgency_ticket->update(['id'            => $urgency_ticket_data['id'],
-                                                 'justification' => ""]);
+                            'justification' => ""]);
                     }
 
                     unset($_SESSION['glpi_plugin_moreticket_urgency']);
@@ -346,7 +346,7 @@ class UrgencyTicket extends CommonDBTM
                 if (self::checkMandatory($item->input)) {
                     // Then we add tickets informations
                     if ($urgency_ticket->add(['justification' => $item->input['justification'],
-                                              'tickets_id'    => $item->fields['id']])
+                        'tickets_id'    => $item->fields['id']])
                     ) {
                         unset($_SESSION['glpi_plugin_moreticket_urgency']);
                     }

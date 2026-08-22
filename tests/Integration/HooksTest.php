@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- moreticket plugin for GLPI
- Copyright (C) 2015-2026 by the moreticket Development Team.
-
- https://github.com/InfotelGLPI/moreticket
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of moreticket.
-
- moreticket is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- moreticket is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with moreticket. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * moreticket plugin for GLPI
+ * Copyright (C) 2015-2026 by the moreticket Development Team.
+ *
+ * https://github.com/InfotelGLPI/moreticket
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of moreticket.
+ *
+ * moreticket is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * moreticket is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with moreticket. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Moreticket\Tests\Integration;
@@ -137,7 +137,7 @@ class HooksTest extends DbTestCase
 
         $this->assertFalse(
             WaitingTicket::getWaitingTicketFromDB($ticket->getID()),
-            'Aucun WaitingTicket ne doit exister avant le hook.'
+            'Aucun WaitingTicket ne doit exister avant le hook.',
         );
 
         MtTicketTask::beforeAdd($task);
@@ -220,7 +220,7 @@ class HooksTest extends DbTestCase
 
         $this->assertFalse(
             WaitingTicket::getWaitingTicketFromDB($ticket->getID()),
-            'Aucun WaitingTicket ne doit exister avant le hook.'
+            'Aucun WaitingTicket ne doit exister avant le hook.',
         );
 
         MtTicketFollowup::beforeAdd($followup);
@@ -280,7 +280,7 @@ class HooksTest extends DbTestCase
         $this->assertContains(
             (int) $ticket->fields['status'],
             \Ticket::getProcessStatusArray(),
-            'Le ticket doit être dans un statut "en cours" pour que le hook soit actif.'
+            'Le ticket doit être dans un statut "en cours" pour que le hook soit actif.',
         );
 
         $task         = new \TicketTask();

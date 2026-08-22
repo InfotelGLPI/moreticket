@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- moreticket plugin for GLPI
- Copyright (C) 2015-2026 by the moreticket Development Team.
-
- https://github.com/InfotelGLPI/moreticket
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of moreticket.
-
- moreticket is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- moreticket is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with moreticket. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * moreticket plugin for GLPI
+ * Copyright (C) 2015-2026 by the moreticket Development Team.
+ *
+ * https://github.com/InfotelGLPI/moreticket
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of moreticket.
+ *
+ * moreticket is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * moreticket is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with moreticket. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Moreticket;
@@ -41,7 +41,6 @@ use Log;
 use Session;
 use SolutionTemplate;
 use Toolbox;
-
 use GlpiPlugin\Moreticket\Config;
 
 if (!defined('GLPI_ROOT')) {
@@ -123,8 +122,8 @@ class CloseTicket extends CommonDBTM
                         __('Close ticket informations', 'moreticket'),
                         $dbu->countElementsInTable(
                             $this->getTable(),
-                            ["tickets_id" => $item->getID()]
-                        )
+                            ["tickets_id" => $item->getID()],
+                        ),
                     );
                 }
                 return __('Close ticket informations', 'moreticket');
@@ -207,10 +206,10 @@ class CloseTicket extends CommonDBTM
                 __('Ticket cannot be closed', 'moreticket') . "<br>" . _n(
                     'Mandatory field',
                     'Mandatory fields',
-                    2
+                    2,
                 ) . " : " . implode(', ', $msg),
                 false,
-                ERROR
+                ERROR,
             );
             return false;
         }
@@ -336,7 +335,7 @@ class CloseTicket extends CommonDBTM
         $data = $dbu->getAllDataFromTable(
             "glpi_plugin_moreticket_closetickets",
             ['tickets_id' => $item->getField('id')] + ['ORDER' => 'date DESC'],
-            false
+            false,
         );
 
         $entries = [];
@@ -399,7 +398,7 @@ class CloseTicket extends CommonDBTM
             + ['ORDER' => 'date DESC']
             + ['START' => (int) $options['start']]
             + ['LIMIT' => (int) $options['limit']],
-            false
+            false,
         );
 
         return $data;
@@ -485,7 +484,7 @@ class CloseTicket extends CommonDBTM
                 'value' => $ticket->getField('solutiontypes_id'),
                 'rand' => $rand,
                 'entity' => $ticket->getEntityID(),
-            ]
+            ],
         );
         $solution_type_dropdown = ob_get_clean();
 
@@ -650,7 +649,7 @@ class CloseTicket extends CommonDBTM
         $changes[1] = '';
         $changes[2] = sprintf(
             __('%1$s added closing informations', 'moreticket'),
-            getUserName(Session::getLoginUserID())
+            getUserName(Session::getLoginUserID()),
         );
         Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
@@ -670,7 +669,7 @@ class CloseTicket extends CommonDBTM
         $changes[1] = '';
         $changes[2] = sprintf(
             __('%1$s updated closing informations', 'moreticket'),
-            getUserName(Session::getLoginUserID())
+            getUserName(Session::getLoginUserID()),
         );
         Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
@@ -690,7 +689,7 @@ class CloseTicket extends CommonDBTM
         $changes[1] = '';
         $changes[2] = sprintf(
             __('%1$s deleted closing informations', 'moreticket'),
-            getUserName(Session::getLoginUserID())
+            getUserName(Session::getLoginUserID()),
         );
         Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
