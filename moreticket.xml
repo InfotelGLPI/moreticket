@@ -12,7 +12,7 @@
         </short>
         <long>
             <fr><![CDATA[Ce plugin permet d'ajouter 4 nouvelles options sur un ticket GLPI<br />- A la création d'un ticket, lors de la sélection du statut "Résolu" ou "Clos", le ticket vous proposera de remplir la solution du ticket,<br />- A la création et à la modification d'un ticket, lors de la sélection du statut "En attente", vous pourrez définir des types d'attente, la raison de la mise en attente ainsi qu'une date de report,<br />- Une nouvelle zone sera disponible pour ajouter des informations suite à la clôture du ticket, <br />- A la création et à la modification d'un ticket, lors de la sélection de l'urgence en fonction du paramètrage effectué dans la configuration du plugin, vous pourrez définir une justification.]]></fr>
-            <en></en>
+            <en><![CDATA[This plugin enables you to add 4 new options into a ticket.<br />- When creating a ticket, when selecting the "Resolved" or "Closed" status, the ticket will prompt you to fill in the ticket solution,<br />- When creating or modifying a ticket, when selecting the "Pending" status, you can define pending types, the reason for the delay and a report date,<br />- A new area will be available to add information after closing the ticket, <br />- When creating and modifying a ticket, when selecting urgency based on the configuration of the plugin, you can define a justification.]]></en>
             <cs><![CDATA[Tento zásuvný modul umožňuje do požadavku přidat 4 nové volby.<br />- Při vytváření požadavku při výběru stavu „vyřešeno“ nebo „Uzavřeno“ požadavek nabídne vyplnění jeho řešení,<br />- Při vytváření nebo úpravě požadavku při výběru stavu „čekající“ je možné určit typy čekání, důvod čekání a datum hlášení,<br />- K dispozici bude nová zóna pro přidání informace po uzavření požadavku, <br />- Při vytváření a úpravě požadavku při výběru naléhavosti v závislosti na nastavení zásuvného modulu je možné určit odůvodnění.]]></cs>
         </long>
     </description>
@@ -25,6 +25,11 @@
         <author>Infotel</author>
     </authors>
     <versions>
+        <version>
+            <num>1.8.10</num>
+            <compatibility>~11.0</compatibility>
+            <download_url>https://github.com/InfotelGLPI/moreticket/releases/download/1.8.10/glpi-moreticket-1.8.10.tar.bz2</download_url>
+        </version>
         <version>
             <num>1.8.9</num>
             <compatibility>~11.0</compatibility>
