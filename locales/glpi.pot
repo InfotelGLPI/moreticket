@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-01 11:36+0000\n"
+"POT-Creation-Date: 2026-08-22 18:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,22 +18,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: src/CloseTicket.php:652
+#: src/CloseTicket.php:651
 #, php-format
 msgid "%1$s added closing informations"
 msgstr ""
 
-#: src/CloseTicket.php:692
+#: src/CloseTicket.php:691
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr ""
 
-#: src/CloseTicket.php:672
+#: src/CloseTicket.php:671
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr ""
 
-#: src/WaitingTicket.php:1065
+#: src/WaitingTicket.php:1063
 #, php-format
 msgid "%s duplicates deleted"
 msgstr ""
@@ -63,8 +63,8 @@ msgstr ""
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 
-#: src/CloseTicket.php:123 src/CloseTicket.php:130 src/CloseTicket.php:171
-#: hook.php:220 hook.php:227 hook.php:234 hook.php:241
+#: hook.php:220 hook.php:227 hook.php:234 hook.php:241 src/CloseTicket.php:122
+#: src/CloseTicket.php:129 src/CloseTicket.php:170
 #: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
 msgstr ""
@@ -73,8 +73,14 @@ msgstr ""
 msgid "Comments"
 msgstr ""
 
+#: hook.php:242
+msgid "Document"
+msgid_plural "Documents"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Solution.php:207 templates/closeticket_solution_form.html.twig:58
 #: templates/solution_duration.html.twig:30
-#: templates/closeticket_solution_form.html.twig:58
 msgid "Duration"
 msgstr ""
 
@@ -82,7 +88,7 @@ msgstr ""
 msgid "Duration is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:877
+#: src/WaitingTicket.php:876
 msgid "End of standby ticket"
 msgstr ""
 
@@ -97,6 +103,12 @@ msgstr ""
 #: templates/config.html.twig:166
 msgid "Mandatory 'Duration' field"
 msgstr ""
+
+#: src/CloseTicket.php:207 src/Solution.php:203
+msgid "Mandatory field"
+msgid_plural "Mandatory fields"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/Profile.php:58 src/Profile.php:163 setup.php:130
 msgid "More ticket"
@@ -129,7 +141,7 @@ msgctxt "button"
 msgid "Save"
 msgstr ""
 
-#: src/CloseTicket.php:187 src/CloseTicket.php:548
+#: src/CloseTicket.php:186 src/CloseTicket.php:547
 msgid "Solution description"
 msgstr ""
 
@@ -149,11 +161,11 @@ msgstr ""
 msgid "Suspension end date"
 msgstr ""
 
-#: src/CloseTicket.php:207
+#: src/CloseTicket.php:206
 msgid "Ticket cannot be closed"
 msgstr ""
 
-#: src/UrgencyTicket.php:105 src/WaitingTicket.php:191
+#: src/WaitingTicket.php:191 src/UrgencyTicket.php:105
 msgid "Ticket cannot be saved"
 msgstr ""
 
@@ -231,7 +243,7 @@ msgstr[1] ""
 msgid "Waiting ticket cannot be saved"
 msgstr ""
 
-#: src/WaitingTicket.php:829
+#: src/WaitingTicket.php:828
 msgid "Waiting ticket exceedeed"
 msgstr ""
 
