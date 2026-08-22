@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-28 08:58+0000\n"
+"POT-Creation-Date: 2026-08-01 11:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,17 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: src/CloseTicket.php:626
+#: src/CloseTicket.php:652
 #, php-format
 msgid "%1$s added closing informations"
 msgstr ""
 
-#: src/CloseTicket.php:666
+#: src/CloseTicket.php:692
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr ""
 
-#: src/CloseTicket.php:646
+#: src/CloseTicket.php:672
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr ""
@@ -63,7 +63,7 @@ msgstr ""
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 
-#: src/CloseTicket.php:97 src/CloseTicket.php:104 src/CloseTicket.php:145
+#: src/CloseTicket.php:123 src/CloseTicket.php:130 src/CloseTicket.php:171
 #: hook.php:220 hook.php:227 hook.php:234 hook.php:241
 #: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
@@ -129,7 +129,7 @@ msgctxt "button"
 msgid "Save"
 msgstr ""
 
-#: src/CloseTicket.php:161 src/CloseTicket.php:522
+#: src/CloseTicket.php:187 src/CloseTicket.php:548
 msgid "Solution description"
 msgstr ""
 
@@ -149,7 +149,7 @@ msgstr ""
 msgid "Suspension end date"
 msgstr ""
 
-#: src/CloseTicket.php:181
+#: src/CloseTicket.php:207
 msgid "Ticket cannot be closed"
 msgstr ""
 
