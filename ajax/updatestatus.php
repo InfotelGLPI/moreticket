@@ -27,10 +27,12 @@
  * --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\AccessDeniedHttpException;
+
 Html::header_nocache();
 
 if (!Session::haveRight('plugin_moreticket', READ)) {
-    throw new \Glpi\Exception\Http\AccessDeniedHttpException();
+    throw new AccessDeniedHttpException();
 }
 header("Content-Type: text/html; charset=UTF-8");
 
