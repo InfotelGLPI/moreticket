@@ -2,41 +2,42 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Daisuke INOUE, 2026
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 15:49+0000\n"
+"POT-Creation-Date: 2026-08-31 14:53+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Daisuke INOUE, 2026\n"
-"Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/teams/50826/ja_JP/)\n"
+"Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/"
+"teams/50826/ja_JP/)\n"
+"Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/CloseTicket.php:652
+#: src/CloseTicket.php:651
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s が終了情報を追加"
 
-#: src/CloseTicket.php:692
+#: src/CloseTicket.php:691
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s が終了情報を削除"
 
-#: src/CloseTicket.php:672
+#: src/CloseTicket.php:671
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s が終了情報を更新"
 
-#: src/WaitingTicket.php:1065
+#: src/WaitingTicket.php:1063
 #, php-format
 msgid "%s duplicates deleted"
 msgstr "%s 件の重複を削除しました"
@@ -66,8 +67,8 @@ msgstr "「回答を追加したらチケットを保留にする」を標準に
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr "「タスクを追加したらチケットを保留にする」を標準にする場合はチェック"
 
-#: src/CloseTicket.php:123 src/CloseTicket.php:130 src/CloseTicket.php:171
-#: hook.php:220 hook.php:227 hook.php:234 hook.php:241
+#: hook.php:220 hook.php:227 hook.php:234 hook.php:241 src/CloseTicket.php:122
+#: src/CloseTicket.php:129 src/CloseTicket.php:170
 #: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
 msgstr "チケット終了情報"
@@ -76,8 +77,13 @@ msgstr "チケット終了情報"
 msgid "Comments"
 msgstr "コメント"
 
+#: hook.php:242
+msgid "Document"
+msgid_plural "Documents"
+msgstr[0] ""
+
+#: src/Solution.php:207 templates/closeticket_solution_form.html.twig:58
 #: templates/solution_duration.html.twig:30
-#: templates/closeticket_solution_form.html.twig:58
 msgid "Duration"
 msgstr "期間"
 
@@ -85,7 +91,7 @@ msgstr "期間"
 msgid "Duration is mandatory"
 msgstr "期間は必須です"
 
-#: src/WaitingTicket.php:877
+#: src/WaitingTicket.php:876
 msgid "End of standby ticket"
 msgstr "準備チケットの終了"
 
@@ -100,6 +106,11 @@ msgstr "正当性"
 #: templates/config.html.twig:166
 msgid "Mandatory 'Duration' field"
 msgstr "「期間」を必須に"
+
+#: src/CloseTicket.php:207 src/Solution.php:203
+msgid "Mandatory field"
+msgid_plural "Mandatory fields"
+msgstr[0] ""
 
 #: src/Profile.php:58 src/Profile.php:163 setup.php:130
 msgid "More ticket"
@@ -132,7 +143,7 @@ msgctxt "button"
 msgid "Save"
 msgstr "保存"
 
-#: src/CloseTicket.php:187 src/CloseTicket.php:548
+#: src/CloseTicket.php:186 src/CloseTicket.php:547
 msgid "Solution description"
 msgstr "解決情報"
 
@@ -152,11 +163,11 @@ msgstr "中断日"
 msgid "Suspension end date"
 msgstr "実再開日"
 
-#: src/CloseTicket.php:207
+#: src/CloseTicket.php:206
 msgid "Ticket cannot be closed"
 msgstr "チケットを終了できません"
 
-#: src/UrgencyTicket.php:105 src/WaitingTicket.php:191
+#: src/WaitingTicket.php:191 src/UrgencyTicket.php:105
 msgid "Ticket cannot be saved"
 msgstr "チケットを保存できません"
 
@@ -233,7 +244,7 @@ msgstr[0] "保留チケット"
 msgid "Waiting ticket cannot be saved"
 msgstr "保留チケットを保存できません"
 
-#: src/WaitingTicket.php:829
+#: src/WaitingTicket.php:828
 msgid "Waiting ticket exceedeed"
 msgstr "チケットの保留を延長"
 

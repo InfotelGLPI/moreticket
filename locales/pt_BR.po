@@ -2,215 +2,281 @@
 # Copyright (C) YEAR MoreTicket Development Team
 # This file is distributed under the same license as the GLPI - MoreTicket plugin package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2020
 # Andre Cardoso <hsbs.andrecv@gmail.com>, 2021
 # Luka Sabino Carvalho <luka@gotek.com.br>, 2022
 # Anderson Koester, 2024
 # Pedro Alves, 2024
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-09 08:34+0000\n"
+"POT-Creation-Date: 2026-08-31 14:53+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Pedro Alves, 2024\n"
-"Language-Team: Portuguese (Brazil) (https://app.transifex.com/infotelGLPI/teams/50826/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (https://app.transifex.com/infotelGLPI/"
+"teams/50826/pt_BR/)\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
-"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
+"1000000 == 0 ? 1 : 2;\n"
 
-#: hook.php:257 hook.php:264 hook.php:271 hook.php:278
-#: inc/closeticket.class.php:78 inc/closeticket.class.php:82
-#: inc/closeticket.class.php:126 inc/closeticket.class.php:186
-#: inc/closeticket.class.php:339 inc/closeticket.class.php:393
-#: inc/config.class.php:181
-msgid "Close ticket informations"
-msgstr "Encerrar informações do Chamado"
-
-#: hook.php:292
-msgid "Updated by a user"
-msgstr "Atualizado pelo usuário"
-
-#: setup.php:117 inc/profile.class.php:50 inc/profile.class.php:212
-msgid "More ticket"
-msgstr "Mais Chamados"
-
-#: front/config.form.php:67
-msgid "Please activate the plugin"
-msgstr "Por favor ative o plugin"
-
-#: inc/closeticket.class.php:142 inc/closeticket.class.php:509
-msgid "Solution description"
-msgstr "Descrição da solução"
-
-#: inc/closeticket.class.php:161
-msgid "Ticket cannot be closed"
-msgstr "Chamado não pode ser fechado"
-
-#: inc/closeticket.class.php:643
+#: src/CloseTicket.php:651
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s adicionadas informações de fechamento"
 
-#: inc/closeticket.class.php:663
-#, php-format
-msgid "%1$s updated closing informations"
-msgstr "%1$s atualizadas informações de fechamento"
-
-#: inc/closeticket.class.php:683
+#: src/CloseTicket.php:691
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s apagadas às informações de fechamento"
 
-#: inc/config.class.php:98 inc/waitingticket.class.php:906
-msgid "Ticket waiting"
-msgstr "Chamado aguardando"
+#: src/CloseTicket.php:671
+#, php-format
+msgid "%1$s updated closing informations"
+msgstr "%1$s atualizadas informações de fechamento"
 
-#: inc/config.class.php:102
-msgid "Use waiting process"
-msgstr "Utilizar o processo de Aguardando"
+#: src/WaitingTicket.php:1063
+#, php-format
+msgid "%s duplicates deleted"
+msgstr ""
 
-#: inc/config.class.php:120
-msgid "Postponement date is mandatory"
-msgstr "Data de prorrogação é obrigatório"
+#: templates/closeticket_form.html.twig:64
+msgctxt "button"
+msgid "Add"
+msgstr ""
 
-#: inc/config.class.php:135
-msgid "Waiting reason is mandatory"
-msgstr "Motivo de aguardando é obrigatório"
-
-#: inc/config.class.php:142
-msgid "Add followup when waiting date is reached"
-msgstr "Adicionar acompanhamento quando a data de espera for atingida"
-
-#: inc/config.class.php:154
-msgid "Ticket resolution and close"
-msgstr "Resolução de chamado e fechamento"
-
-#: inc/config.class.php:156
-msgid "Use solution process"
-msgstr "Use processo de solução"
-
-#: inc/config.class.php:174
-msgid "Solution type is mandatory"
-msgstr "Tipo de solução é obrigatório"
-
-#: inc/config.class.php:187
-msgid "Status used to display solution block"
-msgstr "Status usado para exibir o bloco de solução"
-
-#: inc/config.class.php:200
+#: templates/config.html.twig:150
 msgid "Add a followup on immediate ticket closing"
 msgstr "Adicionar um acompanhamento imediatamente após fechamento do chamado"
 
-#: inc/config.class.php:206
-msgid "Use the 'Duration' field in the add solution interface"
-msgstr "Use o campo \"Duração\" para adicionar na interface de solução"
+#: templates/config.html.twig:74
+msgid "Add followup when waiting date is reached"
+msgstr "Adicionar acompanhamento quando a data de espera for atingida"
 
-#: inc/config.class.php:220
+#: src/Profile.php:169 src/Profile.php:187
+msgid "Adding a justification of urgency"
+msgstr "A adicionar uma justificativa de urgência."
+
+#: templates/config.html.twig:81
+msgid "Check by default to put the ticket on waiting when adding a follow-up"
+msgstr ""
+
+#: templates/config.html.twig:88
+msgid "Check by default to put the ticket on waiting when adding a task"
+msgstr ""
+
+#: hook.php:220 hook.php:227 hook.php:234 hook.php:241 src/CloseTicket.php:122
+#: src/CloseTicket.php:129 src/CloseTicket.php:170
+#: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
+msgid "Close ticket informations"
+msgstr "Encerrar informações do Chamado"
+
+#: templates/closeticket_form.html.twig:48
+msgid "Comments"
+msgstr ""
+
+#: hook.php:242
+msgid "Document"
+msgid_plural "Documents"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/Solution.php:207 templates/closeticket_solution_form.html.twig:58
+#: templates/solution_duration.html.twig:30
+msgid "Duration"
+msgstr ""
+
+#: templates/solution_mandatory_warning.html.twig:35
+msgid "Duration is mandatory"
+msgstr ""
+
+#: src/WaitingTicket.php:876
+msgid "End of standby ticket"
+msgstr "Fim do chamado pendente"
+
+#: src/Profile.php:177 src/Profile.php:195
+msgid "Hide task duration in tickets"
+msgstr "Ocultar a duração de Tarefas nos Tickets"
+
+#: src/UrgencyTicket.php:80 templates/urgencyticket_form.html.twig:33
+msgid "Justification"
+msgstr "Justificativa"
+
+#: templates/config.html.twig:166
 msgid "Mandatory 'Duration' field"
 msgstr "Campo \"Duração\" é obrigatório"
 
-#: inc/config.class.php:225
+#: src/CloseTicket.php:207 src/Solution.php:203
+msgid "Mandatory field"
+msgid_plural "Mandatory fields"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/Profile.php:58 src/Profile.php:163 setup.php:130
+msgid "More ticket"
+msgstr "Mais Chamados"
+
+#: templates/plugin_not_active.html.twig:29
+msgid "Please activate the plugin"
+msgstr "Por favor ative o plugin"
+
+#: src/WaitingTicket.php:155 src/WaitingTicket.php:449
+#: templates/waitingticket_form.html.twig:40
+msgid "Postponement date"
+msgstr "Prorrogar para a data"
+
+#: src/WaitingTicket.php:195
+msgid "Postponement date is inferior of today's date"
+msgstr "Data da prorrogação é inferior a data de hoje"
+
+#: templates/config.html.twig:60
+msgid "Postponement date is mandatory"
+msgstr "Data de prorrogação é obrigatório"
+
+#: src/WaitingTicket.php:159 src/WaitingTicket.php:448
+#: templates/waitingticket_form.html.twig:33
+msgid "Reason"
+msgstr "Motivo"
+
+#: templates/config.html.twig:233 templates/profile.html.twig:34
+msgctxt "button"
+msgid "Save"
+msgstr ""
+
+#: src/CloseTicket.php:186 src/CloseTicket.php:547
+msgid "Solution description"
+msgstr "Descrição da solução"
+
+#: templates/config.html.twig:110
+msgid "Solution type is mandatory"
+msgstr "Tipo de solução é obrigatório"
+
+#: templates/config.html.twig:123
+msgid "Status used to display solution block"
+msgstr "Status usado para exibir o bloco de solução"
+
+#: src/WaitingTicket.php:447
+msgid "Suspension date"
+msgstr "Data da suspensão "
+
+#: src/WaitingTicket.php:450
+msgid "Suspension end date"
+msgstr "Data fim da suspensão "
+
+#: src/CloseTicket.php:206
+msgid "Ticket cannot be closed"
+msgstr "Chamado não pode ser fechado"
+
+#: src/WaitingTicket.php:191 src/UrgencyTicket.php:105
+msgid "Ticket cannot be saved"
+msgstr "Chamado não pode ser salvo"
+
+#: templates/config.html.twig:94
+msgid "Ticket solution and close"
+msgstr ""
+
+#: templates/config.html.twig:173
 msgid "Ticket urgency"
 msgstr "Urgência do chamado"
 
-#: inc/config.class.php:227
-msgid "Use a justification of the urgency field"
-msgstr "Use a justificativa no campo de urgência"
+#: templates/config.html.twig:42 templates/waitingticket_question.html.twig:33
+msgid "Ticket waiting"
+msgstr "Chamado aguardando"
 
-#: inc/config.class.php:243
-msgid "Urgency impacted justification for the field"
-msgstr "Use a justificativa no campo de urgência"
-
-#: inc/config.class.php:265
+#: templates/config.html.twig:196
 msgid "Update ticket status"
 msgstr "Atualizado estado do chamado"
 
-#: inc/config.class.php:268
+#: templates/config.html.twig:216
+msgid "Update ticket status to pending after a technician adds a follow up"
+msgstr ""
+
+#: templates/config.html.twig:223
+msgid "Update ticket status to pending after a technician adds a task"
+msgstr ""
+
+#: templates/config.html.twig:202
 msgid "Update ticket status to processing after add document"
 msgstr ""
 "Atualizar o status do chamado para processamento após adicionar documento"
 
-#: inc/config.class.php:274
+#: templates/config.html.twig:209
 msgid "Update ticket status to processing after approval"
 msgstr "Atualizar o status do chamado para processamento após a aprovação"
 
-#: inc/profile.class.php:175
-msgid "Adding a justification of urgency"
-msgstr "A adicionar uma justificativa de urgência."
+#: hook.php:267
+msgid "Updated by a user"
+msgstr "Atualizado pelo usuário"
 
-#: inc/profile.class.php:183
-msgid "Hide task duration in tickets"
-msgstr "Ocultar a duração de Tarefas nos Tickets"
+#: templates/config.html.twig:189
+msgid "Urgency impacted justification for the field"
+msgstr "Use a justificativa no campo de urgência"
 
-#: inc/urgencyticket.class.php:70 inc/urgencyticket.class.php:167
-msgid "Justification"
-msgstr "Justificativa"
-
-#: inc/urgencyticket.class.php:93
+#: src/UrgencyTicket.php:103
 msgid "Urgency ticket cannot be saved"
 msgstr "Chamado de urgência não pode ser salvo"
 
-#: inc/urgencyticket.class.php:95 inc/waitingticket.class.php:169
-msgid "Ticket cannot be saved"
-msgstr "Chamado não pode ser salvo"
+#: templates/config.html.twig:179
+msgid "Use a justification of the urgency field"
+msgstr "Use a justificativa no campo de urgência"
 
-#: inc/waitingticket.class.php:65
+#: templates/config.html.twig:100
+msgid "Use solution process"
+msgstr "Use processo de solução"
+
+#: templates/config.html.twig:157
+msgid "Use the 'Duration' field in the add solution interface"
+msgstr "Use o campo \"Duração\" para adicionar na interface de solução"
+
+#: templates/config.html.twig:50
+msgid "Use waiting process"
+msgstr "Utilizar o processo de Aguardando"
+
+#: templates/config.html.twig:67
+msgid "Waiting reason is mandatory"
+msgstr "Motivo de aguardando é obrigatório"
+
+#: src/WaitingTicket.php:81
 msgid "Waiting ticket"
 msgid_plural "Waiting tickets"
 msgstr[0] "Chamado Aguardando"
 msgstr[1] "Chamados Aguardando"
 msgstr[2] "Chamados Aguardando"
 
-#: inc/waitingticket.class.php:133 inc/waitingticket.class.php:252
-#: inc/waitingticket.class.php:332 inc/waitingticket.class.php:412
-#: inc/waitingticket.class.php:475
-msgid "Postponement date"
-msgstr "Prorrogar para a data"
-
-#: inc/waitingticket.class.php:137 inc/waitingticket.class.php:236
-#: inc/waitingticket.class.php:317 inc/waitingticket.class.php:397
-#: inc/waitingticket.class.php:473
-msgid "Reason"
-msgstr "Motivo"
-
-#: inc/waitingticket.class.php:167
+#: src/WaitingTicket.php:189
 msgid "Waiting ticket cannot be saved"
 msgstr "Chamado em espera não pode ser salvo"
 
-#: inc/waitingticket.class.php:173
-msgid "Postponement date is inferior of today's date"
-msgstr "Data da prorrogação é inferior a data de hoje"
-
-#: inc/waitingticket.class.php:469 inc/waitingticket.class.php:512
-msgid "Ticket suspension history"
-msgstr "Histórico de suspensão do chamado"
-
-#: inc/waitingticket.class.php:472
-msgid "Suspension date"
-msgstr "Data da suspensão "
-
-#: inc/waitingticket.class.php:476
-msgid "Suspension end date"
-msgstr "Data fim da suspensão "
-
-#: inc/waitingticket.class.php:818
+#: src/WaitingTicket.php:828
 msgid "Waiting ticket exceedeed"
 msgstr "Chamado pendente excedido"
 
-#: inc/waitingticket.class.php:858
-msgid "End of standby ticket"
-msgstr "Fim do chamado pendente"
-
-#: inc/waitingtype.class.php:48
+#: src/WaitingType.php:54
 msgid "Waiting type"
 msgid_plural "Waiting types"
 msgstr[0] "Tipos de espera"
 msgstr[1] "Tipos de espera"
 msgstr[2] "Tipos de espera"
+
+#: templates/solution_mandatory_warning.html.twig:34
+msgid "Warning"
+msgstr ""
+
+#: templates/closeticket_form.html.twig:38
+msgid "Writer"
+msgstr ""
+
+#~ msgid "Ticket resolution and close"
+#~ msgstr "Resolução de chamado e fechamento"
+
+#~ msgid "Ticket suspension history"
+#~ msgstr "Histórico de suspensão do chamado"
