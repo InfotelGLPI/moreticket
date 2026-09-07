@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 14:53+0000\n"
+"POT-Creation-Date: 2026-09-07 08:27+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Michael Schieferer, 2023\n"
 "Language-Team: German (Germany) (https://app.transifex.com/infotelGLPI/"
@@ -108,13 +108,13 @@ msgstr "Begründung"
 msgid "Mandatory 'Duration' field"
 msgstr "Feld 'Dauer' als Pflichtfeld"
 
-#: src/CloseTicket.php:207 src/Solution.php:203
+#: src/Solution.php:203 src/CloseTicket.php:207
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Profile.php:58 src/Profile.php:163 setup.php:130
+#: setup.php:130 src/Profile.php:58 src/Profile.php:163
 msgid "More ticket"
 msgstr "More Ticket"
 

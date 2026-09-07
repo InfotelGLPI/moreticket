@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 14:53+0000\n"
+"POT-Creation-Date: 2026-09-07 08:27+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/"
@@ -113,14 +113,14 @@ msgstr "Justification"
 msgid "Mandatory 'Duration' field"
 msgstr "Champ 'Durée' obligatoire"
 
-#: src/CloseTicket.php:207 src/Solution.php:203
+#: src/Solution.php:203 src/CloseTicket.php:207
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] "Champ obligatoire"
 msgstr[1] "Champs obligatoires"
 msgstr[2] "Champs obligatoires"
 
-#: src/Profile.php:58 src/Profile.php:163 setup.php:130
+#: setup.php:130 src/Profile.php:58 src/Profile.php:163
 msgid "More ticket"
 msgstr "More ticket"
 
