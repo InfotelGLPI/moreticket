@@ -93,9 +93,11 @@ class TicketTask extends CommonITILTask
                 'users_id' => $task->fields['users_id'],
                 'type' => CommonITILActor::ASSIGN,
             ];
-            $ticket->getFromDB($task->fields['tickets_id']);
-            if (countElementsInTable('glpi_tickets_users', $condition) > 0 &&
-                in_array($ticket->fields['status'], \Ticket::getProcessStatusArray())) {
+            // The ticket has to be loaded before its status is read: a task whose ticket no
+            // longer exists otherwise reached in_array() with an empty fields array.
+            if ($ticket->getFromDB($task->fields['tickets_id'])
+                && countElementsInTable('glpi_tickets_users', $condition) > 0
+                && in_array($ticket->fields['status'], \Ticket::getProcessStatusArray())) {
                 // Go through the write layer instead of the table: this is a status change
                 // like any other and it owes the ticket its history entry, a fresh date_mod,
                 // the notifications and the item_update hooks. The flag tells

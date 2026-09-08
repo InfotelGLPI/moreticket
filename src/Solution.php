@@ -227,7 +227,7 @@ class Solution extends CommonITILObject
         $configglpi = \Config::getConfigurationValues('core', ['system_user']);
 
         if ($config->useDurationSolution()) {
-            if ($solution->input['itemtype'] == 'Ticket') {
+            if (($solution->input['itemtype'] ?? '') == \Ticket::class) {
                 // The posted duration is checked against the list the dropdown built, not
                 // against its own word: see sanitizeDuration().
                 $duration = self::sanitizeDuration($solution->input['duration_solution'] ?? 0);
@@ -236,7 +236,7 @@ class Solution extends CommonITILObject
                     //               $solution->input['content'] = html_entity_decode($solution->input['content']);
                     //               $solution->input['content'] = strip_tags($solution->input['content']);
                     $ticket = new \Ticket();
-                    $tickets_id = $solution->input['items_id'];
+                    $tickets_id = $solution->input['items_id'] ?? 0;
                     if ($ticket->getFromDB($tickets_id)) {
                         if ($ticket->getField('actiontime') == 0) {
                             $ticket->update(['id' => $tickets_id,
@@ -244,8 +244,13 @@ class Solution extends CommonITILObject
                         }
                     }
 
-                    $user = new User();
-                    $user->getFromDB(Session::getLoginUserID());
+                    // The private flag is the author's preference: without the load it was
+                    // read off an empty fields array and every task fell back to public.
+                    $user       = new User();
+                    $is_private = 0;
+                    if ($user->getFromDB(Session::getLoginUserID())) {
+                        $is_private = $user->getField('task_private');
+                    }
 
                     $task_input = ['tickets_id' => $tickets_id,
                         'date_creation' => date('Y-m-d H:i:s'),
@@ -255,9 +260,9 @@ class Solution extends CommonITILObject
                         ),
                         'users_id' => Session::getLoginUserID(),
                         'users_id_tech' => Session::getLoginUserID(),
-                        'content' => $solution->input['content'],
+                        'content' => $solution->input['content'] ?? '',
                         'state' => Planning::DONE,
-                        'is_private' => $user->getField('task_private'),
+                        'is_private' => $is_private,
                         'actiontime' => $duration];
 
                     // A TicketTask is a core object under the core's own rights, and being
@@ -275,13 +280,15 @@ class Solution extends CommonITILObject
                         && Session::getCurrentInterface() != "central") {
                         return true;
                     }
-                    if ($configglpi['system_user'] == $solution->input['users_id']) {
+                    if ($configglpi['system_user'] == ($solution->input['users_id'] ?? 0)) {
                         return true;
                     }
                     $ticket = new \Ticket();
-                    $tickets_id = $solution->input['items_id'];
-                    $ticket->getFromDB($tickets_id);
-                    $dur = (isset($ticket->fields['actiontime']) ? $ticket->fields['actiontime'] : 0);
+                    $tickets_id = $solution->input['items_id'] ?? 0;
+                    $dur = 0;
+                    if ($ticket->getFromDB($tickets_id)) {
+                        $dur = $ticket->fields['actiontime'] ?? 0;
+                    }
                     if ($dur == 0) {
                         Session::addMessageAfterRedirect(
                             _n(

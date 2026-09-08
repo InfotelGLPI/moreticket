@@ -157,12 +157,6 @@ parameters:
 			path: src/Ticket.php
 
 		-
-			message: '#^Method GlpiPlugin\\Moreticket\\Ticket\:\:getItemLinkClass\(\) should return class\-string\<CommonDBTM\> but returns false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Ticket.php
-
-		-
 			message: '#^Method GlpiPlugin\\Moreticket\\Ticket\:\:getTaskClass\(\) should return class\-string\<CommonITILTask\>\|null but return statement is missing\.$#'
 			identifier: return.missing
 			count: 1

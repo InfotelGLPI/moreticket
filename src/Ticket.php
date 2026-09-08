@@ -215,7 +215,8 @@ class Ticket extends CommonITILObject
 
     public static function getItemLinkClass(): string
     {
-        return false;
+        // Minimal implementation: default to the core Item_Ticket link class.
+        return \Item_Ticket::class;
     }
 
     //   static function displaySaveButton($params) {
@@ -280,8 +281,11 @@ class Ticket extends CommonITILObject
             if (isset($document->input['itemtype'])) {
                 if ($document->input['itemtype'] == \Ticket::getType()) {
                     $ticket = new \Ticket();
-                    $ticket->getFromDB($document->input['items_id']);
-                    if (in_array($ticket->fields["status"], \Ticket::getReopenableStatusArray())) {
+                    // A document can be attached to a ticket the session cannot read, or to
+                    // one already purged: without the test the status was read off an empty
+                    // fields array and the reopening decision rested on a warning.
+                    if ($ticket->getFromDB($document->input['items_id'] ?? 0)
+                        && in_array($ticket->fields["status"], \Ticket::getReopenableStatusArray())) {
                         if (($ticket->countUsers(CommonITILActor::ASSIGN) > 0)
                             || ($ticket->countGroups(CommonITILActor::ASSIGN) > 0)
                             || ($ticket->countSuppliers(CommonITILActor::ASSIGN) > 0)) {
@@ -309,14 +313,16 @@ class Ticket extends CommonITILObject
         $ticket = new \Ticket();
         if ($config->fields['update_after_tech_add_followup'] && $followup->fields['itemtype'] == \Ticket::getType()) {
             $user = new User();
-            $ticket->getFromDB($followup->fields['items_id']);
             $user->getFromDB($followup->fields['users_id']);
             $condition = [
                 'tickets_id' => $followup->fields['items_id'],
                 'users_id' => $followup->fields['users_id'],
                 'type' => CommonITILActor::ASSIGN,
             ];
-            if (countElementsInTable('glpi_tickets_users', $condition) > 0
+            // The ticket has to be loaded before its status is read: a followup whose item
+            // no longer exists otherwise reached in_array() with an empty fields array.
+            if ($ticket->getFromDB($followup->fields['items_id'])
+                && countElementsInTable('glpi_tickets_users', $condition) > 0
                 && in_array($ticket->fields['status'], \Ticket::getProcessStatusArray())) {
                 // Go through the write layer instead of the table: this is a status change
                 // like any other and it owes the ticket its history entry, a fresh date_mod,
@@ -338,7 +344,11 @@ class Ticket extends CommonITILObject
         if ($config->getField('update_after_approval') == 1) {
             //         if($validation->itemtype == \getType()) {
             $ticket = new \Ticket();
-            $ticket->getFromDB($validation->fields['tickets_id']);
+            // Nothing below has a meaning without the ticket: validation_percent, the actor
+            // counts and the status all come from its fields.
+            if (!$ticket->getFromDB($validation->fields['tickets_id'])) {
+                return;
+            }
             $validation_status = CommonITILValidation::WAITING;
 
             // Percent of validation

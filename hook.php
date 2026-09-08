@@ -381,22 +381,26 @@ function plugin_moreticket_post_item_form($params)
             }
 
             // automatically click task's set ticket to waiting status switch
-            if ($config->fields['waiting_by_default_task'] && Session::haveRight('ticket', \Ticket::OWN)) {
-                $actionButtonLayout = $DB->request([
+            if (($config->fields['waiting_by_default_task'] ?? 0) && Session::haveRight('ticket', \Ticket::OWN)) {
+                // current() returns null on an empty result set, and the chained offset on
+                // that null read a warning instead of a layout. Keep the row, then the value.
+                $user_row           = $DB->request([
                     'SELECT' => 'timeline_action_btn_layout',
                     'FROM' => 'glpi_users',
                     'WHERE' => [
                         'id' => Session::getLoginUserID(),
                     ],
-                ])->current()['timeline_action_btn_layout'];
+                ])->current();
+                $actionButtonLayout = $user_row['timeline_action_btn_layout'] ?? null;
                 if ($actionButtonLayout === null) {
-                    $actionButtonLayout = $DB->request([
+                    $config_row         = $DB->request([
                         'SELECT' => 'value',
                         'FROM' => 'glpi_configs',
                         'WHERE' => [
                             'name' => 'timeline_action_btn_layout',
                         ],
-                    ])->current()['value'];
+                    ])->current();
+                    $actionButtonLayout = $config_row['value'] ?? 0;
                 }
                 $element = 'a';
                 if ($actionButtonLayout == 1) {
@@ -422,7 +426,7 @@ function plugin_moreticket_post_item_form($params)
 
                 // automatically click follow up set ticket to waiting status switch
                 if (strpos($_SERVER['REQUEST_URI'] ?? '', "ticket.form.php") !== false) {
-                    if ($config->fields['waiting_by_default_followup'] && Session::haveRight('ticket', \Ticket::OWN)) {
+                    if (($config->fields['waiting_by_default_followup'] ?? 0) && Session::haveRight('ticket', \Ticket::OWN)) {
                         echo Html::scriptBlock(
                             "$(document).ready(function() {
                             let buttonFollowup = document.getElementById('itil-footer').querySelector(\"button[data-bs-target='#new-ITILFollowup-block']\");

@@ -104,7 +104,10 @@ class NotificationTicket extends CommonDBTM
     public static function afterAddFollowup(ITILFollowup $followup)
     {
         global $DB;
-        if (!$followup->getField('itemtype') == 'Ticket') {
+        // !$x == 'Ticket' reads as (!$x) == 'Ticket', which is always false: the guard
+        // let every followup through, whatever its item. Compare the value itself, the
+        // way Ticket::afterAddFollowupTech() does.
+        if ($followup->getField('itemtype') !== \Ticket::class) {
             return false;
         }
 

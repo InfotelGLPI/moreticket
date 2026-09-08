@@ -74,6 +74,17 @@ class HooksTest extends DbTestCase
         return $ticket;
     }
 
+    /**
+     * The waiting block is displayed under READ, but recording a reason answers to
+     * UPDATE (WaitingTicket::canCreate()). Plugin rights are granted at install time to
+     * the installing profile only, which the test session does not inherit: state the
+     * right the scenario assumes instead of relying on the installation.
+     */
+    private function grantWaitingRight(int $right = ALLSTANDARDRIGHT): void
+    {
+        $_SESSION['glpiactiveprofile'][WaitingTicket::$rightname] = $right;
+    }
+
     // ============================================================
     // PRE_ITEM_ADD — Ticket::beforeAdd
     // ============================================================
@@ -119,6 +130,7 @@ class HooksTest extends DbTestCase
     public function testPostPrepareAddTicketTaskCreatesWaitingTicketWhenPendingAndWaitingEnabled(): void
     {
         $this->login();
+        $this->grantWaitingRight();
         $this->setConfig([
             'use_waiting'             => 1,
             'waitingreason_mandatory' => 0,
@@ -145,6 +157,32 @@ class HooksTest extends DbTestCase
         $result = WaitingTicket::getWaitingTicketFromDB($ticket->getID());
         $this->assertIsArray($result);
         $this->assertSame($ticket->getID(), (int) $result['tickets_id']);
+    }
+
+    public function testPostPrepareAddTicketTaskSkipsWhenWriteRightIsMissing(): void
+    {
+        $this->login();
+        $this->grantWaitingRight(READ);
+        $this->setConfig([
+            'use_waiting'             => 1,
+            'waitingreason_mandatory' => 0,
+            'date_report_mandatory'   => 0,
+        ]);
+
+        $ticket = $this->createTicket();
+
+        $task        = new \TicketTask();
+        $task->input = [
+            'tickets_id' => $ticket->getID(),
+            'pending'    => 1,
+            'content'    => 'Task content',
+            '_job'       => $ticket,
+        ];
+
+        MtTicketTask::beforeAdd($task);
+
+        // READ shows the block, UPDATE records the reason: nothing must reach the table.
+        $this->assertFalse(WaitingTicket::getWaitingTicketFromDB($ticket->getID()));
     }
 
     public function testPostPrepareAddTicketTaskSkipsWhenWaitingIsDisabled(): void
@@ -201,6 +239,7 @@ class HooksTest extends DbTestCase
     public function testPostPrepareAddFollowupCreatesWaitingTicketWhenPendingAndWaitingEnabled(): void
     {
         $this->login();
+        $this->grantWaitingRight();
         $this->setConfig([
             'use_waiting'             => 1,
             'waitingreason_mandatory' => 0,

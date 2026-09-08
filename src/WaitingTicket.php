@@ -510,7 +510,6 @@ class WaitingTicket extends CommonDBTM
             $data_WaitingType = [];
             foreach ($iterator as $row) {
                 $data_WaitingType[$row['id']] = $row;
-                $iterator->next();
             }
         } else {
             $criteria = [
@@ -532,7 +531,6 @@ class WaitingTicket extends CommonDBTM
             $data_WaitingType = [];
             foreach ($iterator as $row) {
                 $data_WaitingType[$row['id']] = $row;
-                $iterator->next();
             }
         }
 
