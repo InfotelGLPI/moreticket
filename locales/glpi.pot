@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-08 11:01+0200\n"
+"POT-Creation-Date: 2026-09-08 09:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,7 +65,7 @@ msgstr ""
 
 #: hook.php:275 hook.php:282 hook.php:289 hook.php:296 src/CloseTicket.php:125
 #: src/CloseTicket.php:132 src/CloseTicket.php:173
-#: templates/closeticket_form.html.twig:34 templates/config.html.twig:117
+#: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
 msgstr ""
 
@@ -104,13 +104,13 @@ msgstr ""
 msgid "Mandatory 'Duration' field"
 msgstr ""
 
-#: src/CloseTicket.php:210 src/Solution.php:203
+#: src/Solution.php:203 src/CloseTicket.php:210
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
 msgstr[1] ""
 
-#: setup.php:148 src/Profile.php:58 src/Profile.php:163
+#: setup.php:147 src/Profile.php:58 src/Profile.php:163
 msgid "More ticket"
 msgstr ""
 
@@ -165,7 +165,7 @@ msgstr ""
 msgid "Ticket cannot be closed"
 msgstr ""
 
-#: src/UrgencyTicket.php:107 src/WaitingTicket.php:193
+#: src/WaitingTicket.php:193 src/UrgencyTicket.php:107
 msgid "Ticket cannot be saved"
 msgstr ""
 

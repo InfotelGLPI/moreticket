@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 14:53+0000\n"
+"POT-Creation-Date: 2026-09-08 09:13+0000\n"
 "PO-Revision-Date: 2019-02-26 15:09+0000\n"
 "Last-Translator: Mathieu Templier <mathieu.templier@infotel.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/tsmr/"
@@ -20,22 +20,22 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
 "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: src/CloseTicket.php:651
+#: src/CloseTicket.php:677
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s přidal informace o uzavření"
 
-#: src/CloseTicket.php:691
+#: src/CloseTicket.php:717
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s smazal informace o uzavření"
 
-#: src/CloseTicket.php:671
+#: src/CloseTicket.php:697
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s aktualizoval informace o uzavření"
 
-#: src/WaitingTicket.php:1063
+#: src/WaitingTicket.php:1107
 #, php-format
 msgid "%s duplicates deleted"
 msgstr ""
@@ -65,8 +65,8 @@ msgstr ""
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 
-#: hook.php:220 hook.php:227 hook.php:234 hook.php:241 src/CloseTicket.php:122
-#: src/CloseTicket.php:129 src/CloseTicket.php:170
+#: hook.php:275 hook.php:282 hook.php:289 hook.php:296 src/CloseTicket.php:125
+#: src/CloseTicket.php:132 src/CloseTicket.php:173
 #: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
 msgstr "Informace o uzavření požadavku"
@@ -75,7 +75,7 @@ msgstr "Informace o uzavření požadavku"
 msgid "Comments"
 msgstr ""
 
-#: hook.php:242
+#: hook.php:297
 msgid "Document"
 msgid_plural "Documents"
 msgstr[0] ""
@@ -92,15 +92,15 @@ msgstr ""
 msgid "Duration is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:876
+#: src/WaitingTicket.php:920
 msgid "End of standby ticket"
 msgstr "Konec pohotovosti požadavku"
 
 #: src/Profile.php:177 src/Profile.php:195
-msgid "Hide task duration in tickets"
+msgid "Hide task duration in tickets (display only)"
 msgstr ""
 
-#: src/UrgencyTicket.php:80 templates/urgencyticket_form.html.twig:33
+#: src/UrgencyTicket.php:82 templates/urgencyticket_form.html.twig:33
 msgid "Justification"
 msgstr "Odůvodnění"
 
@@ -108,7 +108,7 @@ msgstr "Odůvodnění"
 msgid "Mandatory 'Duration' field"
 msgstr "Povinná kolonka „Doba trvání“"
 
-#: src/CloseTicket.php:207 src/Solution.php:203
+#: src/Solution.php:203 src/CloseTicket.php:210
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
@@ -116,7 +116,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/Profile.php:58 src/Profile.php:163 setup.php:130
+#: setup.php:147 src/Profile.php:58 src/Profile.php:163
 msgid "More ticket"
 msgstr "Více k požadavku"
 
@@ -124,12 +124,12 @@ msgstr "Více k požadavku"
 msgid "Please activate the plugin"
 msgstr "Zapněte zásuvný modul"
 
-#: src/WaitingTicket.php:155 src/WaitingTicket.php:449
+#: src/WaitingTicket.php:157 src/WaitingTicket.php:451
 #: templates/waitingticket_form.html.twig:40
 msgid "Postponement date"
 msgstr "Datum na které odložit"
 
-#: src/WaitingTicket.php:195
+#: src/WaitingTicket.php:197
 msgid "Postponement date is inferior of today's date"
 msgstr ""
 
@@ -137,7 +137,7 @@ msgstr ""
 msgid "Postponement date is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:159 src/WaitingTicket.php:448
+#: src/WaitingTicket.php:161 src/WaitingTicket.php:450
 #: templates/waitingticket_form.html.twig:33
 msgid "Reason"
 msgstr "Důvod"
@@ -147,7 +147,7 @@ msgctxt "button"
 msgid "Save"
 msgstr ""
 
-#: src/CloseTicket.php:186 src/CloseTicket.php:547
+#: src/CloseTicket.php:189 src/CloseTicket.php:550
 msgid "Solution description"
 msgstr "Popis řešení"
 
@@ -159,19 +159,19 @@ msgstr "Je třeba vyplnit typ řešení"
 msgid "Status used to display solution block"
 msgstr ""
 
-#: src/WaitingTicket.php:447
+#: src/WaitingTicket.php:449
 msgid "Suspension date"
 msgstr "Datum suspendování"
 
-#: src/WaitingTicket.php:450
+#: src/WaitingTicket.php:452
 msgid "Suspension end date"
 msgstr "Datum konce suspendování"
 
-#: src/CloseTicket.php:206
+#: src/CloseTicket.php:209
 msgid "Ticket cannot be closed"
 msgstr "Požadavek není možné uzavřít"
 
-#: src/WaitingTicket.php:191 src/UrgencyTicket.php:105
+#: src/WaitingTicket.php:193 src/UrgencyTicket.php:107
 msgid "Ticket cannot be saved"
 msgstr "Požadavek není možné uložit"
 
@@ -207,7 +207,7 @@ msgstr ""
 msgid "Update ticket status to processing after approval"
 msgstr ""
 
-#: hook.php:267
+#: hook.php:322
 msgid "Updated by a user"
 msgstr ""
 
@@ -215,7 +215,7 @@ msgstr ""
 msgid "Urgency impacted justification for the field"
 msgstr "Naléhavostí ovlivněné zdůvodnění pro tuto kolonku"
 
-#: src/UrgencyTicket.php:103
+#: src/UrgencyTicket.php:105
 msgid "Urgency ticket cannot be saved"
 msgstr "Naléhavost požadavku se nedaří uložit"
 
@@ -239,7 +239,7 @@ msgstr "Použít čekající proces"
 msgid "Waiting reason is mandatory"
 msgstr "Důvod čekání je třeba vyplnit"
 
-#: src/WaitingTicket.php:81
+#: src/WaitingTicket.php:83
 msgid "Waiting ticket"
 msgid_plural "Waiting tickets"
 msgstr[0] "Čekající požadavek"
@@ -247,11 +247,11 @@ msgstr[1] "Čekající požadavky"
 msgstr[2] "Čekajících požadavků"
 msgstr[3] "Čekající požadavky"
 
-#: src/WaitingTicket.php:189
+#: src/WaitingTicket.php:191
 msgid "Waiting ticket cannot be saved"
 msgstr "Čekající požadavek není možné uložit"
 
-#: src/WaitingTicket.php:828
+#: src/WaitingTicket.php:872
 msgid "Waiting ticket exceedeed"
 msgstr ""
 
