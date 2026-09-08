@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-08 09:13+0000\n"
+"POT-Creation-Date: 2026-09-08 10:18+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: FranciscoFJ <dev-ooo@satel-sa.com>, 2022\n"
 "Language-Team: Spanish (Spain) (https://www.transifex.com/infotelGLPI/"
@@ -24,22 +24,22 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: src/CloseTicket.php:677
+#: src/CloseTicket.php:669
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s informaciones del cierre de la petición"
 
-#: src/CloseTicket.php:717
+#: src/CloseTicket.php:709
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$sinformaciones del cierre apagadas"
 
-#: src/CloseTicket.php:697
+#: src/CloseTicket.php:689
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$sactualizaciones del cierre de la petición"
 
-#: src/WaitingTicket.php:1107
+#: src/WaitingTicket.php:1077
 #, php-format
 msgid "%s duplicates deleted"
 msgstr ""
@@ -69,8 +69,8 @@ msgstr ""
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 
-#: hook.php:275 hook.php:282 hook.php:289 hook.php:296 src/CloseTicket.php:125
-#: src/CloseTicket.php:132 src/CloseTicket.php:173
+#: hook.php:275 hook.php:282 hook.php:289 hook.php:296 src/CloseTicket.php:131
+#: src/CloseTicket.php:138 src/CloseTicket.php:179
 #: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
 msgstr "Informaciones del cierre de la petición"
@@ -86,7 +86,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/Solution.php:207 templates/closeticket_solution_form.html.twig:58
+#: src/Solution.php:292 templates/closeticket_solution_form.html.twig:58
 #: templates/solution_duration.html.twig:30
 msgid "Duration"
 msgstr ""
@@ -95,7 +95,7 @@ msgstr ""
 msgid "Duration is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:920
+#: src/WaitingTicket.php:966
 msgid "End of standby ticket"
 msgstr ""
 
@@ -103,7 +103,7 @@ msgstr ""
 msgid "Hide task duration in tickets (display only)"
 msgstr ""
 
-#: src/UrgencyTicket.php:82 templates/urgencyticket_form.html.twig:33
+#: src/UrgencyTicket.php:83 templates/urgencyticket_form.html.twig:33
 msgid "Justification"
 msgstr "Justificación"
 
@@ -111,7 +111,7 @@ msgstr "Justificación"
 msgid "Mandatory 'Duration' field"
 msgstr "El campo 'Duración' es obligatorio"
 
-#: src/Solution.php:203 src/CloseTicket.php:210
+#: src/Solution.php:288 src/CloseTicket.php:226
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
@@ -126,12 +126,12 @@ msgstr "Más peticiones"
 msgid "Please activate the plugin"
 msgstr "Por favor active el complemento"
 
-#: src/WaitingTicket.php:157 src/WaitingTicket.php:451
-#: templates/waitingticket_form.html.twig:40
+#: src/WaitingTicket.php:158 src/WaitingTicket.php:469
+#: templates/waitingticket_form.html.twig:46
 msgid "Postponement date"
 msgstr ""
 
-#: src/WaitingTicket.php:197
+#: src/WaitingTicket.php:207
 msgid "Postponement date is inferior of today's date"
 msgstr ""
 
@@ -139,7 +139,7 @@ msgstr ""
 msgid "Postponement date is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:161 src/WaitingTicket.php:450
+#: src/WaitingTicket.php:162 src/WaitingTicket.php:468
 #: templates/waitingticket_form.html.twig:33
 msgid "Reason"
 msgstr ""
@@ -149,7 +149,7 @@ msgctxt "button"
 msgid "Save"
 msgstr ""
 
-#: src/CloseTicket.php:189 src/CloseTicket.php:550
+#: src/CloseTicket.php:196 src/CloseTicket.php:539
 msgid "Solution description"
 msgstr "Descripción de la solución "
 
@@ -161,19 +161,19 @@ msgstr "Tipo de solución es obligatorio"
 msgid "Status used to display solution block"
 msgstr "Estado utilizado para mostrar el bloque de solución"
 
-#: src/WaitingTicket.php:449
+#: src/WaitingTicket.php:467
 msgid "Suspension date"
 msgstr ""
 
-#: src/WaitingTicket.php:452
+#: src/WaitingTicket.php:470
 msgid "Suspension end date"
 msgstr ""
 
-#: src/CloseTicket.php:209
+#: src/CloseTicket.php:225
 msgid "Ticket cannot be closed"
 msgstr "La petición no puede ser cerrada"
 
-#: src/WaitingTicket.php:193 src/UrgencyTicket.php:107
+#: src/WaitingTicket.php:203 src/UrgencyTicket.php:111
 msgid "Ticket cannot be saved"
 msgstr "La petición no se puede guardar"
 
@@ -185,7 +185,7 @@ msgstr ""
 msgid "Ticket urgency"
 msgstr "Urgencia de la petición"
 
-#: templates/config.html.twig:42 templates/waitingticket_question.html.twig:33
+#: templates/config.html.twig:42
 msgid "Ticket waiting"
 msgstr ""
 
@@ -220,7 +220,7 @@ msgstr "Actualizado por un usuario"
 msgid "Urgency impacted justification for the field"
 msgstr "Justificativa de la urgencia de impacto en un campo"
 
-#: src/UrgencyTicket.php:105
+#: src/UrgencyTicket.php:109
 msgid "Urgency ticket cannot be saved"
 msgstr "Petición de urgencia no se puede guardar"
 
@@ -251,11 +251,11 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/WaitingTicket.php:191
+#: src/WaitingTicket.php:201
 msgid "Waiting ticket cannot be saved"
 msgstr ""
 
-#: src/WaitingTicket.php:872
+#: src/WaitingTicket.php:918
 msgid "Waiting ticket exceedeed"
 msgstr ""
 
