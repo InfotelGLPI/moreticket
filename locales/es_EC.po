@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 14:53+0000\n"
+"POT-Creation-Date: 2026-09-08 09:13+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Soporte Infraestructura Standby, 2023\n"
 "Language-Team: Spanish (Ecuador) (https://app.transifex.com/infotelGLPI/"
@@ -23,22 +23,22 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: src/CloseTicket.php:651
+#: src/CloseTicket.php:677
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s información de cierre añadida"
 
-#: src/CloseTicket.php:691
+#: src/CloseTicket.php:717
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s información de cierre suprimida"
 
-#: src/CloseTicket.php:671
+#: src/CloseTicket.php:697
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s información de cierre actualizada"
 
-#: src/WaitingTicket.php:1063
+#: src/WaitingTicket.php:1107
 #, php-format
 msgid "%s duplicates deleted"
 msgstr ""
@@ -68,8 +68,8 @@ msgstr ""
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 
-#: hook.php:220 hook.php:227 hook.php:234 hook.php:241 src/CloseTicket.php:122
-#: src/CloseTicket.php:129 src/CloseTicket.php:170
+#: hook.php:275 hook.php:282 hook.php:289 hook.php:296 src/CloseTicket.php:125
+#: src/CloseTicket.php:132 src/CloseTicket.php:173
 #: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
 msgstr "Cerrar información de Casos"
@@ -78,7 +78,7 @@ msgstr "Cerrar información de Casos"
 msgid "Comments"
 msgstr ""
 
-#: hook.php:242
+#: hook.php:297
 msgid "Document"
 msgid_plural "Documents"
 msgstr[0] ""
@@ -94,15 +94,15 @@ msgstr ""
 msgid "Duration is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:876
+#: src/WaitingTicket.php:920
 msgid "End of standby ticket"
 msgstr "Fin del Caso en espera"
 
 #: src/Profile.php:177 src/Profile.php:195
-msgid "Hide task duration in tickets"
-msgstr "Ocultar la duración de la tarea en los Casos"
+msgid "Hide task duration in tickets (display only)"
+msgstr ""
 
-#: src/UrgencyTicket.php:80 templates/urgencyticket_form.html.twig:33
+#: src/UrgencyTicket.php:82 templates/urgencyticket_form.html.twig:33
 msgid "Justification"
 msgstr "Justificación"
 
@@ -110,14 +110,14 @@ msgstr "Justificación"
 msgid "Mandatory 'Duration' field"
 msgstr "Campo obligatorio 'Duración'"
 
-#: src/CloseTicket.php:207 src/Solution.php:203
+#: src/Solution.php:203 src/CloseTicket.php:210
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/Profile.php:58 src/Profile.php:163 setup.php:130
+#: setup.php:147 src/Profile.php:58 src/Profile.php:163
 msgid "More ticket"
 msgstr "Más Casos"
 
@@ -125,12 +125,12 @@ msgstr "Más Casos"
 msgid "Please activate the plugin"
 msgstr "Por favor, active el complemento"
 
-#: src/WaitingTicket.php:155 src/WaitingTicket.php:449
+#: src/WaitingTicket.php:157 src/WaitingTicket.php:451
 #: templates/waitingticket_form.html.twig:40
 msgid "Postponement date"
 msgstr "Fecha de aplazamiento"
 
-#: src/WaitingTicket.php:195
+#: src/WaitingTicket.php:197
 msgid "Postponement date is inferior of today's date"
 msgstr "La fecha de aplazamiento es inferior a la fecha de hoy"
 
@@ -138,7 +138,7 @@ msgstr "La fecha de aplazamiento es inferior a la fecha de hoy"
 msgid "Postponement date is mandatory"
 msgstr "La fecha de aplazamiento es obligatoria"
 
-#: src/WaitingTicket.php:159 src/WaitingTicket.php:448
+#: src/WaitingTicket.php:161 src/WaitingTicket.php:450
 #: templates/waitingticket_form.html.twig:33
 msgid "Reason"
 msgstr "Razón"
@@ -148,7 +148,7 @@ msgctxt "button"
 msgid "Save"
 msgstr ""
 
-#: src/CloseTicket.php:186 src/CloseTicket.php:547
+#: src/CloseTicket.php:189 src/CloseTicket.php:550
 msgid "Solution description"
 msgstr "Descripción de la solución"
 
@@ -160,19 +160,19 @@ msgstr "El tipo de solución es obligatorio"
 msgid "Status used to display solution block"
 msgstr "Estado utilizado para mostrar el bloque de soluciones"
 
-#: src/WaitingTicket.php:447
+#: src/WaitingTicket.php:449
 msgid "Suspension date"
 msgstr "Fecha de suspensión"
 
-#: src/WaitingTicket.php:450
+#: src/WaitingTicket.php:452
 msgid "Suspension end date"
 msgstr "Fecha de fin de la suspensión"
 
-#: src/CloseTicket.php:206
+#: src/CloseTicket.php:209
 msgid "Ticket cannot be closed"
 msgstr "El Caso no se puede cerrar"
 
-#: src/WaitingTicket.php:191 src/UrgencyTicket.php:105
+#: src/WaitingTicket.php:193 src/UrgencyTicket.php:107
 msgid "Ticket cannot be saved"
 msgstr "No se puede guardar el Caso"
 
@@ -209,7 +209,7 @@ msgstr ""
 msgid "Update ticket status to processing after approval"
 msgstr "Actualizar el estado del Caso a tramitación tras su aprobación"
 
-#: hook.php:267
+#: hook.php:322
 msgid "Updated by a user"
 msgstr "Actualizado por un usuario"
 
@@ -217,7 +217,7 @@ msgstr "Actualizado por un usuario"
 msgid "Urgency impacted justification for the field"
 msgstr "La urgencia impactó en la justificación del campo"
 
-#: src/UrgencyTicket.php:103
+#: src/UrgencyTicket.php:105
 msgid "Urgency ticket cannot be saved"
 msgstr "No se puede guardar la Urgencia del Caso"
 
@@ -241,18 +241,18 @@ msgstr "Usar el proceso de espera"
 msgid "Waiting reason is mandatory"
 msgstr "La razón de la espera es obligatoria"
 
-#: src/WaitingTicket.php:81
+#: src/WaitingTicket.php:83
 msgid "Waiting ticket"
 msgid_plural "Waiting tickets"
 msgstr[0] "Caso en espera"
 msgstr[1] "Casos en espera"
 msgstr[2] "Casos en espera"
 
-#: src/WaitingTicket.php:189
+#: src/WaitingTicket.php:191
 msgid "Waiting ticket cannot be saved"
 msgstr "El Caso en espera no se puede guardar"
 
-#: src/WaitingTicket.php:828
+#: src/WaitingTicket.php:872
 msgid "Waiting ticket exceedeed"
 msgstr "Caso en espera excedido"
 
@@ -270,6 +270,9 @@ msgstr ""
 #: templates/closeticket_form.html.twig:38
 msgid "Writer"
 msgstr ""
+
+#~ msgid "Hide task duration in tickets"
+#~ msgstr "Ocultar la duración de la tarea en los Casos"
 
 #~ msgid "Ticket resolution and close"
 #~ msgstr "Resolución y cierre de Casos"
