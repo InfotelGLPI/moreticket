@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-08 10:18+0000\n"
+"POT-Creation-Date: 2026-09-08 10:33+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/"
@@ -38,7 +38,7 @@ msgstr "%1$s a supprimé des informations de clôture"
 msgid "%1$s updated closing informations"
 msgstr "%1$s a mis à jour des informations de clôture"
 
-#: src/WaitingTicket.php:1077
+#: src/WaitingTicket.php:1075
 #, php-format
 msgid "%s duplicates deleted"
 msgstr "%s doublons supprimés"
@@ -88,7 +88,7 @@ msgstr[0] "Document"
 msgstr[1] "Documents"
 msgstr[2] "Documents"
 
-#: src/Solution.php:292 templates/closeticket_solution_form.html.twig:58
+#: src/Solution.php:299 templates/closeticket_solution_form.html.twig:58
 #: templates/solution_duration.html.twig:30
 msgid "Duration"
 msgstr "Durée"
@@ -97,7 +97,7 @@ msgstr "Durée"
 msgid "Duration is mandatory"
 msgstr "La durée est obligatoire"
 
-#: src/WaitingTicket.php:966
+#: src/WaitingTicket.php:964
 msgid "End of standby ticket"
 msgstr "Fin de la mise en attente"
 
@@ -113,7 +113,7 @@ msgstr "Justification"
 msgid "Mandatory 'Duration' field"
 msgstr "Champ 'Durée' obligatoire"
 
-#: src/Solution.php:288 src/CloseTicket.php:226
+#: src/Solution.php:295 src/CloseTicket.php:226
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] "Champ obligatoire"
@@ -258,7 +258,7 @@ msgstr[2] "Tickets en attente"
 msgid "Waiting ticket cannot be saved"
 msgstr "La mise en attente du ticket n'a pas été sauvegardée"
 
-#: src/WaitingTicket.php:918
+#: src/WaitingTicket.php:916
 msgid "Waiting ticket exceedeed"
 msgstr "Temps d'attente dépassé"
 

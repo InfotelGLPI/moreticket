@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-08 10:18+0000\n"
+"POT-Creation-Date: 2026-09-08 10:33+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Daisuke INOUE, 2026\n"
 "Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/"
@@ -37,7 +37,7 @@ msgstr "%1$s が終了情報を削除"
 msgid "%1$s updated closing informations"
 msgstr "%1$s が終了情報を更新"
 
-#: src/WaitingTicket.php:1077
+#: src/WaitingTicket.php:1075
 #, php-format
 msgid "%s duplicates deleted"
 msgstr "%s 件の重複を削除しました"
@@ -82,7 +82,7 @@ msgid "Document"
 msgid_plural "Documents"
 msgstr[0] ""
 
-#: src/Solution.php:292 templates/closeticket_solution_form.html.twig:58
+#: src/Solution.php:299 templates/closeticket_solution_form.html.twig:58
 #: templates/solution_duration.html.twig:30
 msgid "Duration"
 msgstr "期間"
@@ -91,7 +91,7 @@ msgstr "期間"
 msgid "Duration is mandatory"
 msgstr "期間は必須です"
 
-#: src/WaitingTicket.php:966
+#: src/WaitingTicket.php:964
 msgid "End of standby ticket"
 msgstr "準備チケットの終了"
 
@@ -107,7 +107,7 @@ msgstr "正当性"
 msgid "Mandatory 'Duration' field"
 msgstr "「期間」を必須に"
 
-#: src/Solution.php:288 src/CloseTicket.php:226
+#: src/Solution.php:295 src/CloseTicket.php:226
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
@@ -244,7 +244,7 @@ msgstr[0] "保留チケット"
 msgid "Waiting ticket cannot be saved"
 msgstr "保留チケットを保存できません"
 
-#: src/WaitingTicket.php:918
+#: src/WaitingTicket.php:916
 msgid "Waiting ticket exceedeed"
 msgstr "チケットの保留を延長"
 

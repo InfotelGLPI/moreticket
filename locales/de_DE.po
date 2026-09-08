@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-08 10:18+0000\n"
+"POT-Creation-Date: 2026-09-08 10:33+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Michael Schieferer, 2023\n"
 "Language-Team: German (Germany) (https://app.transifex.com/infotelGLPI/"
@@ -37,7 +37,7 @@ msgstr "%1$s löschte Infos zum Schließen"
 msgid "%1$s updated closing informations"
 msgstr "%1$s aktualisierte Infos zum Schließen"
 
-#: src/WaitingTicket.php:1077
+#: src/WaitingTicket.php:1075
 #, php-format
 msgid "%s duplicates deleted"
 msgstr ""
@@ -83,7 +83,7 @@ msgid_plural "Documents"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Solution.php:292 templates/closeticket_solution_form.html.twig:58
+#: src/Solution.php:299 templates/closeticket_solution_form.html.twig:58
 #: templates/solution_duration.html.twig:30
 msgid "Duration"
 msgstr ""
@@ -92,7 +92,7 @@ msgstr ""
 msgid "Duration is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:966
+#: src/WaitingTicket.php:964
 msgid "End of standby ticket"
 msgstr "Ende des Standby-Tickets"
 
@@ -108,7 +108,7 @@ msgstr "Begründung"
 msgid "Mandatory 'Duration' field"
 msgstr "Feld 'Dauer' als Pflichtfeld"
 
-#: src/Solution.php:288 src/CloseTicket.php:226
+#: src/Solution.php:295 src/CloseTicket.php:226
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
@@ -248,7 +248,7 @@ msgstr[1] "Ticket in Warteposition"
 msgid "Waiting ticket cannot be saved"
 msgstr "Wartezeit kann nicht gespeichert werden"
 
-#: src/WaitingTicket.php:918
+#: src/WaitingTicket.php:916
 msgid "Waiting ticket exceedeed"
 msgstr "Warteticket überschritten"
 

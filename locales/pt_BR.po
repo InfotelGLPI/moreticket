@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-08 10:18+0000\n"
+"POT-Creation-Date: 2026-09-08 10:33+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Pedro Alves, 2024\n"
 "Language-Team: Portuguese (Brazil) (https://app.transifex.com/infotelGLPI/"
@@ -42,7 +42,7 @@ msgstr "%1$s apagadas às informações de fechamento"
 msgid "%1$s updated closing informations"
 msgstr "%1$s atualizadas informações de fechamento"
 
-#: src/WaitingTicket.php:1077
+#: src/WaitingTicket.php:1075
 #, php-format
 msgid "%s duplicates deleted"
 msgstr ""
@@ -89,7 +89,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/Solution.php:292 templates/closeticket_solution_form.html.twig:58
+#: src/Solution.php:299 templates/closeticket_solution_form.html.twig:58
 #: templates/solution_duration.html.twig:30
 msgid "Duration"
 msgstr ""
@@ -98,7 +98,7 @@ msgstr ""
 msgid "Duration is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:966
+#: src/WaitingTicket.php:964
 msgid "End of standby ticket"
 msgstr "Fim do chamado pendente"
 
@@ -114,7 +114,7 @@ msgstr "Justificativa"
 msgid "Mandatory 'Duration' field"
 msgstr "Campo \"Duração\" é obrigatório"
 
-#: src/Solution.php:288 src/CloseTicket.php:226
+#: src/Solution.php:295 src/CloseTicket.php:226
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
@@ -256,7 +256,7 @@ msgstr[2] "Chamados Aguardando"
 msgid "Waiting ticket cannot be saved"
 msgstr "Chamado em espera não pode ser salvo"
 
-#: src/WaitingTicket.php:918
+#: src/WaitingTicket.php:916
 msgid "Waiting ticket exceedeed"
 msgstr "Chamado pendente excedido"
 
