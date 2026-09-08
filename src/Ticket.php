@@ -127,13 +127,13 @@ class Ticket extends CommonITILObject
         WaitingTicket::postAddWaitingTicket($ticket);
         CloseTicket::postAddCloseTicket($ticket);
 
-        unset($_SESSION['glpi_plugin_moreticket_close']);
+        SessionDraft::forget(SessionDraft::CLOSING);
 
         UrgencyTicket::postAddUrgencyTicket($ticket);
 
-        if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
-            unset($_SESSION['glpi_plugin_moreticket_urgency']);
-        }
+        // On the creation path GLPI restores the form from $_SESSION['saveInput'], which the
+        // pre-hooks fill: the plugin's own draft has nothing left to say here.
+        SessionDraft::forget(SessionDraft::URGENCY);
     }
 
 
@@ -181,13 +181,12 @@ class Ticket extends CommonITILObject
         // afterwards was wrong for everybody.
         WaitingTicket::postUpdateWaitingTicket($ticket);
 
-        unset($_SESSION['glpi_plugin_moreticket_close'], $_SESSION['glpi_plugin_moreticket_waiting']);
+        SessionDraft::forget(SessionDraft::CLOSING);
+        SessionDraft::forget(SessionDraft::WAITING);
 
         UrgencyTicket::postUpdateUrgencyTicket($ticket);
 
-        if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
-            unset($_SESSION['glpi_plugin_moreticket_urgency']);
-        }
+        SessionDraft::forget(SessionDraft::URGENCY);
     }
 
 
@@ -196,28 +195,17 @@ class Ticket extends CommonITILObject
      */
     public static function setSessions($input)
     {
+        // Called on the blank ticket form: whatever is restored here was typed for a ticket
+        // that does not exist yet, so both drafts are stamped with id 0 and will only ever be
+        // handed back to another creation form -- never to an existing ticket.
+        SessionDraft::remember(
+            SessionDraft::CLOSING,
+            $input,
+            ['solutiontypes_id', 'solution', 'solutiontemplates_id', 'duration_solution'],
+            0,
+        );
 
-        foreach ($input as $key => $values) {
-            switch ($key) {
-                //            case 'plugin_moreticket_waitingtypes_id':
-                //            case 'date_report':
-                //            case 'reason':
-                //               $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $values;
-                //               break;
-                case 'solutiontypes_id':
-                case 'solution':
-                case 'solutiontemplates_id':
-                case 'duration_solution':
-                    $_SESSION['glpi_plugin_moreticket_close'][$key] = $values;
-                    break;
-                case 'justification':
-                    $_SESSION['glpi_plugin_moreticket_urgency'][$key] = $values;
-                    break;
-            }
-        }
-        //      if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
-        //         print_r($_SESSION['glpi_plugin_moreticket_close']);
-        //      }
+        SessionDraft::remember(SessionDraft::URGENCY, $input, ['justification'], 0);
     }
 
     public static function getDefaultValues($entity = 0)
@@ -403,7 +391,6 @@ class Ticket extends CommonITILObject
                 $update["_reopen"] = true;
                 $update['id'] = $ticket->fields['id'];
 
-                Toolbox::logInfo($update);
                 // Use update method for history
                 $ticket->update($update);
                 $reopened = true;

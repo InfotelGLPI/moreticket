@@ -421,7 +421,7 @@ function plugin_moreticket_post_item_form($params)
                 }
 
                 // automatically click follow up set ticket to waiting status switch
-                if (strpos($_SERVER['REQUEST_URI'], "ticket.form.php") !== false) {
+                if (strpos($_SERVER['REQUEST_URI'] ?? '', "ticket.form.php") !== false) {
                     if ($config->fields['waiting_by_default_followup'] && Session::haveRight('ticket', \Ticket::OWN)) {
                         echo Html::scriptBlock(
                             "$(document).ready(function() {

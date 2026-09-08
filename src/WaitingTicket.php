@@ -139,12 +139,13 @@ class WaitingTicket extends CommonDBTM
     /**
      * Check the mandatory values of forms
      *
-     * @param      $values
-     * @param bool $add
+     * @param       $values
+     * @param bool  $add
+     * @param int   $tickets_id ticket the form belongs to, 0 on the creation form
      *
      * @return bool
      */
-    public static function checkMandatory($values, $add = false)
+    public static function checkMandatory($values, $add = false, $tickets_id = 0)
     {
         $checkKo   = [];
         $dateError = false;
@@ -183,10 +184,19 @@ class WaitingTicket extends CommonDBTM
                     $checkKo[] = 1;
                 }
             }
-            $_SESSION['glpi_plugin_moreticket_waiting'][$key] = $value;
         }
 
         if (in_array(1, $checkKo)) {
+            // Keep what was typed, for the form of this ticket alone, and only now that the
+            // submit is refused: on success the values are already in the waiting row, and a
+            // draft outliving a success is a draft handed to the next ticket opened.
+            SessionDraft::remember(
+                SessionDraft::WAITING,
+                $values,
+                ['reason', 'date_report', 'plugin_moreticket_waitingtypes_id'],
+                $tickets_id,
+            );
+
             if (!$add) {
                 $errorMessage = __('Waiting ticket cannot be saved', 'moreticket') . "<br>";
             } else {
@@ -226,6 +236,8 @@ class WaitingTicket extends CommonDBTM
             return false;
         }
 
+        $ID = (int) $ID;
+
         if ($ID > 0) {
             if (self::getWaitingTicketFromDB($ID) === false) {
                 $this->getEmpty();
@@ -237,21 +249,12 @@ class WaitingTicket extends CommonDBTM
             $this->getEmpty();
         }
 
-        // If values are saved in session we retrieve it
-        if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-            foreach ($_SESSION['glpi_plugin_moreticket_waiting'] as $key => $value) {
-                switch ($key) {
-                    case 'reason':
-                        $this->fields[$key] = $value;
-                        break;
-                    default:
-                        $this->fields[$key] = $value;
-                        break;
-                }
-            }
+        // Give back what a refused submit left behind -- but only if it was typed for this
+        // very ticket. The session key is common to the whole user session, so a reason
+        // entered on another ticket used to pre-fill this form, and be recorded here.
+        foreach (SessionDraft::restore(SessionDraft::WAITING, $ID) as $key => $value) {
+            $this->fields[$key] = $value;
         }
-
-        unset($_SESSION['glpi_plugin_moreticket_waiting']);
 
         $config = new Config();
 
@@ -259,19 +262,30 @@ class WaitingTicket extends CommonDBTM
             $this->fields['date_report'] = date("Y-m-d H:i:s");
         }
 
-        // The date field echoes its markup directly: capture it into an HTML slot.
-        ob_start();
-        Html::showDateTimeField("date_report", ['value'      => $this->fields['date_report'],
-            'maybeempty' => false]);
-        $date_field = ob_get_clean();
+        // The block is shown under canView(), that is READ, while recording a reason is
+        // canCreate(), that is UPDATE (see the class contract at the top of this file).
+        // Rendering the inputs to a reader promised a write the sink refuses.
+        $canedit    = self::canCreate();
+        $date_field = '';
+
+        if ($canedit) {
+            // The date field echoes its markup directly: capture it into an HTML slot.
+            ob_start();
+            Html::showDateTimeField("date_report", ['value'      => $this->fields['date_report'],
+                'maybeempty' => false]);
+            $date_field = ob_get_clean();
+        }
 
         TemplateRenderer::getInstance()->display('@moreticket/waitingticket_form.html.twig', [
             'block_id'         => 'moreticket_waiting_ticket',
             'with_break'       => false,
             'row_class'        => '',
+            'canedit'          => $canedit,
             'reason_mandatory' => $config->mandatoryWaitingReason() == true,
-            'reason_input'     => Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]),
+            'reason_value'     => $this->fields['reason'],
+            'reason_input'     => $canedit ? Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]) : '',
             'date_mandatory'   => $config->mandatoryReportDate() == true,
+            'date_value'       => Html::convDateTime($this->fields['date_report']),
             'date_field'       => $date_field,
             'position_script'  => '',
         ]);
@@ -290,6 +304,8 @@ class WaitingTicket extends CommonDBTM
             return false;
         }
 
+        $tickets_id = (int) $tickets_id;
+
         if ($tickets_id > 0) {
             if (self::getWaitingTicketFromDB($tickets_id) === false) {
                 $this->getEmpty();
@@ -301,21 +317,12 @@ class WaitingTicket extends CommonDBTM
             $this->getEmpty();
         }
 
-        // If values are saved in session we retrieve it
-        if (isset($_SESSION['glpi_plugin_moreticket_waiting'])) {
-            foreach ($_SESSION['glpi_plugin_moreticket_waiting'] as $key => $value) {
-                switch ($key) {
-                    case 'reason':
-                        $this->fields[$key] = $value;
-                        break;
-                    default:
-                        $this->fields[$key] = $value;
-                        break;
-                }
-            }
+        // Same as showForm(): a draft belongs to the ticket it was typed for. This block is
+        // injected in the followup and task forms of the timeline, which are exactly the
+        // places a technician reaches straight after leaving another ticket.
+        foreach (SessionDraft::restore(SessionDraft::WAITING, $tickets_id) as $key => $value) {
+            $this->fields[$key] = $value;
         }
-
-        unset($_SESSION['glpi_plugin_moreticket_waiting']);
 
         switch ($itilObject) {
             case ITILFollowup::class:
@@ -335,11 +342,19 @@ class WaitingTicket extends CommonDBTM
             $this->fields['date_report'] = date("Y-m-d H:i:s");
         }
 
-        // The date field echoes its markup directly: capture it into an HTML slot.
-        ob_start();
-        Html::showDateTimeField("date_report", ['value'      => $this->fields['date_report'],
-            'maybeempty' => false]);
-        $date_field = ob_get_clean();
+        // The block is shown under canView(), that is READ, while recording a reason is
+        // canCreate(), that is UPDATE (see the class contract at the top of this file).
+        // Rendering the inputs to a reader promised a write the sink refuses.
+        $canedit    = self::canCreate();
+        $date_field = '';
+
+        if ($canedit) {
+            // The date field echoes its markup directly: capture it into an HTML slot.
+            ob_start();
+            Html::showDateTimeField("date_report", ['value'      => $this->fields['date_report'],
+                'maybeempty' => false]);
+            $date_field = ob_get_clean();
+        }
 
         // Position the block with javascript and toggle its display on the pending switch.
         $position_script = Html::scriptBlock(
@@ -380,9 +395,12 @@ class WaitingTicket extends CommonDBTM
             'block_id'         => $blockId,
             'with_break'       => true,
             'row_class'        => 'tab_bg_1',
+            'canedit'          => $canedit,
             'reason_mandatory' => $config->mandatoryWaitingReason() == true,
-            'reason_input'     => Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]),
+            'reason_value'     => $this->fields['reason'],
+            'reason_input'     => $canedit ? Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]) : '',
             'date_mandatory'   => $config->mandatoryReportDate() == true,
+            'date_value'       => Html::convDateTime($this->fields['date_report']),
             'date_field'       => $date_field,
             'position_script'  => $position_script,
         ]);
@@ -495,15 +513,21 @@ class WaitingTicket extends CommonDBTM
                 $iterator->next();
             }
         } else {
-            $iterator = $DB->request(
-                [
-                    'FROM' => 'glpi_plugin_moreticket_waitingtickets',
-                    'WHERE' => ['tickets_id' => $tickets_id],
-                    'ORDERBY' => ['date_suspension DESC'],
-                    'LIMIT' => [intval($options['start']),
-                        intval($options['limit'])],
-                ],
-            );
+            $criteria = [
+                'FROM' => 'glpi_plugin_moreticket_waitingtickets',
+                'WHERE' => ['tickets_id' => $tickets_id],
+                'ORDERBY' => ['date_suspension DESC'],
+            ];
+
+            // START and LIMIT are two distinct keys of the iterator, and handleLimits() tests
+            // is_numeric() on LIMIT: the array form emitted no clause at all, so the pager was
+            // displayed but every one of its pages returned the whole table.
+            if (isset($options['limit'])) {
+                $criteria['START'] = (int) ($options['start'] ?? 0);
+                $criteria['LIMIT'] = (int) $options['limit'];
+            }
+
+            $iterator = $DB->request($criteria);
 
             $data_WaitingType = [];
             foreach ($iterator as $row) {
@@ -531,7 +555,14 @@ class WaitingTicket extends CommonDBTM
     public static function addWaitingTicket($item)
     {
         $waiting_ticket = new self();
-        if (self::checkMandatory($item->input)) {
+
+        // Resolve the parent ticket before the control rather than after it, so a refused
+        // submit stores its draft under the ticket the form belonged to.
+        $tickets_id = (int) ($item->getType() === 'ITILFollowup'
+            ? ($item->input['items_id'] ?? 0)
+            : ($item->input['tickets_id'] ?? 0));
+
+        if (self::checkMandatory($item->input, false, $tickets_id)) {
             if (isset($item->input['date_report'])
                 && ($item->input['date_report'] == "0000-00-00 00:00:00"
                     || empty($item->input['date_report']))) {
@@ -542,13 +573,6 @@ class WaitingTicket extends CommonDBTM
                 $item->input['_job']->fields['status'],
                 [CommonITILObject::SOLVED, CommonITILObject::CLOSED],
             )) ? CommonITILObject::ASSIGNED : $item->input['_job']->fields['status'];
-
-            $tickets_id = null;
-            if ($item->getType() === 'ITILFollowup') {
-                $tickets_id = $item->input['items_id'];
-            } else {
-                $tickets_id = $item->input['tickets_id'];
-            }
 
             // Then we add tickets informations
             $input = [
@@ -566,11 +590,21 @@ class WaitingTicket extends CommonDBTM
                 unset($input['status']);
             }
 
+            // add() and update() control no right of their own, it is up to the caller. This
+            // sink is reached from the timeline forms of ITILFollowup and TicketTask, whose
+            // core rights say nothing about the plugin's: READ alone was enough to write a
+            // reason, while the contract of the class is canCreate(), that is UPDATE. The
+            // mandatory control above deliberately stays outside the test (see setup.php):
+            // what is gated is the recording of the value, not the obligation to provide one.
+            if (!self::canCreate()) {
+                return;
+            }
+
             $waitingTicketData = WaitingTicket::getWaitingTicketFromDB($tickets_id);
 
             if (!$waitingTicketData) {
                 if ($waiting_ticket->add($input)) {
-                    unset($_SESSION['glpi_plugin_moreticket_waiting']);
+                    SessionDraft::forget(SessionDraft::WAITING);
                 }
             } else {
                 $waiting_ticket->getFromDB($waitingTicketData['id']);
@@ -604,7 +638,7 @@ class WaitingTicket extends CommonDBTM
                 if ($item->fields['status'] != CommonITILObject::WAITING
                     && $item->input['status'] == CommonITILObject::WAITING
                     && self::getWaitingTicketFromDB($item->fields['id']) === false) {
-                    if (self::checkMandatory($item->input)) {
+                    if (self::checkMandatory($item->input, false, (int) $item->fields['id'])) {
                         if (isset($item->input['date_report'])
                             && ($item->input['date_report'] == "0000-00-00 00:00:00"
                                 || empty($item->input['date_report']))) {
@@ -625,8 +659,10 @@ class WaitingTicket extends CommonDBTM
                             'date_end_suspension'               => 'NULL',
                             'status'                            => $status,
                             'plugin_moreticket_waitingtypes_id' => self::sanitizeWaitingType($item->input['plugin_moreticket_waitingtypes_id'] ?? 0)];
-                        if ($waiting_ticket->add($input)) {
-                            unset($_SESSION['glpi_plugin_moreticket_waiting']);
+                        // Same test as addWaitingTicket(): reading a reason is canView(),
+                        // recording one is canCreate().
+                        if (self::canCreate() && $waiting_ticket->add($input)) {
+                            SessionDraft::forget(SessionDraft::WAITING);
                         }
                     } else {
                         unset($item->input['status']);
@@ -637,7 +673,7 @@ class WaitingTicket extends CommonDBTM
                            && $item->input['status'] == CommonITILObject::WAITING) {
                     $waiting_ticket_data = self::getWaitingTicketFromDB($item->fields['id']);
                     if (($waiting_ticket_data === false)) {
-                        if (self::checkMandatory($item->input)) {
+                        if (self::checkMandatory($item->input, false, (int) $item->fields['id'])) {
                             if (isset($item->input['date_report'])
                                 && $item->input['date_report'] == "0000-00-00 00:00:00") {
                                 $item->input['date_report'] = 'NULL';
@@ -650,8 +686,8 @@ class WaitingTicket extends CommonDBTM
                                 'plugin_moreticket_waitingtypes_id' => self::sanitizeWaitingType($item->input['plugin_moreticket_waitingtypes_id'] ?? 0)];
 
                             // Then we add tickets informations
-                            if ($waiting_ticket->add($input)) {
-                                unset($_SESSION['glpi_plugin_moreticket_waiting']);
+                            if (self::canCreate() && $waiting_ticket->add($input)) {
+                                SessionDraft::forget(SessionDraft::WAITING);
                             }
                         } else {
                             unset($item->input['status']);
@@ -673,10 +709,15 @@ class WaitingTicket extends CommonDBTM
                             }
                         }
 
-                        if (count($update) > 0) {
+                        if (count($update) > 0 && self::canCreate()) {
                             $update['id'] = $waiting_ticket_data['id'];
                             $waiting_ticket->update($update);
                         }
+
+                        // The two ADD branches above drop the draft once the row is written;
+                        // this one never did, so a reason refused earlier stayed in session
+                        // and was offered to the next form displayed.
+                        SessionDraft::forget(SessionDraft::WAITING);
                     }
                 }
             }
@@ -712,7 +753,7 @@ class WaitingTicket extends CommonDBTM
                         $waiting_ticket->update(['id'                  => $field['id'],
                             'date_end_suspension' => date("Y-m-d H:i:s")]);
                     }
-                    unset($_SESSION['glpi_plugin_moreticket_waiting']);
+                    SessionDraft::forget(SessionDraft::WAITING);
                 }
             }
         }
@@ -791,19 +832,24 @@ class WaitingTicket extends CommonDBTM
         if (isset($config->fields['use_waiting']) && $config->useWaiting()) {
             $waiting_ticket = new self();
             // Then we add tickets informations
-            if (isset($item->fields['id']) && $item->input['status'] == CommonITILObject::WAITING) {
-                if (self::checkMandatory($item->input)) {
+            if (isset($item->fields['id'])
+                && ($item->input['status'] ?? null) == CommonITILObject::WAITING) {
+                if (self::checkMandatory($item->input, false, (int) $item->fields['id'])) {
                     if (empty($item->input['date_report'])) {
                         $item->input['date_report'] = 'NULL';
                     }
-                    // Then we add tickets informations
-                    if ($waiting_ticket->add(['reason'                            => $item->input['reason'],
-                        'tickets_id'                        => $item->fields['id'],
-                        'date_report'                       => $item->input['date_report'],
-                        'date_suspension'                   => date("Y-m-d H:i:s"),
-                        'date_end_suspension'               => 'NULL',
-                        'plugin_moreticket_waitingtypes_id' => self::sanitizeWaitingType($item->input['plugin_moreticket_waitingtypes_id'])])) {
-                        unset($_SESSION['glpi_plugin_moreticket_waiting']);
+                    // The reason and the waiting type are only posted when the block is part
+                    // of the form: with both left optional in the configuration checkMandatory()
+                    // passes without them, and reading them raw wrote NULL behind a PHP warning.
+                    // The write itself answers to canCreate(), like every other sink here.
+                    if (self::canCreate()
+                        && $waiting_ticket->add(['reason'                            => $item->input['reason'] ?? '',
+                            'tickets_id'                        => $item->fields['id'],
+                            'date_report'                       => $item->input['date_report'],
+                            'date_suspension'                   => date("Y-m-d H:i:s"),
+                            'date_end_suspension'               => 'NULL',
+                            'plugin_moreticket_waitingtypes_id' => self::sanitizeWaitingType($item->input['plugin_moreticket_waitingtypes_id'] ?? 0)])) {
+                        SessionDraft::forget(SessionDraft::WAITING);
                     }
                 } else {
                     $item->input['id']                       = $item->fields['id'];
@@ -923,82 +969,6 @@ class WaitingTicket extends CommonDBTM
         return [];
     }
 
-    /**
-     * Print the waiting ticket form
-     *
-     * @param $ID integer ID of the item
-     * @param $options array
-     *     - target filename : where to go when done.
-     *     - withtemplate boolean : template or basic item
-     *
-     * @return Nothing (display)
-     * */
-    public function showQuestionSign($ID, $options = [])
-    {
-
-        global $CFG_GLPI;
-        // validation des droits
-        if (!$this->canView()) {
-            return false;
-        }
-        $ticket = new \Ticket();
-        if ($ID > 0) {
-            $ticket->getFromDB($ID);
-            if (!$this->fields = self::getWaitingTicketFromDB($ID)) {
-                //                $this->getEmpty();
-            }
-        } else {
-            // Create item
-            $ticket->getEmpty();
-            $this->getEmpty();
-        }
-
-        // The Ajax helpers echo their <script> markup directly: capture them into an HTML slot.
-        ob_start();
-        Ajax::updateItemOnEvent("question", "fakeupdate", PLUGIN_MORETICKET_WEBDIR . "/ajax/updatestatus.php", ["question" => '__VALUE__',"status" => $ticket->getField("status")]);
-        Ajax::updateItem("fakeupdate", PLUGIN_MORETICKET_WEBDIR . "/ajax/updatestatus.php", ["question" => '1',"status" => $ticket->getField("status")]);
-        $ajax_scripts = ob_get_clean();
-
-        TemplateRenderer::getInstance()->display('@moreticket/waitingticket_question.html.twig', [
-            'switch_field' => self::showSwitchField("question", 1),
-            'ajax_scripts' => $ajax_scripts,
-        ]);
-    }
-
-    public function showSwitchField($name, $value)
-    {
-
-        $out  = Html::hidden($name, ['id'    => $name,
-            'value' => $value]);
-        $out .= Html::scriptBlock("(function(){
-                             var toggleButton = $('.$name');
-                             toggleButton.click(function() {
-                             if ($(this).hasClass('toggle-right')) {
-                                   toggleButton.removeClass('toggle-right');
-                                   toggleButton.addClass('toggle-left');
-                                   toggleButton.removeClass('enabled');
-                                   toggleButton.addClass('disabled');
-                                   document.getElementById('$name').value = '0';
-                                   var event = new Event('change');
-                                   document.getElementById('$name').dispatchEvent(event);
-                                 } else {
-                                   toggleButton.removeClass('toggle-left');
-                                   toggleButton.addClass('toggle-right');
-                                   toggleButton.removeClass('disabled');
-                                   toggleButton.addClass('enabled');
-                                   document.getElementById('$name').value = '1';
-                                   var event = new Event('change');
-                                   document.getElementById('$name').dispatchEvent(event);
-                                 }
-                             });
-                           })();");
-        if ($value == 1) {
-            $out .= "<a class=\"button\"><i style='font-size: 2em;' class=\"ti $name toggle-right enabled\"></i></a>";
-        } else {
-            $out .= "<a class=\"button\"><i class=\"ti $name toggle-left disabled\"></i></a>";
-        }
-        return $out;
-    }
 
     /**
      * Delete all elements that could have been added prior to bugfix when adding task/followup

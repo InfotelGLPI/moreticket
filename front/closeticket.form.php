@@ -76,9 +76,11 @@ if (isset($_POST["add"])) {
 
     // requesters_id is not trusted from the POST: CloseTicket::prepareInputForAdd() forces it
     // to the current user, so it is intentionally not forwarded here.
-    $closeTicket->add(['tickets_id'    => $_POST['tickets_id'],
-        'date'          => $_POST['date'],
-        'comment'       => $_POST['comment'],
+    // The form always sends these two, a forged post does not have to: read them with an
+    // explicit fallback instead of letting PHP warn and hand null to a datetime column.
+    $closeTicket->add(['tickets_id'    => (int) $_POST['tickets_id'],
+        'date'          => $_POST['date'] ?? '',
+        'comment'       => $_POST['comment'] ?? '',
         'documents_id'  => $DocId]);
     Html::back();
 }

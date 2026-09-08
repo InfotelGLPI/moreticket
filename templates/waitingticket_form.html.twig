@@ -31,15 +31,27 @@
         <tr{% if row_class %} class="{{ row_class }}"{% endif %}>
             <td>
                 {{ __('Reason', 'moreticket') }}
-                {% if reason_mandatory %}&nbsp;:&nbsp;<span class="text-danger">*</span>&nbsp;{% endif %}
-                {{ reason_input|raw }}
+            </td>
+            <td>
+                {% if canedit %}
+                    {% if reason_mandatory %}&nbsp;:&nbsp;<span class="text-danger">*</span>&nbsp;{% endif %}
+                    {{ reason_input|raw }}
+                {% else %}
+                    {{ reason_value }}
+                {% endif %}
             </td>
         </tr>
         <tr{% if row_class %} class="{{ row_class }}"{% endif %}>
             <td>
                 {{ __('Postponement date', 'moreticket') }}
-                {% if date_mandatory %}&nbsp;:&nbsp;<span class="text-danger">*</span>&nbsp;{% endif %}
-                {{ date_field|raw }}
+            </td>
+            <td>
+                {% if canedit %}
+                    {% if date_mandatory %}&nbsp;:&nbsp;<span class="text-danger">*</span>&nbsp;{% endif %}
+                    {{ date_field|raw }}
+                {% else %}
+                    {{ date_value }}
+                {% endif %}
             </td>
         </tr>
     </table>

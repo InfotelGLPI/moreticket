@@ -96,9 +96,15 @@ class CloseTicket extends CommonDBTM
     {
         $input['requesters_id'] = Session::getLoginUserID();
 
-        if (empty($input['date'])) {
-            $input['date'] = $_SESSION['glpi_currenttime'] ?? date('Y-m-d H:i:s');
-        }
+        // date is a posted field and the column is a datetime: an unparsable string used to
+        // travel straight to the DBMS, which answers with a server error rather than with a
+        // business message. Normalise what can be read, fall back on the server time for the
+        // rest -- which is what an empty value already did.
+        $timestamp = !empty($input['date']) ? strtotime((string) $input['date']) : false;
+
+        $input['date'] = $timestamp !== false
+            ? date('Y-m-d H:i:s', $timestamp)
+            : ($_SESSION['glpi_currenttime'] ?? date('Y-m-d H:i:s'));
 
         return $input;
     }
@@ -176,11 +182,12 @@ class CloseTicket extends CommonDBTM
     // Check the mandatory values of forms
 
     /**
-     * @param $values
+     * @param     $values
+     * @param int $tickets_id ticket the form belongs to, 0 on the creation form
      *
      * @return bool
      */
-    public static function checkMandatory($values)
+    public static function checkMandatory($values, $tickets_id = 0)
     {
         $checkKo = [];
 
@@ -201,10 +208,19 @@ class CloseTicket extends CommonDBTM
                     $checkKo[] = 1;
                 }
             }
-            $_SESSION['glpi_plugin_moreticket_close'][$key] = $value;
         }
 
         if (in_array(1, $checkKo)) {
+            // The solution the user was writing, kept for the ticket it was written on and
+            // for nothing else. Copying the whole post also meant carrying the ticket title,
+            // its content and its actors around in the session.
+            SessionDraft::remember(
+                SessionDraft::CLOSING,
+                $values,
+                ['solution', 'solutiontypes_id', 'solutiontemplates_id', 'duration_solution'],
+                $tickets_id,
+            );
+
             Session::addMessageAfterRedirect(
                 __('Ticket cannot be closed', 'moreticket') . "<br>" . _n(
                     'Mandatory field',
@@ -385,29 +401,6 @@ class CloseTicket extends CommonDBTM
     }
 
     /**
-     * Get close ticket informations
-     *
-     * @param  $tickets_id
-     * @param  $options
-     *
-     * @return array
-     */
-    public static function getCloseTicketFromDB($tickets_id, $options = [])
-    {
-        $dbu = new DbUtils();
-        $data = $dbu->getAllDataFromTable(
-            "glpi_plugin_moreticket_closetickets",
-            ['tickets_id' => $tickets_id]
-            + ['ORDER' => 'date DESC']
-            + ['START' => (int) $options['start']]
-            + ['LIMIT' => (int) $options['limit']],
-            false,
-        );
-
-        return $data;
-    }
-
-    /**
      * Print the wainting ticket form
      *
      * @param $ID integer ID of the item
@@ -426,6 +419,7 @@ class CloseTicket extends CommonDBTM
             return false;
         }
 
+        $ID     = (int) $ID;
         $ticket = new \Ticket();
 
         if ($ID > 0) {
@@ -437,16 +431,14 @@ class CloseTicket extends CommonDBTM
             $ticket->getEmpty();
         }
 
-        // If values are saved in session we retrieve it
-        if (isset($_SESSION['glpi_plugin_moreticket_close'])) {
-            foreach ($_SESSION['glpi_plugin_moreticket_close'] as $key => $value) {
-                if (!is_array($value)) {
-                    $ticket->fields[$key] = str_replace(['\r\n', '\r', '\n'], '', $value);
-                }
+        // Give back what a refused submit left behind -- but only if it was typed for this
+        // very ticket. A solution description written for another ticket, proposed here and
+        // saved, is that ticket's content published on this one.
+        foreach (SessionDraft::restore(SessionDraft::CLOSING, $ID) as $key => $value) {
+            if (!is_array($value)) {
+                $ticket->fields[$key] = str_replace(['\r\n', '\r', '\n'], '', $value);
             }
         }
-
-        unset($_SESSION['glpi_plugin_moreticket_close']);
 
         $config     = new Config();
         $rand       = mt_rand();
@@ -524,14 +516,11 @@ class CloseTicket extends CommonDBTM
         if ($use_duration_solution == 1) {
             $duration_rand    = mt_rand();
             $duration_span_id = "duration_solution_" . $duration_rand . $ticket->fields['id'];
-            $toadd = [];
-            for ($i = 9; $i <= 100; $i++) {
-                $toadd[] = $i * HOUR_TIMESTAMP;
-            }
+            $toadd = Solution::getDurationToAdd();
             ob_start();
             Dropdown::showTimeStamp("duration_solution", [
                 'min' => 0,
-                'max' => 8 * HOUR_TIMESTAMP,
+                'max' => Solution::getDurationMax(),
                 'value' => $ticket->fields['duration_solution'],
                 'inhours' => true,
                 'toadd' => $toadd,
@@ -589,7 +578,7 @@ class CloseTicket extends CommonDBTM
                 // Then we add tickets informations
                 if (isset($item->input['status'])
                     && in_array($item->input['status'], $solution_status)) {
-                    if (self::checkMandatory($item->input)) {
+                    if (self::checkMandatory($item->input, (int) ($item->input['id'] ?? 0))) {
                         // Add followup on immediate ticket closing
                         if (!isset($item->input['id']) || $item->input['id'] == 0) {
                             $item->input['_moreticket_statusold'] = $item->input['status'];
@@ -643,7 +632,10 @@ class CloseTicket extends CommonDBTM
                     $input['content'] = $item->input['solution'] ?? '';
                     $input['solutiontypes_id'] = $item->input['solutiontypes_id'] ?? 0;
 
-                    $input['duration_solution'] = $item->input['duration_solution'] ?? 0;
+                    // Same allow-list as Solution::beforeAdd(), which is where this value is
+                    // turned into an actiontime: check it on the way in as well rather than
+                    // rely on the round trip through ITILSolution.
+                    $input['duration_solution'] = Solution::sanitizeDuration($item->input['duration_solution'] ?? 0);
 
                     if (!empty($item->input['date'])) {
                         $input['date_creation'] = $item->input['date'];

@@ -85,10 +85,7 @@ class Solution extends CommonITILObject
                 $use_duration_solution = $config->useDurationSolution();
                 if ($use_duration_solution == 1) {
                     $rand  = mt_rand();
-                    $toadd = [];
-                    for ($i = 9; $i <= 100; $i++) {
-                        $toadd[] = $i * HOUR_TIMESTAMP;
-                    }
+                    $toadd = self::getDurationToAdd();
 
                     $script = Html::scriptBlock("
 	                    function showsolutionbutton(){
@@ -106,7 +103,7 @@ class Solution extends CommonITILObject
                     // Dropdown::showTimeStamp echoes its markup directly: capture it into an HTML slot.
                     ob_start();
                     Dropdown::showTimeStamp("duration_solution", ['min' => 0,
-                        'max' => 8 * HOUR_TIMESTAMP,
+                        'max' => self::getDurationMax(),
                         'inhours' => true,
                         'toadd' => $toadd,
                     ]);
@@ -139,6 +136,80 @@ class Solution extends CommonITILObject
     }
 
     /**
+     * Longest duration the dropdown proposes before the hour steps, in seconds.
+     *
+     * @return int
+     */
+    public static function getDurationMax(): int
+    {
+        return 8 * HOUR_TIMESTAMP;
+    }
+
+    /**
+     * Hour steps the duration dropdown appends beyond its maximum.
+     *
+     * @return int[]
+     */
+    public static function getDurationToAdd(): array
+    {
+        $toadd = [];
+
+        for ($i = 9; $i <= 100; $i++) {
+            $toadd[] = $i * HOUR_TIMESTAMP;
+        }
+
+        return $toadd;
+    }
+
+    /**
+     * Every value the duration dropdown actually offers, in seconds.
+     *
+     * Dropdown::showTimeStamp() walks from one step to the maximum and then appends the extra
+     * values; rebuilding the same list here is what lets the posted value be checked against
+     * what was proposed instead of being taken on trust.
+     *
+     * @return int[]
+     */
+    public static function getDurationValues(): array
+    {
+        global $CFG_GLPI;
+
+        $step = (int) ($CFG_GLPI['time_step'] ?? 5) * MINUTE_TIMESTAMP;
+
+        if ($step <= 0) {
+            $step = MINUTE_TIMESTAMP;
+        }
+
+        // 0 is the empty choice of the dropdown: no duration at all.
+        $values = [0];
+
+        for ($i = $step; $i <= self::getDurationMax(); $i += $step) {
+            $values[] = $i;
+        }
+
+        return array_merge($values, self::getDurationToAdd());
+    }
+
+    /**
+     * Keep a posted duration only when the dropdown offered it.
+     *
+     * A bounded dropdown is a suggestion made to the browser, nothing more. This value is
+     * written into Ticket.actiontime and TicketTask.actiontime, from where it reaches the
+     * entity statistics, the workload reports and the dashboards, with nothing to tell it
+     * apart from a legitimate entry.
+     *
+     * @param mixed $value
+     *
+     * @return int
+     */
+    public static function sanitizeDuration($value): int
+    {
+        $duration = (int) $value;
+
+        return in_array($duration, self::getDurationValues(), true) ? $duration : 0;
+    }
+
+    /**
      * @param \Ticket $item
      *
      * @return bool
@@ -157,7 +228,11 @@ class Solution extends CommonITILObject
 
         if ($config->useDurationSolution()) {
             if ($solution->input['itemtype'] == 'Ticket') {
-                if (isset($solution->input['duration_solution']) && $solution->input['duration_solution'] > 0) {
+                // The posted duration is checked against the list the dropdown built, not
+                // against its own word: see sanitizeDuration().
+                $duration = self::sanitizeDuration($solution->input['duration_solution'] ?? 0);
+
+                if ($duration > 0) {
                     //               $solution->input['content'] = html_entity_decode($solution->input['content']);
                     //               $solution->input['content'] = strip_tags($solution->input['content']);
                     $ticket = new \Ticket();
@@ -165,15 +240,14 @@ class Solution extends CommonITILObject
                     if ($ticket->getFromDB($tickets_id)) {
                         if ($ticket->getField('actiontime') == 0) {
                             $ticket->update(['id' => $tickets_id,
-                                'actiontime' => $solution->input['duration_solution']]);
+                                'actiontime' => $duration]);
                         }
                     }
 
                     $user = new User();
                     $user->getFromDB(Session::getLoginUserID());
 
-                    $tickettask = new \TicketTask();
-                    $tickettask->add(['tickets_id' => $tickets_id,
+                    $task_input = ['tickets_id' => $tickets_id,
                         'date_creation' => date('Y-m-d H:i:s'),
                         'date' => date(
                             'Y-m-d H:i:s',
@@ -184,7 +258,18 @@ class Solution extends CommonITILObject
                         'content' => $solution->input['content'],
                         'state' => Planning::DONE,
                         'is_private' => $user->getField('task_private'),
-                        'actiontime' => $solution->input['duration_solution']]);
+                        'actiontime' => $duration];
+
+                    // A TicketTask is a core object under the core's own rights, and being
+                    // allowed to solve a ticket says nothing about being allowed to add a task
+                    // to it -- some organisations reserve time entry to one team. Ask what the
+                    // task form would have asked: without the right, the duration still
+                    // reaches the ticket above, it is simply not materialised as a task.
+                    $tickettask = new \TicketTask();
+
+                    if ($tickettask->can(-1, CREATE, $task_input)) {
+                        $tickettask->add($task_input);
+                    }
                 } elseif ($config->isMandatorysolution()) {
                     if (Plugin::isPluginActive('servicecatalog')
                         && Session::getCurrentInterface() != "central") {

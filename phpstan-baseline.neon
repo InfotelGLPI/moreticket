@@ -109,6 +109,12 @@ parameters:
 			path: src/Profile.php
 
 		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/SessionDraft.php
+
+		-
 			message: '#^Method GlpiPlugin\\Moreticket\\Solution\:\:getDefaultValues\(\) should return array but return statement is missing\.$#'
 			identifier: return.missing
 			count: 1
@@ -135,7 +141,7 @@ parameters:
 		-
 			message: '#^Method GlpiPlugin\\Moreticket\\Ticket\:\:afterAdd\(\) should return bool but return statement is missing\.$#'
 			identifier: return.missing
-			count: 2
+			count: 1
 			path: src/Ticket.php
 
 		-
@@ -285,24 +291,6 @@ parameters:
 		-
 			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showForm\(\) should return bool but return statement is missing\.$#'
 			identifier: return.missing
-			count: 1
-			path: src/WaitingTicket.php
-
-		-
-			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showQuestionSign\(\) has invalid return type GlpiPlugin\\Moreticket\\Nothing\.$#'
-			identifier: class.notFound
-			count: 1
-			path: src/WaitingTicket.php
-
-		-
-			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showQuestionSign\(\) should return GlpiPlugin\\Moreticket\\Nothing but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: src/WaitingTicket.php
-
-		-
-			message: '#^Method GlpiPlugin\\Moreticket\\WaitingTicket\:\:showQuestionSign\(\) should return GlpiPlugin\\Moreticket\\Nothing but returns false\.$#'
-			identifier: return.type
 			count: 1
 			path: src/WaitingTicket.php
 

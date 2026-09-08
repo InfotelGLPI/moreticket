@@ -69,12 +69,13 @@ class UrgencyTicket extends CommonDBTM
     /**
      * Check the mandatory values of forms
      *
-     * @param      $values
-     * @param bool $add
+     * @param       $values
+     * @param bool  $add
+     * @param int   $tickets_id ticket the form belongs to, 0 on the creation form
      *
      * @return bool
      */
-    public static function checkMandatory($values, $add = false)
+    public static function checkMandatory($values, $add = false, $tickets_id = 0)
     {
         $checkKo = [];
 
@@ -97,10 +98,13 @@ class UrgencyTicket extends CommonDBTM
                     $checkKo[] = 1;
                 }
             }
-            $_SESSION['glpi_plugin_moreticket_urgency'][$key] = $value;
         }
 
         if (in_array(1, $checkKo)) {
+            // Only the justification, only on refusal, and only for this ticket: see
+            // SessionDraft for what the previous unconditional copy of the whole post did.
+            SessionDraft::remember(SessionDraft::URGENCY, $values, ['justification'], $tickets_id);
+
             if (!$add) {
                 $errorMessage = __('Urgency ticket cannot be saved', 'moreticket') . "<br>";
             } else {
@@ -136,6 +140,8 @@ class UrgencyTicket extends CommonDBTM
             return false;
         }
 
+        $ID = (int) $ID;
+
         if ($ID > 0) {
             if (self::getUrgencyTicketFromDB($ID) === false) {
                 $this->getEmpty();
@@ -147,21 +153,12 @@ class UrgencyTicket extends CommonDBTM
             $this->getEmpty();
         }
 
-        // If values are saved in session we retrieve it
-        if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
-            foreach ($_SESSION['glpi_plugin_moreticket_urgency'] as $key => $value) {
-                switch ($key) {
-                    case 'justification':
-                        $this->fields[$key] = $value;
-                        break;
-                    default:
-                        $this->fields[$key] = $value;
-                        break;
-                }
-            }
+        // Give back what a refused submit left behind -- but only if it was typed for this
+        // very ticket. A justification names a person and a situation: it has no business
+        // being proposed on somebody else's ticket, let alone in another entity.
+        foreach (SessionDraft::restore(SessionDraft::URGENCY, $ID) as $key => $value) {
+            $this->fields[$key] = $value;
         }
-
-        unset($_SESSION['glpi_plugin_moreticket_urgency']);
 
         $align = "center";
 
@@ -246,7 +243,7 @@ class UrgencyTicket extends CommonDBTM
                 // structurally false and the branch never ran. Compare on a common type as
                 // well, the posted urgency being a string and the ids integers.
                 if (in_array((int) $item->input['urgency'], array_map('intval', $urgency_ids), true)) {
-                    if (self::checkMandatory($item->input)) {
+                    if (self::checkMandatory($item->input, false, (int) $item->fields['id'])) {
                         if ($urgency_ticket_data = self::getUrgencyTicketFromDB($item->fields['id'])) {
                             // UPDATE
                             $urgency_ticket->update(['id'            => $urgency_ticket_data['id'],
@@ -259,7 +256,7 @@ class UrgencyTicket extends CommonDBTM
                                     'tickets_id'    => $item->fields['id']],
                             )
                             ) {
-                                unset($_SESSION['glpi_plugin_moreticket_urgency']);
+                                SessionDraft::forget(SessionDraft::URGENCY);
                             }
                         }
                     } else {
@@ -294,7 +291,7 @@ class UrgencyTicket extends CommonDBTM
                             'justification' => ""]);
                     }
 
-                    unset($_SESSION['glpi_plugin_moreticket_urgency']);
+                    SessionDraft::forget(SessionDraft::URGENCY);
                 }
             }
         }
@@ -355,12 +352,12 @@ class UrgencyTicket extends CommonDBTM
             // Then we add tickets informations
             if (isset($item->input['urgency'])
                 && in_array($item->input['urgency'], $urgency_ids)) {
-                if (self::checkMandatory($item->input)) {
+                if (self::checkMandatory($item->input, false, (int) $item->fields['id'])) {
                     // Then we add tickets informations
                     if ($urgency_ticket->add(['justification' => $item->input['justification'],
                         'tickets_id'    => $item->fields['id']])
                     ) {
-                        unset($_SESSION['glpi_plugin_moreticket_urgency']);
+                        SessionDraft::forget(SessionDraft::URGENCY);
                     }
                 } else {
                     $item->input['id']                       = $item->fields['id'];
