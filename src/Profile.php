@@ -174,7 +174,7 @@ class Profile extends \Profile
             ];
             $rights[] = [
                 'itemtype' => Ticket::class,
-                'label' => __('Hide task duration in tickets', 'moreticket'),
+                'label' => __('Hide task duration in tickets (display only)', 'moreticket'),
                 'field' => 'plugin_moreticket_hide_task_duration',
                 'rights' => [
                     READ => __('Read'),
@@ -192,7 +192,7 @@ class Profile extends \Profile
             ];
             $rights[] = [
                 'itemtype' => Ticket::class,
-                'label' => __('Hide task duration in tickets', 'moreticket'),
+                'label' => __('Hide task duration in tickets (display only)', 'moreticket'),
                 'field' => 'plugin_moreticket_hide_task_duration',
                 'rights' => [
                     READ => __('Read'),

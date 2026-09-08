@@ -58,6 +58,10 @@ function plugin_init_moreticket()
     $PLUGIN_HOOKS[Hooks::ADD_CSS]['moreticket'][] = 'css/moreticket.css';
     $PLUGIN_HOOKS[Hooks::CHANGE_PROFILE]['moreticket'] = [Profile::class, 'initProfile'];
 
+    // Outside the session/right tests below on purpose: a ticket may be purged by a profile
+    // that holds no moreticket right at all, and the child rows have to go with it either way.
+    $PLUGIN_HOOKS[Hooks::PRE_ITEM_PURGE]['moreticket']['Ticket'] = 'plugin_pre_item_purge_moreticket';
+
     if (Session::getLoginUserID()) {
         Plugin::registerClass(Profile::class, ['addtabon' => 'Profile']);
 
@@ -82,30 +86,44 @@ function plugin_init_moreticket()
             }
             $PLUGIN_HOOKS[Hooks::CONFIG_PAGE]['moreticket'] = 'front/config.form.php';
 
-            $PLUGIN_HOOKS[Hooks::POST_PREPAREADD]['moreticket'] = [
-                'TicketTask' => [TicketTask::class, 'beforeAdd'],
-                'ITILFollowup' => [TicketFollowup::class, 'beforeAdd'],
-            ];
-
             $PLUGIN_HOOKS[Hooks::ITEM_EMPTY]['moreticket'] = ['Ticket' => [Ticket::class, 'emptyTicket']];
-
-            $PLUGIN_HOOKS[Hooks::PRE_ITEM_UPDATE]['moreticket']['Ticket'] = [Ticket::class, 'beforeUpdate'];
-            $PLUGIN_HOOKS[Hooks::ITEM_UPDATE]['moreticket']['Ticket'] = [Ticket::class, 'afterUpdate'];
-
-            $PLUGIN_HOOKS[Hooks::PRE_ITEM_ADD]['moreticket']['Ticket'] = [Ticket::class, 'beforeAdd'];
-            $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['Ticket'] = [Ticket::class, 'afterAdd'];
-
-            $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['Document'] = [Ticket::class, 'afterAddDocument'];
-            $PLUGIN_HOOKS[Hooks::ITEM_UPDATE]['moreticket']['TicketValidation'] = [Ticket::class, 'afterUpdateValidation'];
-            $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['TicketTask'] = [TicketTask::class, 'afterAddTask'];
-            $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['ITILFollowup'] = [
-                [Ticket::class, 'afterAddFollowupTech'],
-                [NotificationTicket::class, 'afterAddFollowup'],
-            ];
         }
+
+        // Registered outside the right test above, deliberately. What follows is not a
+        // feature offered to a profile, it is what the plugin owes every ticket: the
+        // mandatory waiting reason and urgency justification, the closing record, the
+        // automatic switch to WAITING, the notifications. Conditioning the registration on
+        // the rights of whoever happens to be logged in made the controls opposable to the
+        // holders of those rights alone -- everybody else went through untouched -- and left
+        // the child rows a colleague had created unmaintained on their updates. Each hook
+        // still does nothing when its own feature is switched off in the configuration.
+        $PLUGIN_HOOKS[Hooks::POST_PREPAREADD]['moreticket'] = [
+            'TicketTask' => [TicketTask::class, 'beforeAdd'],
+            'ITILFollowup' => [TicketFollowup::class, 'beforeAdd'],
+        ];
+
+        $PLUGIN_HOOKS[Hooks::PRE_ITEM_UPDATE]['moreticket']['Ticket'] = [Ticket::class, 'beforeUpdate'];
+        $PLUGIN_HOOKS[Hooks::ITEM_UPDATE]['moreticket']['Ticket'] = [Ticket::class, 'afterUpdate'];
+
+        $PLUGIN_HOOKS[Hooks::PRE_ITEM_ADD]['moreticket']['Ticket'] = [Ticket::class, 'beforeAdd'];
+        $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['Ticket'] = [Ticket::class, 'afterAdd'];
+
+        $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['Document'] = [Ticket::class, 'afterAddDocument'];
+        $PLUGIN_HOOKS[Hooks::ITEM_UPDATE]['moreticket']['TicketValidation'] = [Ticket::class, 'afterUpdateValidation'];
+        $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['TicketTask'] = [TicketTask::class, 'afterAddTask'];
+        $PLUGIN_HOOKS[Hooks::ITEM_ADD]['moreticket']['ITILFollowup'] = [
+            [Ticket::class, 'afterAddFollowupTech'],
+            [NotificationTicket::class, 'afterAddFollowup'],
+        ];
 
         //            $PLUGIN_HOOKS['item_add']['moreticket']['ITILFollowup'] = [NotificationTicket::class, 'afterAddFollowup'];
 
+        // Comfort setting, not a confidentiality one: the stylesheet hides the duration in
+        // the timeline, it does not keep it from being sent. The value stays in the page
+        // source, in the search options, in the CSV and PDF exports and in the API, and
+        // nothing here could change that -- the field belongs to core TicketTask. The label
+        // in Profile::getAllRights() says "display only" for that reason; promising more
+        // would take filtering the task itself, which is not this plugin's to do.
         if (Session::haveRight("plugin_moreticket_hide_task_duration", READ)) {
             $PLUGIN_HOOKS[Hooks::ADD_CSS]['moreticket'][] = 'css/hide_task_duration.css';
         }

@@ -29,8 +29,10 @@
 
 use GlpiPlugin\Moreticket\CloseTicket;
 use GlpiPlugin\Moreticket\Config;
+use GlpiPlugin\Moreticket\NotificationTicket;
 use GlpiPlugin\Moreticket\Profile;
 use GlpiPlugin\Moreticket\Solution;
+use GlpiPlugin\Moreticket\UrgencyTicket;
 use GlpiPlugin\Moreticket\WaitingTicket;
 use GlpiPlugin\Moreticket\WaitingType;
 
@@ -146,6 +148,27 @@ function plugin_moreticket_uninstall()
         $profileRight->deleteByCriteria(['name' => $right['field']]);
     }
 
+    // Search options and dropdown translations outlive the tables they describe, and
+    // dropTable() says nothing about either. A display preference keeps a now-unknown column
+    // in the ticket list of every user who added it, and a translation keeps naming a
+    // dropdown that no longer exists. Both are rows of core tables: only the plugin knows
+    // they belong to it, so only the plugin can remove them.
+    $displaypreference = new DisplayPreference();
+    $displaypreference->deleteByCriteria([
+        'itemtype' => Ticket::class,
+        // The ids the plugin declares in plugin_moreticket_getAddSearchOptions(), including
+        // the two it used to declare before they were commented out.
+        'num'      => [3450, 3451, 3452, 3453, 3454, 3455, 3486, 3487],
+    ]);
+
+    $dropdowntranslation = new DropdownTranslation();
+    $dropdowntranslation->deleteByCriteria(['itemtype' => WaitingType::class]);
+
+    // Documents attached to a closing record are deliberately left alone. They are attached
+    // to the ticket itself (front/closeticket.form.php pins itemtype to Ticket), the ticket
+    // outlives the plugin, and its owner still sees them in its Documents tab: removing them
+    // here would be destroying a user's attachment, not cleaning up after ourselves. Purging
+    // the ticket still takes them down, see plugin_pre_item_purge_moreticket().
     foreach ($tables as $table) {
         $DB->dropTable($table, true);
     }
@@ -163,8 +186,40 @@ function plugin_pre_item_purge_moreticket($item)
 {
     switch (get_class($item)) {
         case 'Ticket':
-            $temp = new WaitingTicket();
-            $temp->deleteByCriteria(['tickets_id' => $item->getField('id')]);
+            $tickets_id = (int) $item->getField('id');
+
+            // A closing record owns a document of its own. Dropping the row alone would leave
+            // that document behind in Management > Documents, still readable, with nothing
+            // left to say what it was attached to.
+            $closeTicket = new CloseTicket();
+            foreach ($closeTicket->find(['tickets_id' => $tickets_id]) as $closure) {
+                $documents_id = (int) $closure['documents_id'];
+
+                if ($documents_id <= 0) {
+                    continue;
+                }
+
+                // Purge only what this closure brought in: the same document may have been
+                // attached to another item, and that other owner still needs it.
+                $document_item = new Document_Item();
+                $other_owners  = $document_item->find([
+                    'documents_id' => $documents_id,
+                    'NOT'          => [
+                        'itemtype' => Ticket::class,
+                        'items_id' => $tickets_id,
+                    ],
+                ]);
+
+                $document = new Document();
+                if (count($other_owners) === 0 && $document->getFromDB($documents_id)) {
+                    $document->delete(['id' => $documents_id], true);
+                }
+            }
+
+            // None of these tables carries is_deleted, so delete() really removes the row.
+            foreach ([$closeTicket, new WaitingTicket(), new UrgencyTicket(), new NotificationTicket()] as $child) {
+                $child->deleteByCriteria(['tickets_id' => $tickets_id]);
+            }
             break;
     }
 }

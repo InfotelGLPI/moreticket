@@ -145,12 +145,6 @@ parameters:
 			path: src/Ticket.php
 
 		-
-			message: '#^Method GlpiPlugin\\Moreticket\\Ticket\:\:beforeUpdate\(\) should return bool but return statement is missing\.$#'
-			identifier: return.missing
-			count: 2
-			path: src/Ticket.php
-
-		-
 			message: '#^Method GlpiPlugin\\Moreticket\\Ticket\:\:getDefaultValues\(\) should return array but return statement is missing\.$#'
 			identifier: return.missing
 			count: 1

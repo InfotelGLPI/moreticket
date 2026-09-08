@@ -46,6 +46,8 @@ if (!defined('GLPI_ROOT')) {
  */
 class UrgencyTicket extends CommonDBTM
 {
+    use ParentTicketRights;
+
     public static $types     = ['Ticket'];
     public $dohistory = true;
     public static $rightname = "plugin_moreticket_justification";
@@ -226,14 +228,24 @@ class UrgencyTicket extends CommonDBTM
             $urgency_ticket = new self();
 
             // Then we add tickets informations
+            // justification is deliberately not part of the test: when the field is missing
+            // from the post, checkMandatory() below is what has to say so and refuse the
+            // urgency change. Requiring it upfront turned the whole control into something
+            // the caller opts into, which is precisely what preAddUrgencyTicket() avoids.
             if (isset($item->fields['id'])
                 && isset($item->fields['urgency'])
                 && isset($item->input['urgency'])
-                && isset($item->input['justification'])
             ) {
                 $urgency_ids = $config->getUrgency_ids();
+                if (!is_array($urgency_ids)) {
+                    $urgency_ids = [$urgency_ids];
+                }
 
-                if (in_array($item->input['urgency'], [$urgency_ids])) {
+                // The configured ids already come back as an array: wrapping them in another
+                // one made this test compare a value against a nested array, so it was
+                // structurally false and the branch never ran. Compare on a common type as
+                // well, the posted urgency being a string and the ids integers.
+                if (in_array((int) $item->input['urgency'], array_map('intval', $urgency_ids), true)) {
                     if (self::checkMandatory($item->input)) {
                         if ($urgency_ticket_data = self::getUrgencyTicketFromDB($item->fields['id'])) {
                             // UPDATE

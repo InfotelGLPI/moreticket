@@ -50,6 +50,8 @@ use Session;
  */
 class WaitingTicket extends CommonDBTM
 {
+    use ParentTicketRights;
+
     public static $types     = ['Ticket'];
     public $dohistory = true;
     public static $rightname = "plugin_moreticket";
@@ -556,7 +558,7 @@ class WaitingTicket extends CommonDBTM
                 'date_suspension'                   => date("Y-m-d H:i:s"),
                 'date_end_suspension'               => 'NULL',
                 'status'                            => $status,
-                'plugin_moreticket_waitingtypes_id' => (isset($item->input['plugin_moreticket_waitingtypes_id'])) ? $item->input['plugin_moreticket_waitingtypes_id'] : 0,
+                'plugin_moreticket_waitingtypes_id' => self::sanitizeWaitingType($item->input['plugin_moreticket_waitingtypes_id'] ?? 0),
             ];
 
             // based on WaitingTicket::preUpdateWaitingTicket
@@ -622,7 +624,7 @@ class WaitingTicket extends CommonDBTM
                             'date_suspension'                   => date("Y-m-d H:i:s"),
                             'date_end_suspension'               => 'NULL',
                             'status'                            => $status,
-                            'plugin_moreticket_waitingtypes_id' => (isset($item->input['plugin_moreticket_waitingtypes_id'])) ? $item->input['plugin_moreticket_waitingtypes_id'] : 0];
+                            'plugin_moreticket_waitingtypes_id' => self::sanitizeWaitingType($item->input['plugin_moreticket_waitingtypes_id'] ?? 0)];
                         if ($waiting_ticket->add($input)) {
                             unset($_SESSION['glpi_plugin_moreticket_waiting']);
                         }
@@ -645,7 +647,7 @@ class WaitingTicket extends CommonDBTM
                                 'date_report'                       => (isset($item->input['date_report']) && !empty($item->input['date_report'])) ? $item->input['date_report'] : "NULL",
                                 'date_suspension'                   => date("Y-m-d H:i:s"),
                                 'date_end_suspension'               => 'NULL',
-                                'plugin_moreticket_waitingtypes_id' => (isset($item->input['plugin_moreticket_waitingtypes_id'])) ? $item->input['plugin_moreticket_waitingtypes_id'] : 0];
+                                'plugin_moreticket_waitingtypes_id' => self::sanitizeWaitingType($item->input['plugin_moreticket_waitingtypes_id'] ?? 0)];
 
                             // Then we add tickets informations
                             if ($waiting_ticket->add($input)) {
@@ -655,10 +657,26 @@ class WaitingTicket extends CommonDBTM
                             unset($item->input['status']);
                         }
                     } else {
-                        $waiting_ticket->update(['id'                                => $waiting_ticket_data['id'],
-                            'reason'                            => $item->input['reason'],
-                            'date_report'                       => $item->input['date_report'],
-                            'plugin_moreticket_waitingtypes_id' => (isset($item->input['plugin_moreticket_waitingtypes_id'])) ? $item->input['plugin_moreticket_waitingtypes_id'] : 0]);
+                        // Rewrite only what the post actually carries. This branch is reached
+                        // by any update that reposts an unchanged status, while the waiting
+                        // block is injected in the timeline forms alone: reading the three
+                        // keys unconditionally replaced a reason and a postponement date
+                        // entered earlier with empty values, silently and with nothing in the
+                        // ticket history to show for it.
+                        $update = [];
+
+                        foreach (['reason', 'date_report', 'plugin_moreticket_waitingtypes_id'] as $field) {
+                            if (array_key_exists($field, $item->input)) {
+                                $update[$field] = $field === 'plugin_moreticket_waitingtypes_id'
+                                    ? self::sanitizeWaitingType($item->input[$field])
+                                    : $item->input[$field];
+                            }
+                        }
+
+                        if (count($update) > 0) {
+                            $update['id'] = $waiting_ticket_data['id'];
+                            $waiting_ticket->update($update);
+                        }
                     }
                 }
             }
@@ -701,6 +719,32 @@ class WaitingTicket extends CommonDBTM
     }
 
     // Hook done on before add ticket - checkMandatory
+
+    /**
+     * Keep a posted waiting type id only when it names an existing row.
+     *
+     * The column carries no foreign key (sql/empty-1.7.5.sql declares a plain KEY), no form
+     * of the plugin produces the field and WaitingType is not registered as an administrable
+     * dropdown, so whatever reaches this key comes from the caller and from nobody else.
+     * Search option 3452 joins the waiting type table on it: an unchecked value turns into a
+     * dangling reference displayed in ticket lists and dashboards.
+     *
+     * @param mixed $value Value read from $item->input
+     *
+     * @return int The id when it exists, 0 otherwise
+     */
+    private static function sanitizeWaitingType($value): int
+    {
+        $waitingtypes_id = (int) $value;
+
+        if ($waitingtypes_id <= 0) {
+            return 0;
+        }
+
+        $waiting_type = new WaitingType();
+
+        return $waiting_type->getFromDB($waitingtypes_id) ? $waitingtypes_id : 0;
+    }
 
     /**
      * @param $item
@@ -758,7 +802,7 @@ class WaitingTicket extends CommonDBTM
                         'date_report'                       => $item->input['date_report'],
                         'date_suspension'                   => date("Y-m-d H:i:s"),
                         'date_end_suspension'               => 'NULL',
-                        'plugin_moreticket_waitingtypes_id' => $item->input['plugin_moreticket_waitingtypes_id']])) {
+                        'plugin_moreticket_waitingtypes_id' => self::sanitizeWaitingType($item->input['plugin_moreticket_waitingtypes_id'])])) {
                         unset($_SESSION['glpi_plugin_moreticket_waiting']);
                     }
                 } else {

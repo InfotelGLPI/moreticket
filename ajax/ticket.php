@@ -35,6 +35,17 @@ use GlpiPlugin\Moreticket\WaitingTicket;
 
 Html::header_nocache();
 
+// Same entry guard as ajax/loadscripts.php and ajax/updatestatus.php, before any branching:
+// this endpoint only ever answers with plugin markup. Either right is accepted, since the
+// urgency justification lives under its own one and a profile may hold only that. The finer
+// per-feature check stays where it is -- the canView() each showForm() opens with.
+if (
+    !Session::haveRight('plugin_moreticket', READ)
+    && !Session::haveRight('plugin_moreticket_justification', READ)
+) {
+    throw new AccessDeniedHttpException();
+}
+
 header("Content-Type: text/html; charset=UTF-8");
 
 if (!isset($_POST['tickets_id']) || empty($_POST['tickets_id'])) {
@@ -43,7 +54,9 @@ if (!isset($_POST['tickets_id']) || empty($_POST['tickets_id'])) {
 
 // Entity/ticket access control: never expose ticket-scoped data (waiting reason,
 // urgency justification, closing information) for a ticket the caller cannot view.
+// tickets_id is 0 on the creation forms, where there is no ticket to check yet.
 $tickets_id = (int) $_POST['tickets_id'];
+$ticket     = null;
 if ($tickets_id > 0) {
     $ticket = new Ticket();
     if (!$ticket->can($tickets_id, READ)) {
@@ -54,6 +67,13 @@ if ($tickets_id > 0) {
 if (isset($_POST['action'])) {
     switch ($_POST['action']) {
         case 'showForm':
+            // Both forms below are write forms -- waiting reason and postponement date,
+            // solution template and rich editor -- served in the central interface only. A
+            // read right on the ticket is not what they ask of the caller.
+            if ($ticket !== null && !$ticket->can($tickets_id, UPDATE)) {
+                throw new AccessDeniedHttpException();
+            }
+
             $config = new Config();
 
             // Ticket is waiting

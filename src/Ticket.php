@@ -35,7 +35,6 @@ use CommonITILValidation;
 use Document;
 use Glpi\ContentTemplates\Parameters\CommonITILObjectParameters;
 use ITILFollowup;
-use Session;
 use TicketValidation;
 use Toolbox;
 use User;
@@ -91,16 +90,16 @@ class Ticket extends CommonITILObject
 
         $clean_close_ticket = true;
 
-        if (Session::haveRight("plugin_moreticket", UPDATE)) {
-            WaitingTicket::preAddWaitingTicket($ticket);
-            if (CloseTicket::preAddCloseTicket($ticket)) {
-                $clean_close_ticket = false;
-            }
+        // No right test here any more, for the reason given in setup.php: refusing a ticket
+        // that comes without its mandatory waiting reason or urgency justification is a
+        // control, and a control the caller escapes by not holding a right is not one. Each
+        // function below returns on its own when its feature is disabled.
+        WaitingTicket::preAddWaitingTicket($ticket);
+        if (CloseTicket::preAddCloseTicket($ticket)) {
+            $clean_close_ticket = false;
         }
 
-        if (Session::haveRight("plugin_moreticket_justification", READ)) {
-            UrgencyTicket::preAddUrgencyTicket($ticket);
-        }
+        UrgencyTicket::preAddUrgencyTicket($ticket);
 
         //cleaning the information entered in the ticket for adding solution but not useful so delete to not add solution.
         if ($clean_close_ticket) {
@@ -123,19 +122,17 @@ class Ticket extends CommonITILObject
 
         NotificationTicket::afterAddTicket($ticket);
 
-        if (Session::haveRight("plugin_moreticket", UPDATE)) {
-            WaitingTicket::postAddWaitingTicket($ticket);
-            CloseTicket::postAddCloseTicket($ticket);
-        }
+        // Same reasoning as beforeAdd(): what the pre-hook accepted has to be recorded, or
+        // the control above would have asked for a justification only to throw it away.
+        WaitingTicket::postAddWaitingTicket($ticket);
+        CloseTicket::postAddCloseTicket($ticket);
 
         unset($_SESSION['glpi_plugin_moreticket_close']);
 
-        if (Session::haveRight("plugin_moreticket_justification", READ)) {
-            UrgencyTicket::postAddUrgencyTicket($ticket);
+        UrgencyTicket::postAddUrgencyTicket($ticket);
 
-            if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
-                unset($_SESSION['glpi_plugin_moreticket_urgency']);
-            }
+        if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
+            unset($_SESSION['glpi_plugin_moreticket_urgency']);
         }
     }
 
@@ -152,13 +149,23 @@ class Ticket extends CommonITILObject
             return false;
         }
 
-        if (Session::haveRight("plugin_moreticket", UPDATE)) {
-            WaitingTicket::preUpdateWaitingTicket($ticket);
+        // Automatic switch to WAITING when a technician adds a task or a followup. It now
+        // goes through Ticket::update() so the change is journalised and notified, which
+        // means it also lands here. A waiting reason and a postponement date are simply not
+        // part of that transition: checkMandatory() would refuse it and drop the status
+        // without a word. Skip the child hooks for it -- the outcome stays exactly what the
+        // direct table write produced, only the write layer is no longer bypassed.
+        if (!empty($ticket->input['_moreticket_auto_waiting'])) {
+            return true;
         }
 
-        if (Session::haveRight("plugin_moreticket_justification", READ)) {
-            UrgencyTicket::preUpdateUrgencyTicket($ticket);
-        }
+        WaitingTicket::preUpdateWaitingTicket($ticket);
+
+        UrgencyTicket::preUpdateUrgencyTicket($ticket);
+
+        // Nothing above cancels the update: the two controls refuse a change by dropping the
+        // offending field from the input, never by stopping the write.
+        return true;
     }
 
     /**
@@ -168,18 +175,18 @@ class Ticket extends CommonITILObject
     {
         NotificationTicket::afterUpdateTicket($ticket);
 
-        if (Session::haveRight("plugin_moreticket", UPDATE)) {
-            WaitingTicket::postUpdateWaitingTicket($ticket);
-        }
+        // postUpdateWaitingTicket() closes the suspension period when the ticket leaves
+        // WAITING. Behind a right test, a ticket taken out of waiting by someone without the
+        // plugin right kept an open suspension for ever, and the waiting duration reported
+        // afterwards was wrong for everybody.
+        WaitingTicket::postUpdateWaitingTicket($ticket);
 
         unset($_SESSION['glpi_plugin_moreticket_close'], $_SESSION['glpi_plugin_moreticket_waiting']);
 
-        if (Session::haveRight("plugin_moreticket_justification", READ)) {
-            UrgencyTicket::postUpdateUrgencyTicket($ticket);
+        UrgencyTicket::postUpdateUrgencyTicket($ticket);
 
-            if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
-                unset($_SESSION['glpi_plugin_moreticket_urgency']);
-            }
+        if (isset($_SESSION['glpi_plugin_moreticket_urgency'])) {
+            unset($_SESSION['glpi_plugin_moreticket_urgency']);
         }
     }
 
@@ -310,7 +317,6 @@ class Ticket extends CommonITILObject
 
     public static function afterAddFollowupTech(ITILFollowup $followup)
     {
-        global $DB;
         $config = new Config();
         $ticket = new \Ticket();
         if ($config->fields['update_after_tech_add_followup'] && $followup->fields['itemtype'] == \Ticket::getType()) {
@@ -324,15 +330,15 @@ class Ticket extends CommonITILObject
             ];
             if (countElementsInTable('glpi_tickets_users', $condition) > 0
                 && in_array($ticket->fields['status'], \Ticket::getProcessStatusArray())) {
-                $DB->update(
-                    \Ticket::getTable(),
-                    [
-                        'status' => \Ticket::WAITING,
-                    ],
-                    [
-                        'id' => $ticket->getID(),
-                    ],
-                );
+                // Go through the write layer instead of the table: this is a status change
+                // like any other and it owes the ticket its history entry, a fresh date_mod,
+                // the notifications and the item_update hooks. The flag tells
+                // Ticket::beforeUpdate that no waiting reason comes with this transition.
+                $ticket->update([
+                    'id'                       => $ticket->getID(),
+                    'status'                   => \Ticket::WAITING,
+                    '_moreticket_auto_waiting' => true,
+                ]);
             }
         }
     }

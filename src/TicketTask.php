@@ -83,7 +83,6 @@ class TicketTask extends CommonITILTask
 
     public static function afterAddTask(\TicketTask $task)
     {
-        global $DB;
         $config = new Config();
         if ($config->fields['update_after_tech_add_task']) {
             $ticket = new \Ticket();
@@ -97,15 +96,15 @@ class TicketTask extends CommonITILTask
             $ticket->getFromDB($task->fields['tickets_id']);
             if (countElementsInTable('glpi_tickets_users', $condition) > 0 &&
                 in_array($ticket->fields['status'], \Ticket::getProcessStatusArray())) {
-                $DB->update(
-                    \Ticket::getTable(),
-                    [
-                        'status' => \Ticket::WAITING,
-                    ],
-                    [
-                        'id' => $ticket->getID(),
-                    ],
-                );
+                // Go through the write layer instead of the table: this is a status change
+                // like any other and it owes the ticket its history entry, a fresh date_mod,
+                // the notifications and the item_update hooks. The flag tells
+                // Ticket::beforeUpdate that no waiting reason comes with this transition.
+                $ticket->update([
+                    'id'                       => $ticket->getID(),
+                    'status'                   => \Ticket::WAITING,
+                    '_moreticket_auto_waiting' => true,
+                ]);
             }
         }
     }

@@ -52,6 +52,8 @@ if (!defined('GLPI_ROOT')) {
  */
 class CloseTicket extends CommonDBTM
 {
+    use ParentTicketRights;
+
     public static $types = ['Ticket'];
     public $dohistory = true;
     public static $rightname = "plugin_moreticket";
@@ -72,7 +74,8 @@ class CloseTicket extends CommonDBTM
 
     public function canCreateItem(): bool
     {
-        return Session::haveRight(static::$rightname, UPDATE);
+        return Session::haveRight(static::$rightname, UPDATE)
+            && $this->canOnParentTicket(UPDATE, (int) ($this->input['tickets_id'] ?? 0));
     }
 
     /**
@@ -227,7 +230,7 @@ class CloseTicket extends CommonDBTM
             return false;
         }
 
-        $canedit = ($item->canUpdate() && self::canUpdate());
+        $canedit = ($item->can($item->getID(), UPDATE) && self::canUpdate());
 
         // The date field and the comment textarea echo their markup directly:
         // capture them into HTML slots for the template.
@@ -567,6 +570,13 @@ class CloseTicket extends CommonDBTM
             return false;
         }
 
+        // The target status is handed over to postAddCloseTicket() through $item->input, which
+        // is the client's POST array. Whatever key the two hooks use, the caller can post it
+        // himself and reach the post-hook without this one having validated anything. Drop any
+        // inbound value before doing the work -- unconditionally, since a configuration with
+        // use_solution off would otherwise let a forged key survive untouched.
+        unset($item->input['statusold'], $item->input['_moreticket_statusold']);
+
         $config = new Config();
         if (isset($config->fields['use_solution'])
             && $config->useSolution()
@@ -582,7 +592,7 @@ class CloseTicket extends CommonDBTM
                     if (self::checkMandatory($item->input)) {
                         // Add followup on immediate ticket closing
                         if (!isset($item->input['id']) || $item->input['id'] == 0) {
-                            $item->input['statusold'] = $item->input['status'];
+                            $item->input['_moreticket_statusold'] = $item->input['status'];
                             $item->input['status'] = 0;
                         }
 
@@ -613,25 +623,41 @@ class CloseTicket extends CommonDBTM
             // Get allowed status
             $array = json_decode($config->solutionStatus(), true);
             if (is_array($array)) {
+                // Replay here the allow-list preAddCloseTicket() applied: the presence of the
+                // key proves nothing about who put it there, and the configured status list is
+                // decoded a couple of lines above anyway.
+                $solution_status = array_map('intval', array_keys($array));
+                $statusold       = (int) ($item->input['_moreticket_statusold'] ?? 0);
+
                 // Then we add tickets informations
                 if (isset($item->fields['id'])
-                    && isset($item->input['statusold'])) {
+                    && in_array($statusold, $solution_status, true)
+                    // Recording an approved solution is the solving circuit, not a side effect
+                    // of holding the plugin right. Ask the ticket the same question
+                    // ITILSolution::canCreateItem() would have asked had the solution been
+                    // added through its own entry point.
+                    && $item->canSolve()) {
                     $input = [];
-                    $input['itemtype'] = 'Ticket';
+                    $input['itemtype'] = \Ticket::class;
                     $input['items_id'] = $item->getID();
-                    $input['content'] = $item->input['solution'];
-                    $input['date_creation'] = $item->input['date'];
-                    $input['status'] = 3;
-                    $input['solutiontypes_id'] = $item->input['solutiontypes_id'];
+                    $input['content'] = $item->input['solution'] ?? '';
+                    $input['solutiontypes_id'] = $item->input['solutiontypes_id'] ?? 0;
 
-                    $input['duration_solution'] = $item->input['duration_solution'];
+                    $input['duration_solution'] = $item->input['duration_solution'] ?? 0;
 
+                    if (!empty($item->input['date'])) {
+                        $input['date_creation'] = $item->input['date'];
+                    }
+
+                    // status is deliberately left out: ITILSolution::prepareInputForAdd()
+                    // derives it from the entity's autoclose delay and overwrites whatever is
+                    // passed, so hard-coding "approved" only hid the approval step from view.
                     $itilsolution = new ITILSolution();
                     $id = $itilsolution->add($input);
                     if ($id > 0) {
                         $item->update([
                             'id' => $item->fields['id'],
-                            'status' => $item->input['statusold'],
+                            'status' => $statusold,
                         ]);
                     }
                 }

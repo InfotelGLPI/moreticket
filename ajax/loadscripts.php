@@ -32,7 +32,15 @@ use GlpiPlugin\Moreticket\Config;
 
 Html::header_nocache();
 
-if (!Session::haveRight('plugin_moreticket', READ)) {
+// Either right is accepted, as in ajax/ticket.php: plugin_moreticket is only offered to
+// central profiles (see Profile::getAllRights()), while the urgency justification lives under
+// its own right and is injected in the simplified interface too. Demanding the central right
+// alone answered 403 to every helpdesk user and left the urgency form silently missing. What
+// each branch below is allowed to inject stays gated by its own check.
+if (
+    !Session::haveRight('plugin_moreticket', READ)
+    && !Session::haveRight('plugin_moreticket_justification', READ)
+) {
     throw new AccessDeniedHttpException();
 }
 

@@ -49,8 +49,30 @@ if (isset($_POST["add"])) {
     $_POST['items_id'] = (int) $_POST['tickets_id'];
     $_POST['itemtype'] = Ticket::class;
 
-    $doc = new Document();
-    $DocId = $doc->add($_POST);
+    // Same story for the document's own visibility: entities_id and is_recursive are posted
+    // fields too, and a document created recursive at the root would be readable well outside
+    // the ticket it documents. Pin it to the entity of that ticket.
+    $_POST['entities_id'] = $ticket->getEntityID();
+    unset($_POST['is_recursive']);
+
+    // The attachment is optional (the form only asks for a date and a comment), so the
+    // document right is required from whoever actually sends a file rather than from every
+    // technician closing a ticket. check() runs Document::canCreateItem(), which reads back
+    // the items_id/itemtype pinned above and asks the ticket whether it accepts a document.
+    $DocId = 0;
+    if (!empty($_POST['_filename']) || !empty($_POST['upload_file'])) {
+        $doc = new Document();
+        $doc->check(-1, CREATE, $_POST);
+
+        // add() answers false when the upload is rejected (size, extension, malformed
+        // multipart) and has already queued its own message. Leave documents_id at 0 in that
+        // case instead of casting false into the column, which would silently claim the
+        // closure carries document #0.
+        $added = $doc->add($_POST);
+        if ($added !== false) {
+            $DocId = (int) $added;
+        }
+    }
 
     // requesters_id is not trusted from the POST: CloseTicket::prepareInputForAdd() forces it
     // to the current user, so it is intentionally not forwarded here.

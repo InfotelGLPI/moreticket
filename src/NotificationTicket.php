@@ -42,6 +42,8 @@ if (!defined('GLPI_ROOT')) {
  */
 class NotificationTicket extends CommonDBTM
 {
+    use ParentTicketRights;
+
     public static $types     = ['Ticket'];
     public $dohistory = true;
     public static $rightname = "plugin_moreticket";
