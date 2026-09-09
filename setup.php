@@ -81,7 +81,7 @@ function plugin_init_moreticket()
                 || $config->useUrgency() == true
                 || $config->useDurationSolution() == true
             )) {
-                $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['moreticket'][] = 'scripts/moreticket_load_scripts.js.php';
+                $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['moreticket'][] = 'scripts/moreticket_load_scripts.js';
             }
             $PLUGIN_HOOKS[Hooks::CONFIG_PAGE]['moreticket'] = 'front/config.form.php';
 

@@ -1,5 +1,3 @@
-<?php
-
 /**
  * -------------------------------------------------------------------------
  * moreticket plugin for GLPI
@@ -27,11 +25,12 @@
  * --------------------------------------------------------------------------
  */
 
-header('Content-Type: text/javascript');
+// Plugin web root, mirroring PLUGIN_MORETICKET_WEBDIR from setup.php. GLPI exposes
+// both variables in the page <head> (config_js) before any plugin script is
+// loaded, so no server-side interpolation is needed here.
+var root_moreticket_doc = ((window.CFG_GLPI && CFG_GLPI.root_doc) || '')
+   + ((window.GLPI_PLUGINS_PATH && GLPI_PLUGINS_PATH.moreticket) || '/plugins/moreticket');
 
-?>
-
-var root_moreticket_doc = "<?php echo PLUGIN_MORETICKET_WEBDIR; ?>";
 (function ($) {
    $.fn.moreticket_load_scripts = function () {
 
