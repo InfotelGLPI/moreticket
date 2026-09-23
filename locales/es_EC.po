@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 15:58+0000\n"
+"POT-Creation-Date: 2026-09-23 16:26+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Soporte Infraestructura Standby, 2023\n"
 "Language-Team: Spanish (Ecuador) (https://app.transifex.com/infotelGLPI/"
@@ -68,7 +68,7 @@ msgstr ""
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 
-#: hook.php:275 hook.php:282 hook.php:289 hook.php:296 src/CloseTicket.php:127
+#: hook.php:286 hook.php:293 hook.php:300 hook.php:307 src/CloseTicket.php:127
 #: src/CloseTicket.php:134 src/CloseTicket.php:175
 #: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
@@ -78,7 +78,7 @@ msgstr "Cerrar información de Casos"
 msgid "Comments"
 msgstr ""
 
-#: hook.php:297
+#: hook.php:308
 msgid "Document"
 msgid_plural "Documents"
 msgstr[0] ""
@@ -209,7 +209,7 @@ msgstr ""
 msgid "Update ticket status to processing after approval"
 msgstr "Actualizar el estado del Caso a tramitación tras su aprobación"
 
-#: hook.php:322
+#: hook.php:333
 msgid "Updated by a user"
 msgstr "Actualizado por un usuario"
 
