@@ -146,7 +146,7 @@ function plugin_version_moreticket()
     return [
         'name' => __('More ticket', 'moreticket'),
         'version' => PLUGIN_MORETICKET_VERSION,
-        'author' => "<a href='https//blogglpi.infotel.com'>Infotel</a>, Xavier CAILLAUD",
+        'author' => "<a href='https://blogglpi.infotel.com'>Infotel</a>, Xavier CAILLAUD",
         'homepage' => "https://github.com/InfotelGLPI/moreticket",
         'license' => 'GPLv3+',
         'requirements' => [

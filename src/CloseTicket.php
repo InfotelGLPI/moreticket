@@ -43,10 +43,6 @@ use SolutionTemplate;
 use Toolbox;
 use GlpiPlugin\Moreticket\Config;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class CloseTicket
  */

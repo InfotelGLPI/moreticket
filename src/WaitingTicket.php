@@ -29,10 +29,6 @@
 
 namespace GlpiPlugin\Moreticket;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 use Ajax;
 use CommonDBTM;
 use CommonGLPI;

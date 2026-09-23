@@ -34,10 +34,6 @@ use CommonITILObject;
 use DbUtils;
 use Glpi\Application\View\TemplateRenderer;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class Config
  */

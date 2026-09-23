@@ -29,10 +29,6 @@
 
 namespace GlpiPlugin\Moreticket;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Form values kept in session between a refused submit and the redisplay of the form.
  *

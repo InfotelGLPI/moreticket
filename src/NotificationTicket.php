@@ -33,10 +33,6 @@ use CommonDBTM;
 use ITILFollowup;
 use Ticket_User;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class NotificationTicket
  */

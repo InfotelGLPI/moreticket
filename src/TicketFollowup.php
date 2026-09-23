@@ -31,11 +31,6 @@ namespace GlpiPlugin\Moreticket;
 
 use CommonDBTM;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
-
 /**
  * Class TicketFollowup
  */
