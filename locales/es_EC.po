@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-08 10:33+0000\n"
+"POT-Creation-Date: 2026-09-23 15:58+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Soporte Infraestructura Standby, 2023\n"
 "Language-Team: Spanish (Ecuador) (https://app.transifex.com/infotelGLPI/"
@@ -23,22 +23,22 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: src/CloseTicket.php:669
+#: src/CloseTicket.php:665
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s información de cierre añadida"
 
-#: src/CloseTicket.php:709
+#: src/CloseTicket.php:705
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s información de cierre suprimida"
 
-#: src/CloseTicket.php:689
+#: src/CloseTicket.php:685
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s información de cierre actualizada"
 
-#: src/WaitingTicket.php:1075
+#: src/WaitingTicket.php:1071
 #, php-format
 msgid "%s duplicates deleted"
 msgstr ""
@@ -56,7 +56,7 @@ msgstr "Agregar un seguimiento sobre el cierre inmediato de Casos"
 msgid "Add followup when waiting date is reached"
 msgstr "Agregar seguimiento cuando se alcance la fecha de espera"
 
-#: src/Profile.php:169 src/Profile.php:187
+#: src/Profile.php:165 src/Profile.php:183
 msgid "Adding a justification of urgency"
 msgstr "Añadir una justificación de urgencia"
 
@@ -68,8 +68,8 @@ msgstr ""
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 
-#: hook.php:275 hook.php:282 hook.php:289 hook.php:296 src/CloseTicket.php:131
-#: src/CloseTicket.php:138 src/CloseTicket.php:179
+#: hook.php:275 hook.php:282 hook.php:289 hook.php:296 src/CloseTicket.php:127
+#: src/CloseTicket.php:134 src/CloseTicket.php:175
 #: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
 msgstr "Cerrar información de Casos"
@@ -85,7 +85,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/Solution.php:299 templates/closeticket_solution_form.html.twig:58
+#: src/Solution.php:295 templates/closeticket_solution_form.html.twig:58
 #: templates/solution_duration.html.twig:30
 msgid "Duration"
 msgstr ""
@@ -94,15 +94,15 @@ msgstr ""
 msgid "Duration is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:964
+#: src/WaitingTicket.php:960
 msgid "End of standby ticket"
 msgstr "Fin del Caso en espera"
 
-#: src/Profile.php:177 src/Profile.php:195
+#: src/Profile.php:173 src/Profile.php:191
 msgid "Hide task duration in tickets (display only)"
 msgstr ""
 
-#: src/UrgencyTicket.php:83 templates/urgencyticket_form.html.twig:33
+#: src/UrgencyTicket.php:79 templates/urgencyticket_form.html.twig:33
 msgid "Justification"
 msgstr "Justificación"
 
@@ -110,14 +110,14 @@ msgstr "Justificación"
 msgid "Mandatory 'Duration' field"
 msgstr "Campo obligatorio 'Duración'"
 
-#: src/Solution.php:295 src/CloseTicket.php:226
+#: src/Solution.php:291 src/CloseTicket.php:222
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: setup.php:147 src/Profile.php:58 src/Profile.php:163
+#: setup.php:147 src/Profile.php:54 src/Profile.php:159
 msgid "More ticket"
 msgstr "Más Casos"
 
@@ -125,12 +125,12 @@ msgstr "Más Casos"
 msgid "Please activate the plugin"
 msgstr "Por favor, active el complemento"
 
-#: src/WaitingTicket.php:158 src/WaitingTicket.php:469
+#: src/WaitingTicket.php:154 src/WaitingTicket.php:465
 #: templates/waitingticket_form.html.twig:46
 msgid "Postponement date"
 msgstr "Fecha de aplazamiento"
 
-#: src/WaitingTicket.php:207
+#: src/WaitingTicket.php:203
 msgid "Postponement date is inferior of today's date"
 msgstr "La fecha de aplazamiento es inferior a la fecha de hoy"
 
@@ -138,7 +138,7 @@ msgstr "La fecha de aplazamiento es inferior a la fecha de hoy"
 msgid "Postponement date is mandatory"
 msgstr "La fecha de aplazamiento es obligatoria"
 
-#: src/WaitingTicket.php:162 src/WaitingTicket.php:468
+#: src/WaitingTicket.php:158 src/WaitingTicket.php:464
 #: templates/waitingticket_form.html.twig:33
 msgid "Reason"
 msgstr "Razón"
@@ -148,7 +148,7 @@ msgctxt "button"
 msgid "Save"
 msgstr ""
 
-#: src/CloseTicket.php:196 src/CloseTicket.php:539
+#: src/CloseTicket.php:192 src/CloseTicket.php:535
 msgid "Solution description"
 msgstr "Descripción de la solución"
 
@@ -160,19 +160,19 @@ msgstr "El tipo de solución es obligatorio"
 msgid "Status used to display solution block"
 msgstr "Estado utilizado para mostrar el bloque de soluciones"
 
-#: src/WaitingTicket.php:467
+#: src/WaitingTicket.php:463
 msgid "Suspension date"
 msgstr "Fecha de suspensión"
 
-#: src/WaitingTicket.php:470
+#: src/WaitingTicket.php:466
 msgid "Suspension end date"
 msgstr "Fecha de fin de la suspensión"
 
-#: src/CloseTicket.php:225
+#: src/CloseTicket.php:221
 msgid "Ticket cannot be closed"
 msgstr "El Caso no se puede cerrar"
 
-#: src/WaitingTicket.php:203 src/UrgencyTicket.php:111
+#: src/WaitingTicket.php:199 src/UrgencyTicket.php:107
 msgid "Ticket cannot be saved"
 msgstr "No se puede guardar el Caso"
 
@@ -217,7 +217,7 @@ msgstr "Actualizado por un usuario"
 msgid "Urgency impacted justification for the field"
 msgstr "La urgencia impactó en la justificación del campo"
 
-#: src/UrgencyTicket.php:109
+#: src/UrgencyTicket.php:105
 msgid "Urgency ticket cannot be saved"
 msgstr "No se puede guardar la Urgencia del Caso"
 
@@ -241,22 +241,22 @@ msgstr "Usar el proceso de espera"
 msgid "Waiting reason is mandatory"
 msgstr "La razón de la espera es obligatoria"
 
-#: src/WaitingTicket.php:83
+#: src/WaitingTicket.php:79
 msgid "Waiting ticket"
 msgid_plural "Waiting tickets"
 msgstr[0] "Caso en espera"
 msgstr[1] "Casos en espera"
 msgstr[2] "Casos en espera"
 
-#: src/WaitingTicket.php:201
+#: src/WaitingTicket.php:197
 msgid "Waiting ticket cannot be saved"
 msgstr "El Caso en espera no se puede guardar"
 
-#: src/WaitingTicket.php:916
+#: src/WaitingTicket.php:912
 msgid "Waiting ticket exceedeed"
 msgstr "Caso en espera excedido"
 
-#: src/WaitingType.php:54
+#: src/WaitingType.php:50
 msgid "Waiting type"
 msgid_plural "Waiting types"
 msgstr[0] "Tipo de espera"
