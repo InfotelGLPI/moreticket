@@ -55,20 +55,8 @@ parameters:
 			path: src/CloseTicket.php
 
 		-
-			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
-			identifier: glpi.forbidExit
-			count: 1
-			path: src/CloseTicket.php
-
-		-
 			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 47 on line 4$#'
 			identifier: phpDoc.parseError
-			count: 1
-			path: src/Config.php
-
-		-
-			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
-			identifier: glpi.forbidExit
 			count: 1
 			path: src/Config.php
 
@@ -85,12 +73,6 @@ parameters:
 			path: src/NotificationTicket.php
 
 		-
-			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
-			identifier: glpi.forbidExit
-			count: 1
-			path: src/NotificationTicket.php
-
-		-
 			message: '#^Method GlpiPlugin\\Moreticket\\Profile\:\:migrateOneProfile\(\) should return bool but return statement is missing\.$#'
 			identifier: return.missing
 			count: 1
@@ -101,18 +83,6 @@ parameters:
 			identifier: parameter.notFound
 			count: 1
 			path: src/Profile.php
-
-		-
-			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
-			identifier: glpi.forbidExit
-			count: 1
-			path: src/Profile.php
-
-		-
-			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
-			identifier: glpi.forbidExit
-			count: 1
-			path: src/SessionDraft.php
 
 		-
 			message: '#^Method GlpiPlugin\\Moreticket\\Solution\:\:getDefaultValues\(\) should return array but return statement is missing\.$#'
@@ -129,12 +99,6 @@ parameters:
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$item$#'
 			identifier: parameter.notFound
-			count: 1
-			path: src/Solution.php
-
-		-
-			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
-			identifier: glpi.forbidExit
 			count: 1
 			path: src/Solution.php
 
@@ -175,21 +139,9 @@ parameters:
 			path: src/Ticket.php
 
 		-
-			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
-			identifier: glpi.forbidExit
-			count: 1
-			path: src/Ticket.php
-
-		-
 			message: '#^Method GlpiPlugin\\Moreticket\\TicketFollowup\:\:beforeAdd\(\) should return bool but return statement is missing\.$#'
 			identifier: return.missing
 			count: 2
-			path: src/TicketFollowup.php
-
-		-
-			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
-			identifier: glpi.forbidExit
-			count: 1
 			path: src/TicketFollowup.php
 
 		-
@@ -201,12 +153,6 @@ parameters:
 		-
 			message: '#^PHPDoc tag @param for parameter \$tickettask with type GlpiPlugin\\Moreticket\\TicketTask is incompatible with native type TicketTask\.$#'
 			identifier: parameter.phpDocType
-			count: 1
-			path: src/TicketTask.php
-
-		-
-			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
-			identifier: glpi.forbidExit
 			count: 1
 			path: src/TicketTask.php
 
@@ -243,12 +189,6 @@ parameters:
 		-
 			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     \*", expected type at offset 132 on line 5$#'
 			identifier: phpDoc.parseError
-			count: 1
-			path: src/UrgencyTicket.php
-
-		-
-			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
-			identifier: glpi.forbidExit
 			count: 1
 			path: src/UrgencyTicket.php
 
@@ -323,15 +263,3 @@ parameters:
 			identifier: variable.undefined
 			count: 2
 			path: src/WaitingTicket.php
-
-		-
-			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
-			identifier: glpi.forbidExit
-			count: 1
-			path: src/WaitingTicket.php
-
-		-
-			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
-			identifier: glpi.forbidExit
-			count: 1
-			path: src/WaitingType.php

@@ -178,6 +178,17 @@ function plugin_moreticket_uninstall()
     return true;
 }
 
+// Define Dropdown tables to be manage in GLPI :
+function plugin_moreticket_getDropdown()
+{
+
+    if (Plugin::isPluginActive("moreticket")) {
+        return [WaitingType::class       => WaitingType::getTypeName(1)];
+    } else {
+        return [];
+    }
+}
+
 // Hook done on purge item case
 /**
  * @param $item
