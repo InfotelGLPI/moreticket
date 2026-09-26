@@ -93,6 +93,12 @@ class WaitingTicket extends CommonDBTM
      */
     public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
+        // setup.php only registers the tab for profiles holding plugin_moreticket READ, but
+        // ajax/common.tabs.php dispatches a named tab without that registration: gate here too
+        if (!Session::haveRight(static::$rightname, READ)) {
+            return '';
+        }
+
         $config = new Config();
 
         if (!$withtemplate) {
@@ -126,6 +132,9 @@ class WaitingTicket extends CommonDBTM
      */
     public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
+        if (!Session::haveRight(static::$rightname, READ)) {
+            return false;
+        }
         if (in_array($item->getType(), WaitingTicket::getTypes(true))) {
             self::showForTicket($item);
         }

@@ -266,11 +266,7 @@
 
                     const blocktoadd = response;
 
-                    // Convert urgency_ids en array
-                    let urgency_ids = object.params.urgency_ids;
-                    if (typeof urgency_ids === "string") {
-                        urgency_ids = urgency_ids.split(',').map(Number);
-                    }
+                    const urgency_ids = getUrgencyIds();
 
                     const radios = $("input[name='urgency']");
 
@@ -320,16 +316,7 @@
 
                     const requester = response;
 
-                    // Convert urgency_ids en array
-                    let urgency_ids = object.params.urgency_ids;
-
-                    if (typeof urgency_ids === "string") {
-                        try {
-                            urgency_ids = JSON.parse(urgency_ids);
-                        } catch {
-                            urgency_ids = urgency_ids.split(',').map(Number);
-                        }
-                    }
+                    const urgency_ids = getUrgencyIds();
 
                     const urgency_bloc = $("select[name='urgency']");
                     if (!urgency_bloc.length) return;
@@ -381,16 +368,7 @@
 
                         const requester = response;
 
-                        // Convert urgency_ids en array
-                        let urgency_ids = object.params.urgency_ids;
-
-                        if (typeof urgency_ids === "string") {
-                            try {
-                                urgency_ids = JSON.parse(urgency_ids);
-                            } catch {
-                                urgency_ids = urgency_ids.split(',').map(Number);
-                            }
-                        }
+                        const urgency_ids = getUrgencyIds();
 
                         const urgency_bloc = $("select[name='urgency']");
                         if (!urgency_bloc.length) return;
@@ -420,6 +398,27 @@
             });
 
         };
+
+        // Urgencies requiring a justification as an array of integers, whatever the shape
+        // received: array, JSON object, JSON or comma separated string, single number
+        function getUrgencyIds() {
+            let ids = object.params.urgency_ids;
+            if (typeof ids === "string") {
+                try {
+                    ids = JSON.parse(ids);
+                } catch {
+                    ids = ids.split(',');
+                }
+            }
+            if (ids === null || ids === undefined || ids === "") {
+                ids = [];
+            } else if (typeof ids === "object" && !Array.isArray(ids)) {
+                ids = Object.values(ids);
+            } else if (!Array.isArray(ids)) {
+                ids = [ids];
+            }
+            return ids.map(Number);
+        }
 
         function inarray(value, tab) {
           let response = false;

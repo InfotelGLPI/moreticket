@@ -95,13 +95,8 @@ class TicketTask extends CommonITILTask
                 && in_array($ticket->fields['status'], \Ticket::getProcessStatusArray())) {
                 // Go through the write layer instead of the table: this is a status change
                 // like any other and it owes the ticket its history entry, a fresh date_mod,
-                // the notifications and the item_update hooks. The flag tells
-                // Ticket::beforeUpdate that no waiting reason comes with this transition.
-                $ticket->update([
-                    'id'                       => $ticket->getID(),
-                    'status'                   => \Ticket::WAITING,
-                    '_moreticket_auto_waiting' => true,
-                ]);
+                // the notifications and the item_update hooks.
+                Ticket::switchToWaiting($ticket);
             }
         }
     }

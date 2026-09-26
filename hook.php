@@ -313,17 +313,13 @@ function plugin_moreticket_getAddSearchOptions($itemtype)
                 $sopt[3486]['usehaving'] = true;
                 $sopt[3486]['datatype'] = 'dropdown';
                 $sopt[3486]['massiveaction'] = false;
+                // The closing record points at its document through its own documents_id
+                // column; no Document_Item ever links a document to CloseTicket
+                $sopt[3486]['linkfield'] = 'documents_id';
                 $sopt[3486]['joinparams'] = [
                     'beforejoin' => [
-                        'table' => 'glpi_documents_items',
-                        'joinparams' => [
-                            'jointype' => 'itemtype_item',
-                            'specific_itemtype' => CloseTicket::class,
-                            'beforejoin' => [
-                                'table' => 'glpi_plugin_moreticket_closetickets',
-                                'joinparams' => [],
-                            ],
-                        ],
+                        'table' => 'glpi_plugin_moreticket_closetickets',
+                        'joinparams' => ['jointype' => 'child'],
                     ],
                 ];
             }

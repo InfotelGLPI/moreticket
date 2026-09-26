@@ -115,6 +115,12 @@ class CloseTicket extends CommonDBTM
      */
     public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
+        // setup.php only registers the tab for profiles holding plugin_moreticket READ, but
+        // ajax/common.tabs.php dispatches a named tab without that registration: gate here too
+        if (!self::canView()) {
+            return '';
+        }
+
         $config = new Config();
 
         if (!$withtemplate) {
@@ -151,6 +157,10 @@ class CloseTicket extends CommonDBTM
      */
     public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
+        if (!self::canView()) {
+            return false;
+        }
+
         $config = new Config();
 
         if ($item->getType() == \Ticket::class
@@ -707,7 +717,7 @@ class CloseTicket extends CommonDBTM
         );
         Log::history($this->fields['tickets_id'], 'Ticket', $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
 
-        parent::post_updateItem();
+        parent::post_purgeItem();
     }
 
     /**

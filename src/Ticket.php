@@ -47,6 +47,13 @@ class Ticket extends CommonITILObject
     public static $rightname = "plugin_moreticket";
 
     /**
+     * Tickets whose automatic WAITING switch is in progress, see switchToWaiting()
+     *
+     * @var array<int, true>
+     */
+    private static $auto_waiting = [];
+
+    /**
      * functions mandatory
      * getTypeName(), canCreate(), canView()
      *
@@ -133,6 +140,30 @@ class Ticket extends CommonITILObject
 
 
     /**
+     * Put a ticket in WAITING on behalf of a technician adding a task or a followup.
+     *
+     * No waiting reason nor postponement date comes with this transition, so the checks
+     * of beforeUpdate() are skipped for the duration of this update only.
+     *
+     * @param \Ticket $ticket
+     *
+     * @return void
+     */
+    public static function switchToWaiting(\Ticket $ticket): void
+    {
+        $tickets_id = (int) $ticket->getID();
+        self::$auto_waiting[$tickets_id] = true;
+        try {
+            $ticket->update([
+                'id'     => $tickets_id,
+                'status' => \Ticket::WAITING,
+            ]);
+        } finally {
+            unset(self::$auto_waiting[$tickets_id]);
+        }
+    }
+
+    /**
      * @param Ticket $ticket
      *
      * @return bool
@@ -150,7 +181,9 @@ class Ticket extends CommonITILObject
         // part of that transition: checkMandatory() would refuse it and drop the status
         // without a word. Skip the child hooks for it -- the outcome stays exactly what the
         // direct table write produced, only the write layer is no longer bypassed.
-        if (!empty($ticket->input['_moreticket_auto_waiting'])) {
+        // The marker is process state set by switchToWaiting(), never an input key: a posted
+        // field would let any client skip the mandatory waiting reason and urgency justification.
+        if (isset(self::$auto_waiting[(int) $ticket->getID()])) {
             return true;
         }
 
@@ -321,13 +354,8 @@ class Ticket extends CommonITILObject
                 && in_array($ticket->fields['status'], \Ticket::getProcessStatusArray())) {
                 // Go through the write layer instead of the table: this is a status change
                 // like any other and it owes the ticket its history entry, a fresh date_mod,
-                // the notifications and the item_update hooks. The flag tells
-                // Ticket::beforeUpdate that no waiting reason comes with this transition.
-                $ticket->update([
-                    'id'                       => $ticket->getID(),
-                    'status'                   => \Ticket::WAITING,
-                    '_moreticket_auto_waiting' => true,
-                ]);
+                // the notifications and the item_update hooks.
+                self::switchToWaiting($ticket);
             }
         }
     }

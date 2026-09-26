@@ -99,7 +99,6 @@ class Config extends CommonDBTM
     {
         $this->getFromDB(1);
         $config = self::getInstance();
-        $dbu = new DbUtils();
         $all_statuses = \Ticket::getAllStatusArray();
         $filtered_statuses = [];
 
@@ -120,7 +119,7 @@ class Config extends CommonDBTM
             'solution_status_checked' => $checked_statuses,
             'all_solution_statuses'  => $filtered_statuses,
             'form_url' => $this->getFormURL(),
-            'urgency_selected' => $dbu->importArrayFromDB($this->fields["urgency_ids"]),
+            'urgency_selected' => $this->getUrgency_ids(),
             'id'                => 1,
             'item'              => $config,
             'config'            => $config->fields,
@@ -230,12 +229,19 @@ class Config extends CommonDBTM
     }
 
     /**
-     * @return array
+     * Urgencies requiring a justification, as a list of integers: older configurations
+     * stored a single scalar value (e.g. "4") instead of an array
+     *
+     * @return int[]
      */
     public function getUrgency_ids()
     {
         $dbu = new DbUtils();
-        return $dbu->importArrayFromDB($this->fields['urgency_ids']);
+        $ids = $dbu->importArrayFromDB($this->fields['urgency_ids'] ?? null);
+        if (!is_array($ids)) {
+            $ids = ($ids === null || $ids === '') ? [] : [$ids];
+        }
+        return array_values(array_map('intval', $ids));
     }
 
     /**
