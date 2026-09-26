@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 16:26+0000\n"
+"POT-Creation-Date: 2026-09-26 12:45+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Stanislaw Rękawek, 2026\n"
 "Language-Team: Polish (Poland) (https://app.transifex.com/infotelGLPI/"
@@ -24,22 +24,22 @@ msgstr ""
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: src/CloseTicket.php:665
+#: src/CloseTicket.php:675
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s Dodano informację o zamknięciu"
 
-#: src/CloseTicket.php:705
+#: src/CloseTicket.php:715
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s Usunięto informację o zamknięciu"
 
-#: src/CloseTicket.php:685
+#: src/CloseTicket.php:695
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s Zaktualizowano informację o zamknięciu"
 
-#: src/WaitingTicket.php:1071
+#: src/WaitingTicket.php:1080
 #, php-format
 msgid "%s duplicates deleted"
 msgstr "%s duplikaty usunięte"
@@ -73,8 +73,8 @@ msgstr ""
 "Domyślnie zaznacz opcję przeniesienia zgłoszenia do oczekujących podczas "
 "dodawania zadania"
 
-#: hook.php:286 hook.php:293 hook.php:300 hook.php:307 src/CloseTicket.php:127
-#: src/CloseTicket.php:134 src/CloseTicket.php:175
+#: src/CloseTicket.php:133 src/CloseTicket.php:140 src/CloseTicket.php:185
+#: hook.php:286 hook.php:293 hook.php:300 hook.php:307
 #: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
 msgstr "Informacje o zamknięciu zgłoszenia"
@@ -100,7 +100,7 @@ msgstr ""
 msgid "Duration is mandatory"
 msgstr "Czas trwania jest wymagany"
 
-#: src/WaitingTicket.php:960
+#: src/WaitingTicket.php:969
 msgid "End of standby ticket"
 msgstr "Zakończenie stanu oczekiwania zgłoszenia"
 
@@ -116,7 +116,7 @@ msgstr "Powód"
 msgid "Mandatory 'Duration' field"
 msgstr "Obowiązkowe pole „Czas trwania”"
 
-#: src/Solution.php:291 src/CloseTicket.php:222
+#: src/CloseTicket.php:232 src/Solution.php:291
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
@@ -132,12 +132,12 @@ msgstr "Więcej w zgłoszeniu"
 msgid "Please activate the plugin"
 msgstr "Proszę aktywować wtyczkę"
 
-#: src/WaitingTicket.php:154 src/WaitingTicket.php:465
+#: src/WaitingTicket.php:163 src/WaitingTicket.php:474
 #: templates/waitingticket_form.html.twig:46
 msgid "Postponement date"
 msgstr "Data odroczenia"
 
-#: src/WaitingTicket.php:203
+#: src/WaitingTicket.php:212
 msgid "Postponement date is inferior of today's date"
 msgstr "Data odroczenia jest wcześniejsza niż dzisiejsza data"
 
@@ -145,17 +145,17 @@ msgstr "Data odroczenia jest wcześniejsza niż dzisiejsza data"
 msgid "Postponement date is mandatory"
 msgstr "Data odłożenia jest wymagana"
 
-#: src/WaitingTicket.php:158 src/WaitingTicket.php:464
+#: src/WaitingTicket.php:167 src/WaitingTicket.php:473
 #: templates/waitingticket_form.html.twig:33
 msgid "Reason"
 msgstr "Powód"
 
-#: templates/config.html.twig:233 templates/profile.html.twig:34
+#: templates/profile.html.twig:34 templates/config.html.twig:233
 msgctxt "button"
 msgid "Save"
 msgstr "Zapisz"
 
-#: src/CloseTicket.php:192 src/CloseTicket.php:535
+#: src/CloseTicket.php:202 src/CloseTicket.php:545
 msgid "Solution description"
 msgstr "Opis rozwiązania"
 
@@ -167,19 +167,19 @@ msgstr "Typ rozwiązania jest obowiązkowy"
 msgid "Status used to display solution block"
 msgstr "Status używany do wyświetlania bloku rozwiązania"
 
-#: src/WaitingTicket.php:463
+#: src/WaitingTicket.php:472
 msgid "Suspension date"
 msgstr "Data zawieszenia"
 
-#: src/WaitingTicket.php:466
+#: src/WaitingTicket.php:475
 msgid "Suspension end date"
 msgstr "Data zakończenia zawieszenia"
 
-#: src/CloseTicket.php:221
+#: src/CloseTicket.php:231
 msgid "Ticket cannot be closed"
 msgstr "Zgłoszenie nie może zostać zamknięte"
 
-#: src/WaitingTicket.php:199 src/UrgencyTicket.php:107
+#: src/UrgencyTicket.php:107 src/WaitingTicket.php:208
 msgid "Ticket cannot be saved"
 msgstr "Zgłoszenie nie może zostać zapisane"
 
@@ -218,7 +218,7 @@ msgstr "Zaktualizuj status zgłoszenia na przetwarzane po dodaniu dokumentu"
 msgid "Update ticket status to processing after approval"
 msgstr "Zaktualizuj status zgłoszenia na przetwarzane po zatwierdzeniu"
 
-#: hook.php:333
+#: hook.php:329
 msgid "Updated by a user"
 msgstr "Zaktualizowane przez użytkownika"
 
@@ -258,11 +258,11 @@ msgstr[1] "Zgłoszenia oczekujące"
 msgstr[2] "Zgłoszeń oczekujących"
 msgstr[3] "Zgłoszeń oczekujących"
 
-#: src/WaitingTicket.php:197
+#: src/WaitingTicket.php:206
 msgid "Waiting ticket cannot be saved"
 msgstr "Oczekujące zgłoszenie nie może zostać zapisane"
 
-#: src/WaitingTicket.php:912
+#: src/WaitingTicket.php:921
 msgid "Waiting ticket exceedeed"
 msgstr "Przekroczono czas oczekiwania zgłoszenia"
 
