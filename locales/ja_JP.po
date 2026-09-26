@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 15:58+0000\n"
+"POT-Creation-Date: 2026-09-23 16:26+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Daisuke INOUE, 2026\n"
 "Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/"
@@ -67,7 +67,7 @@ msgstr "「回答を追加したらチケットを保留にする」を標準に
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr "「タスクを追加したらチケットを保留にする」を標準にする場合はチェック"
 
-#: hook.php:275 hook.php:282 hook.php:289 hook.php:296 src/CloseTicket.php:127
+#: hook.php:286 hook.php:293 hook.php:300 hook.php:307 src/CloseTicket.php:127
 #: src/CloseTicket.php:134 src/CloseTicket.php:175
 #: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
@@ -77,7 +77,7 @@ msgstr "チケット終了情報"
 msgid "Comments"
 msgstr "コメント"
 
-#: hook.php:297
+#: hook.php:308
 msgid "Document"
 msgid_plural "Documents"
 msgstr[0] ""
@@ -203,7 +203,7 @@ msgstr "文書を追加したら、チケットの状態を対応中にする"
 msgid "Update ticket status to processing after approval"
 msgstr "承認を受けたら、チケットの状態を対応中にする"
 
-#: hook.php:322
+#: hook.php:333
 msgid "Updated by a user"
 msgstr "ユーザーが更新"
 
