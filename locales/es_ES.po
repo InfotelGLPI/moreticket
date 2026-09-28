@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 16:26+0000\n"
+"POT-Creation-Date: 2026-09-26 12:45+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: FranciscoFJ <dev-ooo@satel-sa.com>, 2022\n"
 "Language-Team: Spanish (Spain) (https://www.transifex.com/infotelGLPI/"
@@ -24,22 +24,22 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: src/CloseTicket.php:665
+#: src/CloseTicket.php:675
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s informaciones del cierre de la petición"
 
-#: src/CloseTicket.php:705
+#: src/CloseTicket.php:715
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$sinformaciones del cierre apagadas"
 
-#: src/CloseTicket.php:685
+#: src/CloseTicket.php:695
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$sactualizaciones del cierre de la petición"
 
-#: src/WaitingTicket.php:1071
+#: src/WaitingTicket.php:1080
 #, php-format
 msgid "%s duplicates deleted"
 msgstr ""
@@ -69,8 +69,8 @@ msgstr ""
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 
-#: hook.php:286 hook.php:293 hook.php:300 hook.php:307 src/CloseTicket.php:127
-#: src/CloseTicket.php:134 src/CloseTicket.php:175
+#: src/CloseTicket.php:133 src/CloseTicket.php:140 src/CloseTicket.php:185
+#: hook.php:286 hook.php:293 hook.php:300 hook.php:307
 #: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
 msgstr "Informaciones del cierre de la petición"
@@ -95,7 +95,7 @@ msgstr ""
 msgid "Duration is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:960
+#: src/WaitingTicket.php:969
 msgid "End of standby ticket"
 msgstr ""
 
@@ -111,7 +111,7 @@ msgstr "Justificación"
 msgid "Mandatory 'Duration' field"
 msgstr "El campo 'Duración' es obligatorio"
 
-#: src/Solution.php:291 src/CloseTicket.php:222
+#: src/CloseTicket.php:232 src/Solution.php:291
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
@@ -126,12 +126,12 @@ msgstr "Más peticiones"
 msgid "Please activate the plugin"
 msgstr "Por favor active el complemento"
 
-#: src/WaitingTicket.php:154 src/WaitingTicket.php:465
+#: src/WaitingTicket.php:163 src/WaitingTicket.php:474
 #: templates/waitingticket_form.html.twig:46
 msgid "Postponement date"
 msgstr ""
 
-#: src/WaitingTicket.php:203
+#: src/WaitingTicket.php:212
 msgid "Postponement date is inferior of today's date"
 msgstr ""
 
@@ -139,17 +139,17 @@ msgstr ""
 msgid "Postponement date is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:158 src/WaitingTicket.php:464
+#: src/WaitingTicket.php:167 src/WaitingTicket.php:473
 #: templates/waitingticket_form.html.twig:33
 msgid "Reason"
 msgstr ""
 
-#: templates/config.html.twig:233 templates/profile.html.twig:34
+#: templates/profile.html.twig:34 templates/config.html.twig:233
 msgctxt "button"
 msgid "Save"
 msgstr ""
 
-#: src/CloseTicket.php:192 src/CloseTicket.php:535
+#: src/CloseTicket.php:202 src/CloseTicket.php:545
 msgid "Solution description"
 msgstr "Descripción de la solución "
 
@@ -161,19 +161,19 @@ msgstr "Tipo de solución es obligatorio"
 msgid "Status used to display solution block"
 msgstr "Estado utilizado para mostrar el bloque de solución"
 
-#: src/WaitingTicket.php:463
+#: src/WaitingTicket.php:472
 msgid "Suspension date"
 msgstr ""
 
-#: src/WaitingTicket.php:466
+#: src/WaitingTicket.php:475
 msgid "Suspension end date"
 msgstr ""
 
-#: src/CloseTicket.php:221
+#: src/CloseTicket.php:231
 msgid "Ticket cannot be closed"
 msgstr "La petición no puede ser cerrada"
 
-#: src/WaitingTicket.php:199 src/UrgencyTicket.php:107
+#: src/UrgencyTicket.php:107 src/WaitingTicket.php:208
 msgid "Ticket cannot be saved"
 msgstr "La petición no se puede guardar"
 
@@ -212,7 +212,7 @@ msgid "Update ticket status to processing after approval"
 msgstr ""
 "Actualizar el estado de la petición a procesar después de la aprobación"
 
-#: hook.php:333
+#: hook.php:329
 msgid "Updated by a user"
 msgstr "Actualizado por un usuario"
 
@@ -251,11 +251,11 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/WaitingTicket.php:197
+#: src/WaitingTicket.php:206
 msgid "Waiting ticket cannot be saved"
 msgstr ""
 
-#: src/WaitingTicket.php:912
+#: src/WaitingTicket.php:921
 msgid "Waiting ticket exceedeed"
 msgstr ""
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-23 16:26+0000\n"
+"POT-Creation-Date: 2026-09-26 12:45+0000\n"
 "PO-Revision-Date: 2019-02-26 15:09+0000\n"
 "Last-Translator: Mathieu Templier <mathieu.templier@infotel.com>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/tsmr/"
@@ -19,22 +19,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/CloseTicket.php:665
+#: src/CloseTicket.php:675
 #, php-format
 msgid "%1$s added closing informations"
 msgstr "%1$s lisätty sulkemista koskevat tiedot"
 
-#: src/CloseTicket.php:705
+#: src/CloseTicket.php:715
 #, php-format
 msgid "%1$s deleted closing informations"
 msgstr "%1$s poistettu sulkemista koskevat tiedot"
 
-#: src/CloseTicket.php:685
+#: src/CloseTicket.php:695
 #, php-format
 msgid "%1$s updated closing informations"
 msgstr "%1$s päivitetty sulkemista koskevat tiedot"
 
-#: src/WaitingTicket.php:1071
+#: src/WaitingTicket.php:1080
 #, php-format
 msgid "%s duplicates deleted"
 msgstr ""
@@ -64,8 +64,8 @@ msgstr ""
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 
-#: hook.php:286 hook.php:293 hook.php:300 hook.php:307 src/CloseTicket.php:127
-#: src/CloseTicket.php:134 src/CloseTicket.php:175
+#: src/CloseTicket.php:133 src/CloseTicket.php:140 src/CloseTicket.php:185
+#: hook.php:286 hook.php:293 hook.php:300 hook.php:307
 #: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
 msgstr "Sulje tiketin tiedot"
@@ -89,7 +89,7 @@ msgstr ""
 msgid "Duration is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:960
+#: src/WaitingTicket.php:969
 msgid "End of standby ticket"
 msgstr "Tiketin valmiustilan loppu"
 
@@ -105,7 +105,7 @@ msgstr "Perustelu"
 msgid "Mandatory 'Duration' field"
 msgstr "Pakollinen 'Kesto' -kenttä"
 
-#: src/Solution.php:291 src/CloseTicket.php:222
+#: src/CloseTicket.php:232 src/Solution.php:291
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
@@ -119,12 +119,12 @@ msgstr "Lisää tiketöintiä"
 msgid "Please activate the plugin"
 msgstr "Ole hyvä ja aktivoi liitännäinen"
 
-#: src/WaitingTicket.php:154 src/WaitingTicket.php:465
+#: src/WaitingTicket.php:163 src/WaitingTicket.php:474
 #: templates/waitingticket_form.html.twig:46
 msgid "Postponement date"
 msgstr "Lykkäyspäivä"
 
-#: src/WaitingTicket.php:203
+#: src/WaitingTicket.php:212
 msgid "Postponement date is inferior of today's date"
 msgstr ""
 
@@ -132,17 +132,17 @@ msgstr ""
 msgid "Postponement date is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:158 src/WaitingTicket.php:464
+#: src/WaitingTicket.php:167 src/WaitingTicket.php:473
 #: templates/waitingticket_form.html.twig:33
 msgid "Reason"
 msgstr "Syy"
 
-#: templates/config.html.twig:233 templates/profile.html.twig:34
+#: templates/profile.html.twig:34 templates/config.html.twig:233
 msgctxt "button"
 msgid "Save"
 msgstr ""
 
-#: src/CloseTicket.php:192 src/CloseTicket.php:535
+#: src/CloseTicket.php:202 src/CloseTicket.php:545
 msgid "Solution description"
 msgstr "Ratkaisun kuvaus"
 
@@ -154,19 +154,19 @@ msgstr "Ratkaisun tyyppi on pakollinen"
 msgid "Status used to display solution block"
 msgstr ""
 
-#: src/WaitingTicket.php:463
+#: src/WaitingTicket.php:472
 msgid "Suspension date"
 msgstr "Keskeytyspäivä"
 
-#: src/WaitingTicket.php:466
+#: src/WaitingTicket.php:475
 msgid "Suspension end date"
 msgstr "Keskeytyksen päättymispäivä"
 
-#: src/CloseTicket.php:221
+#: src/CloseTicket.php:231
 msgid "Ticket cannot be closed"
 msgstr "Tikettiä ei voida sulkea"
 
-#: src/WaitingTicket.php:199 src/UrgencyTicket.php:107
+#: src/UrgencyTicket.php:107 src/WaitingTicket.php:208
 msgid "Ticket cannot be saved"
 msgstr "Tikettiä ei voida tallentaa"
 
@@ -202,7 +202,7 @@ msgstr ""
 msgid "Update ticket status to processing after approval"
 msgstr ""
 
-#: hook.php:333
+#: hook.php:329
 msgid "Updated by a user"
 msgstr ""
 
@@ -240,11 +240,11 @@ msgid_plural "Waiting tickets"
 msgstr[0] "Odottava tiketti"
 msgstr[1] "Odottavat tiketit"
 
-#: src/WaitingTicket.php:197
+#: src/WaitingTicket.php:206
 msgid "Waiting ticket cannot be saved"
 msgstr "Odottavaa tikettiä ei voida tallentaa"
 
-#: src/WaitingTicket.php:912
+#: src/WaitingTicket.php:921
 msgid "Waiting ticket exceedeed"
 msgstr ""
 
