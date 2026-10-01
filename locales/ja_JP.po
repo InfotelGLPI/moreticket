@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-26 12:45+0000\n"
+"POT-Creation-Date: 2026-10-01 13:45+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Daisuke INOUE, 2026\n"
 "Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/"
@@ -82,7 +82,7 @@ msgid "Document"
 msgid_plural "Documents"
 msgstr[0] ""
 
-#: src/Solution.php:295 templates/closeticket_solution_form.html.twig:58
+#: src/Solution.php:292 templates/closeticket_solution_form.html.twig:58
 #: templates/solution_duration.html.twig:30
 msgid "Duration"
 msgstr "期間"
@@ -107,7 +107,7 @@ msgstr "正当性"
 msgid "Mandatory 'Duration' field"
 msgstr "「期間」を必須に"
 
-#: src/CloseTicket.php:232 src/Solution.php:291
+#: src/CloseTicket.php:232 src/Solution.php:288
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
