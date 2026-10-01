@@ -37,7 +37,6 @@ use ITILSolution;
 use Planning;
 use Plugin;
 use Session;
-use User;
 
 /**
  * Class Solution
@@ -240,13 +239,11 @@ class Solution extends CommonITILObject
                         }
                     }
 
-                    // The private flag is the author's preference: without the load it was
-                    // read off an empty fields array and every task fell back to public.
-                    $user       = new User();
-                    $is_private = 0;
-                    if ($user->getFromDB(Session::getLoginUserID())) {
-                        $is_private = $user->getField('task_private');
-                    }
+                    // Same default as a task added from the timeline: the session holds the
+                    // effective "Private tasks by default" value, the user preference or else
+                    // the general configuration. glpi_users.task_private is NULL when the
+                    // user keeps the general value, which turned every task public.
+                    $is_private = (int) (bool) ($_SESSION['glpitask_private'] ?? $CFG_GLPI['task_private'] ?? 0);
 
                     $task_input = ['tickets_id' => $tickets_id,
                         'date_creation' => date('Y-m-d H:i:s'),
