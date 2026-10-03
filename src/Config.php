@@ -173,6 +173,14 @@ class Config extends CommonDBTM
     }
 
     /**
+     * Whether the waiting block offers a waiting type (off by default)
+     */
+    public function useWaitingType(): bool
+    {
+        return (bool) ($this->fields['use_waitingtype'] ?? false);
+    }
+
+    /**
      * @return mixed
      */
     public function mandatoryWaitingReason()
@@ -308,7 +316,7 @@ class Config extends CommonDBTM
     public function prepareInputForUpdate($input)
     {
         $allowed = [
-            'id', 'use_waiting', 'date_report_mandatory', 'waitingtype_mandatory',
+            'id', 'use_waiting', 'use_waitingtype', 'date_report_mandatory', 'waitingtype_mandatory',
             'waitingreason_mandatory', 'use_solution', 'solutiontype_mandatory',
             'close_informations', 'solution_status', 'close_followup',
             'use_duration_solution', 'is_mandatory_solution', 'urgency_justification',

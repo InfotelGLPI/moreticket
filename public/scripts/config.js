@@ -80,6 +80,17 @@ document.addEventListener('DOMContentLoaded', function () {
     if (useDurationSolution) updateSolution();
     if (urgencyCheckbox) updateUrgency();
 
+    // "Waiting type is mandatory" only makes sense once waiting types are used
+    const waitingTypeCheckbox = document.querySelector("input[type='checkbox'][name='use_waitingtype']");
+    const waitingTypeSettings = document.getElementById('waitingtype_settings');
+    if (waitingTypeCheckbox && waitingTypeSettings) {
+        const updateWaitingType = () => {
+            waitingTypeSettings.style.display = waitingTypeCheckbox.checked ? '' : 'none';
+        };
+        updateWaitingType();
+        waitingTypeCheckbox.addEventListener('change', updateWaitingType);
+    }
+
     if (useWaitingCheckbox) {
         useWaitingCheckbox.addEventListener('change', updateWaiting);
     }

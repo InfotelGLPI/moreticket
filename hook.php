@@ -121,6 +121,9 @@ function plugin_moreticket_install()
     Profile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
     $migration = new Migration(PLUGIN_MORETICKET_VERSION);
     $migration->dropTable('glpi_plugin_moreticket_profiles');
+    // Waiting types are opt-in: the field is only offered once this option is enabled
+    $migration->addField('glpi_plugin_moreticket_configs', 'use_waitingtype', 'bool', ['after' => 'use_waiting']);
+    $migration->executeMigration();
     return true;
 }
 

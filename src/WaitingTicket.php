@@ -167,6 +167,10 @@ class WaitingTicket extends CommonDBTM
             $mandatory_fields['reason'] = __('Reason', 'moreticket');
         }
 
+        if ($config->useWaitingType() && $config->mandatoryWaitingType() == true) {
+            $mandatory_fields['plugin_moreticket_waitingtypes_id'] = WaitingType::getTypeName(1);
+        }
+
         $msg = [];
 
         foreach ($mandatory_fields as $key => $value) {
@@ -290,6 +294,7 @@ class WaitingTicket extends CommonDBTM
             'reason_value'     => $this->fields['reason'],
             'reason_input'     => $canedit ? Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]) : '',
             'date_mandatory'   => $config->mandatoryReportDate() == true,
+            ...self::getWaitingTypeFormData($config, $this->fields),
             'date_value'       => Html::convDateTime($this->fields['date_report']),
             'date_field'       => $date_field,
             'position_script'  => '',
@@ -405,6 +410,7 @@ class WaitingTicket extends CommonDBTM
             'reason_value'     => $this->fields['reason'],
             'reason_input'     => $canedit ? Html::input('reason', ['value' => $this->fields['reason'], 'size' => 20]) : '',
             'date_mandatory'   => $config->mandatoryReportDate() == true,
+            ...self::getWaitingTypeFormData($config, $this->fields),
             'date_value'       => Html::convDateTime($this->fields['date_report']),
             'date_field'       => $date_field,
             'position_script'  => $position_script,
@@ -458,22 +464,28 @@ class WaitingTicket extends CommonDBTM
                 $entries[] = [
                     'date_suspension'     => Html::convDateTime($waitingTicket['date_suspension']),
                     'reason'              => $waitingTicket['reason'],
+                    'waitingtype'         => self::getWaitingTypeName((int) ($waitingTicket['plugin_moreticket_waitingtypes_id'] ?? 0)),
                     'date_report'         => $date_report,
                     'date_end_suspension' => Html::convDateTime($waitingTicket['date_end_suspension']),
                 ];
             }
         }
 
+        $columns = [
+            'date_suspension'     => __('Suspension date', 'moreticket'),
+            'reason'              => __('Reason', 'moreticket'),
+        ];
+        if (Config::getInstance()->useWaitingType()) {
+            $columns['waitingtype'] = WaitingType::getTypeName(1);
+        }
+        $columns['date_report']         = __('Postponement date', 'moreticket');
+        $columns['date_end_suspension'] = __('Suspension end date', 'moreticket');
+
         TemplateRenderer::getInstance()->display('components/datatable.html.twig', [
             'is_tab'            => true,
             'nofilter'          => true,
             'nopager'           => false,
-            'columns'           => [
-                'date_suspension'     => __('Suspension date', 'moreticket'),
-                'reason'              => __('Reason', 'moreticket'),
-                'date_report'         => __('Postponement date', 'moreticket'),
-                'date_end_suspension' => __('Suspension end date', 'moreticket'),
-            ],
+            'columns'           => $columns,
             'formatters'        => [],
             'entries'           => $entries,
             'total_number'      => $number,
@@ -762,14 +774,53 @@ class WaitingTicket extends CommonDBTM
         }
     }
 
+    /**
+     * Variables of the waiting type row of waitingticket_form.html.twig.
+     *
+     * @param Config $config
+     * @param array  $fields current waiting row (or the draft restored in its place)
+     *
+     * @return array<string, mixed>
+     */
+    private static function getWaitingTypeFormData(Config $config, array $fields): array
+    {
+        $waitingtypes_id = (int) ($fields['plugin_moreticket_waitingtypes_id'] ?? 0);
+
+        return [
+            'use_waitingtype'       => $config->useWaitingType(),
+            'waitingtype_mandatory' => $config->mandatoryWaitingType() == true,
+            'waitingtype_label'     => WaitingType::getTypeName(1),
+            'waitingtype_itemtype'  => WaitingType::class,
+            'waitingtype_value'     => $waitingtypes_id,
+            'waitingtype_name'      => self::getWaitingTypeName($waitingtypes_id),
+            'waitingtype_rand'      => mt_rand(),
+        ];
+    }
+
+    /**
+     * Complete name of a waiting type, empty when unset or deleted.
+     */
+    private static function getWaitingTypeName(int $waitingtypes_id): string
+    {
+        if ($waitingtypes_id <= 0) {
+            return '';
+        }
+
+        $waiting_type = new WaitingType();
+
+        return $waiting_type->getFromDB($waitingtypes_id)
+            ? (string) ($waiting_type->fields['completename'] ?? $waiting_type->getName())
+            : '';
+    }
+
     // Hook done on before add ticket - checkMandatory
 
     /**
      * Keep a posted waiting type id only when it names an existing row.
      *
-     * The column carries no foreign key (sql/empty-1.7.5.sql declares a plain KEY), no form
-     * of the plugin produces the field and WaitingType is not registered as an administrable
-     * dropdown, so whatever reaches this key comes from the caller and from nobody else.
+     * The column carries no foreign key (sql/empty-1.7.5.sql declares a plain KEY) and the
+     * waiting block only posts it when the use_waitingtype option is enabled: when it is
+     * off, any value is dropped. Otherwise the posted id is still revalidated here.
      * Search option 3452 joins the waiting type table on it: an unchecked value turns into a
      * dangling reference displayed in ticket lists and dashboards.
      *
@@ -781,7 +832,7 @@ class WaitingTicket extends CommonDBTM
     {
         $waitingtypes_id = (int) $value;
 
-        if ($waitingtypes_id <= 0) {
+        if ($waitingtypes_id <= 0 || !Config::getInstance()->useWaitingType()) {
             return 0;
         }
 

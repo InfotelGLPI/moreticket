@@ -28,6 +28,26 @@
 <div class="spaced" id="{{ block_id }}">
     {% if with_break %}<br>{% endif %}
     <table id="cl_menu">
+        {% if use_waitingtype %}
+            <tr{% if row_class %} class="{{ row_class }}"{% endif %}>
+                <td>
+                    {{ waitingtype_label }}
+                </td>
+                <td>
+                    {% if canedit %}
+                        {% if waitingtype_mandatory %}&nbsp;:&nbsp;<span class="text-danger">*</span>&nbsp;{% endif %}
+                        {{ waitingtype_itemtype|itemtype_dropdown({
+                            'name': 'plugin_moreticket_waitingtypes_id',
+                            'value': waitingtype_value,
+                            'rand': waitingtype_rand,
+                            'width': '100%',
+                        }) }}
+                    {% else %}
+                        {{ waitingtype_name }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endif %}
         <tr{% if row_class %} class="{{ row_class }}"{% endif %}>
             <td>
                 {{ __('Reason', 'moreticket') }}

@@ -90,6 +90,35 @@ class WaitingTicketTest extends DbTestCase
         $this->assertFalse($result);
     }
 
+    public function testCheckMandatoryReturnsFalseWhenWaitingTypeMandatoryAndMissing(): void
+    {
+        $this->login();
+
+        $result = $this->invokeCheckMandatoryWithConfig(
+            ['reason' => 'test', 'plugin_moreticket_waitingtypes_id' => 0],
+            false,
+            false,
+            ['use_waitingtype' => 1, 'waitingtype_mandatory' => 1],
+        );
+
+        $this->assertFalse($result);
+    }
+
+    public function testCheckMandatoryIgnoresWaitingTypeWhenOptionDisabled(): void
+    {
+        $this->login();
+
+        // The "mandatory" flag alone must not block a form that does not offer the field
+        $result = $this->invokeCheckMandatoryWithConfig(
+            ['reason' => 'test'],
+            false,
+            false,
+            ['use_waitingtype' => 0, 'waitingtype_mandatory' => 1],
+        );
+
+        $this->assertTrue($result);
+    }
+
     public function testCheckMandatoryReturnsFalseWhenDateMandatoryAndMissing(): void
     {
         $this->login();
@@ -160,7 +189,8 @@ class WaitingTicketTest extends DbTestCase
     private function invokeCheckMandatoryWithConfig(
         array $values,
         bool $reasonMandatory,
-        bool $dateMandatory
+        bool $dateMandatory,
+        array $waitingTypeConfig = ['use_waitingtype' => 0, 'waitingtype_mandatory' => 0],
     ): bool {
         global $DB;
 
@@ -175,7 +205,7 @@ class WaitingTicketTest extends DbTestCase
             $DB->update('glpi_plugin_moreticket_configs', [
                 'waitingreason_mandatory' => (int) $reasonMandatory,
                 'date_report_mandatory'   => (int) $dateMandatory,
-            ], ['id' => $original['id']]);
+            ] + $waitingTypeConfig, ['id' => $original['id']]);
         }
 
         // Vider le cache du singleton Config
@@ -193,6 +223,8 @@ class WaitingTicketTest extends DbTestCase
             $DB->update('glpi_plugin_moreticket_configs', [
                 'waitingreason_mandatory' => $original['waitingreason_mandatory'],
                 'date_report_mandatory'   => $original['date_report_mandatory'],
+                'use_waitingtype'         => $original['use_waitingtype'],
+                'waitingtype_mandatory'   => $original['waitingtype_mandatory'],
             ], ['id' => $original['id']]);
         }
 
