@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - moreticket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-01 13:45+0000\n"
+"POT-Creation-Date: 2026-10-03 10:03+0000\n"
 "PO-Revision-Date: 2019-02-26 15:09+0000\n"
 "Last-Translator: Mathieu Templier <mathieu.templier@infotel.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/tsmr/"
@@ -35,7 +35,7 @@ msgstr "%1$s smazal informace o uzavření"
 msgid "%1$s updated closing informations"
 msgstr "%1$s aktualizoval informace o uzavření"
 
-#: src/WaitingTicket.php:1080
+#: src/WaitingTicket.php:1131
 #, php-format
 msgid "%s duplicates deleted"
 msgstr ""
@@ -45,11 +45,11 @@ msgctxt "button"
 msgid "Add"
 msgstr ""
 
-#: templates/config.html.twig:150
+#: templates/config.html.twig:160
 msgid "Add a followup on immediate ticket closing"
 msgstr "Při uzavírání požadavku přidejte následnou komunikaci"
 
-#: templates/config.html.twig:74
+#: templates/config.html.twig:118
 msgid "Add followup when waiting date is reached"
 msgstr ""
 
@@ -57,17 +57,17 @@ msgstr ""
 msgid "Adding a justification of urgency"
 msgstr "Přidává se odůvodnění naléhavosti"
 
-#: templates/config.html.twig:81
+#: templates/config.html.twig:104
 msgid "Check by default to put the ticket on waiting when adding a follow-up"
 msgstr ""
 
-#: templates/config.html.twig:88
+#: templates/config.html.twig:111
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 
 #: src/CloseTicket.php:133 src/CloseTicket.php:140 src/CloseTicket.php:185
-#: hook.php:286 hook.php:293 hook.php:300 hook.php:307
-#: templates/config.html.twig:117 templates/closeticket_form.html.twig:34
+#: hook.php:289 hook.php:296 hook.php:303 hook.php:310
+#: templates/config.html.twig:153 templates/closeticket_form.html.twig:34
 msgid "Close ticket informations"
 msgstr "Informace o uzavření požadavku"
 
@@ -75,7 +75,11 @@ msgstr "Informace o uzavření požadavku"
 msgid "Comments"
 msgstr ""
 
-#: hook.php:308
+#: templates/config.html.twig:100
+msgid "Default values"
+msgstr ""
+
+#: hook.php:311
 msgid "Document"
 msgid_plural "Documents"
 msgstr[0] ""
@@ -92,7 +96,7 @@ msgstr ""
 msgid "Duration is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:969
+#: src/WaitingTicket.php:1020
 msgid "End of standby ticket"
 msgstr "Konec pohotovosti požadavku"
 
@@ -104,11 +108,11 @@ msgstr ""
 msgid "Justification"
 msgstr "Odůvodnění"
 
-#: templates/config.html.twig:166
+#: templates/config.html.twig:197
 msgid "Mandatory 'Duration' field"
 msgstr "Povinná kolonka „Doba trvání“"
 
-#: src/CloseTicket.php:232 src/Solution.php:288
+#: src/CloseTicket.php:232 src/Solution.php:288 templates/config.html.twig:67
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
@@ -124,25 +128,25 @@ msgstr "Více k požadavku"
 msgid "Please activate the plugin"
 msgstr "Zapněte zásuvný modul"
 
-#: src/WaitingTicket.php:163 src/WaitingTicket.php:474
-#: templates/waitingticket_form.html.twig:46
+#: src/WaitingTicket.php:163 src/WaitingTicket.php:481
+#: templates/waitingticket_form.html.twig:66
 msgid "Postponement date"
 msgstr "Datum na které odložit"
 
-#: src/WaitingTicket.php:212
+#: src/WaitingTicket.php:216
 msgid "Postponement date is inferior of today's date"
 msgstr ""
 
-#: templates/config.html.twig:60
+#: templates/config.html.twig:78
 msgid "Postponement date is mandatory"
 msgstr ""
 
-#: src/WaitingTicket.php:167 src/WaitingTicket.php:473
-#: templates/waitingticket_form.html.twig:33
+#: src/WaitingTicket.php:167 src/WaitingTicket.php:476
+#: templates/waitingticket_form.html.twig:53
 msgid "Reason"
 msgstr "Důvod"
 
-#: templates/profile.html.twig:34 templates/config.html.twig:233
+#: templates/profile.html.twig:34 templates/config.html.twig:280
 msgctxt "button"
 msgid "Save"
 msgstr ""
@@ -151,19 +155,19 @@ msgstr ""
 msgid "Solution description"
 msgstr "Popis řešení"
 
-#: templates/config.html.twig:110
+#: templates/config.html.twig:146
 msgid "Solution type is mandatory"
 msgstr "Je třeba vyplnit typ řešení"
 
-#: templates/config.html.twig:123
+#: templates/config.html.twig:167
 msgid "Status used to display solution block"
 msgstr ""
 
-#: src/WaitingTicket.php:472
+#: src/WaitingTicket.php:475
 msgid "Suspension date"
 msgstr "Datum suspendování"
 
-#: src/WaitingTicket.php:475
+#: src/WaitingTicket.php:482
 msgid "Suspension end date"
 msgstr "Datum konce suspendování"
 
@@ -171,47 +175,47 @@ msgstr "Datum konce suspendování"
 msgid "Ticket cannot be closed"
 msgstr "Požadavek není možné uzavřít"
 
-#: src/UrgencyTicket.php:107 src/WaitingTicket.php:208
+#: src/UrgencyTicket.php:107 src/WaitingTicket.php:212
 msgid "Ticket cannot be saved"
 msgstr "Požadavek není možné uložit"
 
-#: templates/config.html.twig:94
+#: templates/config.html.twig:129
 msgid "Ticket solution and close"
 msgstr ""
 
-#: templates/config.html.twig:173
+#: templates/config.html.twig:209
 msgid "Ticket urgency"
 msgstr "Naléhavost požadavku"
 
-#: templates/config.html.twig:42
+#: templates/config.html.twig:53
 msgid "Ticket waiting"
 msgstr "Čekající požadavek"
 
-#: templates/config.html.twig:196
+#: templates/config.html.twig:240
 msgid "Update ticket status"
 msgstr ""
 
-#: templates/config.html.twig:216
+#: templates/config.html.twig:262
 msgid "Update ticket status to pending after a technician adds a follow up"
 msgstr ""
 
-#: templates/config.html.twig:223
+#: templates/config.html.twig:269
 msgid "Update ticket status to pending after a technician adds a task"
 msgstr ""
 
-#: templates/config.html.twig:202
+#: templates/config.html.twig:248
 msgid "Update ticket status to processing after add document"
 msgstr ""
 
-#: templates/config.html.twig:209
+#: templates/config.html.twig:255
 msgid "Update ticket status to processing after approval"
 msgstr ""
 
-#: hook.php:329
+#: hook.php:332
 msgid "Updated by a user"
 msgstr ""
 
-#: templates/config.html.twig:189
+#: templates/config.html.twig:227
 msgid "Urgency impacted justification for the field"
 msgstr "Naléhavostí ovlivněné zdůvodnění pro tuto kolonku"
 
@@ -219,23 +223,27 @@ msgstr "Naléhavostí ovlivněné zdůvodnění pro tuto kolonku"
 msgid "Urgency ticket cannot be saved"
 msgstr "Naléhavost požadavku se nedaří uložit"
 
-#: templates/config.html.twig:179
+#: templates/config.html.twig:217
 msgid "Use a justification of the urgency field"
 msgstr "Použít zdůvodnění kolonky naléhavost"
 
-#: templates/config.html.twig:100
+#: templates/config.html.twig:137
 msgid "Use solution process"
 msgstr "Použít proces řešení"
 
-#: templates/config.html.twig:157
+#: templates/config.html.twig:188
 msgid "Use the 'Duration' field in the add solution interface"
 msgstr "V rozhraní pro přidání řešení použijte kolonku „Doba trvání“"
 
-#: templates/config.html.twig:50
+#: templates/config.html.twig:61
 msgid "Use waiting process"
 msgstr "Použít čekající proces"
 
-#: templates/config.html.twig:67
+#: templates/config.html.twig:86
+msgid "Use waiting types"
+msgstr ""
+
+#: templates/config.html.twig:71
 msgid "Waiting reason is mandatory"
 msgstr "Důvod čekání je třeba vyplnit"
 
@@ -247,21 +255,25 @@ msgstr[1] "Čekající požadavky"
 msgstr[2] "Čekajících požadavků"
 msgstr[3] "Čekající požadavky"
 
-#: src/WaitingTicket.php:206
+#: src/WaitingTicket.php:210
 msgid "Waiting ticket cannot be saved"
 msgstr "Čekající požadavek není možné uložit"
 
-#: src/WaitingTicket.php:921
+#: src/WaitingTicket.php:972
 msgid "Waiting ticket exceedeed"
 msgstr ""
 
-#: src/WaitingType.php:50
+#: src/WaitingType.php:50 templates/config.html.twig:82
 msgid "Waiting type"
 msgid_plural "Waiting types"
 msgstr[0] "Typ čekání"
 msgstr[1] "Typy čekání"
 msgstr[2] "Typů čekání"
 msgstr[3] "Typy čekání"
+
+#: templates/config.html.twig:95
+msgid "Waiting type is mandatory"
+msgstr "Typ čekání je třeba vyplnit"
 
 #: templates/solution_mandatory_warning.html.twig:34
 msgid "Warning"
@@ -273,9 +285,6 @@ msgstr ""
 
 #~ msgid "Report date is mandatory"
 #~ msgstr "Je třeba vyplnit datum odkladu"
-
-#~ msgid "Waiting type is mandatory"
-#~ msgstr "Typ čekání je třeba vyplnit"
 
 #~ msgid "Ticket resolution and close"
 #~ msgstr "Vyřešení a uzavření požadavku"
