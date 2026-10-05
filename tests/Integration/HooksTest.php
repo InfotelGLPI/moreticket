@@ -97,10 +97,11 @@ class HooksTest extends DbTestCase
         $this->assertFalse(MtTicket::beforeAdd($ticket));
     }
 
-    public function testPreItemAddTicketReturnsFalseWhenInputIsNull(): void
+    public function testPreItemAddTicketReturnsFalseWhenInputIsCancelled(): void
     {
         $ticket        = new \Ticket();
-        $ticket->input = null;
+        // GLPI 12 types CommonDBTM::$input as array|false: a cancelled action is false, not null
+        $ticket->input = false;
 
         $this->assertFalse(MtTicket::beforeAdd($ticket));
     }
@@ -346,10 +347,10 @@ class HooksTest extends DbTestCase
         $this->assertFalse(MtTicket::beforeUpdate($ticket));
     }
 
-    public function testPreItemUpdateTicketReturnsFalseWhenInputIsNull(): void
+    public function testPreItemUpdateTicketReturnsFalseWhenInputIsCancelled(): void
     {
         $ticket        = new \Ticket();
-        $ticket->input = null;
+        $ticket->input = false;
 
         $this->assertFalse(MtTicket::beforeUpdate($ticket));
     }
