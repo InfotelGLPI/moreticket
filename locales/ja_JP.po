@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-03 10:03+0000\n"
+"POT-Creation-Date: 2026-10-05 14:29+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Daisuke INOUE, 2026\n"
 "Language-Team: Japanese (Japan) (https://app.transifex.com/infotelGLPI/"
@@ -42,42 +42,42 @@ msgstr "%1$s が終了情報を更新"
 msgid "%s duplicates deleted"
 msgstr "%s 件の重複を削除しました"
 
-#: templates/closeticket_form.html.twig:64
+#: templates/closeticket_form.html.twig:63
 msgctxt "button"
 msgid "Add"
 msgstr "追加"
 
-#: templates/config.html.twig:160
+#: templates/config.html.twig:159
 msgid "Add a followup on immediate ticket closing"
 msgstr "チケットの終了直後に回答を追加する"
 
-#: templates/config.html.twig:118
+#: templates/config.html.twig:117
 msgid "Add followup when waiting date is reached"
 msgstr "再開日になったら回答を追加する"
 
-#: src/Profile.php:165 src/Profile.php:183
+#: src/Profile.php:168 src/Profile.php:186
 msgid "Adding a justification of urgency"
 msgstr "緊急性に正当性を追加"
 
-#: templates/config.html.twig:104
+#: templates/config.html.twig:103
 msgid "Check by default to put the ticket on waiting when adding a follow-up"
 msgstr "「回答を追加したらチケットを保留にする」を標準にする場合はチェック"
 
-#: templates/config.html.twig:111
+#: templates/config.html.twig:110
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr "「タスクを追加したらチケットを保留にする」を標準にする場合はチェック"
 
 #: src/CloseTicket.php:133 src/CloseTicket.php:140 src/CloseTicket.php:185
 #: hook.php:289 hook.php:296 hook.php:303 hook.php:310
-#: templates/config.html.twig:153 templates/closeticket_form.html.twig:34
+#: templates/config.html.twig:152 templates/closeticket_form.html.twig:33
 msgid "Close ticket informations"
 msgstr "チケット終了情報"
 
-#: templates/closeticket_form.html.twig:48
+#: templates/closeticket_form.html.twig:47
 msgid "Comments"
 msgstr "コメント"
 
-#: templates/config.html.twig:100
+#: templates/config.html.twig:99
 msgid "Default values"
 msgstr ""
 
@@ -99,7 +99,7 @@ msgstr "期間は必須です"
 msgid "End of standby ticket"
 msgstr "準備チケットの終了"
 
-#: src/Profile.php:173 src/Profile.php:191
+#: src/Profile.php:176 src/Profile.php:194
 msgid "Hide task duration in tickets (display only)"
 msgstr ""
 
@@ -107,16 +107,16 @@ msgstr ""
 msgid "Justification"
 msgstr "正当性"
 
-#: templates/config.html.twig:197
+#: templates/config.html.twig:196
 msgid "Mandatory 'Duration' field"
 msgstr "「期間」を必須に"
 
-#: src/CloseTicket.php:232 src/Solution.php:288 templates/config.html.twig:67
+#: src/CloseTicket.php:232 src/Solution.php:288 templates/config.html.twig:66
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
 
-#: setup.php:147 src/Profile.php:54 src/Profile.php:159
+#: setup.php:148 src/Profile.php:57 src/Profile.php:162
 msgid "More ticket"
 msgstr "チケット拡張"
 
@@ -133,7 +133,7 @@ msgstr "再開予定日"
 msgid "Postponement date is inferior of today's date"
 msgstr "再開予定日は現在日付より未来に設定してください"
 
-#: templates/config.html.twig:78
+#: templates/config.html.twig:77
 msgid "Postponement date is mandatory"
 msgstr "再開予定日は必須"
 
@@ -142,7 +142,7 @@ msgstr "再開予定日は必須"
 msgid "Reason"
 msgstr "理由"
 
-#: templates/profile.html.twig:34 templates/config.html.twig:280
+#: templates/profile.html.twig:34 templates/config.html.twig:279
 msgctxt "button"
 msgid "Save"
 msgstr "保存"
@@ -151,11 +151,11 @@ msgstr "保存"
 msgid "Solution description"
 msgstr "解決情報"
 
-#: templates/config.html.twig:146
+#: templates/config.html.twig:145
 msgid "Solution type is mandatory"
 msgstr "解決の型は必須"
 
-#: templates/config.html.twig:167
+#: templates/config.html.twig:166
 msgid "Status used to display solution block"
 msgstr "解決ブロックを表示するのに利用する状態"
 
@@ -175,35 +175,35 @@ msgstr "チケットを終了できません"
 msgid "Ticket cannot be saved"
 msgstr "チケットを保存できません"
 
-#: templates/config.html.twig:129
+#: templates/config.html.twig:128
 msgid "Ticket solution and close"
 msgstr "チケットの解決と終了"
 
-#: templates/config.html.twig:209
+#: templates/config.html.twig:208
 msgid "Ticket urgency"
 msgstr "チケットの緊急性"
 
-#: templates/config.html.twig:53
+#: templates/config.html.twig:52
 msgid "Ticket waiting"
 msgstr "保留チケット"
 
-#: templates/config.html.twig:240
+#: templates/config.html.twig:239
 msgid "Update ticket status"
 msgstr "チケットの状態を更新"
 
-#: templates/config.html.twig:262
+#: templates/config.html.twig:261
 msgid "Update ticket status to pending after a technician adds a follow up"
 msgstr "技術者が回答を追加したら、チケットの状態を保留にする"
 
-#: templates/config.html.twig:269
+#: templates/config.html.twig:268
 msgid "Update ticket status to pending after a technician adds a task"
 msgstr "技術者がタスクを追加したら、チケットの状態を保留にする"
 
-#: templates/config.html.twig:248
+#: templates/config.html.twig:247
 msgid "Update ticket status to processing after add document"
 msgstr "文書を追加したら、チケットの状態を対応中にする"
 
-#: templates/config.html.twig:255
+#: templates/config.html.twig:254
 msgid "Update ticket status to processing after approval"
 msgstr "承認を受けたら、チケットの状態を対応中にする"
 
@@ -211,7 +211,7 @@ msgstr "承認を受けたら、チケットの状態を対応中にする"
 msgid "Updated by a user"
 msgstr "ユーザーが更新"
 
-#: templates/config.html.twig:227
+#: templates/config.html.twig:226
 msgid "Urgency impacted justification for the field"
 msgstr "緊急性が項目の正当性に影響"
 
@@ -219,27 +219,27 @@ msgstr "緊急性が項目の正当性に影響"
 msgid "Urgency ticket cannot be saved"
 msgstr "チケットの緊急性を保存できません"
 
-#: templates/config.html.twig:217
+#: templates/config.html.twig:216
 msgid "Use a justification of the urgency field"
 msgstr "緊急性項目で正当性を利用する"
 
-#: templates/config.html.twig:137
+#: templates/config.html.twig:136
 msgid "Use solution process"
 msgstr "解決処理を利用する"
 
-#: templates/config.html.twig:188
+#: templates/config.html.twig:187
 msgid "Use the 'Duration' field in the add solution interface"
 msgstr "解決の追加画面で「期間」項目を利用する"
 
-#: templates/config.html.twig:61
+#: templates/config.html.twig:60
 msgid "Use waiting process"
 msgstr "保留処理を利用する"
 
-#: templates/config.html.twig:86
+#: templates/config.html.twig:85
 msgid "Use waiting types"
 msgstr ""
 
-#: templates/config.html.twig:71
+#: templates/config.html.twig:70
 msgid "Waiting reason is mandatory"
 msgstr "保留理由は必須"
 
@@ -256,12 +256,12 @@ msgstr "保留チケットを保存できません"
 msgid "Waiting ticket exceedeed"
 msgstr "チケットの保留を延長"
 
-#: src/WaitingType.php:50 templates/config.html.twig:82
+#: src/WaitingType.php:50 templates/config.html.twig:81
 msgid "Waiting type"
 msgid_plural "Waiting types"
 msgstr[0] "保留型"
 
-#: templates/config.html.twig:95
+#: templates/config.html.twig:94
 msgid "Waiting type is mandatory"
 msgstr ""
 
@@ -269,7 +269,7 @@ msgstr ""
 msgid "Warning"
 msgstr "警告"
 
-#: templates/closeticket_form.html.twig:38
+#: templates/closeticket_form.html.twig:37
 msgid "Writer"
 msgstr "投稿者"
 

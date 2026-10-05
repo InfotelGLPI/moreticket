@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-03 10:03+0000\n"
+"POT-Creation-Date: 2026-10-05 14:29+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
 "Last-Translator: Stanislaw Rękawek, 2026\n"
 "Language-Team: Polish (Poland) (https://app.transifex.com/infotelGLPI/"
@@ -44,30 +44,30 @@ msgstr "%1$s Zaktualizowano informację o zamknięciu"
 msgid "%s duplicates deleted"
 msgstr "%s duplikaty usunięte"
 
-#: templates/closeticket_form.html.twig:64
+#: templates/closeticket_form.html.twig:63
 msgctxt "button"
 msgid "Add"
 msgstr ""
 
-#: templates/config.html.twig:160
+#: templates/config.html.twig:159
 msgid "Add a followup on immediate ticket closing"
 msgstr "Dodaj odpowiedź przy natychmiastowym zamknięciu zgłoszenia"
 
-#: templates/config.html.twig:118
+#: templates/config.html.twig:117
 msgid "Add followup when waiting date is reached"
 msgstr "Dodaj odpowiedź po osiągnięciu daty oczekiwania"
 
-#: src/Profile.php:165 src/Profile.php:183
+#: src/Profile.php:168 src/Profile.php:186
 msgid "Adding a justification of urgency"
 msgstr "Dodanie uzasadnienia pilności"
 
-#: templates/config.html.twig:104
+#: templates/config.html.twig:103
 msgid "Check by default to put the ticket on waiting when adding a follow-up"
 msgstr ""
 "Domyślnie zaznacz opcję przeniesienia zgłoszenia do oczekujących podczas "
 "dodawania odpowiedzi"
 
-#: templates/config.html.twig:111
+#: templates/config.html.twig:110
 msgid "Check by default to put the ticket on waiting when adding a task"
 msgstr ""
 "Domyślnie zaznacz opcję przeniesienia zgłoszenia do oczekujących podczas "
@@ -75,15 +75,15 @@ msgstr ""
 
 #: src/CloseTicket.php:133 src/CloseTicket.php:140 src/CloseTicket.php:185
 #: hook.php:289 hook.php:296 hook.php:303 hook.php:310
-#: templates/config.html.twig:153 templates/closeticket_form.html.twig:34
+#: templates/config.html.twig:152 templates/closeticket_form.html.twig:33
 msgid "Close ticket informations"
 msgstr "Informacje o zamknięciu zgłoszenia"
 
-#: templates/closeticket_form.html.twig:48
+#: templates/closeticket_form.html.twig:47
 msgid "Comments"
 msgstr ""
 
-#: templates/config.html.twig:100
+#: templates/config.html.twig:99
 msgid "Default values"
 msgstr ""
 
@@ -108,7 +108,7 @@ msgstr "Czas trwania jest wymagany"
 msgid "End of standby ticket"
 msgstr "Zakończenie stanu oczekiwania zgłoszenia"
 
-#: src/Profile.php:173 src/Profile.php:191
+#: src/Profile.php:176 src/Profile.php:194
 msgid "Hide task duration in tickets (display only)"
 msgstr ""
 
@@ -116,11 +116,11 @@ msgstr ""
 msgid "Justification"
 msgstr "Powód"
 
-#: templates/config.html.twig:197
+#: templates/config.html.twig:196
 msgid "Mandatory 'Duration' field"
 msgstr "Obowiązkowe pole „Czas trwania”"
 
-#: src/CloseTicket.php:232 src/Solution.php:288 templates/config.html.twig:67
+#: src/CloseTicket.php:232 src/Solution.php:288 templates/config.html.twig:66
 msgid "Mandatory field"
 msgid_plural "Mandatory fields"
 msgstr[0] ""
@@ -128,7 +128,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: setup.php:147 src/Profile.php:54 src/Profile.php:159
+#: setup.php:148 src/Profile.php:57 src/Profile.php:162
 msgid "More ticket"
 msgstr "Więcej w zgłoszeniu"
 
@@ -145,7 +145,7 @@ msgstr "Data odroczenia"
 msgid "Postponement date is inferior of today's date"
 msgstr "Data odroczenia jest wcześniejsza niż dzisiejsza data"
 
-#: templates/config.html.twig:78
+#: templates/config.html.twig:77
 msgid "Postponement date is mandatory"
 msgstr "Data odłożenia jest wymagana"
 
@@ -154,7 +154,7 @@ msgstr "Data odłożenia jest wymagana"
 msgid "Reason"
 msgstr "Powód"
 
-#: templates/profile.html.twig:34 templates/config.html.twig:280
+#: templates/profile.html.twig:34 templates/config.html.twig:279
 msgctxt "button"
 msgid "Save"
 msgstr "Zapisz"
@@ -163,11 +163,11 @@ msgstr "Zapisz"
 msgid "Solution description"
 msgstr "Opis rozwiązania"
 
-#: templates/config.html.twig:146
+#: templates/config.html.twig:145
 msgid "Solution type is mandatory"
 msgstr "Typ rozwiązania jest obowiązkowy"
 
-#: templates/config.html.twig:167
+#: templates/config.html.twig:166
 msgid "Status used to display solution block"
 msgstr "Status używany do wyświetlania bloku rozwiązania"
 
@@ -187,38 +187,38 @@ msgstr "Zgłoszenie nie może zostać zamknięte"
 msgid "Ticket cannot be saved"
 msgstr "Zgłoszenie nie może zostać zapisane"
 
-#: templates/config.html.twig:129
+#: templates/config.html.twig:128
 msgid "Ticket solution and close"
 msgstr "Rozwiązanie i zamknięcie zgłoszenia"
 
-#: templates/config.html.twig:209
+#: templates/config.html.twig:208
 msgid "Ticket urgency"
 msgstr "Pilność zgłoszenia"
 
-#: templates/config.html.twig:53
+#: templates/config.html.twig:52
 msgid "Ticket waiting"
 msgstr "Zgłoszenie oczekujące"
 
-#: templates/config.html.twig:240
+#: templates/config.html.twig:239
 msgid "Update ticket status"
 msgstr "Zaktualizuj status zgłoszenia"
 
-#: templates/config.html.twig:262
+#: templates/config.html.twig:261
 msgid "Update ticket status to pending after a technician adds a follow up"
 msgstr ""
 "Zaktualizuj status zgłoszenia na oczekujące po dodaniu odpowiedzi przez "
 "technika"
 
-#: templates/config.html.twig:269
+#: templates/config.html.twig:268
 msgid "Update ticket status to pending after a technician adds a task"
 msgstr ""
 "Zaktualizuj status zgłoszenia na oczekujące po dodaniu zadania przez technika"
 
-#: templates/config.html.twig:248
+#: templates/config.html.twig:247
 msgid "Update ticket status to processing after add document"
 msgstr "Zaktualizuj status zgłoszenia na przetwarzane po dodaniu dokumentu"
 
-#: templates/config.html.twig:255
+#: templates/config.html.twig:254
 msgid "Update ticket status to processing after approval"
 msgstr "Zaktualizuj status zgłoszenia na przetwarzane po zatwierdzeniu"
 
@@ -226,7 +226,7 @@ msgstr "Zaktualizuj status zgłoszenia na przetwarzane po zatwierdzeniu"
 msgid "Updated by a user"
 msgstr "Zaktualizowane przez użytkownika"
 
-#: templates/config.html.twig:227
+#: templates/config.html.twig:226
 msgid "Urgency impacted justification for the field"
 msgstr "Uzasadnienie wpływu na pilność"
 
@@ -234,27 +234,27 @@ msgstr "Uzasadnienie wpływu na pilność"
 msgid "Urgency ticket cannot be saved"
 msgstr "Pilne zgłoszenie nie może zostać zapisane"
 
-#: templates/config.html.twig:217
+#: templates/config.html.twig:216
 msgid "Use a justification of the urgency field"
 msgstr "Użyj uzasadnienia dla pola pilności"
 
-#: templates/config.html.twig:137
+#: templates/config.html.twig:136
 msgid "Use solution process"
 msgstr "Użyj procesu rozwiązywania zgłoszenia"
 
-#: templates/config.html.twig:188
+#: templates/config.html.twig:187
 msgid "Use the 'Duration' field in the add solution interface"
 msgstr "Użyj pola „Czas trwania” w interfejsie dodawania rozwiązania"
 
-#: templates/config.html.twig:61
+#: templates/config.html.twig:60
 msgid "Use waiting process"
 msgstr "Użyj procesu oczekiwania"
 
-#: templates/config.html.twig:86
+#: templates/config.html.twig:85
 msgid "Use waiting types"
 msgstr ""
 
-#: templates/config.html.twig:71
+#: templates/config.html.twig:70
 msgid "Waiting reason is mandatory"
 msgstr "Należy podać powód oczekiwania"
 
@@ -274,7 +274,7 @@ msgstr "Oczekujące zgłoszenie nie może zostać zapisane"
 msgid "Waiting ticket exceedeed"
 msgstr "Przekroczono czas oczekiwania zgłoszenia"
 
-#: src/WaitingType.php:50 templates/config.html.twig:82
+#: src/WaitingType.php:50 templates/config.html.twig:81
 msgid "Waiting type"
 msgid_plural "Waiting types"
 msgstr[0] "Rodzaj oczekiwania"
@@ -282,7 +282,7 @@ msgstr[1] "Rodzaje oczekiwania"
 msgstr[2] "Rodzajów oczekiwania"
 msgstr[3] "Rodzajów oczekiwania"
 
-#: templates/config.html.twig:95
+#: templates/config.html.twig:94
 msgid "Waiting type is mandatory"
 msgstr ""
 
@@ -290,7 +290,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Ostrzeżenie"
 
-#: templates/closeticket_form.html.twig:38
+#: templates/closeticket_form.html.twig:37
 msgid "Writer"
 msgstr ""
 
