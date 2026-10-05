@@ -36,8 +36,8 @@ use CommonTreeDropdown;
  */
 class WaitingType extends CommonTreeDropdown
 {
-    public $can_be_translated = true;
-    public static $rightname = "dropdown";
+    public bool $can_be_translated = true;
+    public static string $rightname = "dropdown";
 
     /**
      * @param int $nb

@@ -38,7 +38,7 @@ use User;
  */
 class TicketTask extends CommonITILTask
 {
-    public static $rightname = "plugin_moreticket";
+    public static string $rightname = "plugin_moreticket";
 
     /**
      * functions mandatory

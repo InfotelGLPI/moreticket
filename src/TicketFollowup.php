@@ -36,7 +36,7 @@ use CommonDBTM;
  */
 class TicketFollowup extends CommonDBTM
 {
-    public static $rightname = "plugin_moreticket";
+    public static string $rightname = "plugin_moreticket";
 
     /**
      * functions mandatory

@@ -40,7 +40,10 @@ use Session;
  */
 class Profile extends \Profile
 {
-    public static $rightname = "profile";
+    public static string $rightname = "profile";
+
+    // Secondary plugin right; the main ones are Ticket::$rightname and UrgencyTicket::$rightname
+    public const RIGHT_HIDE_TASK_DURATION = 'plugin_moreticket_hide_task_duration';
 
     /**
      * @param CommonGLPI $item

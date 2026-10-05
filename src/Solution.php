@@ -43,7 +43,7 @@ use Session;
  */
 class Solution extends CommonITILObject
 {
-    public static $rightname = "plugin_moreticket";
+    public static string $rightname = "plugin_moreticket";
 
     public static function getTaskClass()
     {

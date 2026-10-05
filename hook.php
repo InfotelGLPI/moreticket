@@ -252,7 +252,7 @@ function plugin_moreticket_getAddSearchOptions($itemtype)
     $sopt = [];
 
     if ($itemtype == "Ticket") {
-        if (Session::haveRight("plugin_moreticket", READ)) {
+        if (Session::haveRight(Config::$rightname, READ)) {
             $config = new Config();
 
             //         $sopt[3450]['table']         = 'glpi_plugin_moreticket_waitingtickets';
@@ -391,7 +391,7 @@ function plugin_moreticket_post_item_form($params)
             }
 
             // automatically click task's set ticket to waiting status switch
-            if (($config->fields['waiting_by_default_task'] ?? 0) && Session::haveRight('ticket', \Ticket::OWN)) {
+            if (($config->fields['waiting_by_default_task'] ?? 0) && Session::haveRight(\Ticket::$rightname, \Ticket::OWN)) {
                 // current() returns null on an empty result set, and the chained offset on
                 // that null read a warning instead of a layout. Keep the row, then the value.
                 $user_row           = $DB->request([
@@ -436,7 +436,7 @@ function plugin_moreticket_post_item_form($params)
 
                 // automatically click follow up set ticket to waiting status switch
                 if (strpos($_SERVER['REQUEST_URI'] ?? '', "ticket.form.php") !== false) {
-                    if (($config->fields['waiting_by_default_followup'] ?? 0) && Session::haveRight('ticket', \Ticket::OWN)) {
+                    if (($config->fields['waiting_by_default_followup'] ?? 0) && Session::haveRight(\Ticket::$rightname, \Ticket::OWN)) {
                         echo Html::scriptBlock(
                             "$(document).ready(function() {
                             let buttonFollowup = document.getElementById('itil-footer').querySelector(\"button[data-bs-target='#new-ITILFollowup-block']\");

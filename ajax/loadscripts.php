@@ -29,6 +29,7 @@
 
 use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Moreticket\Config;
+use GlpiPlugin\Moreticket\UrgencyTicket;
 
 Html::header_nocache();
 
@@ -38,8 +39,8 @@ Html::header_nocache();
 // alone answered 403 to every helpdesk user and left the urgency form silently missing. What
 // each branch below is allowed to inject stays gated by its own check.
 if (
-    !Session::haveRight('plugin_moreticket', READ)
-    && !Session::haveRight('plugin_moreticket_justification', READ)
+    !Session::haveRight(Config::$rightname, READ)
+    && !Session::haveRight(UrgencyTicket::$rightname, READ)
 ) {
     throw new AccessDeniedHttpException();
 }
@@ -69,7 +70,7 @@ if (isset($_POST['action'])) {
                 'solution_status' => $solution_status,
                 'use_urgency'     => $use_urgency,
                 'urgency_ids'     => $urgency_ids,
-                'div_kb'          => Session::haveRight('knowbase', UPDATE)];
+                'div_kb'          => Session::haveRight(\KnowbaseItem::$rightname, UPDATE)];
 
             // HTTP_REFERER is a client-controlled, frequently absent header: read it
             // defensively (no PHP 8 "Undefined array key" warning) and treat it only
@@ -77,7 +78,7 @@ if (isset($_POST['action'])) {
             $referer = $_SERVER['HTTP_REFERER'] ?? '';
 
             $inject_waiting = false;
-            if (Session::haveRight("plugin_moreticket", UPDATE)
+            if (Session::haveRight(Config::$rightname, UPDATE)
             && ($config->useWaiting() == true || $config->useSolution() == true)) {
                 if (Session::getCurrentInterface() == "central"
                 && (strpos($referer, "ticket.form.php") !== false)) {
@@ -86,7 +87,7 @@ if (isset($_POST['action'])) {
             }
 
             $inject_urgency = false;
-            if (Session::haveRight("plugin_moreticket_justification", READ)) {
+            if (Session::haveRight(UrgencyTicket::$rightname, READ)) {
                 if ((strpos($referer, "ticket.form.php") !== false ||
                  strpos($referer, "newticket.form.php") !== false ||
                   strpos($referer, "helpdesk.public.php") !== false ||

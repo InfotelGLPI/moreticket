@@ -39,7 +39,7 @@ use Glpi\Application\View\TemplateRenderer;
  */
 class Config extends CommonDBTM
 {
-    public static $rightname = "plugin_moreticket";
+    public static string $rightname = "plugin_moreticket";
     private static $_instance = null;
     /**
      * @param bool $update

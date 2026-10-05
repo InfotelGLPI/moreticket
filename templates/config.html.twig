@@ -43,7 +43,6 @@
 {{ include('components/form/header.html.twig') }}
 
 <form name="form" action="{{ form_url }}" method="post">
-    <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
     <input type="hidden" name="id" value="1">
 
     {# Ticket waiting #}

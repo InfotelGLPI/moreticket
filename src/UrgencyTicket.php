@@ -45,8 +45,8 @@ class UrgencyTicket extends CommonDBTM
     use ParentTicketRights;
 
     public static $types     = ['Ticket'];
-    public $dohistory = true;
-    public static $rightname = "plugin_moreticket_justification";
+    public bool $dohistory = true;
+    public static string $rightname = "plugin_moreticket_justification";
 
     /**
      * Have I the global right to "create" the Object

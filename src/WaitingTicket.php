@@ -49,8 +49,8 @@ class WaitingTicket extends CommonDBTM
     use ParentTicketRights;
 
     public static $types     = ['Ticket'];
-    public $dohistory = true;
-    public static $rightname = "plugin_moreticket";
+    public bool $dohistory = true;
+    public static string $rightname = "plugin_moreticket";
 
     /**
      * Have I the global right to "create" the Object
@@ -432,7 +432,7 @@ class WaitingTicket extends CommonDBTM
     public static function showForTicket($item)
     {
         // validation des droits
-        if (!Session::haveRight('plugin_moreticket', READ)) {
+        if (!Session::haveRight(Config::$rightname, READ)) {
             return false;
         }
 

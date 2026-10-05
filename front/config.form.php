@@ -32,7 +32,7 @@ use GlpiPlugin\Moreticket\Config;
 
 if (Plugin::isPluginActive("moreticket")) {
     $config = new Config();
-    Session::checkRight('config', UPDATE);
+    Session::checkRight(\Config::$rightname, UPDATE);
 
     if (isset($_POST["update"])) {
         if (isset($_POST['solution_status'])) {

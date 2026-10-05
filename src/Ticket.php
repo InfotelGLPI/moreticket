@@ -44,7 +44,7 @@ use User;
  */
 class Ticket extends CommonITILObject
 {
-    public static $rightname = "plugin_moreticket";
+    public static string $rightname = "plugin_moreticket";
 
     /**
      * Tickets whose automatic WAITING switch is in progress, see switchToWaiting()

@@ -51,8 +51,8 @@ class CloseTicket extends CommonDBTM
     use ParentTicketRights;
 
     public static $types = ['Ticket'];
-    public $dohistory = true;
-    public static $rightname = "plugin_moreticket";
+    public bool $dohistory = true;
+    public static string $rightname = "plugin_moreticket";
 
 
     public static function getIcon()

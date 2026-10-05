@@ -40,8 +40,8 @@ Html::header_nocache();
 // urgency justification lives under its own one and a profile may hold only that. The finer
 // per-feature check stays where it is -- the canView() each showForm() opens with.
 if (
-    !Session::haveRight('plugin_moreticket', READ)
-    && !Session::haveRight('plugin_moreticket_justification', READ)
+    !Session::haveRight(Config::$rightname, READ)
+    && !Session::haveRight(UrgencyTicket::$rightname, READ)
 ) {
     throw new AccessDeniedHttpException();
 }

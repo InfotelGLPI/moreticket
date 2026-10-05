@@ -37,6 +37,7 @@ use GlpiPlugin\Moreticket\Ticket;
 use GlpiPlugin\Moreticket\TicketFollowup;
 use GlpiPlugin\Moreticket\TicketTask;
 use GlpiPlugin\Moreticket\WaitingTicket;
+use GlpiPlugin\Moreticket\UrgencyTicket;
 
 define('PLUGIN_MORETICKET_VERSION', '1.8.14');
 
@@ -72,8 +73,8 @@ function plugin_init_moreticket()
                 = ['ITILSolution' => [Solution::class, 'beforeAdd']];
         }
 
-        if (Session::haveRight("plugin_moreticket", UPDATE)
-            || Session::haveRight("plugin_moreticket_justification", READ)) {
+        if (Session::haveRight(Config::$rightname, UPDATE)
+            || Session::haveRight(UrgencyTicket::$rightname, READ)) {
             if ((
                 $config->useWaiting() == true
                 || $config->useSolution() == true
@@ -123,11 +124,11 @@ function plugin_init_moreticket()
         // nothing here could change that -- the field belongs to core TicketTask. The label
         // in Profile::getAllRights() says "display only" for that reason; promising more
         // would take filtering the task itself, which is not this plugin's to do.
-        if (Session::haveRight("plugin_moreticket_hide_task_duration", READ)) {
+        if (Session::haveRight(Profile::RIGHT_HIDE_TASK_DURATION, READ)) {
             $PLUGIN_HOOKS[Hooks::ADD_CSS]['moreticket'][] = 'css/hide_task_duration.css';
         }
 
-        if (Session::haveRight('plugin_moreticket', READ)) {
+        if (Session::haveRight(Config::$rightname, READ)) {
             Plugin::registerClass(WaitingTicket::class, ['addtabon' => 'Ticket']);
             Plugin::registerClass(CloseTicket::class, ['addtabon' => 'Ticket']);
         }
@@ -151,8 +152,8 @@ function plugin_version_moreticket()
         'license' => 'GPLv3+',
         'requirements' => [
             'glpi' => [
-                'min' => '11.0',
-                'max' => '12.0',
+                'min' => '11.0.99',
+                'max' => '12.0.99',
                 'dev' => false,
             ],
         ],
